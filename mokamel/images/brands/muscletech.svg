@@ -1,0 +1,7 @@
+<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <rect width="120" height="120" rx="20" fill="#111827" stroke="#dc2626" stroke-width="2"/>
+        <rect x="16" y="34" width="88" height="30" rx="6" fill="#dc2626"/>
+        <text x="60" y="55" font-size="13" font-weight="900" fill="#ffffff" text-anchor="middle" font-family="'Arial Black', Impact, sans-serif" letter-spacing="1">MUSCLETECH</text>
+        <line x1="20" y1="76" x2="100" y2="76" stroke="#ffffff" stroke-width="1" opacity="0.3"/>
+        <text x="60" y="88" font-size="7.5" font-weight="700" fill="#9ca3af" text-anchor="middle" font-family="sans-serif">RESEARCH & DEVELOPMENT</text>
+    </svg>

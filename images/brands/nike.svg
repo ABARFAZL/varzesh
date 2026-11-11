@@ -1,0 +1,5 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100" height="100" rx="16" fill="#000000"/>
+  <path d="M20,55 Q50,75 82,32 Q55,70 30,62 Z" fill="#ffffff"/>
+  <text x="50" y="85" font-size="8" font-weight="900" fill="#a1a1aa" text-anchor="middle">NIKE PRO</text>
+</svg>

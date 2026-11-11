@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>سامانه هوشمند ریکاوری و مدیریت خواب ورزشکار</title>
+  <style>
+    :root {
+      --bg-dark: #0a0e17;
+      --bg-card: #131b2e;
+      --bg-card-hover: #1a253e;
+      --accent-blue: #38bdf8;
+      --accent-purple: #a855f7;
+      --accent-indigo: #6366f1;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: #24324f;
+      --border-glow: rgba(56, 189, 248, 0.25);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: radial-gradient(circle at top right, #111d38 0%, #0a0e17 60%);
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.6;
+      padding-bottom: 60px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 16px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding: 24px;
+      background: linear-gradient(135deg, rgba(30, 41, 69, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%);
+      border-radius: 24px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .badge-coach {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(99, 102, 241, 0.2);
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      color: #c7d2fe;
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 2.1rem;
+      font-weight: 800;
+      background: linear-gradient(to left, #38bdf8, #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* Tabs */
+    .tabs-nav {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+
+    .tab-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 12px 22px;
+      border-radius: 16px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tab-btn:hover {
+      background: var(--bg-card-hover);
+      color: var(--text-main);
+      border-color: rgba(56, 189, 248, 0.4);
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+      color: #ffffff;
+      border-color: transparent;
+      box-shadow: 0 4px 18px rgba(99, 102, 241, 0.35);
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Grid Layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+      position: relative;
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      color: var(--text-main);
+    }
+
+    /* Sleep Calculator */
+    .calc-group {
+      margin-bottom: 20px;
+    }
+
+    .calc-group label {
+      display: block;
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+      color: #cbd5e1;
+      font-weight: 500;
+    }
+
+    .time-picker-wrapper {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .time-input {
+      background: #0d1322;
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      outline: none;
+      width: 100%;
+    }
+
+    .time-input:focus {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+    }
+
+    .btn-action {
+      background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+      color: #fff;
+      border: none;
+      padding: 14px 24px;
+      border-radius: 14px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.2s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .btn-action:hover {
+      filter: brightness(1.1);
+      transform: translateY(-2px);
+    }
+
+    .results-container {
+      margin-top: 24px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .cycle-card {
+      background: #0f172a;
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: border 0.2s;
+    }
+
+    .cycle-card.highlight {
+      border-color: var(--accent-emerald);
+      background: linear-gradient(90deg, rgba(16, 185, 129, 0.08) 0%, rgba(15, 23, 42, 0.9) 100%);
+    }
+
+    .cycle-card.best {
+      border-color: var(--accent-blue);
+      background: linear-gradient(90deg, rgba(56, 189, 248, 0.1) 0%, rgba(15, 23, 42, 0.9) 100%);
+    }
+
+    .cycle-time {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #f1f5f9;
+      letter-spacing: 1px;
+    }
+
+    .cycle-info {
+      text-align: left;
+    }
+
+    .cycle-tag {
+      font-size: 0.8rem;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 700;
+      display: inline-block;
+      margin-bottom: 4px;
+    }
+
+    .tag-emerald { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+    .tag-blue { background: rgba(56, 189, 248, 0.2); color: #38bdf8; }
+    .tag-amber { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+
+    /* Interactive Breathing Tool */
+    .breathing-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 10px;
+      text-align: center;
+    }
+
+    .breath-circle-container {
+      position: relative;
+      width: 220px;
+      height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+
+    .breath-circle-bg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 3px dashed rgba(99, 102, 241, 0.3);
+    }
+
+    .breath-circle {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #818cf8 0%, #4f46e5 100%);
+      box-shadow: 0 0 35px rgba(99, 102, 241, 0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      transition: transform 0.5s ease-out;
+      transform: scale(1);
+    }
+
+    .breath-instruction {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .breath-counter {
+      font-size: 1.8rem;
+      font-weight: 800;
+    }
+
+    .breath-selector {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .btn-pill {
+      background: #0f172a;
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+
+    .btn-pill.active {
+      background: rgba(99, 102, 241, 0.3);
+      border-color: #818cf8;
+      color: #fff;
+    }
+
+    /* Checklist */
+    .checklist-progress-bar {
+      width: 100%;
+      height: 10px;
+      background: #0d1322;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .checklist-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #38bdf8, #10b981);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 14px 16px;
+      background: #0f172a;
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .check-item:hover {
+      background: #141f38;
+    }
+
+    .check-item.completed {
+      border-color: rgba(16, 185, 129, 0.5);
+      background: rgba(16, 185, 129, 0.05);
+    }
+
+    .custom-checkbox {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      border: 2px solid #475569;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+      transition: all 0.2s ease;
+    }
+
+    .check-item.completed .custom-checkbox {
+      background: #10b981;
+      border-color: #10b981;
+    }
+
+    .check-content h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: #f1f5f9;
+    }
+
+    .check-item.completed .check-content h4 {
+      text-decoration: line-through;
+      color: #94a3b8;
+    }
+
+    .check-content p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* Recovery Tips Accordion / Cards */
+    .protocol-card {
+      background: #0f172a;
+      border-radius: 16px;
+      padding: 18px;
+      border: 1px solid var(--border-color);
+      margin-bottom: 12px;
+    }
+
+    .protocol-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .protocol-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .icon-blue { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
+    .icon-purple { background: rgba(168, 85, 247, 0.15); color: #c084fc; }
+    .icon-emerald { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+    .icon-amber { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+
+    .protocol-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: #f8fafc;
+    }
+
+    .protocol-text {
+      color: #94a3b8;
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    .protocol-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.07);
+      color: #cbd5e1;
+      margin-top: 4px;
+    }
+
+    /* Logger */
+    .log-form {
+      display: grid;
+      gap: 14px;
+    }
+
+    .rating-row {
+      display: flex;
+      gap: 8px;
+      justify-content: space-between;
+    }
+
+    .rating-btn {
+      flex: 1;
+      height: 42px;
+      background: #0d1322;
+      border: 1px solid var(--border-color);
+      color: #94a3b8;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .rating-btn.active {
+      background: #3b82f6;
+      color: #fff;
+      border-color: #60a5fa;
+    }
+
+    .logs-list {
+      margin-top: 20px;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+
+    .log-item {
+      padding: 12px 14px;
+      background: #0d1322;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+
+    .log-item span.score {
+      font-weight: 800;
+      color: #38bdf8;
+    }
+
+    .btn-delete {
+      background: none;
+      border: none;
+      color: #ef4444;
+      cursor: pointer;
+      font-size: 0.9rem;
+      padding: 4px 8px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      h1 { font-size: 1.6rem; }
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .cycle-card { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .cycle-info { text-align: right; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div class="badge-coach">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        میز کار مربی ریکاوری و خواب
+      </div>
+      <h1>سامانه هوشمند بازتوانی عضلانی و مدیریت خواب</h1>
+      <p class="subtitle">عضله در باشگاه تخریب می‌شود، با تغذیه مصالح می‌گیرد و فقط در زمان خواب و ریکاوری رشد می‌کند. اینجا مرکز فرماندهی استراحت و ساخت عضلات شماست.</p>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <div class="tabs-nav">
+      <button class="tab-btn active" onclick="switchTab('tab-sleep-calc')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        محاسبه‌گر چرخه خواب
+      </button>
+      <button class="tab-btn" onclick="switchTab('tab-breathing')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+        دستیار تنفس و ریلکسیشن
+      </button>
+      <button class="tab-btn" onclick="switchTab('tab-night-routine')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+        چک‌لیست طلایی روتین شبانه
+      </button>
+      <button class="tab-btn" onclick="switchTab('tab-recovery-protocols')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>
+        پروتکل‌های رفع کوفتگی عضلات
+      </button>
+      <button class="tab-btn" onclick="switchTab('tab-sleep-log')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+        دفترچه ثبت کیفیت ریکاوری
+      </button>
+    </div>
+
+    <!-- TAB 1: Sleep Cycles Calculator -->
+    <div id="tab-sleep-calc" class="tab-content active">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            محاسبه ساعت ایده‌آل بیداری یا خواب
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">
+            خواب انسان از چرخه‌های ۹۰ دقیقه‌ای تشکیل شده است. اگر درست در انتهای یک چرخه بیدار شوید، احساس نشاط کامل دارید؛ اما بیدار شدن در میانه خواب عمیق باعث گیجی و خستگی تمام روز می‌شود.
+          </p>
+
+          <div class="calc-group">
+            <label>حالت محاسبه را انتخاب کنید:</label>
+            <div style="display: flex; gap: 10px; margin-bottom: 14px;">
+              <button class="btn-pill active" id="btn-mode-now" onclick="setCalcMode('now')">هم‌اکنون می‌خواهم بخوابم</button>
+              <button class="btn-pill" id="btn-mode-wake" onclick="setCalcMode('wake')">می‌خواهم در ساعت مشخصی بیدار شوم</button>
+            </div>
+          </div>
+
+          <div class="calc-group" id="group-wake-time" style="display: none;">
+            <label>ساعت بیداری هدف شما فردا صبح:</label>
+            <input type="time" id="input-wake-time" class="time-input" value="07:00">
+          </div>
+
+          <button class="btn-action" onclick="calculateSleepCycles()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            محاسبه چرخه‌های طلایی خواب
+          </button>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            بهترین ساعت‌های پیشنهادی مربی
+          </div>
+          <div id="sleep-results" class="results-container">
+            <!-- Results will be injected here -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: Breathing & Relaxation -->
+    <div id="tab-breathing" class="tab-content">
+      <div class="card" style="max-width: 680px; margin: 0 auto;">
+        <div class="card-title" style="justify-content: center;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+          تمرین ریلکسیشن و افت ضربان قلب قبل از خواب
+        </div>
+        <p style="text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">
+          برای ریکاوری عضلانی، سیستم عصبی باید از حالت تحریکی (سمپاتیک) به حالت آرامش و رشد (پاراسمپاتیک) برود.
+        </p>
+
+        <div class="breath-selector" style="justify-content: center;">
+          <button class="btn-pill active" id="btn-breath-478" onclick="setBreathPattern('478')">تکنیک ۴-۷-۸ (خواب‌آور فوری)</button>
+          <button class="btn-pill" id="btn-breath-box" onclick="setBreathPattern('box')">تنفس جعبه‌ای ۴-۴-۴-۴ (کاهش استرس)</button>
+        </div>
+
+        <div class="breathing-box">
+          <div class="breath-circle-container">
+            <div class="breath-circle-bg"></div>
+            <div class="breath-circle" id="breath-circle">
+              <span class="breath-instruction" id="breath-status">آماده</span>
+              <span class="breath-counter" id="breath-count"></span>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 12px;">
+            <button class="btn-action" id="btn-breath-toggle" onclick="toggleBreathing()" style="min-width: 160px; margin: 0;">
+              شروع تمرین تنفس
+            </button>
+            <button class="btn-pill" onclick="resetBreathing()" style="margin: 0;">بازنشانی</button>
+          </div>
+          <p id="breath-tip" style="margin-top: 16px; font-size: 0.85rem; color: #a5b4fc;">
+            از بینی نفس عمیق بکشید (۴ ثانیه)، نفستان را حبس کنید (۷ ثانیه)، و به آرامی از دهان بیرون دهید (۸ ثانیه).
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: Night Routine Checklist -->
+    <div id="tab-night-routine" class="tab-content">
+      <div class="card" style="max-width: 760px; margin: 0 auto;">
+        <div class="card-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+          چک‌لیست ۵ فرمان طلایی پیش از خواب ورزشکار
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 14px;">
+          هر شب قبل از خواب کارهای زیر را تیک بزنید تا هورمون ملاتونین و هورمون رشد (GH) در بیشترین حد ممکن ترشح شوند:
+        </p>
+
+        <div class="checklist-progress-bar">
+          <div class="checklist-progress-fill" id="routine-progress"></div>
+        </div>
+
+        <div id="routine-items">
+          <div class="check-item" onclick="toggleRoutine(0)">
+            <div class="custom-checkbox"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+            <div class="check-content">
+              <h4>۱. خاموشی نور آبی و صفحات نمایش (۶۰ دقیقه قبل)</h4>
+              <p>موبایل و لپ‌تاپ را کنار بگذارید یا روی حالت مطالعه/فیلتر زرد بسیار شدید قرار دهید.</p>
+            </div>
+          </div>
+
+          <div class="check-item" onclick="toggleRoutine(1)">
+            <div class="custom-checkbox"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+            <div class="check-content">
+              <h4>۲. خنک کردن اتاق خواب (۱۸ تا ۲۰ درجه سانتی‌گراد)</h4>
+              <p>دمای بدن برای ورود به خواب عمیق باید ۱ درجه افت کند. اتاق گرم خواب عمیق را نابود می‌کند.</p>
+            </div>
+          </div>
+
+          <div class="check-item" onclick="toggleRoutine(2)">
+            <div class="custom-checkbox"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+            <div class="check-content">
+              <h4>۳. تاریکی مطلق و سکوت محیط</h4>
+              <p>پرده‌ها را کامل بکشید یا از چشم‌بند و گوش‌گیر استفاده کنید. کوچک‌ترین روزنه نوری ترشح ملاتونین را مهار می‌کند.</p>
+            </div>
+          </div>
+
+          <div class="check-item" onclick="toggleRoutine(3)">
+            <div class="custom-checkbox"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+            <div class="check-content">
+              <h4>۴. آخرین مصرف مایعات و مکمل‌های شبانه</h4>
+              <p>مصرف منیزیم (بیس‌گلیسینات) یا چای بابونه، و ننوشیدن حجم بالای آب در ۱ ساعت مانده به خواب برای جلوگیری از بیداری مکرر.</p>
+            </div>
+          </div>
+
+          <div class="check-item" onclick="toggleRoutine(4)">
+            <div class="custom-checkbox"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+            <div class="check-content">
+              <h4>۵. پنج دقیقه کشش سبک بالاتنه و رولر</h4>
+              <p>انجام چند کشش ایستا روی گردن، سینه و فیله کمر برای تخلیه انقباضات عضلانی ناشی از تمرین سنگین روز.</p>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-pill" onclick="resetRoutine()" style="margin-top: 16px; width: 100%;">بازنشانی چک‌لیست برای امشب</button>
+      </div>
+    </div>
+
+    <!-- TAB 4: Recovery Protocols -->
+    <div id="tab-recovery-protocols" class="tab-content">
+      <div class="grid-3">
+        <!-- Card 1 -->
+        <div class="card">
+          <div class="card-title">
+            <div class="protocol-icon icon-blue">⚡</div>
+            ریکاوری فوری (پس از تمرین)
+          </div>
+          <div class="protocol-card">
+            <div class="protocol-header">
+              <span class="protocol-title">پنجره سوخت‌رسانی عضلانی</span>
+            </div>
+            <p class="protocol-text">در ۳۰ تا ۶۰ دقیقه اول بعد از تمرین، شیک پروتئین و مقداری کربوهیدرات ساده مصرف کنید تا ترشح انسولین، انتقال آمینواسیدها به فیبرهای آسیب‌دیده را تسریع کند.</p>
+            <span class="protocol-badge">اولویت: حیاتی</span>
+          </div>
+          <div class="protocol-card">
+            <div class="protocol-header">
+              <span class="protocol-title">جبران آب و نمک‌های معدنی</span>
+            </div>
+            <p class="protocol-text">به ازای هر ۵۰۰ گرم کاهش وزن حین تمرین به واسطه تعریق، حدود ۶۰۰ میلی‌لیتر آب با نوک قاشق چایخوری نمک هیمالیا بنوشید.</p>
+            <span class="protocol-badge">پیشگیری از گرفتگی عضلات</span>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card">
+          <div class="card-title">
+            <div class="protocol-icon icon-purple">🌊</div>
+            آب‌درمانی و تسکین کوفتگی (DOMS)
+          </div>
+          <div class="protocol-card">
+            <div class="protocol-header">
+              <span class="protocol-title">دوش متناوب (Contrast Shower)</span>
+            </div>
+            <p class="protocol-text">۳ دقیقه آب گرم + ۱ دقیقه آب خنک (تکرار ۳ الی ۵ چرخه). آب گرم رگ‌ها را باز و مواد زائد را تخلیه می‌کند؛ آب سرد التهاب را مهار می‌کند.</p>
+            <span class="protocol-badge">بهترین تسکین درد عضلانی</span>
+          </div>
+          <div class="protocol-card">
+            <div class="protocol-header">
+              <span class="protocol-title">سونا و دفع سموم</span>
+            </div>
+            <p class="protocol-text">۱۵ تا ۲۰ دقیقه سونا ۱ الی ۲ بار در هفته (با فاصله از تمرینات بسیار سنگین) ترشح پروتئین‌های شوک حرارتی (HSP) را بالا برده و ریکاوری بافت‌ها را سرعت می‌بخشد.</p>
+            <span class="protocol-badge">سلامت قلب و عروق</span>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="card">
+          <div class="card-title">
+            <div class="protocol-icon icon-emerald">🚶</div>
+            ریکاوری فعال در روزهای استراحت
+          </div>
+          <div class="protocol-card">
+            <div class="protocol-header">
+              <span class="protocol-title">پیاده‌روی با ضربان پایین (Zone 2)</span>
+            </div>
+            <p class="protocol-text">استراحت به معنی خوابیدن کل روز نیست! ۲۰ الی ۳۰ دقیقه پیاده‌روی آرام در فضای باز باعث گردش خون در عضلات خسته و خروج اسید لاکتیک انباشته می‌شود.</p>
+            <span class="protocol-badge">افزایش اکسیژن‌رسانی</span>
+          </div>
+          <div class="protocol-card">
+            <div class="protocol-header">
+              <span class="protocol-title">فوم رولر و ماساژ فاشیا</span>
+            </div>
+            <p class="protocol-text">۱۰ دقیقه ماساژ آرام عضلات پشت پا، باسن و عضلات پشتی با فوم رولر چسبندگی‌های فاشیای عضلانی را باز کرده و انعطاف‌پذیری را به حالت اول بازمی‌گرداند.</p>
+            <span class="protocol-badge">آزادسازی گره‌های عضلانی</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 5: Sleep & Recovery Log -->
+    <div id="tab-sleep-log" class="tab-content">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+            ثبت وضعیت ریکاوری امروز شما
+          </div>
+          <div class="log-form">
+            <div>
+              <label style="display:block; font-size:0.9rem; margin-bottom:6px; color:#cbd5e1;">تاریخ / عنوان امروز:</label>
+              <input type="text" id="log-date" class="time-input" placeholder="مثلاً: یکشنبه بعد از تمرین پا">
+            </div>
+
+            <div>
+              <label style="display:block; font-size:0.9rem; margin-bottom:6px; color:#cbd5e1;">مدت زمان خواب مفید دیشب (ساعت):</label>
+              <input type="number" id="log-hours" class="time-input" min="3" max="14" step="0.5" value="7.5">
+            </div>
+
+            <div>
+              <label style="display:block; font-size:0.9rem; margin-bottom:6px; color:#cbd5e1;">امتیاز احساس انرژی و شادابی صبحگاهی (۱ تا ۱۰):</label>
+              <div class="rating-row" id="rating-container">
+                <button class="rating-btn" onclick="selectRating(4)">۴</button>
+                <button class="rating-btn" onclick="selectRating(6)">۶</button>
+                <button class="rating-btn" onclick="selectRating(7)">۷</button>
+                <button class="rating-btn active" onclick="selectRating(8)">۸</button>
+                <button class="rating-btn" onclick="selectRating(9)">۹</button>
+                <button class="rating-btn" onclick="selectRating(10)">۱۰</button>
+              </div>
+            </div>
+
+            <div>
+              <label style="display:block; font-size:0.9rem; margin-bottom:6px; color:#cbd5e1;">یادداشت یا کوفتگی عضلانی:</label>
+              <input type="text" id="log-note" class="time-input" placeholder="مثلاً: کمی سوزش و درد در عضلات چهارسر و همسترینگ">
+            </div>
+
+            <button class="btn-action" onclick="saveLog()">
+              ثبت در پرونده شخصی ریکاوری
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+            تاریخچه آخرین وضعیت‌های ثبت‌شده
+          </div>
+          <div id="logs-container" class="logs-list">
+            <!-- Saved logs list -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Tab Switching
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+      const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick').includes(tabId));
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const target = document.getElementById(tabId);
+      if (target) target.classList.add('active');
+    }
+
+    // Calculator Mode
+    let calcMode = 'now';
+    function setCalcMode(mode) {
+      calcMode = mode;
+      document.getElementById('btn-mode-now').classList.toggle('active', mode === 'now');
+      document.getElementById('btn-mode-wake').classList.toggle('active', mode === 'wake');
+      document.getElementById('group-wake-time').style.display = mode === 'wake' ? 'block' : 'none';
+      calculateSleepCycles();
+    }
+
+    function calculateSleepCycles() {
+      const container = document.getElementById('sleep-results');
+      container.innerHTML = '';
+
+      const fallAsleepMinutes = 14; // Average time to fall asleep
+      const cycleMinutes = 90;
+
+      if (calcMode === 'now') {
+        const now = new Date();
+        const baseTime = new Date(now.getTime() + fallAsleepMinutes * 60000);
+
+        const cycles = [
+          { count: 6, label: '۶ چرخه (۹ ساعت کامل)', desc: 'ایده‌آل‌ترین خواب برای رشد عضلانی حداکثری و ورزشکاران حرفه‌ای', tag: 'tag-emerald', class: 'best', tagText: 'عالی برای هایپرتروفی' },
+          { count: 5, label: '۵ چرخه (۷.۵ ساعت)', desc: 'خواب بسیار استاندارد، بازیابی کامل انرژی و نشاط روزانه', tag: 'tag-blue', class: 'highlight', tagText: 'بسیار ایده‌آل' },
+          { count: 4, label: '۴ چرخه (۶ ساعت)', desc: 'حداقل مجاز در روزهای تمرین پرفشار؛ بیدار شدن بدون گیجی', tag: 'tag-amber', class: '', tagText: 'حداقل استاندارد' },
+          { count: 3, label: '۳ چرخه (۴.۵ ساعت)', desc: 'فقط برای شرایط اضطراری؛ برای ریکاوری عضلانی کافی نیست', tag: 'tag-amber', class: '', tagText: 'حالت اضطراری' }
+        ];
+
+        cycles.forEach(item => {
+          const wakeTime = new Date(baseTime.getTime() + item.count * cycleMinutes * 60000);
+          const timeStr = wakeTime.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit', hour12: false });
+
+          const div = document.createElement('div');
+          div.className = `cycle-card ${item.class}`;
+          div.innerHTML = `
+            <div>
+              <span class="cycle-tag ${item.tag}">${item.tagText}</span>
+              <div style="font-weight:700; color:#f8fafc; font-size:1.05rem;">ساعت بیداری: ${timeStr}</div>
+              <div style="color:#94a3b8; font-size:0.85rem; margin-top:2px;">${item.desc}</div>
+            </div>
+            <div class="cycle-info">
+              <span class="cycle-time">${timeStr}</span>
+            </div>
+          `;
+          container.appendChild(div);
+        });
+
+      } else {
+        const wakeInput = document.getElementById('input-wake-time').value;
+        if (!wakeInput) return;
+        const [wHour, wMinute] = wakeInput.split(':').map(Number);
+        
+        const targetWake = new Date();
+        targetWake.setHours(wHour, wMinute, 0, 0);
+
+        const cycles = [
+          { count: 6, label: '۶ چرخه (۹ ساعت)', desc: 'برای بیداری سرحال در ساعت ' + wakeInput, tag: 'tag-emerald', class: 'best', tagText: 'پیشنهاد طلایی' },
+          { count: 5, label: '۵ چرخه (۷.۵ ساعت)', desc: 'تعادل عالی بین زمان خواب و ریکاوری فیبرهای عضلانی', tag: 'tag-blue', class: 'highlight', tagText: 'استاندارد عالی' },
+          { count: 4, label: '۴ چرخه (۶ ساعت)', desc: 'ساعت خواب فشرده با پیشگیری از بیداری در خواب عمیق', tag: 'tag-amber', class: '', tagText: 'کوتاه ولی منظم' }
+        ];
+
+        cycles.forEach(item => {
+          const sleepTime = new Date(targetWake.getTime() - (item.count * cycleMinutes + fallAsleepMinutes) * 60000);
+          const timeStr = sleepTime.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit', hour12: false });
+
+          const div = document.createElement('div');
+          div.className = `cycle-card ${item.class}`;
+          div.innerHTML = `
+            <div>
+              <span class="cycle-tag ${item.tag}">${item.tagText}</span>
+              <div style="font-weight:700; color:#f8fafc; font-size:1.05rem;">ساعت رفتن به تخت خواب: ${timeStr}</div>
+              <div style="color:#94a3b8; font-size:0.85rem; margin-top:2px;">${item.desc} (با احتساب ۱۴ دقیقه زمان به خواب رفتن)</div>
+            </div>
+            <div class="cycle-info">
+              <span class="cycle-time">${timeStr}</span>
+            </div>
+          `;
+          container.appendChild(div);
+        });
+      }
+    }
+
+    // Interactive Breathing Box
+    let breathMode = '478';
+    let isBreathing = false;
+    let breathTimer = null;
+    let currentStepIndex = 0;
+    let stepCount = 0;
+
+    const patterns = {
+      '478': [
+        { name: 'دَم عمیق (از بینی)', duration: 4, scale: 1.6, color: '#38bdf8' },
+        { name: 'حبس نفس', duration: 7, scale: 1.6, color: '#a855f7' },
+        { name: 'بازدم آرام (از دهان)', duration: 8, scale: 1.0, color: '#6366f1' }
+      ],
+      'box': [
+        { name: 'دَم عمیق', duration: 4, scale: 1.5, color: '#38bdf8' },
+        { name: 'حبس نفس', duration: 4, scale: 1.5, color: '#a855f7' },
+        { name: 'بازدم کامل', duration: 4, scale: 1.0, color: '#10b981' },
+        { name: 'مکث و استراحت', duration: 4, scale: 1.0, color: '#6366f1' }
+      ]
+    };
+
+    function setBreathPattern(mode) {
+      if (isBreathing) resetBreathing();
+      breathMode = mode;
+      document.getElementById('btn-breath-478').classList.toggle('active', mode === '478');
+      document.getElementById('btn-breath-box').classList.toggle('active', mode === 'box');
+      
+      const tip = document.getElementById('breath-tip');
+      if (mode === '478') {
+        tip.innerText = 'از بینی دَم عمیق بکشید (۴ ثانیه)، نفس را حبس کنید (۷ ثانیه)، و به آرامی از دهان بیرون دهید (۸ ثانیه). این تکنیک ضربان قلب را کاهش می‌دهد.';
+      } else {
+        tip.innerText = 'تکنیک تنفس جعبه‌ای: ۴ ثانیه دَم، ۴ ثانیه حبس، ۴ ثانیه بازدم، ۴ ثانیه مکث. ایده‌آل برای آرام کردن سیستم عصبی بعد از تمرین.';
+      }
+    }
+
+    function toggleBreathing() {
+      if (isBreathing) {
+        pauseBreathing();
+      } else {
+        startBreathing();
+      }
+    }
+
+    function startBreathing() {
+      isBreathing = true;
+      document.getElementById('btn-breath-toggle').innerText = 'توقف تمرین';
+      document.getElementById('btn-breath-toggle').style.background = 'linear-gradient(135deg, #e11d48 0%, #be123c 100%)';
+      runBreathCycle();
+    }
+
+    function pauseBreathing() {
+      isBreathing = false;
+      clearTimeout(breathTimer);
+      document.getElementById('btn-breath-toggle').innerText = 'ادامه تمرین تنفس';
+      document.getElementById('btn-breath-toggle').style.background = 'linear-gradient(135deg, #0284c7 0%, #2563eb 100%)';
+    }
+
+    function resetBreathing() {
+      pauseBreathing();
+      currentStepIndex = 0;
+      stepCount = 0;
+      const circle = document.getElementById('breath-circle');
+      circle.style.transform = 'scale(1)';
+      document.getElementById('breath-status').innerText = 'آماده';
+      document.getElementById('breath-count').innerText = '';
+      document.getElementById('btn-breath-toggle').innerText = 'شروع تمرین تنفس';
+    }
+
+    function runBreathCycle() {
+      if (!isBreathing) return;
+      const currentPattern = patterns[breathMode];
+      const step = currentPattern[currentStepIndex];
+
+      const circle = document.getElementById('breath-circle');
+      const statusEl = document.getElementById('breath-status');
+      const countEl = document.getElementById('breath-count');
+
+      statusEl.innerText = step.name;
+      circle.style.transform = `scale(${step.scale})`;
+      circle.style.background = `radial-gradient(circle, ${step.color} 0%, #312e81 100%)`;
+
+      let timeLeft = step.duration;
+      countEl.innerText = timeLeft;
+
+      function countdown() {
+        if (!isBreathing) return;
+        timeLeft--;
+        if (timeLeft > 0) {
+          countEl.innerText = timeLeft;
+          breathTimer = setTimeout(countdown, 1000);
+        } else {
+          currentStepIndex = (currentStepIndex + 1) % currentPattern.length;
+          breathTimer = setTimeout(runBreathCycle, 200);
+        }
+      }
+
+      breathTimer = setTimeout(countdown, 1000);
+    }
+
+    // Routine Checklist
+    const ROUTINE_KEY = 'varzesh_night_routine_state';
+    let routineState = [false, false, false, false, false];
+
+    function loadRoutine() {
+      try {
+        const saved = localStorage.getItem(ROUTINE_KEY);
+        if (saved) routineState = JSON.parse(saved);
+      } catch (e) {}
+      renderRoutine();
+    }
+
+    function toggleRoutine(index) {
+      routineState[index] = !routineState[index];
+      try {
+        localStorage.setItem(ROUTINE_KEY, JSON.stringify(routineState));
+      } catch (e) {}
+      renderRoutine();
+    }
+
+    function resetRoutine() {
+      routineState = [false, false, false, false, false];
+      try {
+        localStorage.setItem(ROUTINE_KEY, JSON.stringify(routineState));
+      } catch (e) {}
+      renderRoutine();
+    }
+
+    function renderRoutine() {
+      const items = document.querySelectorAll('#routine-items .check-item');
+      let completedCount = 0;
+      items.forEach((item, idx) => {
+        if (routineState[idx]) {
+          item.classList.add('completed');
+          completedCount++;
+        } else {
+          item.classList.remove('completed');
+        }
+      });
+
+      const percentage = (completedCount / routineState.length) * 100;
+      document.getElementById('routine-progress').style.width = percentage + '%';
+    }
+
+    // Sleep & Recovery Logger
+    const LOGS_KEY = 'varzesh_recovery_logs';
+    let selectedRating = 8;
+
+    function selectRating(r) {
+      selectedRating = r;
+      document.querySelectorAll('#rating-container .rating-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.innerText == r);
+      });
+    }
+
+    function saveLog() {
+      const dateText = document.getElementById('log-date').value.trim() || new Date().toLocaleDateString('fa-IR');
+      const hours = document.getElementById('log-hours').value;
+      const note = document.getElementById('log-note').value.trim() || 'بدون یادداشت';
+
+      const log = {
+        id: Date.now(),
+        date: dateText,
+        hours: hours,
+        rating: selectedRating,
+        note: note
+      };
+
+      let logs = [];
+      try {
+        logs = JSON.parse(localStorage.getItem(LOGS_KEY)) || [];
+      } catch(e) {}
+      logs.unshift(log);
+      try {
+        localStorage.setItem(LOGS_KEY, JSON.stringify(logs));
+      } catch(e) {}
+
+      document.getElementById('log-note').value = '';
+      renderLogs();
+    }
+
+    function deleteLog(id) {
+      let logs = [];
+      try {
+        logs = JSON.parse(localStorage.getItem(LOGS_KEY)) || [];
+        logs = logs.filter(l => l.id !== id);
+        localStorage.setItem(LOGS_KEY, JSON.stringify(logs));
+      } catch(e) {}
+      renderLogs();
+    }
+
+    function renderLogs() {
+      const container = document.getElementById('logs-container');
+      container.innerHTML = '';
+
+      let logs = [];
+      try {
+        logs = JSON.parse(localStorage.getItem(LOGS_KEY)) || [];
+      } catch(e) {}
+
+      if (logs.length === 0) {
+        container.innerHTML = '<p style="color:#64748b; font-size:0.9rem; text-align:center; padding:20px;">هنوز سابقه‌ای ثبت نشده است. اولین گزارش خواب خود را ثبت کنید.</p>';
+        return;
+      }
+
+      logs.forEach(log => {
+        const item = document.createElement('div');
+        item.className = 'log-item';
+        item.innerHTML = `
+          <div>
+            <div style="font-weight:700; color:#f1f5f9;">${log.date} — <span class="score">${log.hours} ساعت خواب</span> (انرژی: ${log.rating} از ۱۰)</div>
+            <div style="color:#94a3b8; font-size:0.85rem; margin-top:2px;">${log.note}</div>
+          </div>
+          <button class="btn-delete" onclick="deleteLog(${log.id})">حذف</button>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    // Initialize
+    window.addEventListener('DOMContentLoaded', () => {
+      calculateSleepCycles();
+      loadRoutine();
+      renderLogs();
+    });
+  </script>
+</body>
+</html>

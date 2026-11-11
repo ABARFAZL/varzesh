@@ -1,0 +1,16 @@
+<svg viewBox="0 0 280 320" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="pantGrad_1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#18181b"/>
+      <stop offset="100%" stop-color="#09090b"/>
+    </linearGradient>
+  </defs>
+  <!-- شلوار اسلش بدنسازی -->
+  <path d="M75,40 L205,40 L220,110 L195,290 L155,290 L140,140 L125,290 L85,290 L60,110 Z" fill="url(#pantGrad_1)" stroke="#52525b" stroke-width="2"/>
+  <!-- کش دمپا -->
+  <rect x="85" y="276" width="40" height="14" rx="2" fill="#27272a"/>
+  <rect x="155" y="276" width="40" height="14" rx="2" fill="#27272a"/>
+  <!-- نوشته عمودی Monsta روی ران -->
+  <text x="95" y="130" font-size="14" font-weight="900" fill="#eab308" font-family="Impact, sans-serif" transform="rotate(-90 95,130)">MONSTA</text>
+  <text x="140" y="310" font-size="10" font-weight="800" fill="#a1a1aa" text-anchor="middle" font-family="Arial, sans-serif">HEAVY GYM JOGGER</text>
+</svg>

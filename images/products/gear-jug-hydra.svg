@@ -1,0 +1,14 @@
+<svg viewBox="0 0 280 320" xmlns="http://www.w3.org/2000/svg">
+  <!-- گالن آب انگیزشی -->
+  <rect x="75" y="80" width="130" height="200" rx="20" fill="#0284c7" stroke="#38bdf8" stroke-width="2" opacity="0.9"/>
+  <rect x="115" y="45" width="50" height="35" rx="6" fill="#18181b"/>
+  <!-- دسته کناری -->
+  <path d="M75,110 C45,110 45,210 75,210" fill="none" stroke="#0369a1" stroke-width="12" stroke-linecap="round"/>
+  <!-- درجه بندی زمان روی گالن -->
+  <line x1="170" y1="120" x2="190" y2="120" stroke="#ffffff" stroke-width="2"/>
+  <line x1="170" y1="150" x2="190" y2="150" stroke="#ffffff" stroke-width="2"/>
+  <line x1="170" y1="180" x2="190" y2="180" stroke="#ffffff" stroke-width="2"/>
+  <line x1="170" y1="210" x2="190" y2="210" stroke="#ffffff" stroke-width="2"/>
+  <text x="135" y="165" font-size="14" font-weight="900" fill="#ffffff" text-anchor="middle">2.2 LITER</text>
+  <text x="135" y="182" font-size="9" font-weight="800" fill="#e0f2fe" text-anchor="middle">HYDRAPAK JUG</text>
+</svg>

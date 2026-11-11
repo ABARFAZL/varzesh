@@ -1,0 +1,1734 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>برنامه تمرینی اختصاصی و سیستم مدیریت جلسات</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a0d14;
+      --card-bg: #111622;
+      --card-border: #1e2638;
+      --accent-orange: #ff5e36;
+      --accent-cyan: #00f2fe;
+      --accent-green: #10b981;
+      --accent-purple: #a855f7;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --surface: #182030;
+      --table-header: #151c2c;
+      --table-row-alt: #0d121c;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Vazirmatn', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Tahoma, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+      padding: 12px;
+    }
+
+    main {
+      max-width: 1450px;
+      width: 100%;
+      margin: 0 auto;
+      flex: 1;
+    }
+
+    /* تب‌های روزهای تمرینی، چک‌باکس روز و دکمه + استراحت */
+    .day-tabs {
+      display: flex;
+      align-items: stretch;
+      gap: 6px;
+      margin-bottom: 12px;
+      overflow-x: auto;
+      padding: 4px 2px 6px 2px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .tab-card {
+      background: var(--surface);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+      transition: all 0.2s ease;
+      min-width: 148px;
+      flex: 1;
+      position: relative;
+      user-select: none;
+    }
+
+    .tab-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .tab-card-title {
+      font-size: 0.8rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .day-check-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px;
+      border-radius: 6px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .day-checkbox {
+      width: 17px;
+      height: 17px;
+      accent-color: var(--accent-green);
+      cursor: pointer;
+      margin: 0;
+    }
+
+    .tab-card span.day-tag {
+      font-size: 0.68rem;
+      opacity: 0.85;
+      font-weight: 500;
+      white-space: nowrap;
+      text-align: right;
+    }
+
+    .tab-card:hover {
+      border-color: rgba(255, 94, 54, 0.5);
+      color: var(--text-main);
+    }
+
+    .tab-card.active {
+      background: linear-gradient(135deg, rgba(255, 94, 54, 0.25) 0%, rgba(255, 94, 54, 0.08) 100%);
+      border-color: var(--accent-orange);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(255, 94, 54, 0.2);
+    }
+
+    .tab-card.active span.day-tag {
+      color: var(--accent-orange);
+    }
+
+    .tab-card.completed {
+      border-color: rgba(16, 185, 129, 0.55);
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.14) 0%, var(--surface) 100%);
+    }
+
+    .tab-card.completed.active {
+      background: linear-gradient(135deg, rgba(255, 94, 54, 0.22) 0%, rgba(16, 185, 129, 0.14) 100%);
+      border-color: var(--accent-orange);
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.2);
+    }
+
+    .tab-card.completed .tab-card-title {
+      color: #6ee7b7;
+    }
+
+    /* دکمه + افزودن روز استراحت کنار هر روز */
+    .add-rest-btn {
+      background: rgba(168, 85, 247, 0.08);
+      border: 1px dashed rgba(168, 85, 247, 0.35);
+      color: #c084fc;
+      border-radius: 10px;
+      width: 28px;
+      min-width: 28px;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      flex-shrink: 0;
+      padding: 0;
+    }
+
+    .add-rest-btn:hover {
+      background: rgba(168, 85, 247, 0.24);
+      border-color: var(--accent-purple);
+      color: #fff;
+      transform: scale(1.05);
+    }
+
+    .rest-slot {
+      background: rgba(168, 85, 247, 0.12);
+      border: 1px solid rgba(168, 85, 247, 0.45);
+      color: #e9d5ff;
+      border-radius: 12px;
+      min-width: 96px;
+      padding: 8px 10px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .rest-slot:hover {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: rgba(248, 113, 113, 0.6);
+      color: #fecaca;
+    }
+
+    .rest-remove-hint {
+      font-size: 0.6rem;
+      opacity: 0.75;
+    }
+
+    /* نوار کنترل وضعیت جلسه روز جاری */
+    .day-status-bar {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 10px 16px;
+      margin-bottom: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .day-info-text {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .day-info-text h2 {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .badge-count {
+      background: rgba(255, 94, 54, 0.15);
+      border: 1px solid rgba(255, 94, 54, 0.3);
+      color: var(--accent-orange);
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
+    .session-toggle-btn {
+      background: var(--surface);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.25s ease;
+    }
+
+    .session-toggle-btn:hover {
+      border-color: var(--accent-green);
+      color: #fff;
+    }
+
+    .session-toggle-btn.done {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: var(--accent-green);
+      color: #34d399;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+    }
+
+    /* جدول ستونی تفکیک‌شده حرکات */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      background: var(--card-bg);
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+    }
+
+    .superset-legend {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      background: rgba(168, 85, 247, 0.12);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      color: #e9d5ff;
+      border-radius: 10px;
+      padding: 8px 14px;
+      margin-bottom: 10px;
+      font-size: 0.76rem;
+      font-weight: 600;
+    }
+
+    .superset-legend.visible {
+      display: flex;
+    }
+
+    table.workout-table {
+      width: 100%;
+      min-width: 1260px;
+      border-collapse: collapse;
+      text-align: right;
+      font-size: 0.78rem;
+    }
+
+    table.workout-table th {
+      background: var(--table-header);
+      color: #e2e8f0;
+      font-weight: 800;
+      padding: 11px 9px;
+      border-bottom: 2px solid var(--card-border);
+      border-left: 1px solid var(--card-border);
+      white-space: nowrap;
+      font-size: 0.73rem;
+    }
+
+    table.workout-table th:last-child {
+      border-left: none;
+    }
+
+    table.workout-table td {
+      padding: 10px 9px;
+      border-bottom: 1px solid var(--card-border);
+      border-left: 1px solid var(--card-border);
+      vertical-align: middle;
+      color: #cbd5e1;
+      line-height: 1.55;
+    }
+
+    table.workout-table td:last-child {
+      border-left: none;
+    }
+
+    table.workout-table tr:nth-child(even):not(.superset-row) td {
+      background-color: var(--table-row-alt);
+    }
+
+    table.workout-table tr:hover:not(.superset-row) td {
+      background-color: rgba(255, 94, 54, 0.04);
+    }
+
+    /* ردیف‌های سوپرست با اتصال بصری واضح */
+    table.workout-table tr.superset-row td {
+      background-color: rgba(168, 85, 247, 0.07) !important;
+    }
+
+    table.workout-table tr.superset-row:hover td {
+      background-color: rgba(168, 85, 247, 0.13) !important;
+    }
+
+    table.workout-table tr.superset-start td {
+      border-top: 2px solid rgba(168, 85, 247, 0.55);
+      border-bottom: 1px dashed rgba(168, 85, 247, 0.45);
+    }
+
+    table.workout-table tr.superset-end td {
+      border-bottom: 2px solid rgba(168, 85, 247, 0.55);
+    }
+
+    table.workout-table tr.superset-row td.col-idx {
+      border-right: 4px solid var(--accent-purple);
+      background: rgba(168, 85, 247, 0.14) !important;
+      color: #e9d5ff;
+    }
+
+    table.workout-table tr.move-done td {
+      background-color: rgba(16, 185, 129, 0.08) !important;
+    }
+
+    table.workout-table tr.move-done:not(.superset-row) td.col-idx {
+      border-right: 3px solid var(--accent-green);
+      background: rgba(16, 185, 129, 0.14) !important;
+      color: #6ee7b7;
+    }
+
+    table.workout-table tr.move-done .col-execution,
+    table.workout-table tr.move-done .col-name-en {
+      opacity: 0.72;
+    }
+
+    .superset-pill {
+      display: inline-block;
+      margin-top: 4px;
+      padding: 2px 5px;
+      border-radius: 5px;
+      font-size: 0.61rem;
+      font-weight: 800;
+      line-height: 1.25;
+      background: rgba(168, 85, 247, 0.25);
+      border: 1px solid rgba(168, 85, 247, 0.5);
+      color: #f3e8ff;
+      white-space: nowrap;
+    }
+
+    .superset-arrow {
+      display: block;
+      font-size: 0.62rem;
+      color: #c084fc;
+      margin-top: 3px;
+      font-weight: 700;
+    }
+
+    /* ستون‌های مجزا و تخصصی */
+    .col-idx {
+      width: 78px;
+      text-align: center !important;
+      font-weight: 800;
+      color: var(--accent-orange);
+      background: rgba(255, 94, 54, 0.05);
+    }
+
+    .idx-check-row {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    .move-checkbox {
+      width: 17px;
+      height: 17px;
+      accent-color: var(--accent-green);
+      cursor: pointer;
+      margin: 0;
+      flex-shrink: 0;
+    }
+
+    .reset-moves-btn {
+      background: transparent;
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .reset-moves-btn:hover {
+      border-color: var(--accent-orange);
+      color: #fff;
+    }
+
+    .status-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .col-muscle {
+      min-width: 195px;
+      vertical-align: top !important;
+    }
+
+    .muscle-chip {
+      display: inline-block;
+      font-weight: 800;
+      font-size: 0.77rem;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(255, 94, 54, 0.14);
+      border: 1px solid rgba(255, 94, 54, 0.3);
+      color: #ff9f7f;
+      margin-bottom: 6px;
+    }
+
+    .muscle-breakdown {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      margin-top: 2px;
+      padding-top: 5px;
+      border-top: 1px dashed rgba(148, 163, 184, 0.2);
+    }
+
+    .muscle-target-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.69rem;
+      color: #cbd5e1;
+      line-height: 1.35;
+    }
+
+    .muscle-target-pct {
+      font-weight: 800;
+      font-size: 0.68rem;
+      color: #34d399;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      padding: 0 5px;
+      border-radius: 4px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .col-name-en {
+      min-width: 165px;
+      direction: ltr;
+      text-align: left !important;
+      font-weight: 700;
+      font-size: 0.74rem;
+      color: var(--accent-cyan);
+      letter-spacing: 0.1px;
+    }
+
+    .col-posture {
+      min-width: 155px;
+      font-weight: 600;
+      color: #e2e8f0;
+      font-size: 0.74rem;
+    }
+
+    .angle-badge {
+      display: inline-block;
+      margin-top: 4px;
+      padding: 1px 6px;
+      border-radius: 5px;
+      font-size: 0.67rem;
+      font-weight: 700;
+      background: rgba(251, 191, 36, 0.14);
+      border: 1px solid rgba(251, 191, 36, 0.3);
+      color: #fcd34d;
+    }
+
+    .col-equip {
+      min-width: 120px;
+      color: #cbd5e1;
+      font-size: 0.74rem;
+      font-weight: 600;
+    }
+
+    .col-execution {
+      min-width: 225px;
+      font-weight: 500;
+      color: #f8fafc;
+      font-size: 0.74rem;
+    }
+
+    .col-sets {
+      width: 62px;
+      text-align: center !important;
+      font-weight: 900;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.05);
+      white-space: nowrap;
+      font-size: 0.8rem;
+    }
+
+    .col-reps {
+      width: 82px;
+      text-align: center !important;
+      font-weight: 900;
+      color: #34d399;
+      background: rgba(16, 185, 129, 0.05);
+      white-space: nowrap;
+      font-size: 0.77rem;
+    }
+
+    .col-tempo {
+      width: 78px;
+      text-align: center !important;
+      direction: ltr;
+      font-family: monospace, sans-serif;
+      font-weight: 700;
+      color: #e2e8f0;
+      background: rgba(0, 0, 0, 0.2);
+      white-space: nowrap;
+    }
+
+    .col-tips {
+      min-width: 215px;
+      font-size: 0.72rem;
+      color: #94a3b8;
+    }
+
+    .col-tips strong {
+      color: #fbbf24;
+    }
+
+    @media (max-width: 768px) {
+      .day-tabs {
+        padding-bottom: 6px;
+      }
+      .tab-card {
+        min-width: 132px;
+        padding: 8px 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <main>
+    <!-- تب‌های روزها همراه با چک‌باکس روز و دکمه + استراحت -->
+    <div class="day-tabs" id="dayTabsContainer">
+      <!-- توسط جاوااسکریپت پر می‌شود -->
+    </div>
+
+    <!-- نوار وضعیت و تأیید جلسه جاری -->
+    <div class="day-status-bar">
+      <div class="day-info-text">
+        <h2 id="dayBarTitle">روز جاری</h2>
+        <span class="badge-count" id="dayMoveCount">۸ حرکت</span>
+      </div>
+      <div class="status-actions">
+        <button class="reset-moves-btn" onclick="resetCurrentDayMoves()" title="پاک کردن تیک حرکات همین روز برای هفته جدید">↺ پاک کردن تیک‌های امروز</button>
+        <button class="session-toggle-btn" id="dayDoneBtn" onclick="toggleDayCompleted(currentDay)">
+          <span id="dayDoneIcon">⚪</span>
+          <span id="dayDoneText">ثبت پایان جلسه</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- راهنمای سوپرست (فقط در روزهای دارای سوپرست نمایش داده می‌شود) -->
+    <div class="superset-legend" id="supersetLegend">
+      <span>⚡ ردیف‌های بنفش متصل به هم «سوپرست» هستند: حرکت اول را که زدی، بدون استراحت بلافاصله حرکت دوم را انجام بده و بعد استراحت کن.</span>
+    </div>
+
+    <!-- جدول ستونی مجزا و تفکیک‌شده -->
+    <div class="table-container">
+      <table class="workout-table">
+        <thead>
+          <tr>
+            <th style="width: 78px; text-align: center;">#</th>
+            <th style="min-width: 195px;">عضله هدف و درصد درگیری</th>
+            <th style="min-width: 165px; text-align: left; direction: ltr;">English Name</th>
+            <th style="min-width: 155px;">تکیه‌گاه و زاویه</th>
+            <th style="min-width: 120px;">تجهیزات</th>
+            <th style="min-width: 225px;">جزئیات نحوه انجام</th>
+            <th style="width: 62px; text-align: center;">ست</th>
+            <th style="width: 82px; text-align: center;">تکرار</th>
+            <th style="width: 78px; text-align: center;">تمپو</th>
+            <th style="min-width: 215px;">مراقبت مفصل و نکات کلیدی</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <!-- توسط جاوااسکریپت پر می‌شود -->
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <script>
+    // اطلاعات ۵ روز برنامه با ستون‌های تفکیک‌شده دقیق، درصد عضلات و سوپرست‌های مجزا
+    const programData = {
+      1: {
+        title: "شنبه (روز اول): زیربغل، کول، سرشانه، جلوبازو و کرانچ (اجرا شده)",
+        exercises: [
+          {
+            order: "۱",
+            muscle: "زیربغل (پهنای پشت)",
+            targets: [
+              { name: "پهن‌کننده پشت (Latissimus Dorsi)", pct: "۶۵٪" },
+              { name: "گرد بزرگ (Teres Major)", pct: "۱۵٪" },
+              { name: "پشت سرشانه (Posterior Deltoid)", pct: "۱۰٪" },
+              { name: "دوسر بازو (Biceps Brachii)", pct: "۱۰٪" }
+            ],
+            name_en: "Wide-Grip Pronated Lat Pulldown",
+            posture: "نشسته زیر پد مهار ران",
+            angle: "تنه ۱۰۵° متمایل به عقب",
+            equipment: "دستگاه سیم‌کش لت (میله بلند)",
+            execution: "دست‌ها بازتر از عرض شانه و کف دست رو به جلو؛ سینه را بالا بده، آرنج‌ها را عمودی رو به پایین بکش تا میله به بالای سینه برسد و آرام برگردان.",
+            sets: "۴ ست",
+            reps: "۱۲ تکرار",
+            tempo: "۱-۱-۳-۱",
+            tips: "در بالاترین نقطه آرنج‌ها را ناگهانی قفل نکن؛ شست می‌تواند کنار بقیه انگشتان بماند تا ساعد زودتر از زیربغل خسته نشود."
+          },
+          {
+            order: "۲",
+            muscle: "میانه و عمق پشت",
+            targets: [
+              { name: "متوازی‌الاضلاع (Rhomboids)", pct: "۴۰٪" },
+              { name: "ذوزنقه‌ای میانی (Mid Trapezius)", pct: "۲۵٪" },
+              { name: "پهن‌کننده پشت (Latissimus Dorsi)", pct: "۲۵٪" },
+              { name: "دوسر و بازویی (Biceps / Brachialis)", pct: "۱۰٪" }
+            ],
+            name_en: "Close Neutral-Grip Seated Cable Row",
+            posture: "نشسته روی نیمکت قایقی (فقط پای راست روی رکاب)",
+            angle: "کمر عمود ۹۰°",
+            equipment: "دستگاه سیم‌کش قایقی (دستگیره V موازی)",
+            execution: "کف دست‌ها رو به هم (حالت خنثی)؛ دستگیره را با عقب بردن کتف‌ها تا بالای شکم بکش، شانه‌ها را پایین نگه دار و کنترل‌شده برگردان.",
+            sets: "۴ ست",
+            reps: "۱۲ تکرار",
+            tempo: "۱-۲-۲-۰",
+            tips: "کمر هنگام برگشت خم نشود و هنگام کشش تاب نخورد؛ پای چپ بدون فشار محوری روی زمین یا تکیه‌گاه آزاد بماند."
+          },
+          {
+            order: "۳",
+            muscle: "سرشانه جلویی و میانی",
+            targets: [
+              { name: "دلتوئید جلویی (Anterior Deltoid)", pct: "۵۵٪" },
+              { name: "دلتوئید میانی (Lateral Deltoid)", pct: "۲۵٪" },
+              { name: "سه‌سر بازو (Triceps Brachii)", pct: "۱۵٪" },
+              { name: "بالاسینه (Upper Pectoralis)", pct: "۵٪" }
+            ],
+            name_en: "Seated Machine Overhead Shoulder Press",
+            posture: "نشسته با تکیه کامل کمر و سر به پشتی",
+            angle: "پشتی ۸۵° تا ۹۰°",
+            equipment: "دستگاه پرس سرشانه",
+            execution: "دستگیره‌ها را هم‌سطح شانه با کف دست رو به جلو بگیر؛ وزنه را مستقیم به بالا پرس کن و آرام تا هم‌ترازی گوش‌ها پایین بیاور.",
+            sets: "۴ ست",
+            reps: "۱۲ تکرار",
+            tempo: "۱-۱-۳-۰",
+            tips: "مچ دست دقیقاً در راستای ساعد عمود بماند و به عقب خم نشود؛ در بالا مفصل آرنج را کاملاً قفل نکن."
+          },
+          {
+            order: "۴",
+            muscle: "سرشانه میانی (پهن‌کننده)",
+            targets: [
+              { name: "دلتوئید میانی (Lateral Deltoid)", pct: "۸۰٪" },
+              { name: "دلتوئید جلویی (Anterior Deltoid)", pct: "۱۰٪" },
+              { name: "فوق‌خاری و کول (Supraspinatus / Traps)", pct: "۱۰٪" }
+            ],
+            name_en: "Seated Machine Lateral Raise",
+            posture: "نشسته با تکیه کامل کمر به پد صندلی",
+            angle: "پشتی عمود ۹۰°",
+            equipment: "دستگاه نشر جانب",
+            execution: "ساعد و آرنج را روی بالشتک‌ها بگذار و فقط با هدایت آرنج‌ها دست‌ها را به طرفین تا هم‌سطح شانه بالا ببر.",
+            sets: "۴ ست",
+            reps: "۱۵ تکرار",
+            tempo: "۱-۲-۲-۰",
+            tips: "شانه را به سمت گوش بالا نکش و دست‌ها را بالاتر از سطح شانه نبر تا به تاندون چرخاننده شانه فشار نیاید."
+          },
+          {
+            order: "۵",
+            muscle: "کول (ذوزنقه‌ای بالایی)",
+            targets: [
+              { name: "ذوزنقه‌ای بالایی (Upper Trapezius)", pct: "۷۵٪" },
+              { name: "بالابرنده کتف (Levator Scapulae)", pct: "۱۵٪" },
+              { name: "ذوزنقه‌ای میانی (Mid Trapezius)", pct: "۱۰٪" }
+            ],
+            name_en: "Seated Neutral-Grip Dumbbell Shrug",
+            posture: "نشسته لبه نیمکت صاف (بدون پشتی)",
+            angle: "تنه عمود ۹۰°",
+            equipment: "جفت دمبل",
+            execution: "دمبل‌ها کنار ران با کف دست رو به بدن؛ شانه‌ها را صاف و عمودی به سمت گوش بالا بکش، ۲ ثانیه در اوج منقبض نگه دار و پایین ببر.",
+            sets: "۴ ست",
+            reps: "۱۵ تکرار",
+            tempo: "۱-۲-۲-۰",
+            tips: "شانه‌ها را به جلو یا عقب نچرخان چون باعث سایش مفصل شانه می‌شود؛ مسیر حرکت فقط مستقیم رو به بالا و پایین است."
+          },
+          {
+            order: "۶",
+            muscle: "جلوبازو (پیک و سر کوتاه)",
+            targets: [
+              { name: "دوسر بازو (Biceps Brachii)", pct: "۶۵٪" },
+              { name: "بازویی قدامی (Brachialis)", pct: "۲۵٪" },
+              { name: "بازویی زنداعلایی (Brachioradialis)", pct: "۱۰٪" }
+            ],
+            name_en: "Seated Machine Preacher Curl",
+            posture: "نشسته با فیکس کردن پشت بازو روی بالشتک",
+            angle: "بالشتک شیب ۴۵°",
+            equipment: "دستگاه جلوبازو لاری",
+            execution: "دستگیره‌ها را عرض شانه با کف دست رو به بالا بگیر؛ ساعد را تا بالای مسیر جمع کن، ۱ ثانیه مکث بده و کنترل‌شده پایین ببر.",
+            sets: "۴ ست",
+            reps: "۱۲ تکرار",
+            tempo: "۱-۱-۳-۱",
+            tips: "در پایین‌ترین نقطه آرنج را ضربه‌ای و کامل باز نکن تا به تاندون پایین جلوبازو آسیب نرسد."
+          },
+          {
+            order: "۷",
+            muscle: "روی ساعد و عمق بازو",
+            targets: [
+              { name: "بازویی زنداعلایی (Brachioradialis)", pct: "۵۰٪" },
+              { name: "بازویی قدامی (Brachialis)", pct: "۳۰٪" },
+              { name: "بازکننده‌های مچ (Wrist Extensors)", pct: "۱۵٪" },
+              { name: "دوسر بازو (Biceps Brachii)", pct: "۵٪" }
+            ],
+            name_en: "Seated Pronated Cable Reverse Curl",
+            posture: "نشسته لبه نیمکت صاف رو به دستگاه",
+            angle: "تنه عمود ۹۰°",
+            equipment: "دستگاه سیم‌کش پایین (میله صاف)",
+            execution: "کف دست‌ها رو به زمین؛ آرنج‌ها ثابت کنار پهلو بمانند و فقط از مفصل آرنج میله را تا روبه‌روی سینه بالا بیاور.",
+            sets: "۴ ست",
+            reps: "۱۵ تکرار",
+            tempo: "۱-۱-۳-۰",
+            tips: "مچ دست را رو به پایین نشکن؛ مچ و ساعد مثل یک خط مستقیم ثابت بمانند و از ایستادن روی پای چپ پرهیز کن."
+          },
+          {
+            order: "۸",
+            muscle: "راست شکمی (بخش بالایی)",
+            targets: [
+              { name: "راست شکمی بالایی (Upper Rectus Abdominis)", pct: "۷۵٪" },
+              { name: "راست شکمی پایینی (Lower Rectus Abdominis)", pct: "۱۵٪" },
+              { name: "مورب شکمی (Obliques)", pct: "۱۰٪" }
+            ],
+            name_en: "Lying Floor Abdominal Crunch",
+            posture: "خوابیده به پشت روی تشک زمین",
+            angle: "بدن افقی ۰° (زانوها خم ۴۵°)",
+            equipment: "تشک تمرین زمین",
+            execution: "نوک انگشتان کنار شقیقه؛ هم‌زمان با تخلیه کامل هوای ریه، فقط کتف‌ها را چند سانتی‌متر از زمین جدا کن و شکم را تو بکش.",
+            sets: "۴ ست",
+            reps: "۲۰ تکرار",
+            tempo: "۱-۲-۲-۰",
+            tips: "گودی کمر همیشه چسبیده به تشک بماند و به هیچ عنوان با دست‌ها گردن را به جلو نکش."
+          }
+        ]
+      },
+      2: {
+        title: "یکشنبه (روز دوم): سینه، پشت‌بازو، جلوپا راست، سوپرست خیاطه، فیله و پهلو",
+        exercises: [
+          {
+            order: "۱",
+            muscle: "سینه (میانی و حجم کلی)",
+            targets: [
+              { name: "سینه بزرگ جناغی (Pectoralis Major Sternal)", pct: "۶۵٪" },
+              { name: "دلتوئید جلویی (Anterior Deltoid)", pct: "۲۰٪" },
+              { name: "سه‌سر بازو (Triceps Brachii)", pct: "۱۵٪" }
+            ],
+            name_en: "Seated Machine Chest Press",
+            posture: "نشسته با تکیه کامل کمر به پشتی",
+            angle: "پشتی عمود ۹۰°",
+            equipment: "دستگاه پرس سینه",
+            execution: "دستگیره در راستای خط وسط سینه؛ با زاویه ۴۵ درجه آرنج نسبت به پهلو (نه کاملاً باز)، دسته‌ها را به جلو فشار بده و با ۳ ثانیه کنترل برگردان.",
+            sets: "۴ ست",
+            reps: "۱۲ تکرار",
+            tempo: "۱-۰-۳-۱",
+            tips: "شانه‌ها را به پشتی بچسبان و هنگام فشار به جلو نکش؛ بالا آمدن زیاد آرنج به کپسول شانه آسیب می‌زند."
+          },
+          {
+            order: "۲",
+            muscle: "بالاسینه (بخش ترقوه‌ای)",
+            targets: [
+              { name: "بالاسینه ترقوه‌ای (Clavicular Pectoralis)", pct: "۶۵٪" },
+              { name: "دلتوئید جلویی (Anterior Deltoid)", pct: "۲۵٪" },
+              { name: "سه‌سر بازو (Triceps Brachii)", pct: "۱۰٪" }
+            ],
+            name_en: "Incline Dumbbell Chest Press",
+            posture: "خوابیده به پشت روی نیمکت شیب‌دار",
+            angle: "شیب مثبت ۳۰°",
+            equipment: "جفت دمبل + نیمکت شیب‌دار",
+            execution: "دمبل‌ها کنار خط بالای سینه با کف دست رو به جلو؛ آن‌ها را به سمت بالا پرس کن و نزدیک هم بیاور بدون این‌که به هم برخورد کنند.",
+            sets: "۴ ست",
+            reps: "۱۲ تکرار",
+            tempo: "۱-۰-۳-۱",
+            tips: "زاویه ۳۰ درجه برای بالاسینه ایده‌آل است (بیشتر از آن سرشانه کار می‌کند)؛ مچ دست را دقیقاً بالای آرنج صاف نگه دار."
+          },
+          {
+            order: "۳",
+            muscle: "سینه (خط وسط و بخش داخلی)",
+            targets: [
+              { name: "بخش داخلی سینه (Inner Pectoralis Major)", pct: "۷۵٪" },
+              { name: "دلتوئید جلویی (Anterior Deltoid)", pct: "۱۵٪" },
+              { name: "سینه کوچک (Pectoralis Minor)", pct: "۱۰٪" }
+            ],
+            name_en: "Seated Pec Deck Machine Fly",
+            posture: "نشسته با تکیه کامل کمر و سر به پشتی",
+            angle: "پشتی عمود ۹۰°",
+            equipment: "دستگاه پک‌دک (پروانه)",
+            execution: "کف دست‌ها رو به هم و آرنج‌ها با خمیدگی جزئی ثابت؛ بازوها را با قوس ملایم جلوی سینه به هم برسان و ۲ ثانیه خط سینه را بفشار.",
+            sets: "۴ ست",
+            reps: "۱۵ تکرار",
+            tempo: "۱-۲-۲-۰",
+            tips: "در فاز برگشت دست‌ها را بیش از امتداد شانه‌ها عقب نبر تا تاندون جلوی شانه بیش از حد کشیده نشود."
+          },
+          {
+            order: "۴",
+            muscle: "پشت‌بازو (سر کناری و بیرونی)",
+            targets: [
+              { name: "سر کناری پشت‌بازو (Triceps Lateral Head)", pct: "۶۰٪" },
+              { name: "سر میانی پشت‌بازو (Triceps Medial Head)", pct: "۲۵٪" },
+              { name: "سر بلند پشت‌بازو (Triceps Long Head)", pct: "۱۵٪" }
+            ],
+            name_en: "Seated Cable Rope Triceps Pushdown",
+            posture: "نشسته عمود روی صندلی رو به دستگاه",
+            angle: "تنه عمود ۹۰°",
+            equipment: "دستگاه سیم‌کش بالا + طناب",
+            execution: "آرنج‌ها قفل کنار پهلو؛ طناب را به سمت پایین فشار بده و در انتهای مسیر دو سر طناب را از هم باز کن و مچ را کمی رو به بیرون بچرخان.",
+            sets: "۴ ست",
+            reps: "۱۵ تکرار",
+            tempo: "۱-۲-۲-۰",
+            tips: "اجرای نشسته تعادل را بدون فشار به پای چپ حفظ می‌کند؛ بازو از آرنج تا شانه کاملاً بی‌حرکت کنار پهلو بماند."
+          },
+          {
+            order: "۵",
+            muscle: "پشت‌بازو (هر سه سر)",
+            targets: [
+              { name: "سر میانی پشت‌بازو (Triceps Medial Head)", pct: "۴۰٪" },
+              { name: "سر کناری پشت‌بازو (Triceps Lateral Head)", pct: "۳۵٪" },
+              { name: "سر بلند پشت‌بازو (Triceps Long Head)", pct: "۱۵٪" },
+              { name: "بخش پایینی سینه (Lower Pectoralis)", pct: "۱۰٪" }
+            ],
+            name_en: "Seated Machine Triceps Dip",
+            posture: "نشسته با تکیه کامل کمر",
+            angle: "تنه عمود ۹۰°",
+            equipment: "دستگاه دیپ نشسته",
+            execution: "دستگیره‌های موازی را با کف دست رو به بدن بگیر؛ آرنج‌ها را رو به عقب و نزدیک بدن خم کن و دسته‌ها را با قدرت تا پایین پرس بزن.",
+            sets: "۳ ست",
+            reps: "۱۲ تکرار",
+            tempo: "۱-۲-۲-۰",
+            tips: "سینه را به جلو خم نکن چون فشار از پشت‌بازو به سینه منتقل می‌شود؛ در برگشت آرنج‌ها بالاتر از زاویه ۹۰ درجه نیایند."
+          },
+          {
+            order: "۶",
+            muscle: "چهارسر ران (فقط پای راست)",
+            targets: [
+              { name: "پهن درونی / اشکی (Vastus Medialis)", pct: "۳۵٪" },
+              { name: "راست رانی (Rectus Femoris)", pct: "۳۵٪" },
+              { name: "پهن بیرونی (Vastus Lateralis)", pct: "۳۰٪" }
+            ],
+            name_en: "Unilateral Seated Leg Extension (Right Leg)",
+            posture: "نشسته با تکیه کمر و مهار لگن",
+            angle: "پشتی ۹۵° تا ۱۰۰°",
+            equipment: "دستگاه جلوپا نشسته",
+            execution: "فقط پای راست زیر پد؛ پنجه پا رو به بالا باشد، زانو را کامل باز کن و عضله بالای زانو را ۲ ثانیه منقبض نگه دار سپس آرام برگردان.",
+            sets: "۴ ست",
+            reps: "۱۵ تکرار",
+            tempo: "۱-۲-۲-۰",
+            tips: "پای چپ کاملاً آزاد در کنار دستگاه باشد؛ پد دستگاه دقیقاً بالای مچ پا (روی ساق) قرار گیرد و وزنه در پایین رها نشود."
+          },
+          {
+            order: "۷ الف",
+            superset: { pos: "start" },
+            muscle: "داخل ران (نزدیک‌کننده‌ها)",
+            targets: [
+              { name: "نزدیک‌کننده بزرگ (Adductor Magnus)", pct: "۵۰٪" },
+              { name: "نزدیک‌کننده طویل (Adductor Longus)", pct: "۳۰٪" },
+              { name: "راست داخلی (Gracilis)", pct: "۲۰٪" }
+            ],
+            name_en: "Seated Hip Adduction Machine",
+            posture: "نشسته با تکیه کامل کمر به پشتی",
+            angle: "پشتی ۹۵°",
+            equipment: "دستگاه خیاطه داخل ران",
+            execution: "زانوها باز و پدها روی بخش داخلی ران و زانو؛ پاها را با کنترل به سمت هم جمع کن، ۲ ثانیه بفشار و با کنترل باز کن.",
+            sets: "۳ ست",
+            reps: "۱۵ تکرار",
+            tempo: "۱-۲-۲-۰",
+            tips: "به دلیل قرارگیری پد روی ران/زانو، برای شکستگی ساق و مچ پای چپ کاملاً ایمن است و باری روی ساق نمی‌افتد."
+          },
+          {
+            order: "۷ ب",
+            superset: { pos: "end" },
+            muscle: "خارج ران و کنار باسن",
+            targets: [
+              { name: "سرینی میانی (Gluteus Medius)", pct: "۶۰٪" },
+              { name: "سرینی کوچک (Gluteus Minimus)", pct: "۲۵٪" },
+              { name: "کشنده پهن نیام (Tensor Fasciae Latae)", pct: "۱۵٪" }
+            ],
+            name_en: "Seated Hip Abduction Machine",
+            posture: "نشسته با تکیه کامل کمر به پشتی",
+            angle: "پشتی ۹۰° عمود",
+            equipment: "دستگاه خیاطه خارج ران",
+            execution: "بلافاصله پس از بخش ۷ الف (بدون استراحت)؛ پدها بیرون ران و زانوها جمع، پاها را تا انتهای دامنه به طرفین باز کن و ۲ ثانیه نگه دار.",
+            sets: "۳ ست",
+            reps: "۱۵ تکرار",
+            tempo: "۱-۲-۲-۰",
+            tips: "باسن و کمر را کاملاً به صندلی بچسبان و با خم کردن تنه به جلو تقلب نکن تا فشار فقط روی عضلات کنار لگن بماند."
+          },
+          {
+            order: "۸",
+            muscle: "فیله کمر (ستون فقرات)",
+            targets: [
+              { name: "راست‌کننده مهره (Erector Spinae)", pct: "۷۵٪" },
+              { name: "سرینی بزرگ (Gluteus Maximus)", pct: "۱۵٪" },
+              { name: "چندسر کمر (Multifidus)", pct: "۱۰٪" }
+            ],
+            name_en: "Seated Machine Lumbar Back Extension",
+            posture: "نشسته با مهار لگن روی صندلی",
+            angle: "دامنه حرکت ۹۰° تا ۱۱۰°",
+            equipment: "دستگاه فیله کمر نشسته",
+            execution: "دست‌ها ضربدری روی سینه و پد غلتکی پشت کتف؛ کمر را نرم و کنترل‌شده تا راست شدن کامل تنه به عقب فشار بده و ۲ ثانیه مکث کن.",
+            sets: "۳ ست",
+            reps: "۱۵ تکرار",
+            tempo: "۱-۲-۲-۱",
+            tips: "از پرتاب کردن ناگهانی بدن یا قوس بیش از حد به عقب در انتهای حرکت پرهیز کن."
+          },
+          {
+            order: "۹",
+            muscle: "مورب شکمی (پهلوها)",
+            targets: [
+              { name: "مورب خارجی (External Obliques)", pct: "۵۰٪" },
+              { name: "مورب داخلی (Internal Obliques)", pct: "۳۰٪" },
+              { name: "راست شکمی (Rectus Abdominis)", pct: "۲۰٪" }
+            ],
+            name_en: "Lying Oblique Floor Crunch",
+            posture: "خوابیده به پشت روی تشک زمین",
+            angle: "بدن افقی ۰° (زانوها خم ۴۵°)",
+            equipment: "تشک تمرین زمین",
+            execution: "به صورت متناوب قفسه سینه را بچرخان و شانه راست را به سمت زانوی چپ (و برعکس) بالا بیاور همراه با بازدم.",
+            sets: "۳ ست",
+            reps: "۲۰ تکرار",
+            tempo: "۱-۱-۲-۰",
+            tips: "دست‌ها پشت سر فشار نیاورند؛ چرخش فقط از دنده‌ها و پهلو انجام شود، نه کشیدن آرنج و گردن."
+          }
+        ]
+      },
+      3: {
+        title: "دوشنبه (روز سوم): لت مچ‌برعکس، ساعد و پنجه، تیبیالیس، پشت‌پا و ساق (بروزرسانی شده)",
+        exercises: [
+          {
+            order: "۱",
+            muscle: "پایین زیربغل و جلوبازو",
+            targets: [
+              { name: "بخش پایینی لت (Lower Latissimus Dorsi)", pct: "۶۰٪" },
+              { name: "دوسر بازو (Biceps Brachii)", pct: "۲۵٪" },
+              { name: "متوازی‌الاضلاع (Rhomboids)", pct: "۱۵٪" }
+            ],
+            name_en: "Close Supinated-Grip Lat Pulldown",
+            posture: "نشسته زیر پد مهار ران",
+            angle: "تنه ۱۰۰° متمایل به عقب",
+            equipment: "دستگاه سیم‌کش لت",
+            execution: "دست‌ها عرض شانه و کف دست رو به صورت (مچ‌برعکس)؛ میله را با جمع کردن کتف‌ها تا بالای سینه پایین بکش و کنترل‌شده برگردان.",
+            sets: "۴ ست",
+            reps: "۱۲ تکرار",
+            tempo: "۱-۱-۳-۱",
+            tips: "شانه‌ها را رو به جلو جمع نکن و مچ دست را در راستای ساعد صاف نگه دار تا تاندون مچ تحت فشار نباشد."
+          },
+          {
+            order: "۲",
+            muscle: "لبه بیرونی ساعد و عمق بازو",
+            targets: [
+              { name: "بازویی زنداعلایی (Brachioradialis)", pct: "۴۵٪" },
+              { name: "بازویی قدامی (Brachialis)", pct: "۳۵٪" },
+              { name: "سر بلند دوسر (Biceps Long Head)", pct: "۲۰٪" }
+            ],
+            name_en: "Seated Alternating Dumbbell Hammer Curl",
+            posture: "نشسته لبه نیمکت صاف",
+            angle: "تنه عمود ۹۰°",
+            equipment: "جفت دمبل",
+            execution: "کف دست‌ها رو به هم (حالت چکش)؛ بدون چرخاندن مچ، دمبل را تا مقابل شانه بالا بیاور و آرام در ۳ ثانیه پایین ببر.",
+            sets: "۴ ست",
+            reps: "۱۲ تکرار",
+            tempo: "۱-۱-۳-۰",
+            tips: "آرنج‌ها ثابت کنار پهلو بمانند و تنه برای کمک به بلند کردن دمبل تاب نخورد."
+          },
+          {
+            order: "۳",
+            muscle: "روی ساعد (بازکننده‌های مچ)",
+            targets: [
+              { name: "بازکننده مچ زنداعلایی (Extensor Carpi Radialis)", pct: "۵۰٪" },
+              { name: "بازکننده انگشتان (Extensor Digitorum)", pct: "۳۰٪" },
+              { name: "بازکننده زنداسفلی (Extensor Carpi Ulnaris)", pct: "۲۰٪" }
+            ],
+            name_en: "Seated Pronated Dumbbell Wrist Extension Curl",
+            posture: "نشسته کنار میز ساعد، ساعد کامل روی میز",
+            angle: "ساعد افقی ۰°",
+            equipment: "جفت دمبل سبک",
+            execution: "کف دست رو به زمین و مچ آویزان از لبه میز؛ پشت دست را فقط با حرکت مفصل مچ تا بیشترین دامنه رو به سقف بالا بیاور و ۲ ثانیه نگه دار.",
+            sets: "۴ ست",
+            reps: "۱۵ تکرار",
+            tempo: "۱-۲-۲-۰",
+            tips: "ساعد نباید از میز بلند شود؛ از وزنه سبک استفاده کن تا تاندون بیرونی آرنج (تنیس البو) ملتهب نشود."
+          },
+          {
+            order: "۴",
+            muscle: "داخل ساعد و تاندون انگشتان",
+            targets: [
+              { name: "خم‌کننده‌های مچ (Flexor Carpi Radialis / Ulnaris)", pct: "۴۵٪" },
+              { name: "خم‌کننده عمقی انگشتان (Flexor Digitorum Profundus)", pct: "۴۰٪" },
+              { name: "خم‌کننده سطحی انگشتان (Flexor Digitorum Superficialis)", pct: "۱۵٪" }
+            ],
+            name_en: "Seated Supinated Finger-Roll Barbell Wrist Curl",
+            posture: "نشسته کنار میز ساعد، ساعد کامل روی میز",
+            angle: "ساعد افقی ۰°",
+            equipment: "هالتر صاف",
+            execution: "کف دست رو به بالا و مچ آویزان از لبه میز؛ میله را آرام تا بند اول انگشتان سر بده، اول انگشتان را جمع کن و بعد مچ را تا اوج بالا بیاور.",
+            sets: "۴ ست",
+            reps: "۱۵ تکرار",
+            tempo: "۱-۲-۲-۱",
+            tips: "میله با ضربه رها نشود؛ کنترل در رول کردن انگشتان هم ضخامت داخل ساعد و هم قدرت تاندون پنجه را می‌سازد."
+          },
+          {
+            order: "۵",
+            muscle: "تاندون کناری مچ (رادیال)",
+            targets: [
+              { name: "خم‌کننده و بازکننده رادیال (Carpi Radialis)", pct: "۶۰٪" },
+              { name: "بازویی زنداعلایی (Brachioradialis)", pct: "۲۵٪" },
+              { name: "دورکننده شست (Abductor Pollicis)", pct: "۱۵٪" }
+            ],
+            name_en: "Seated Hammer-Grip Radial Wrist Deviation",
+            posture: "نشسته کنار میز ساعد، ساعد ثابت روی میز",
+            angle: "ساعد افقی ۰°",
+            equipment: "دمبل سبک ۳ تا ۵ کیلویی",
+            execution: "گرفتن دمبل مثل چکش با شست رو به سقف؛ بدون تکان دادن ساعد، فقط از مفصل مچ سر بالایی دمبل را ۹۰ درجه به سمت سقف بالا بکش و برگردان.",
+            sets: "۳ ست",
+            reps: "۱۵ تکرار",
+            tempo: "۱-۱-۲-۰",
+            tips: "وزنه ۱۰ کیلویی برای این مفصل بیش از حد سنگین است و ریسک آسیب دارد؛ وزنه ۳ تا ۵ کیلو برای تقویت ایمن تاندون مچ کافی است."
+          },
+          {
+            order: "۶",
+            muscle: "پنجه، شست و قدرت انگشتان",
+            targets: [
+              { name: "خم‌کننده دراز شست (Flexor Pollicis Longus)", pct: "۴۰٪" },
+              { name: "خم‌کننده‌های عمقی انگشتان (Deep Finger Flexors)", pct: "۴۰٪" },
+              { name: "عضلات کف دست (Lumbricals)", pct: "۲۰٪" }
+            ],
+            name_en: "Seated Plate Pinch & Progressive Finger Drop",
+            posture: "نشسته لبه نیمکت صاف (دست آویزان کنار ران)",
+            angle: "تنه عمود ۹۰°",
+            equipment: "صفحه وزنه ۵ کیلویی صاف (انتهای ست ۲.۵ کیلویی)",
+            execution: "لبه صفحه وزنه را با فشار نوک انگشتان و شست (بدون تماس کف دست) نگه دار؛ با خستگی، به ترتیب اشاره و میانی را رها کن تا انگشتان ضعیف‌تر درگیر شوند.",
+            sets: "۳ ست",
+            reps: "ثانیه‌شمار (تا ناتوانی)",
+            tempo: "ایزومتریک (ثابت)",
+            tips: "در پایان ست برای محافظت از تاندون ظریف انگشت کوچک، دو انگشت حلقه و کوچک را جفت هم نگه دار یا روی صفحه سبک‌تر ۲.۵ کیلویی برو."
+          },
+          {
+            order: "۷",
+            muscle: "جلوی ساق پا (تیبیالیس قدامی)",
+            targets: [
+              { name: "درشت‌نی قدامی (Tibialis Anterior)", pct: "۸۵٪" },
+              { name: "بازکننده دراز انگشتان پا (Extensor Digitorum Longus)", pct: "۱۵٪" }
+            ],
+            name_en: "Seated Cable Tibialis Anterior Raise",
+            posture: "نشسته روی صندلی رو به دستگاه (پاشنه روی میز کمکی)",
+            angle: "تنه ۹۰° و زانو نزدیک صاف ۱۷۰°",
+            equipment: "دستگاه سیم‌کش پایین + پابند جلوپا",
+            execution: "پابند بسته به جلوی پنجه پا و پاشنه ثابت روی لبه میز؛ پنجه پا را با قدرت مچ پا به سمت ساق بالا بکش، ۱ ثانیه نگه دار و آرام برگردان.",
+            sets: "۳ ست",
+            reps: "۱۵ تکرار",
+            tempo: "۱-۱-۲-۰",
+            tips: "فوق‌العاده برای سلامت مچ و زانو؛ اگر پای چپ هنوز اجازه کشش ندارد فعلاً فقط روی پای راست اجرا شود تا استخوان کامل جوش بخورد."
+          },
+          {
+            order: "۸",
+            muscle: "پشت ران (همسترینگ)",
+            targets: [
+              { name: "دوسر رانی (Biceps Femoris)", pct: "۴۵٪" },
+              { name: "نیمه‌وتری (Semitendinosus)", pct: "۳۰٪" },
+              { name: "نیمه‌غشایی (Semimembranosus)", pct: "۲۵٪" }
+            ],
+            name_en: "Seated Machine Leg Curl",
+            posture: "نشسته روی صندلی دستگاه با مهار روی ران",
+            angle: "پشتی صندلی ۱۰۰°",
+            equipment: "دستگاه پشت‌پا نشسته",
+            execution: "پد بالای ران قفل و پد پایین پشت مچ پا؛ پاشنه را با قدرت پشت ران به زیر صندلی جمع کن (پنجه رو به بالا) و آرام برگردان.",
+            sets: "۴ ست",
+            reps: "۱۲ تکرار",
+            tempo: "۱-۱-۳-۰",
+            tips: "استفاده از دستگاه نشسته جایگزین بسیار ایمن‌تری نسبت به ایستاده است چون بار تعادلی روی پای چپ نمی‌اندازد؛ باسن از صندلی جدا نشود."
+          },
+          {
+            order: "۹",
+            muscle: "عضله نعلی ساق (فقط پای راست)",
+            targets: [
+              { name: "نعلی ساق (Soleus)", pct: "۷۵٪" },
+              { name: "دوقلوی ساق (Gastrocnemius)", pct: "۲۰٪" },
+              { name: "خم‌کننده انگشتان پا (Flexor Digitorum)", pct: "۵٪" }
+            ],
+            name_en: "Unilateral Seated Calf Raise (Right Leg)",
+            posture: "نشسته عمود با پد روی زانوی راست",
+            angle: "تنه ۹۰° و زانو خم ۹۰°",
+            equipment: "دستگاه ساق پا نشسته (وزنه ۵ کیلویی)",
+            execution: "فقط پای راست روی رکاب با قرارگیری گوی کف پا روی لبه پله؛ پاشنه را کامل پایین ببر، ۲ ثانیه مکث کن و سپس تا اوج روی پنجه بالا بکش.",
+            sets: "۴ ست",
+            reps: "۲۰ تکرار",
+            tempo: "۱-۲-۲-۲",
+            tips: "به هیچ وجه روی نوک انگشتان فشار نگذار؛ محور حرکت برآمدگی زیر شست (گوی پا) باشد و مکث ۲ ثانیه‌ای پایین برای رفع گرفتگی کف پا الزامی است."
+          }
+        ]
+      },
+      4: {
+        title: "چهارشنبه (روز چهارم): زیرسینه، سوپرست سرشانه، پشت‌بازو، جلوپا، سوپرست خیاطه، ساق، فیله و زیرشکم",
+        exercises: [
+          {
+            order: "۱",
+            muscle: "بخش پایینی سینه",
+            targets: [
+              { name: "بخش پایینی سینه (Lower Pectoralis Major)", pct: "۷۰٪" },
+              { name: "سه‌سر بازو (Triceps Brachii)", pct: "۲۰٪" },
+              { name: "دلتوئید جلویی (Anterior Deltoid)", pct: "۱۰٪" }
+            ],
+            name_en: "Decline Barbell Chest Press",
+            posture: "خوابیده سرپایین روی میز زیرسینه",
+            angle: "شیب منفی ۲۰°-",
+            equipment: "هالتر و میز زیرسینه",
+            execution: "میله را بازتر از عرض شانه بگیر؛ با آرنج‌های ۴۵ درجه نزدیک تنه، میله را تا زیر سینه پایین بیاور و با کنترل بالا پرس کن.",
+            sets: "۴ ست",
+            reps: "۱۲ تکرار",
+            tempo: "۱-۰-۳-۱",
+            tips: "مهار پا باید روی ساق بالایی/پشت زانو باشد نه روی استخوان مچ پای چپ؛ مچ دست عمود در امتداد ساعد بماند."
+          },
+          {
+            order: "۲",
+            muscle: "خط وسط و تفکیک سینه",
+            targets: [
+              { name: "بخش جناغی سینه (Sternal Pectoralis)", pct: "۸۰٪" },
+              { name: "دلتوئید جلویی (Anterior Deltoid)", pct: "۱۵٪" },
+              { name: "سینه کوچک (Pectoralis Minor)", pct: "۵٪" }
+            ],
+            name_en: "Seated Pec Deck Machine Fly",
+            posture: "نشسته با تکیه کامل کمر به پشتی",
+            angle: "پشتی عمود ۹۰°",
+            equipment: "دستگاه پک‌دک (پروانه)",
+            execution: "آرنج‌ها کمی خم و هم‌سطح شانه؛ بازوها را با تمرکز بر نزدیک کردن آرنج‌ها جلوی سینه جمع کن و ۱ ثانیه بفشار.",
+            sets: "۴ ست",
+            reps: "۱۵ تکرار",
+            tempo: "۱-۲-۲-۰",
+            tips: "کتف‌ها را به پشتی صندلی قفل کن تا هنگام بستن دست‌ها شانه‌ها به جلو خم نشوند."
+          },
+          {
+            order: "۳ الف",
+            superset: { pos: "start" },
+            muscle: "سرشانه جلویی",
+            targets: [
+              { name: "دلتوئید جلویی (Anterior Deltoid)", pct: "۷۵٪" },
+              { name: "بالاسینه (Clavicular Pectoralis)", pct: "۱۵٪" },
+              { name: "دلتوئید میانی (Lateral Deltoid)", pct: "۱۰٪" }
+            ],
+            name_en: "Seated Hammer Dumbbell Front Raise",
+            posture: "نشسته لبه نیمکت صاف (بدون تکیه به پشتی)",
+            angle: "تنه عمود ۹۰°",
+            equipment: "جفت دمبل",
+            execution: "دمبل‌ها جلوی ران و کف دست رو به هم (حالت چکشی)؛ با آرنج کمی خم دست‌ها را صاف به جلو تا هم‌سطح شانه و چشم بالا بیاور.",
+            sets: "۴ ست",
+            reps: "۱۲ تکرار",
+            tempo: "۱-۱-۲-۰",
+            tips: "کمر را تاب نده و دمبل‌ها را پرتاب نکن؛ بدون استراحت بلافاصله به حرکت ۳ ب برو."
+          },
+          {
+            order: "۳ ب",
+            superset: { pos: "end" },
+            muscle: "سرشانه میانی (پهن‌کننده)",
+            targets: [
+              { name: "دلتوئید میانی (Lateral Deltoid)", pct: "۸۰٪" },
+              { name: "دلتوئید جلویی (Anterior Deltoid)", pct: "۱۰٪" },
+              { name: "ذوزنقه‌ای بالایی (Upper Trapezius)", pct: "۱۰٪" }
+            ],
+            name_en: "Seated Dumbbell Lateral Raise",
+            posture: "نشسته لبه نیمکت صاف",
+            angle: "تنه عمود ۹۰° (کمی ۵° متمایل به جلو)",
+            equipment: "جفت دمبل",
+            execution: "بلافاصله پس از ۳ الف؛ دمبل‌ها کنار ران، آرنج‌ها را از طرفین تا ارتفاع شانه بالا ببر (مچ کمی پایین‌تر از آرنج بماند).",
+            sets: "۴ ست",
+            reps: "۱۲ تکرار",
+            tempo: "۱-۱-۲-۰",
+            tips: "از بالا آوردن شانه‌ها به سمت گوش پرهیز کن تا فشار گردنی ایجاد نشود و دلتوئید میانی خالص درگیر شود."
+          },
+          {
+            order: "۴",
+            muscle: "پشت‌بازو (سر بلند و حجم)",
+            targets: [
+              { name: "سر بلند پشت‌بازو (Triceps Long Head)", pct: "۷۰٪" },
+              { name: "سر میانی پشت‌بازو (Triceps Medial Head)", pct: "۲۰٪" },
+              { name: "سر کناری پشت‌بازو (Triceps Lateral Head)", pct: "۱۰٪" }
+            ],
+            name_en: "Seated Overhead Dumbbell Triceps Extension",
+            posture: "نشسته با تکیه به پشتی کوتاه نیمکت",
+            angle: "پشتی عمود ۹۰°",
+            equipment: "یک دمبل (گرفتن با دو دست)",
+            execution: "کف هر دو دست زیر صفحه بالایی دمبل و بازوها عمود کنار گوش؛ ساعدها را تا کشش کامل پشت سر پایین ببر و به بالا برگردان.",
+            sets: "۳ ست",
+            reps: "۱۲ تکرار",
+            tempo: "۱-۱-۳-۰",
+            tips: "آرنج‌ها را نزدیک سر نگه دار و به طرفین باز نکن؛ شکم را سفت کن تا کمر قوس شدید نگیرد."
+          },
+          {
+            order: "۵",
+            muscle: "چهارسر ران (فقط پای راست)",
+            targets: [
+              { name: "پهن درونی / اشکی (Vastus Medialis)", pct: "۳۵٪" },
+              { name: "راست رانی (Rectus Femoris)", pct: "۳۵٪" },
+              { name: "پهن بیرونی (Vastus Lateralis)", pct: "۳۰٪" }
+            ],
+            name_en: "Unilateral Seated Leg Extension (Right Leg)",
+            posture: "نشسته با تکیه کمر و مهار لگن",
+            angle: "پشتی ۹۵° تا ۱۰۰°",
+            equipment: "دستگاه جلوپا نشسته",
+            execution: "فقط پای راست زیر پد؛ پنجه پا رو به بالا، زانو را تا انقباض کامل عضله بالای کشکک صاف کن و ۲ ثانیه نگه دار.",
+            sets: "۴ ست",
+            reps: "۱۵ تکرار",
+            tempo: "۱-۲-۲-۰",
+            tips: "پای چپ آزاد و بدون وزن بماند؛ بخش منفی حرکت کنترل‌شده باشد تا تاندون زانو آسیب نبیند."
+          },
+          {
+            order: "۶ الف",
+            superset: { pos: "start" },
+            muscle: "داخل ران (نزدیک‌کننده‌ها)",
+            targets: [
+              { name: "نزدیک‌کننده بزرگ (Adductor Magnus)", pct: "۵۰٪" },
+              { name: "نزدیک‌کننده طویل (Adductor Longus)", pct: "۳۰٪" },
+              { name: "راست داخلی (Gracilis)", pct: "۲۰٪" }
+            ],
+            name_en: "Seated Hip Adduction Machine",
+            posture: "نشسته با تکیه کامل کمر به پشتی",
+            angle: "پشتی ۹۵°",
+            equipment: "دستگاه خیاطه داخل ران",
+            execution: "زانوها باز و پدها داخل زانو؛ ران‌ها را با کنترل به هم نزدیک کن و ۲ ثانیه در حالت جمع بفشار.",
+            sets: "۳ ست",
+            reps: "۱۵ تکرار",
+            tempo: "۱-۲-۲-۰",
+            tips: "فشار کاملاً روی ران است و به ساق و مچ پای چپ فشاری وارد نمی‌شود."
+          },
+          {
+            order: "۶ ب",
+            superset: { pos: "end" },
+            muscle: "خارج ران و کنار باسن",
+            targets: [
+              { name: "سرینی میانی (Gluteus Medius)", pct: "۶۰٪" },
+              { name: "سرینی کوچک (Gluteus Minimus)", pct: "۲۵٪" },
+              { name: "کشنده پهن نیام (Tensor Fasciae Latae)", pct: "۱۵٪" }
+            ],
+            name_en: "Seated Hip Abduction Machine",
+            posture: "نشسته با تکیه کامل کمر به پشتی",
+            angle: "پشتی عمود ۹۰°",
+            equipment: "دستگاه خیاطه خارج ران",
+            execution: "بلافاصله پس از ۶ الف؛ زانوها جمع و پدها بیرون ران، پاها را به طرفین تا بیشترین دامنه باز کن و ۲ ثانیه نگه دار.",
+            sets: "۳ ست",
+            reps: "۱۵ تکرار",
+            tempo: "۱-۲-۲-۰",
+            tips: "باسن و کمر چسبیده به پشتی بمانند و تنه به جلو خم نشود."
+          },
+          {
+            order: "۷",
+            muscle: "ساق پا (فقط پای راست)",
+            targets: [
+              { name: "نعلی ساق (Soleus)", pct: "۷۵٪" },
+              { name: "دوقلوی ساق (Gastrocnemius)", pct: "۲۰٪" },
+              { name: "خم‌کننده انگشتان پا (Flexor Digitorum)", pct: "۵٪" }
+            ],
+            name_en: "Unilateral Seated Calf Raise (Right Leg)",
+            posture: "نشسته عمود با پد روی زانوی راست",
+            angle: "تنه ۹۰° و زانو خم ۹۰°",
+            equipment: "دستگاه ساق پا نشسته",
+            execution: "گوی کف پای راست روی لبه رکاب؛ پاشنه را تا پایین‌ترین حد ببر (۲ ثانیه مکث) و روی پنجه تا اوج بالا بکش.",
+            sets: "۴ ست",
+            reps: "۲۰ تکرار",
+            tempo: "۱-۲-۲-۲",
+            tips: "فشار فقط روی گوی زیر شست باشد نه نوک انگشتان تا کف پا دچار گرفتگی نشود."
+          },
+          {
+            order: "۸",
+            muscle: "فیله کمر و مهره‌ها",
+            targets: [
+              { name: "راست‌کننده مهره (Erector Spinae)", pct: "۷۵٪" },
+              { name: "سرینی بزرگ (Gluteus Maximus)", pct: "۱۵٪" },
+              { name: "چندسر کمر (Multifidus)", pct: "۱۰٪" }
+            ],
+            name_en: "Seated Machine Lumbar Back Extension",
+            posture: "نشسته با مهار لگن روی صندلی",
+            angle: "دامنه ۹۰° تا ۱۱۰°",
+            equipment: "دستگاه فیله کمر نشسته",
+            execution: "دست‌ها ضربدری روی سینه؛ تنه را با فشار عضلات کمر به عقب صاف کن و ۲ ثانیه مکث بده.",
+            sets: "۳ ست",
+            reps: "۱۵ تکرار",
+            tempo: "۱-۲-۲-۱",
+            tips: "انحنای طبیعی ستون فقرات حفظ شود و حرکت بدون ضربه زدن و پرتاب انجام شود."
+          },
+          {
+            order: "۹",
+            muscle: "زیرشکم (بخش پایینی شکم)",
+            targets: [
+              { name: "راست شکمی پایینی (Lower Rectus Abdominis)", pct: "۶۵٪" },
+              { name: "راست شکمی بالایی (Upper Rectus Abdominis)", pct: "۲۰٪" },
+              { name: "خم‌کننده ران (Iliopsoas)", pct: "۱۵٪" }
+            ],
+            name_en: "Lying Floor Leg Raise",
+            posture: "خوابیده به پشت روی تشک زمین",
+            angle: "بدن افقی ۰°",
+            equipment: "تشک تمرین زمین",
+            execution: "دست‌ها کنار باسن برای ثبات؛ پاها را (با زانوی کمی خم) بالا بیاور و در اوج لگن را کمی به سمت سینه بچرخان سپس آرام پایین ببر.",
+            sets: "۴ ست",
+            reps: "۱۵ تکرار",
+            tempo: "۱-۱-۲-۱",
+            tips: "گودی کمر هنگام پایین بردن پاها نباید از تشک جدا شود؛ اگر کمر جدا شد پاها را فقط تا زاویه ۴۵ درجه پایین بیاور."
+          }
+        ]
+      },
+      5: {
+        title: "پنجشنبه (روز پنجم): پهنا و ضخامت پشت، پشت سرشانه، کول، چرخش مچ، پشت‌پا و شکم",
+        exercises: [
+          {
+            order: "۱",
+            muscle: "پهنای پشت (شکل V کمر)",
+            targets: [
+              { name: "پهن‌کننده پشت (Latissimus Dorsi)", pct: "۷۰٪" },
+              { name: "گرد بزرگ (Teres Major)", pct: "۱۵٪" },
+              { name: "پشت سرشانه (Posterior Deltoid)", pct: "۱۰٪" },
+              { name: "دوسر بازو (Biceps Brachii)", pct: "۵٪" }
+            ],
+            name_en: "Wide-Grip Hook Lat Pulldown",
+            posture: "نشسته زیر پد مهار ران",
+            angle: "تنه ۱۰۵° متمایل به عقب",
+            equipment: "دستگاه سیم‌کش لت (میله بلند)",
+            execution: "۴ انگشت قلاب‌شده روی میله بازتر از شانه و شست کنار اشاره (بدون دور زدن میله)؛ آرنج‌ها را مستقیم پایین بکش تا میله به بالای سینه برسد.",
+            sets: "۴ ست",
+            reps: "۱۲ تکرار",
+            tempo: "۱-۱-۳-۱",
+            tips: "گرفتن قلاب بدون فشار شست، درگیری ساعد و جلوبازو را کم کرده و فشار را خالص به پهنای پشت می‌فرستد."
+          },
+          {
+            order: "۲",
+            muscle: "ضخامت پشت و کول میانی",
+            targets: [
+              { name: "ذوزنقه‌ای میانی (Mid Trapezius)", pct: "۴۵٪" },
+              { name: "متوازی‌الاضلاع (Rhomboids)", pct: "۳۰٪" },
+              { name: "پشت سرشانه (Posterior Deltoid)", pct: "۱۵٪" },
+              { name: "پهن‌کننده پشت (Latissimus Dorsi)", pct: "۱۰٪" }
+            ],
+            name_en: "Wide Pronated Seated Cable Row",
+            posture: "نشسته روی نیمکت قایقی (فقط پای راست روی رکاب)",
+            angle: "تنه عمود ۹۰°",
+            equipment: "دستگاه سیم‌کش قایقی (میله بلند)",
+            execution: "دست‌ها بازتر از شانه با کف دست رو به زمین؛ آرنج‌ها را در ارتفاع شانه باز نگه دار و میله را تا بالای شکم بکش و دو کتف را به هم بفشار.",
+            sets: "۴ ست",
+            reps: "۱۲ تکرار",
+            tempo: "۱-۲-۲-۰",
+            tips: "پای چپ کاملاً آزاد و بدون فشار بماند؛ از خم کردن کمر به جلو و عقب پرهیز کن."
+          },
+          {
+            order: "۳",
+            muscle: "پشت سرشانه (دلتوئید خلفی)",
+            targets: [
+              { name: "دلتوئید پشتی (Posterior Deltoid)", pct: "۷۰٪" },
+              { name: "متوازی‌الاضلاع (Rhomboids)", pct: "۱۵٪" },
+              { name: "ذوزنقه‌ای میانی (Mid Trapezius)", pct: "۱۰٪" },
+              { name: "تحت‌خاری (Infraspinatus)", pct: "۵٪" }
+            ],
+            name_en: "Seated Reverse Pec Deck Fly",
+            posture: "نشسته برعکس، سینه چسبیده به پد عمود",
+            angle: "پشتی عمود ۹۰°",
+            equipment: "دستگاه پروانه معکوس",
+            execution: "دستگیره‌های افقی را با کف دست رو به زمین بگیر و دست‌ها را با آرنج کمی خم تا امتداد خط شانه‌ها به طرفین و عقب باز کن.",
+            sets: "۴ ست",
+            reps: "۱۵ تکرار",
+            tempo: "۱-۲-۲-۰",
+            tips: "در انتهای حرکت دو کتف را به هم نزدیک نکن وگرنه کار به کول می‌افتد؛ حرکت خالص از چرخش مفصل شانه باشد."
+          },
+          {
+            order: "۴",
+            muscle: "کول بالایی",
+            targets: [
+              { name: "ذوزنقه‌ای بالایی (Upper Trapezius)", pct: "۷۵٪" },
+              { name: "بالابرنده کتف (Levator Scapulae)", pct: "۱۵٪" },
+              { name: "ذوزنقه‌ای میانی (Mid Trapezius)", pct: "۱۰٪" }
+            ],
+            name_en: "Seated Isometric-Hold Dumbbell Shrug",
+            posture: "نشسته لبه نیمکت صاف (بدون پشتی)",
+            angle: "تنه عمود ۹۰°",
+            equipment: "جفت دمبل",
+            execution: "دمبل‌ها کنار ران؛ شانه‌ها را صاف به سمت گوش‌ها بالا بکش، ۲ ثانیه کامل در بالاترین نقطه سفت نگه دار و آرام پایین ببر.",
+            sets: "۴ ست",
+            reps: "۱۵ تکرار",
+            tempo: "۱-۲-۲-۰",
+            tips: "شانه را به عقب و جلو نچرخان؛ مکث ۲ ثانیه‌ای اوج کارایی کول را دوچندان می‌کند."
+          },
+          {
+            order: "۵",
+            muscle: "چرخاننده‌های عمقی مچ و ساعد",
+            targets: [
+              { name: "برون‌گردان ساعد (Supinator)", pct: "۴۰٪" },
+              { name: "درون‌گردان ساعد (Pronator Teres / Quadratus)", pct: "۴۰٪" },
+              { name: "بازویی زنداعلایی (Brachioradialis)", pct: "۲۰٪" }
+            ],
+            name_en: "Seated 90-Degree Pronation/Supination Wrist Rotation",
+            posture: "نشسته کنار میز ساعد، ساعد کامل روی میز",
+            angle: "ساعد افقی ۰°",
+            equipment: "دمبل سبک ۳ تا ۵ کیلویی (گرفتن از انتهای دسته)",
+            execution: "لبه انتهایی دسته دمبل را بگیر تا وزن در یک سر باشد؛ از حالت عمود (چکشی) مچ را ۹۰ درجه به راست (کف دست بالا) و ۹۰ درجه به چپ (کف دست پایین) بچرخان.",
+            sets: "۳ ست",
+            reps: "۱۵ تکرار",
+            tempo: "۱-۱-۲-۱",
+            tips: "آرنج و بازو نباید تکان بخورند؛ کل چرخش فقط از چرخیدن دو استخوان ساعد و با وزنه کنترل‌شده انجام شود تا مچ آسیب نبیند."
+          },
+          {
+            order: "۶",
+            muscle: "پشت ران (همسترینگ راست)",
+            targets: [
+              { name: "دوسر رانی (Biceps Femoris)", pct: "۴۵٪" },
+              { name: "نیمه‌وتری (Semitendinosus)", pct: "۳۰٪" },
+              { name: "نیمه‌غشایی (Semimembranosus)", pct: "۲۵٪" }
+            ],
+            name_en: "Seated Machine Leg Curl",
+            posture: "نشسته با تکیه کمر و پد مهار روی ران",
+            angle: "پشتی صندلی ۱۰۰°",
+            equipment: "دستگاه پشت‌پا نشسته",
+            execution: "پنجه پا رو به بالا؛ با قدرت پشت ران پاشنه را تا حداکثر دامنه به زیر صندلی جمع کن و کنترل‌شده برگردان.",
+            sets: "۴ ست",
+            reps: "۱۲ تکرار",
+            tempo: "۱-۱-۳-۰",
+            tips: "باسن کاملاً چسبیده به صندلی بماند و پای چپ بدون بار استراحت کند."
+          },
+          {
+            order: "۷",
+            muscle: "راست شکمی",
+            targets: [
+              { name: "راست شکمی بالایی (Upper Rectus Abdominis)", pct: "۷۰٪" },
+              { name: "راست شکمی پایینی (Lower Rectus Abdominis)", pct: "۲۰٪" },
+              { name: "مورب شکمی (Obliques)", pct: "۱۰٪" }
+            ],
+            name_en: "Lying Floor Abdominal Crunch",
+            posture: "خوابیده به پشت روی تشک زمین",
+            angle: "بدن افقی ۰° (زانوها خم ۴۵°)",
+            equipment: "تشک تمرین زمین",
+            execution: "کمر چسبیده به زمین؛ هنگام بالا آوردن کتف‌ها هوای ریه را کامل تخلیه کن و ۲ ثانیه دیواره شکم را به داخل و ستون فقرات بفشار.",
+            sets: "۳ ست",
+            reps: "۲۰ تکرار",
+            tempo: "۱-۲-۲-۰",
+            tips: "نگاه به سمت سقف باشد و با دست گردن را به جلو نکش."
+          },
+          {
+            order: "۸",
+            muscle: "مورب شکمی (پهلو)",
+            targets: [
+              { name: "مورب خارجی (External Obliques)", pct: "۵۰٪" },
+              { name: "مورب داخلی (Internal Obliques)", pct: "۳۰٪" },
+              { name: "راست شکمی (Rectus Abdominis)", pct: "۲۰٪" }
+            ],
+            name_en: "Lying Oblique Floor Crunch",
+            posture: "خوابیده به پشت روی تشک زمین",
+            angle: "بدن افقی ۰° (زانوها خم ۴۵°)",
+            equipment: "تشک تمرین زمین",
+            execution: "به صورت متناوب شانه راست را با چرخش بالاتنه به سمت زانوی چپ (و برعکس) بیاور و با کنترل به جای اول برگرد.",
+            sets: "۳ ست",
+            reps: "۲۰ تکرار",
+            tempo: "۱-۱-۲-۰",
+            tips: "بدون وزنه انجام بده؛ استفاده از وزنه در حرکات پهلو باعث ضخیم و پهن شدن دور کمر می‌شود."
+          }
+        ]
+      }
+    };
+
+    let currentDay = 3; // پیش‌فرض روی روز سوم (دوشنبه)
+    let completedDays = JSON.parse(localStorage.getItem('gym_completed_days') || '{}');
+    let restAfterDay = JSON.parse(localStorage.getItem('gym_rest_after_day_v2') || '{"3":true,"5":true}');
+    let completedMoves = JSON.parse(localStorage.getItem('gym_completed_moves') || '{}');
+
+    function renderDayTabs() {
+      const container = document.getElementById('dayTabsContainer');
+      container.innerHTML = '';
+
+      const dayNames = {
+        1: { name: "شنبه (روز ۱)", sub: "لت، سرشانه، بازو" },
+        2: { name: "یکشنبه (روز ۲)", sub: "سینه، پشت‌بازو، پا" },
+        3: { name: "دوشنبه (روز ۳)", sub: "لت، ساعد، پنجه، ساق" },
+        4: { name: "چهارشنبه (روز ۴)", sub: "زیرسینه، شانه، پا" },
+        5: { name: "پنجشنبه (روز ۵)", sub: "پشت، ساعد، شکم" }
+      };
+
+      for (let d = 1; d <= 5; d++) {
+        // کارت روز تمرین همراه با چک‌باکس مستقیم انجام شدن روز
+        const card = document.createElement('div');
+        const isActive = (d === currentDay) ? 'active' : '';
+        const isDone = completedDays[d] ? 'completed' : '';
+        card.className = `tab-card ${isActive} ${isDone}`;
+        card.setAttribute('role', 'button');
+        card.setAttribute('tabindex', '0');
+        card.onclick = () => switchDay(d);
+        card.innerHTML = `
+          <div class="tab-card-top">
+            <span class="tab-card-title">${dayNames[d].name}</span>
+            <label class="day-check-wrap" title="تیک انجام شدن این روز" onclick="event.stopPropagation()">
+              <input type="checkbox" class="day-checkbox" ${completedDays[d] ? 'checked' : ''} onchange="toggleDayCompleted(${d})">
+            </label>
+          </div>
+          <span class="day-tag">${dayNames[d].sub}</span>
+        `;
+        container.appendChild(card);
+
+        // اگر بعد از این روز استراحت ثبت شده، کارت استراحت نشان بده؛ وگرنه دکمه + بگذار
+        if (restAfterDay[d]) {
+          const restSlot = document.createElement('div');
+          restSlot.className = 'rest-slot';
+          restSlot.title = 'کلیک برای برداشتن روز استراحت';
+          restSlot.onclick = () => toggleRestAfterDay(d);
+          restSlot.innerHTML = `<span>🛌 استراحت</span><span class="rest-remove-hint">حذف (×)</span>`;
+          container.appendChild(restSlot);
+        } else {
+          const addBtn = document.createElement('button');
+          addBtn.type = 'button';
+          addBtn.className = 'add-rest-btn';
+          addBtn.title = `افزودن روز استراحت بعد از ${dayNames[d].name}`;
+          addBtn.innerText = '+';
+          addBtn.onclick = () => toggleRestAfterDay(d);
+          container.appendChild(addBtn);
+        }
+      }
+    }
+
+    function updateDayMoveCountBadge() {
+      const dayData = programData[currentDay];
+      const dayMoves = completedMoves[currentDay] || {};
+      const doneCount = dayData.exercises.filter(e => dayMoves[e.order]).length;
+      const supersetCount = dayData.exercises.filter(e => e.superset && e.superset.pos === 'start').length;
+
+      let parts = [`${dayData.exercises.length} حرکت`];
+      if (doneCount > 0) {
+        parts.push(`${doneCount} انجام‌شده`);
+      }
+      if (supersetCount > 0) {
+        parts.push(`${supersetCount} سوپرست`);
+      }
+      document.getElementById('dayMoveCount').innerText = parts.join(' • ');
+    }
+
+    function switchDay(day) {
+      currentDay = day;
+      renderDayTabs();
+
+      const dayData = programData[day];
+      document.getElementById('dayBarTitle').innerText = dayData.title;
+      updateDayMoveCountBadge();
+
+      const supersetCount = dayData.exercises.filter(e => e.superset && e.superset.pos === 'start').length;
+      const legend = document.getElementById('supersetLegend');
+      if (legend) {
+        if (supersetCount > 0) {
+          legend.classList.add('visible');
+        } else {
+          legend.classList.remove('visible');
+        }
+      }
+
+      updateDayDoneButtonUI();
+      renderTable();
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById('tableBody');
+      tbody.innerHTML = '';
+
+      const dayData = programData[currentDay];
+      const dayMoves = completedMoves[currentDay] || {};
+
+      dayData.exercises.forEach(ex => {
+        const isMoveDone = !!dayMoves[ex.order];
+        const tr = document.createElement('tr');
+        const classes = [];
+        if (ex.superset) {
+          classes.push(`superset-row superset-${ex.superset.pos}`);
+        }
+        if (isMoveDone) {
+          classes.push('move-done');
+        }
+        tr.className = classes.join(' ');
+
+        const supersetBadge = ex.superset
+          ? `<span class="superset-pill">${ex.superset.pos === 'start' ? '⚡ سوپرست ۱/۲' : '🔗 سوپرست ۲/۲'}</span>${ex.superset.pos === 'start' ? '<span class="superset-arrow">⬇️ بدون استراحت</span>' : ''}`
+          : '';
+
+        const targetsHtml = (ex.targets || []).map(t => `
+          <div class="muscle-target-item">
+            <span>• ${t.name}</span>
+            <span class="muscle-target-pct">${t.pct}</span>
+          </div>
+        `).join('');
+
+        const angleHtml = ex.angle
+          ? `<div><span class="angle-badge">📐 ${ex.angle}</span></div>`
+          : '';
+
+        tr.innerHTML = `
+          <td class="col-idx">
+            <label class="idx-check-row" title="ثبت انجام شدن این حرکت">
+              <input type="checkbox" class="move-checkbox" ${isMoveDone ? 'checked' : ''} onchange="toggleMoveCompleted('${ex.order}')">
+              <span>${ex.order}</span>
+            </label>
+            ${supersetBadge}
+          </td>
+          <td class="col-muscle">
+            <span class="muscle-chip">${ex.muscle}</span>
+            <div class="muscle-breakdown">${targetsHtml}</div>
+          </td>
+          <td class="col-name-en">${ex.name_en}</td>
+          <td class="col-posture">
+            <div>${ex.posture}</div>
+            ${angleHtml}
+          </td>
+          <td class="col-equip">${ex.equipment}</td>
+          <td class="col-execution">${ex.execution}</td>
+          <td class="col-sets">${ex.sets}</td>
+          <td class="col-reps">${ex.reps}</td>
+          <td class="col-tempo">${ex.tempo}</td>
+          <td class="col-tips">${ex.tips}</td>
+        `;
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    function toggleDayCompleted(day = currentDay) {
+      completedDays[day] = !completedDays[day];
+      localStorage.setItem('gym_completed_days', JSON.stringify(completedDays));
+      renderDayTabs();
+      if (day === currentDay) {
+        updateDayDoneButtonUI();
+      }
+    }
+
+    function toggleMoveCompleted(order) {
+      if (!completedMoves[currentDay]) {
+        completedMoves[currentDay] = {};
+      }
+      completedMoves[currentDay][order] = !completedMoves[currentDay][order];
+      localStorage.setItem('gym_completed_moves', JSON.stringify(completedMoves));
+      updateDayMoveCountBadge();
+      renderTable();
+    }
+
+    function resetCurrentDayMoves() {
+      completedMoves[currentDay] = {};
+      localStorage.setItem('gym_completed_moves', JSON.stringify(completedMoves));
+      updateDayMoveCountBadge();
+      renderTable();
+    }
+
+    function updateDayDoneButtonUI() {
+      const btn = document.getElementById('dayDoneBtn');
+      const icon = document.getElementById('dayDoneIcon');
+      const text = document.getElementById('dayDoneText');
+
+      if (completedDays[currentDay]) {
+        btn.classList.add('done');
+        icon.innerText = '✅';
+        text.innerText = 'جلسه امروز تکمیل و ثبت شد';
+      } else {
+        btn.classList.remove('done');
+        icon.innerText = '⚪';
+        text.innerText = 'ثبت پایان جلسه (کلیک برای تایید)';
+      }
+    }
+
+    function toggleRestAfterDay(day) {
+      restAfterDay[day] = !restAfterDay[day];
+      localStorage.setItem('gym_rest_after_day_v2', JSON.stringify(restAfterDay));
+      renderDayTabs();
+    }
+
+    // راه‌اندازی اولیه
+    renderDayTabs();
+    switchDay(3);
+  </script>
+</body>
+</html>

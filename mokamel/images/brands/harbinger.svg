@@ -1,0 +1,6 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100" height="100" rx="16" fill="#7f1d1d"/>
+  <text x="50" y="52" font-size="11" font-weight="900" fill="#ffffff" text-anchor="middle" font-family="Impact">HARBINGER</text>
+  <rect x="25" y="60" width="50" height="10" rx="2" fill="#dc2626"/>
+  <text x="50" y="68" font-size="6.5" font-weight="900" fill="#ffffff" text-anchor="middle">PRO GEAR</text>
+</svg>

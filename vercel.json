@@ -1,0 +1,41 @@
+{
+  "version": 2,
+  "name": "varzesh-megastore",
+  "buildCommand": "node build.js",
+  "outputDirectory": ".",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/", "destination": "/mokamel/index.html" },
+    { "source": "/tamrin", "destination": "/tamrin/index.html" },
+    { "source": "/tamrin/", "destination": "/tamrin/index.html" },
+    { "source": "/tamrin/(.*)", "destination": "/tamrin/$1" },
+    { "source": "/recovery", "destination": "/recovery/index.html" },
+    { "source": "/recovery/", "destination": "/recovery/index.html" },
+    { "source": "/recovery/(.*)", "destination": "/recovery/$1" },
+    { "source": "/mokamel/(.*)", "destination": "/mokamel/$1" },
+    { "source": "/images/(.*)", "destination": "/mokamel/images/$1" },
+    { "source": "/products/(.*)", "destination": "/mokamel/images/products/$1" },
+    { "source": "/brands/(.*)", "destination": "/mokamel/images/brands/$1" },
+    { "source": "/js/(.*)", "destination": "/mokamel/js/$1" },
+    { "source": "/supabase-client.js", "destination": "/mokamel/supabase-client.js" },
+    { "source": "/supabase-config.js", "destination": "/mokamel/supabase-config.js" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+        { "key": "X-XSS-Protection", "value": "1; mode=block" },
+        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/(.*)\\.(ico|png|jpg|jpeg|svg|webp|woff2)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="60" cy="60" r="56" fill="#047857" stroke="#34d399" stroke-width="2"/>
+        <path d="M60 22 C60 22 88 52 88 74 C88 88 75 98 60 98 C45 98 32 88 32 74 C32 52 60 22 60 22 Z" fill="#ffffff"/>
+        <circle cx="60" cy="74" r="16" fill="#047857"/>
+        <text x="60" y="79" font-size="13" font-weight="900" fill="#ffffff" text-anchor="middle" font-family="'B Nazanin', Tahoma, sans-serif">پگاه</text>
+        <text x="60" y="112" font-size="8" font-weight="700" fill="#a7f3d0" text-anchor="middle" font-family="sans-serif">PEGAH PROTEIN</text>
+    </svg>

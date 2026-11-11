@@ -1,0 +1,8 @@
+<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <rect width="120" height="120" rx="20" fill="#2d0606" stroke="#ef4444" stroke-width="2"/>
+        <polygon points="60,18 92,36 86,72 60,88 34,72 28,36" fill="#dc2626"/>
+        <polygon points="60,26 84,40 79,68 60,80 41,68 36,40" fill="#7f1d1d"/>
+        <text x="60" y="54" font-size="12" font-weight="900" fill="#ffffff" text-anchor="middle" font-family="Arial Black, Impact, sans-serif" letter-spacing="1">CARNIVOR</text>
+        <text x="60" y="67" font-size="7" font-weight="900" fill="#fca5a5" text-anchor="middle" font-family="sans-serif">BEEF PROTEIN</text>
+        <text x="60" y="104" font-size="8" font-weight="800" fill="#ffffff" text-anchor="middle" font-family="sans-serif">MUSCLEMEDS</text>
+    </svg>

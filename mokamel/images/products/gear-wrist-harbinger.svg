@@ -1,0 +1,11 @@
+<svg viewBox="0 0 280 320" xmlns="http://www.w3.org/2000/svg">
+  <!-- مچ بند حرفه ای بدنسازی -->
+  <rect x="40" y="100" width="200" height="110" rx="10" fill="#18181b" stroke="#dc2626" stroke-width="3"/>
+  <line x1="40" y1="135" x2="240" y2="135" stroke="#ef4444" stroke-width="4"/>
+  <line x1="40" y1="175" x2="240" y2="175" stroke="#ef4444" stroke-width="4"/>
+  <!-- چسب چرمی و بند انگشت شست -->
+  <path d="M40,150 C20,150 15,190 35,200" fill="none" stroke="#18181b" stroke-width="8" stroke-linecap="round"/>
+  <rect x="150" y="110" width="75" height="90" rx="6" fill="#991b1b" stroke="#ffffff" stroke-width="1.5"/>
+  <text x="187" y="152" font-size="10" font-weight="900" fill="#ffffff" text-anchor="middle">HARBINGER</text>
+  <text x="187" y="168" font-size="8" font-weight="800" fill="#fecaca" text-anchor="middle">18" PRO WRAPS</text>
+</svg>

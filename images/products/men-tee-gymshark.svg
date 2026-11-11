@@ -1,0 +1,7 @@
+<svg viewBox="0 0 280 320" xmlns="http://www.w3.org/2000/svg">
+  <path d="M70,50 L110,60 Q140,72 170,60 L210,50 L250,110 L215,130 L195,105 L195,290 L85,290 L85,105 L65,130 L30,110 Z" fill="#0f172a" stroke="#06b6d4" stroke-width="2"/>
+  <!-- بافت سیملس -->
+  <circle cx="140" cy="115" r="14" fill="#06b6d4" opacity="0.8"/>
+  <text x="140" y="170" font-size="16" font-weight="900" fill="#ffffff" text-anchor="middle" font-family="Arial, sans-serif">GYMSHARK</text>
+  <text x="140" y="190" font-size="10" font-weight="700" fill="#38bdf8" text-anchor="middle" font-family="sans-serif">ONYX SEAMLESS</text>
+</svg>

@@ -1,0 +1,10 @@
+<svg viewBox="0 0 280 320" xmlns="http://www.w3.org/2000/svg">
+  <!-- اسپری تنظیف و ضدعفونی -->
+  <rect x="90" y="110" width="100" height="175" rx="14" fill="#059669" stroke="#34d399" stroke-width="2"/>
+  <!-- نازل اسپری پمپی -->
+  <rect x="120" y="80" width="40" height="30" fill="#18181b"/>
+  <path d="M120,80 L90,65 L90,50 L150,50 L160,80 Z" fill="#334155"/>
+  <rect x="75" y="55" width="20" height="10" fill="#047857"/>
+  <text x="140" y="180" font-size="14" font-weight="900" fill="#ffffff" text-anchor="middle">SANISPORT</text>
+  <text x="140" y="200" font-size="9" font-weight="800" fill="#a7f3d0" text-anchor="middle">GYM SPRAY 400ML</text>
+</svg>

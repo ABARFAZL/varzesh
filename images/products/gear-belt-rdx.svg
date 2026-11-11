@@ -1,0 +1,10 @@
+<svg viewBox="0 0 280 320" xmlns="http://www.w3.org/2000/svg">
+  <!-- کمربند چرم پاورلیفتینگ -->
+  <path d="M20,130 Q140,90 260,130 L260,190 Q140,150 20,190 Z" fill="#78350f" stroke="#d97706" stroke-width="3"/>
+  <!-- سگک استیل دوتایی -->
+  <rect x="35" y="135" width="30" height="48" rx="4" fill="none" stroke="#e2e8f0" stroke-width="4"/>
+  <line x1="50" y1="140" x2="50" y2="180" stroke="#94a3b8" stroke-width="3"/>
+  <!-- دوخت طلایی و لوگو -->
+  <text x="150" y="167" font-size="16" font-weight="900" fill="#ffffff" text-anchor="middle" font-family="Impact, sans-serif" letter-spacing="2">RDX POWER</text>
+  <text x="150" y="180" font-size="8" font-weight="800" fill="#fef08a" text-anchor="middle">4" LEATHER BELT</text>
+</svg>

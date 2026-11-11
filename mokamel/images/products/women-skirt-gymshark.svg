@@ -1,0 +1,9 @@
+<svg viewBox="0 0 280 320" xmlns="http://www.w3.org/2000/svg">
+  <!-- دامن ورزشی دو تکه -->
+  <path d="M85,60 L195,60 L235,225 L45,225 Z" fill="#0284c7" stroke="#38bdf8" stroke-width="2"/>
+  <rect x="85" y="60" width="110" height="25" rx="3" fill="#0369a1"/>
+  <!-- شلوارک زیر دامن -->
+  <path d="M95,225 L125,255 L155,225 L185,255" fill="none" stroke="#0284c7" stroke-width="4"/>
+  <text x="140" y="145" font-size="15" font-weight="900" fill="#ffffff" text-anchor="middle" font-family="Arial, sans-serif">GYMSHARK</text>
+  <text x="140" y="165" font-size="10" font-weight="700" fill="#e0f2fe" text-anchor="middle">2-IN-1 SKIRT</text>
+</svg>

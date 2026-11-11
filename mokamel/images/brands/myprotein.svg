@@ -1,0 +1,6 @@
+<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <rect width="120" height="120" rx="20" fill="#0284c7" stroke="#38bdf8" stroke-width="2"/>
+        <line x1="20" y1="58" x2="100" y2="58" stroke="#ffffff" stroke-width="3"/>
+        <text x="60" y="50" font-size="13" font-weight="900" fill="#ffffff" text-anchor="middle" font-family="'Segoe UI', Roboto, sans-serif" letter-spacing="1">MYPROTEIN</text>
+        <text x="60" y="78" font-size="8" font-weight="700" fill="#e0f2fe" text-anchor="middle" font-family="sans-serif">FUEL YOUR AMBITION</text>
+    </svg>

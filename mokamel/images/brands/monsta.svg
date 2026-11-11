@@ -1,0 +1,5 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100" height="100" rx="16" fill="#1c1917"/>
+  <text x="50" y="55" font-size="20" font-weight="900" fill="#eab308" text-anchor="middle" font-family="Impact">MC</text>
+  <text x="50" y="78" font-size="9" font-weight="900" fill="#ffffff" text-anchor="middle">MONSTA</text>
+</svg>

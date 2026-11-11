@@ -1,0 +1,74 @@
+<svg viewBox="0 0 300 360" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="shadow_ala-300-pure" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#000000" flood-opacity="0.8"/>
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#c084fc" flood-opacity="0.25"/>
+    </filter>
+    <linearGradient id="bodyGrad_ala-300-pure" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#581c87" stop-opacity="0.9"/>
+      <stop offset="18%" stop-color="#ffffff" stop-opacity="0.35"/>
+      <stop offset="38%" stop-color="#581c87"/>
+      <stop offset="75%" stop-color="#070a12"/>
+      <stop offset="100%" stop-color="#020408"/>
+    </linearGradient>
+    <linearGradient id="capGrad_ala-300-pure" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#581c87"/>
+      <stop offset="25%" stop-color="#ffffff" stop-opacity="0.4"/>
+      <stop offset="50%" stop-color="#581c87"/>
+      <stop offset="85%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+    <linearGradient id="labelGrad_ala-300-pure" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3b0764"/>
+      <stop offset="30%" stop-color="#ffffff" stop-opacity="0.12"/>
+      <stop offset="70%" stop-color="#3b0764"/>
+      <stop offset="100%" stop-color="#05070d"/>
+    </linearGradient>
+    <radialGradient id="highlight_ala-300-pure" cx="40%" cy="30%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- سایه بیضی کف محصول -->
+  <ellipse cx="150" cy="335" rx="90" ry="16" fill="#000000" opacity="0.6" filter="url(#shadow_ala-300-pure)"/>
+
+  <!-- قوطی قرص / کپسول -->
+  <g filter="url(#shadow_ala-300-pure)">
+    <!-- درپوش پیچی شیاردار -->
+    <rect x="100" y="48" width="100" height="38" rx="6" fill="url(#capGrad_ala-300-pure)"/>
+    <ellipse cx="150" cy="48" rx="50" ry="12" fill="url(#capGrad_ala-300-pure)"/>
+    <!-- شیارهای روی درپوش -->
+    <line x1="110" y1="56" x2="110" y2="80" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+    <line x1="120" y1="56" x2="120" y2="80" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+    <line x1="130" y1="56" x2="130" y2="80" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+    <line x1="140" y1="56" x2="140" y2="80" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+    <line x1="150" y1="56" x2="150" y2="80" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+    <line x1="160" y1="56" x2="160" y2="80" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+    <line x1="170" y1="56" x2="170" y2="80" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+    <line x1="180" y1="56" x2="180" y2="80" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+    <line x1="190" y1="56" x2="190" y2="80" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+    <!-- گردن قوطی -->
+    <rect x="108" y="84" width="84" height="14" fill="#090d16"/>
+    <!-- شانه و بدنه قوطی قرص -->
+    <path d="M108,98 C80,105 70,125 70,145 L70,305 Q150,330 230,305 L230,145 C230,125 220,105 192,98 Z" fill="url(#bodyGrad_ala-300-pure)"/>
+    <!-- هایلایت شیشه‌ای / براق -->
+    <path d="M80,135 L80,295 Q105,305 115,295 L115,135 Z" fill="url(#highlight_ala-300-pure)"/>
+    <!-- برچسب دور قوطی -->
+    <rect x="70" y="140" width="160" height="155" fill="url(#labelGrad_ala-300-pure)" stroke="#c084fc" stroke-width="1.5"/>
+    <rect x="70" y="140" width="160" height="10" fill="#c084fc"/>
+    <!-- متن‌های لیبل -->
+    <text x="150" y="170" font-size="14" font-weight="900" fill="#c084fc" text-anchor="middle" font-family="'Segoe UI', Roboto, sans-serif" letter-spacing="1">KAREN PHARMA</text>
+    <line x1="90" y1="180" x2="210" y2="180" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+    <text x="150" y="210" font-size="16" font-weight="900" fill="#ffffff" text-anchor="middle" font-family="'Segoe UI', Roboto, sans-serif">ALA 300MG PURE</text>
+    <text x="150" y="230" font-size="12" font-weight="700" fill="#c084fc" text-anchor="middle" font-family="sans-serif">UNIVERSAL ANTIOXIDANT</text>
+    <!-- قرص / کپسول گرافیکی کوچک روی لیبل -->
+    <g transform="translate(150, 248)">
+      <rect x="-18" y="-6" width="18" height="12" rx="6" fill="#c084fc"/>
+      <rect x="0" y="-6" width="18" height="12" rx="6" fill="#ffffff"/>
+    </g>
+    <rect x="85" y="260" width="130" height="20" rx="4" fill="#c084fc" opacity="0.95"/>
+    <text x="150" y="274" font-size="10.5" font-weight="900" fill="#000000" text-anchor="middle" font-family="sans-serif">60 CAPSULES</text>
+    <text x="150" y="292" font-size="9.5" font-weight="800" fill="#94a3b8" text-anchor="middle" font-family="sans-serif">INSULIN & RECOVERY SENSITIVITY</text>
+  </g>
+</svg>

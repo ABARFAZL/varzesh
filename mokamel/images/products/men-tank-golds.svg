@@ -1,0 +1,10 @@
+<svg viewBox="0 0 280 320" xmlns="http://www.w3.org/2000/svg">
+  <!-- رکابی کلاه‌دار گلدز جیم -->
+  <path d="M90,70 L115,70 C115,100 165,100 165,70 L190,70 L190,120 C170,140 170,180 190,195 L190,295 L90,295 L90,195 C110,180 110,140 90,120 Z" fill="#18181b" stroke="#eab308" stroke-width="2"/>
+  <!-- کلاه رکابی در بالا -->
+  <path d="M95,70 Q140,15 185,70 Z" fill="#27272a" stroke="#ca8a04" stroke-width="2"/>
+  <!-- لوگوی وزنه بردار گلدز جیم -->
+  <circle cx="140" cy="165" r="32" fill="#09090b" stroke="#facc15" stroke-width="2"/>
+  <text x="140" y="172" font-size="12" font-weight="900" fill="#facc15" text-anchor="middle" font-family="Impact, sans-serif">GOLD'S</text>
+  <text x="140" y="235" font-size="12" font-weight="900" fill="#ffffff" text-anchor="middle" font-family="Arial, sans-serif">GYM HOODIE</text>
+</svg>

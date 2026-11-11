@@ -1,0 +1,17 @@
+<svg viewBox="0 0 280 320" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="shakerSteel" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="30%" stop-color="#cbd5e1"/>
+      <stop offset="60%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+  <!-- بدنه شیکر استیل دوجداره -->
+  <path d="M75,90 L205,90 L190,280 L90,280 Z" fill="url(#shakerSteel)" stroke="#38bdf8" stroke-width="2"/>
+  <!-- درب دکمه دار -->
+  <rect x="70" y="60" width="140" height="30" rx="8" fill="#18181b" stroke="#0ea5e9" stroke-width="2"/>
+  <rect x="120" y="40" width="40" height="20" rx="5" fill="#0284c7"/>
+  <text x="140" y="165" font-size="18" font-weight="900" fill="#ffffff" text-anchor="middle" font-family="Arial, sans-serif">SPIDER</text>
+  <text x="140" y="185" font-size="10" font-weight="800" fill="#38bdf8" text-anchor="middle">STEEL 900ML</text>
+</svg>

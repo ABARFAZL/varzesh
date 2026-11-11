@@ -1,0 +1,36 @@
+# وابستگی‌ها و فایل‌های موقت
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ورسل و محیط
+.vercel/
+.env
+*.env
+.env.local
+.env.*.local
+!.env.example
+
+# پایتون
+__pycache__/
+*.py[cod]
+*$py.class
+
+# فایل‌های آرشیو و اجرایی ویندوز
+*.zip
+*.bat
+
+# فایل‌های موقت سیستم‌عامل
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# لاگ‌ها و اسکریپت‌های موقت تحلیل
+inspect_*.js
+debug_*.js
+find_*.js
+locate_*.js
+update_store_step*.js
+replace_sort_*.js
+do_replace_*.js
