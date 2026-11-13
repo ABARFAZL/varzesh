@@ -247,12 +247,12 @@
         }
 
         .dept-card[data-dept="supplements"] {
-            border-color: rgba(56, 189, 248, 0.3);
+            border-color: rgba(232, 198, 104, 0.35);
         }
         .dept-card[data-dept="supplements"].active {
-            border-color: var(--neon-blue);
-            box-shadow: 0 0 24px var(--neon-blue-glow);
-            background: rgba(56, 189, 248, 0.16);
+            border-color: #e8c668;
+            box-shadow: 0 0 24px rgba(232, 198, 104, 0.45);
+            background: rgba(232, 198, 104, 0.16);
         }
 
         .dept-card[data-dept="apparel_men"] {
@@ -1419,12 +1419,12 @@
             overflow-x: hidden;
         }
 
-        /* ۱. مکمل‌های ورزشی: سبز زمردی / فسفری آنابولیک، انرژی زیستی، سلامتی و رشد عضلانی */
+        /* ۱. مکمل‌های ورزشی: طلایی شامپاینی لوکس و درخشان قهرمانی */
         body[data-theme="supplements"] {
-            --theme-color: #00e5ff;
-            --theme-glow: rgba(0, 229, 255, 0.35);
-            --theme-border: rgba(0, 229, 255, 0.5);
-            --theme-bg-tint: rgba(0, 229, 255, 0.07);
+            --theme-color: #e8c668;
+            --theme-glow: rgba(232, 198, 104, 0.42);
+            --theme-border: rgba(232, 198, 104, 0.55);
+            --theme-bg-tint: rgba(232, 198, 104, 0.11);
         }
 
         /* ۲. پوشاک مردانه (پسرها): آبی سایبری الکتریک، درای‌فیت، قدرت و تمرکز ورزشی */
@@ -1551,7 +1551,8 @@
 
         /* تاخیر ریتمیک برای برق‌زدن دکمه‌ها */
         body.initial-state .header-dept-btn[data-dept="supplements"] {
-            border-color: rgba(16, 185, 129, 0.35);
+            border-color: rgba(232, 198, 104, 0.45);
+            box-shadow: 0 0 12px rgba(232, 198, 104, 0.14);
             animation-delay: 0s;
         }
         body.initial-state .header-dept-btn[data-dept="supplements"]::after { animation-delay: 0.1s; }
@@ -2370,63 +2371,6 @@
             transform: scale(1.05);
         }
 
-        /* کادر سرچ با موقعیت Absolute به سمت راستِ دکمه باز می‌شود و هیچ دکمه‌ای جابه‌جا نمی‌شود */
-        .floating-search-overlay {
-            position: absolute;
-            right: 48px;
-            top: 50%;
-            transform: translateY(-50%) scaleX(0);
-            transform-origin: right center;
-            width: 270px;
-            max-width: calc(100vw - 80px);
-            background: #060911;
-            border: 1px solid var(--theme-color);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85), 0 0 18px var(--theme-glow);
-            border-radius: 30px;
-            padding: 5px 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            opacity: 0;
-            pointer-events: none;
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
-            z-index: 50;
-        }
-
-        .floating-search-overlay.open {
-            transform: translateY(-50%) scaleX(1);
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .floating-search-overlay input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            outline: none;
-            color: #ffffff;
-            font-size: 0.85rem;
-            font-family: inherit;
-        }
-
-        .floating-search-overlay input::placeholder {
-            color: var(--text-muted);
-        }
-
-        .floating-search-overlay .search-clear-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            font-size: 0.9rem;
-            padding: 2px 4px;
-            transition: var(--transition);
-        }
-
-        .floating-search-overlay .search-clear-btn:hover {
-            color: #ef4444;
-        }
-
         /* ==========================================================================
            دکمه سبد خرید فقط آیکون دایره‌ای بدون متن
            ========================================================================== */
@@ -2931,35 +2875,6 @@
                 position: static !important;
                 transform: none !important;
             }
-        }
-
-        /* کادر سرچ شناور که به سمت چپ (LEFT) باز می‌شود و هیچ دکمه‌ای جابه‌جا نمی‌شود */
-        .floating-search-overlay {
-            position: absolute !important;
-            right: 44px !important; /* دقیقاً در سمت چپ دکمه سرچ در جهت RTL */
-            top: 50% !important;
-            transform: translateY(-50%) scaleX(0) !important;
-            transform-origin: right center !important; /* انیمیشن به سمت چپ گسترش می‌یابد */
-            width: 250px !important;
-            max-width: calc(100vw - 120px) !important;
-            background: #060911 !important;
-            border: 1px solid var(--theme-color) !important;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9), 0 0 18px var(--theme-glow) !important;
-            border-radius: 30px !important;
-            padding: 5px 12px !important;
-            display: flex !important;
-            align-items: center !important;
-            gap: 8px !important;
-            opacity: 0 !important;
-            pointer-events: none !important;
-            transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease !important;
-            z-index: 200 !important;
-        }
-
-        .floating-search-overlay.open {
-            transform: translateY(-50%) scaleX(1) !important;
-            opacity: 1 !important;
-            pointer-events: auto !important;
         }
 
         /* دکمه‌های کشور و اصالت در سایدبار راست: در یک خط افقی و کوچک */
@@ -4294,36 +4209,6 @@
         }
 
     
-        /* کادر سرچ شناور که دقیقاً به سمت راست (مرکز هدر) باز می‌شود */
-        .floating-search-overlay {
-            position: absolute !important;
-            left: 44px !important; /* دقیقاً در سمت راست آیکون ذره‌بین */
-            right: auto !important;
-            top: 50% !important;
-            transform: translateY(-50%) scaleX(0) !important;
-            transform-origin: left center !important; /* به سمت راست منبسط و باز می‌شود */
-            width: 260px !important;
-            max-width: calc(100vw - 120px) !important;
-            background: #060911 !important;
-            border: 1px solid var(--theme-color) !important;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.95), 0 0 18px var(--theme-glow) !important;
-            border-radius: 30px !important;
-            padding: 5px 12px !important;
-            display: flex !important;
-            align-items: center !important;
-            gap: 8px !important;
-            opacity: 0 !important;
-            pointer-events: none !important;
-            transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease !important;
-            z-index: 250 !important;
-        }
-
-        .floating-search-overlay.open {
-            transform: translateY(-50%) scaleX(1) !important;
-            opacity: 1 !important;
-            pointer-events: auto !important;
-        }
-
         /* دکمه‌های اکشن کارت محصول (افزودن به سبد + سفارش آنی) */
         .card-btn-actions-group {
             display: flex;
@@ -4683,8 +4568,8 @@
 
         .product-card:hover {
             transform: translateY(-8px) scale(1.015) !important;
-            border-color: #00e5ff !important;
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.75), 0 0 30px rgba(0, 229, 255, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.2) !important;
+            border-color: var(--theme-color) !important;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.75), 0 0 30px var(--theme-glow), inset 0 1px 1px rgba(255, 255, 255, 0.2) !important;
         }
 
         .product-card:hover::before {
@@ -4693,7 +4578,7 @@
 
         .product-card:hover .card-img-box {
             transform: scale(1.05);
-            filter: drop-shadow(0 0 18px rgba(0, 229, 255, 0.45));
+            filter: drop-shadow(0 0 18px var(--theme-glow));
         }
 
         .card-img-box {
@@ -4703,9 +4588,9 @@
         /* افکت روشن شدن دکمه‌های سرشاخه و زیرشاخه بالایی با درخشش نئونی و پالس */
         .cat-capsule-btn.nav-parent-glow,
         .sub-capsule-btn.nav-parent-glow {
-            border-color: #00e5ff !important;
-            background: linear-gradient(135deg, rgba(0, 229, 255, 0.4), rgba(37, 99, 235, 0.5)) !important;
-            box-shadow: 0 0 22px #00e5ff, 0 0 35px rgba(0, 229, 255, 0.5), inset 0 0 12px rgba(255, 255, 255, 0.4) !important;
+            border-color: var(--theme-color) !important;
+            background: linear-gradient(135deg, var(--theme-bg-tint), rgba(255, 255, 255, 0.12)) !important;
+            box-shadow: 0 0 22px var(--theme-color), 0 0 35px var(--theme-glow), inset 0 0 12px rgba(255, 255, 255, 0.35) !important;
             transform: translateY(-3px) scale(1.06) !important;
             color: #ffffff !important;
             animation: navPulseGlow 1.1s infinite alternate !important;
@@ -4714,10 +4599,10 @@
 
         @keyframes navPulseGlow {
             0% {
-                box-shadow: 0 0 12px rgba(0, 229, 255, 0.7), inset 0 0 6px rgba(0, 229, 255, 0.4);
+                box-shadow: 0 0 12px var(--theme-glow), inset 0 0 6px var(--theme-bg-tint);
             }
             100% {
-                box-shadow: 0 0 28px rgba(0, 229, 255, 1), 0 0 45px rgba(37, 99, 235, 0.9), inset 0 0 14px rgba(255, 255, 255, 0.7);
+                box-shadow: 0 0 28px var(--theme-color), 0 0 42px var(--theme-glow), inset 0 0 14px rgba(255, 255, 255, 0.45);
             }
         }
 
@@ -5057,33 +4942,193 @@
 
     
 /* ==========================================================================
-   جستجوی زنده، لحظه‌ای و تصویری سوپراستور ورزشی
+   نوار جستجوی انیمیشنی هدر (تبدیل مستقیم دکمه به نوار سرچ در خود هدر)
    ========================================================================== */
-.live-search-dropdown {
-    position: absolute;
-    top: calc(100% + 12px);
-    right: 0;
-    width: 420px;
-    max-width: calc(100vw - 32px);
-    max-height: 520px;
-    background: rgba(8, 12, 22, 0.98);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    border: 1px solid var(--theme-color, #00e5ff);
-    border-radius: 20px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.95), 0 0 30px var(--theme-glow, rgba(0, 229, 255, 0.25));
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    z-index: 1000;
-    animation: liveSearchSlide 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    direction: rtl;
-    text-align: right;
+.header-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    position: relative !important;
+    z-index: 50 !important;
 }
 
-@keyframes liveSearchSlide {
-    from { opacity: 0; transform: translateY(-10px) scale(0.98); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
+.header-search-box {
+    display: flex !important;
+    align-items: center !important;
+    position: relative !important;
+    width: 38px !important;
+    height: 38px !important;
+    background: rgba(10, 15, 26, 0.85) !important;
+    border: 1px solid var(--card-border, rgba(255, 255, 255, 0.12)) !important;
+    border-radius: 38px !important;
+    overflow: hidden !important;
+    transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                background 0.25s ease,
+                border-color 0.25s ease,
+                box-shadow 0.25s ease !important;
+    flex-shrink: 0 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+}
+
+.header-search-box:hover:not(.active) {
+    border-color: var(--theme-color, #00e5ff) !important;
+    box-shadow: 0 0 12px var(--theme-glow, rgba(0, 229, 255, 0.3)) !important;
+}
+
+/* حالت فعال: باز شدن و تبدیل دکمه به نوار سرچ کشیده در هدر */
+.header-search-box.active {
+    width: 270px !important;
+    background: rgba(6, 11, 22, 0.96) !important;
+    border-color: var(--theme-color, #00e5ff) !important;
+    box-shadow: 0 0 18px var(--theme-glow, rgba(0, 229, 255, 0.35)), 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+}
+
+.header-search-btn {
+    width: 38px !important;
+    min-width: 38px !important;
+    height: 38px !important;
+    border-radius: 50% !important;
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    color: var(--text-secondary, #94a3b8) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    padding: 0 !important;
+    flex-shrink: 0 !important;
+    transition: color 0.25s ease !important;
+}
+
+.header-search-btn svg {
+    width: 18px !important;
+    height: 18px !important;
+    fill: currentColor !important;
+    transition: transform 0.25s ease !important;
+}
+
+.header-search-box.active .header-search-btn {
+    color: var(--theme-color, #00e5ff) !important;
+}
+
+.header-search-input {
+    width: 0 !important;
+    opacity: 0 !important;
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
+    color: #ffffff !important;
+    font-size: 0.86rem !important;
+    font-family: inherit !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    direction: rtl !important;
+    text-align: right !important;
+    pointer-events: none !important;
+    transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease 0.05s, padding 0.25s ease !important;
+}
+
+.header-search-box.active .header-search-input {
+    width: 100% !important;
+    opacity: 1 !important;
+    padding: 0 4px 0 6px !important;
+    pointer-events: auto !important;
+}
+
+.header-search-input::placeholder {
+    color: var(--text-muted, #64748b) !important;
+    font-size: 0.8rem !important;
+}
+
+.header-search-close {
+    width: 24px !important;
+    min-width: 24px !important;
+    height: 24px !important;
+    border-radius: 50% !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: none !important;
+    outline: none !important;
+    color: var(--text-secondary, #94a3b8) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    font-size: 0.76rem !important;
+    margin-left: 6px !important;
+    margin-right: 2px !important;
+    flex-shrink: 0 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transition: all 0.2s ease !important;
+}
+
+.header-search-box.active .header-search-close {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+.header-search-close:hover {
+    background: rgba(239, 68, 68, 0.25) !important;
+    color: #ef4444 !important;
+    transform: scale(1.08) !important;
+}
+
+@media (max-width: 900px) {
+    .header-search-box.active {
+        width: 210px !important;
+        max-width: calc(100vw - 130px) !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-search-box.active {
+        width: 175px !important;
+        max-width: calc(100vw - 110px) !important;
+    }
+    .header-search-input::placeholder {
+        font-size: 0.74rem !important;
+    }
+}
+
+/* واکنش‌گرایی هدر در تبلت و موبایل جهت جلوگیری از هم‌پوشانی لوگو، دکمه‌های ناوبری و سرچ */
+@media (max-width: 1100px) {
+    .header-main {
+        flex-wrap: wrap !important;
+        padding: 10px 14px !important;
+        gap: 10px !important;
+    }
+    .brand-title-box {
+        order: 1;
+    }
+    .header-actions {
+        order: 2;
+    }
+    .header-departments-nav {
+        order: 3;
+        width: 100% !important;
+        position: static !important;
+        transform: none !important;
+        overflow-x: auto !important;
+        justify-content: flex-start !important;
+        padding: 4px 6px !important;
+        scrollbar-width: none;
+    }
+    .header-departments-nav::-webkit-scrollbar {
+        display: none;
+    }
+    .header-dept-btn {
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
+        padding: 6px 12px !important;
+        font-size: 0.8rem !important;
+    }
+}
+
+@media (max-width: 520px) {
+    .brand-title-text {
+        font-size: 1rem !important;
+    }
 }
 
 .live-search-header {
@@ -5911,13 +5956,13 @@
         /* سیستم موتور نورپردازی و تم‌های داینامیک نامحدود           */
         /* ========================================================= */
         :root {
-            --theme-color: #00e5ff;
-            --theme-color-secondary: #2563eb;
-            --theme-glow: rgba(0, 229, 255, 0.35);
-            --theme-border: rgba(0, 229, 255, 0.4);
-            --theme-bg-tint: rgba(0, 229, 255, 0.06);
-            --theme-ambient-1: rgba(0, 229, 255, 0.1);
-            --theme-ambient-2: rgba(37, 99, 235, 0.08);
+            --theme-color: #e8c668;
+            --theme-color-secondary: #d4af37;
+            --theme-glow: rgba(232, 198, 104, 0.42);
+            --theme-border: rgba(232, 198, 104, 0.52);
+            --theme-bg-tint: rgba(232, 198, 104, 0.10);
+            --theme-ambient-1: rgba(232, 198, 104, 0.14);
+            --theme-ambient-2: rgba(212, 175, 55, 0.10);
             --theme-ambient-trans: all 0.85s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -6133,8 +6178,8 @@
             }
         }
     
-                /* ========================================================================= */
-        /* سیستم دقیق جستجوی درون‌دکمه‌ای هم‌اندازه دکمه (Exact-Size In-Button Search) */
+                        /* ========================================================================= */
+        /* سیستم دقیق جستجوی درون‌دکمه‌ای (دسکتاپ: هم‌اندازه دکمه + موبایل: نوار تمام‌عرض ردیف) */
         /* ========================================================================= */
         .cat-capsule-btn, .sub-capsule-btn {
             position: relative !important;
@@ -6247,7 +6292,7 @@
             fill: #ffffff !important;
         }
 
-        /* دیالوگی که دقیقاً هم‌اندازه همان دکمه روی متن و آیکون آن باز می‌شود (نه بزرگ‌تر و نه کوچک‌تر) */
+        /* دیالوگ جستجو: در دسکتاپ دقیقاً هم‌اندازه همان دکمه باز می‌شود (نه بزرگ‌تر و نه کوچک‌تر) */
         .inline-search-dialog {
             position: absolute !important;
             inset: 0 !important;
@@ -6256,7 +6301,7 @@
             backdrop-filter: blur(8px) !important;
             display: none !important;
             align-items: center !important;
-            padding: 0 10px 0 32px !important; /* جای خالی در سمت چپ برای ضربدر قرمز */
+            padding: 0 8px 0 32px !important; /* جای خالی در سمت چپ برای ضربدر قرمز */
             z-index: 10 !important;
             box-sizing: border-box !important;
         }
@@ -6280,6 +6325,7 @@
             }
         }
 
+        /* اینپوت متن: پیوسته آخرین کاراکترهای در حال تایپ را نشان می‌دهد */
         .inline-search-input {
             width: 100% !important;
             min-width: 0 !important;
@@ -6291,14 +6337,111 @@
             font-family: inherit !important;
             font-size: 0.76rem !important;
             font-weight: 700 !important;
-            padding: 0 !important;
+            padding: 0 4px !important;
             direction: rtl !important;
             text-align: right !important;
+            overflow-x: auto !important;
+            scrollbar-width: none !important;
+            -ms-overflow-style: none !important;
+            white-space: nowrap !important;
+        }
+
+        .inline-search-input::-webkit-scrollbar {
+            display: none !important;
         }
 
         .inline-search-input::placeholder {
             color: rgba(255, 255, 255, 0.5) !important;
             font-size: 0.71rem !important;
+        }
+
+        /* ========================================================================= */
+        /* پیاده‌سازی گزینه اول برای موبایل: پوشش کشویی تمام‌عرض روی کل ردیف دکمه‌ها */
+        /* ========================================================================= */
+        @media (max-width: 768px) {
+            .categories-capsules-row,
+            .sub-categories-row,
+            .sub-categories-inner {
+                position: relative !important;
+            }
+
+            /* هنگام فعال شدن جستجو در ردیف، دکمه والد حالت استاتیک می‌گیرد تا دیالوگ روی کل ردیف باز شود */
+            .cat-capsule-btn.is-searching,
+            .sub-capsule-btn.is-searching {
+                position: static !important;
+            }
+
+            .categories-capsules-row.row-is-searching,
+            .sub-categories-row.row-is-searching,
+            .sub-categories-inner.row-is-searching {
+                overflow: hidden !important;
+            }
+
+            /* نوار جستجوی کشویی تمام‌عرض روی کل ردیف دکمه‌ها */
+            .cat-capsule-btn.is-searching .inline-search-dialog,
+            .sub-capsule-btn.is-searching .inline-search-dialog {
+                position: absolute !important;
+                inset: 0 !important;
+                width: 100% !important;
+                height: 100% !important;
+                min-height: 42px !important;
+                border-radius: 24px !important;
+                background: rgba(7, 12, 24, 0.98) !important;
+                backdrop-filter: blur(16px) !important;
+                border: 1.5px solid var(--theme-color) !important;
+                box-shadow: 0 4px 24px rgba(0, 0, 0, 0.85), 0 0 20px var(--theme-glow) !important;
+                z-index: 100 !important;
+                padding: 0 16px 0 48px !important; /* فضا برای ضربدر قرمز در سمت چپ */
+                display: flex !important;
+                align-items: center !important;
+                animation: mobileFullRowSlideIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+            }
+
+            @keyframes mobileFullRowSlideIn {
+                0% {
+                    opacity: 0;
+                    transform: scaleY(0.7) translateY(-8px);
+                }
+                100% {
+                    opacity: 1;
+                    transform: scaleY(1) translateY(0);
+                }
+            }
+
+            /* دکمه ضربدر قرمز بزرگ و خوش‌دست در سمت چپ نوار تمام‌عرض موبایل */
+            .cat-capsule-btn.is-searching .btn-search-toggle-icon,
+            .sub-capsule-btn.is-searching .btn-search-toggle-icon {
+                position: absolute !important;
+                left: 8px !important;
+                top: 50% !important;
+                transform: translateY(-50%) rotate(90deg) !important;
+                width: 32px !important;
+                height: 32px !important;
+                min-width: 32px !important;
+                border-radius: 50% !important;
+                background: #ef4444 !important;
+                border: 1.5px solid #f87171 !important;
+                color: #ffffff !important;
+                box-shadow: 0 0 12px rgba(239, 68, 68, 0.85) !important;
+                z-index: 101 !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+
+            .cat-capsule-btn.is-searching .btn-search-toggle-icon svg,
+            .sub-capsule-btn.is-searching .btn-search-toggle-icon svg {
+                width: 14px !important;
+                height: 14px !important;
+            }
+
+            .cat-capsule-btn.is-searching .inline-search-input,
+            .sub-capsule-btn.is-searching .inline-search-input {
+                font-size: 0.88rem !important;
+                font-weight: 700 !important;
+                padding: 0 4px !important;
+                width: 100% !important;
+            }
         }
 
     
@@ -6792,30 +6935,30 @@
         /* استایل‌های اختصاصی ناوبری ۳ سطری هوشمند و متغیرهای لایه‌ای  */
         /* ========================================================= */
         :root {
-            /* سطر اول: دپارتمان‌ها */
-            --lvl1-color: #00e5ff;
-            --lvl1-glow: rgba(0, 229, 255, 0.35);
-            --lvl1-border: rgba(0, 229, 255, 0.45);
-            --lvl1-bg: rgba(0, 229, 255, 0.12);
+            /* سطر اول: دپارتمان‌ها (پیش‌فرض مکمل: طلایی شامپاینی) */
+            --lvl1-color: #e8c668;
+            --lvl1-glow: rgba(232, 198, 104, 0.45);
+            --lvl1-border: rgba(232, 198, 104, 0.55);
+            --lvl1-bg: rgba(232, 198, 104, 0.13);
 
             /* سطر دوم: سرشاخه‌ها */
-            --lvl2-color: #00e5ff;
-            --lvl2-glow: rgba(0, 229, 255, 0.4);
-            --lvl2-border: rgba(0, 229, 255, 0.45);
-            --lvl2-bg: rgba(0, 229, 255, 0.1);
+            --lvl2-color: #e8c668;
+            --lvl2-glow: rgba(232, 198, 104, 0.42);
+            --lvl2-border: rgba(232, 198, 104, 0.52);
+            --lvl2-bg: rgba(232, 198, 104, 0.12);
 
             /* سطر سوم: زیرشاخه‌ها */
-            --lvl3-color: #38bdf8;
-            --lvl3-glow: rgba(56, 189, 248, 0.4);
-            --lvl3-border: rgba(56, 189, 248, 0.45);
-            --lvl3-bg: rgba(56, 189, 248, 0.1);
+            --lvl3-color: #f3d98b;
+            --lvl3-glow: rgba(243, 217, 139, 0.4);
+            --lvl3-border: rgba(243, 217, 139, 0.45);
+            --lvl3-bg: rgba(243, 217, 139, 0.1);
 
             /* رنگ جاری تم که به المان‌های صفحه ارث می‌رسد */
-            --theme-color: #00e5ff;
-            --theme-glow: rgba(0, 229, 255, 0.35);
-            --theme-border: rgba(0, 229, 255, 0.4);
-            --theme-ambient-1: rgba(0, 229, 255, 0.12);
-            --theme-ambient-2: rgba(56, 189, 248, 0.1);
+            --theme-color: #e8c668;
+            --theme-glow: rgba(232, 198, 104, 0.42);
+            --theme-border: rgba(232, 198, 104, 0.52);
+            --theme-ambient-1: rgba(232, 198, 104, 0.14);
+            --theme-ambient-2: rgba(243, 217, 139, 0.1);
         }
 
         /* سطر اول: دکمه‌های دپارتمان بالای صفحه */
@@ -7282,7 +7425,9 @@
             .ingredients-sidebar.mini-collapsed .ing-badge-count,
             .ingredients-sidebar.mini-collapsed .ing-actions-row,
             .ingredients-sidebar.mini-collapsed .ing-group-items,
+            .ingredients-sidebar.mini-collapsed .ing-group-content,
             .ingredients-sidebar.mini-collapsed .ing-group-chevron,
+            .ingredients-sidebar.mini-collapsed .ing-group-arrow,
             .ingredients-sidebar.mini-collapsed .ing-group-title span:nth-child(2),
             .ingredients-sidebar.mini-collapsed .empty-ingredients-modern {
                 display: none !important;
@@ -7411,6 +7556,1136 @@
             }
         }
 
+    
+        /* ==========================================================================
+           استایل مربع‌مربع‌های وضعیت انبار، آخرین شارژ و کل فروش مکمل (نسخه مینیمال و کامل)
+           ========================================================================== */
+        .card-stock-box {
+            margin: 10px 0 8px 0 !important;
+            padding: 8px 10px !important;
+            border-radius: 10px !important;
+            font-size: 0.75rem !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 6px !important;
+            transition: all 0.25s ease !important;
+        }
+
+        .card-stock-box.compact-stock {
+            margin: 6px 0 8px 0 !important;
+            padding: 5px 8px !important;
+            border-radius: 8px !important;
+            gap: 4px !important;
+            background: rgba(10, 17, 32, 0.52) !important;
+        }
+
+        .card-stock-box.in-stock.compact-stock {
+            border: 1px solid rgba(16, 185, 129, 0.22) !important;
+        }
+
+        .card-stock-box.low-stock.compact-stock {
+            border: 1px solid rgba(245, 158, 11, 0.32) !important;
+        }
+
+        .card-stock-box.out-of-stock.compact-stock {
+            border: 1px solid rgba(239, 68, 68, 0.3) !important;
+        }
+
+        .stock-row-info {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 6px !important;
+            flex-wrap: nowrap !important;
+        }
+
+        .stock-status-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 700;
+            font-size: 0.74rem;
+            min-width: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-stock-box.compact-stock .stock-status-label {
+            font-size: 0.67rem !important;
+            gap: 4px !important;
+        }
+
+        .card-stock-box.compact-stock .stock-indicator-dot {
+            width: 6px;
+            height: 6px;
+        }
+
+        .total-sold-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 6px;
+            padding: 2px 7px;
+            font-size: 0.7rem;
+            color: #e2e8f0;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .card-stock-box.compact-stock .total-sold-badge {
+            background: transparent !important;
+            border: none !important;
+            padding: 0 !important;
+            font-size: 0.66rem !important;
+            color: #94a3b8 !important;
+        }
+
+        .total-sold-badge strong {
+            color: #ffffff;
+            font-weight: 800;
+        }
+
+        /* ردیف مربع‌های نمایش شارژ و فروش */
+        .stock-squares-row {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            width: 100%;
+            padding: 2px 0;
+            flex-wrap: nowrap;
+        }
+
+        .card-stock-box.compact-stock .stock-squares-row {
+            gap: 2.5px !important;
+            padding: 1px 0 0 0 !important;
+        }
+
+        .stock-square {
+            flex: 1 1 0;
+            height: 11px;
+            max-width: 16px;
+            min-width: 5px;
+            border-radius: 3px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card-stock-box.compact-stock .stock-square {
+            height: 6px !important;
+            max-width: 11px !important;
+            min-width: 4px !important;
+            border-radius: 2px !important;
+        }
+
+        .stock-square:hover {
+            transform: scale(1.18);
+        }
+
+        /* مربع پُر شده = فروخته شده از آخرین شارژ */
+        .stock-square.filled {
+            background: linear-gradient(135deg, #38bdf8, #2563eb);
+            border: 1px solid rgba(56, 189, 248, 0.85);
+            box-shadow: 0 0 5px rgba(56, 189, 248, 0.35);
+        }
+
+        .card-stock-box.compact-stock .stock-square.filled {
+            box-shadow: none !important;
+        }
+
+        .card-stock-box.low-stock .stock-square.filled {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+            border: 1px solid rgba(251, 191, 36, 0.9);
+            box-shadow: 0 0 5px rgba(245, 158, 11, 0.35);
+        }
+
+        .card-stock-box.out-of-stock .stock-square.filled {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            border: 1px solid rgba(248, 113, 113, 0.9);
+            box-shadow: 0 0 5px rgba(239, 68, 68, 0.35);
+        }
+
+        /* مربع خالی = فروخته نشده (موجودی باقی‌مانده در انبار) */
+        .stock-square.empty {
+            background: rgba(6, 10, 20, 0.7);
+            border: 1.5px solid rgba(148, 163, 184, 0.45);
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6);
+        }
+
+        .card-stock-box.compact-stock .stock-square.empty {
+            border-width: 1px !important;
+            box-shadow: none !important;
+        }
+
+        .card-stock-box.in-stock .stock-square.empty {
+            border-color: rgba(52, 211, 153, 0.55);
+            background: rgba(16, 185, 129, 0.06);
+        }
+
+        .card-stock-box.low-stock .stock-square.empty {
+            border-color: rgba(251, 191, 36, 0.75);
+            background: rgba(245, 158, 11, 0.1);
+            animation: emptySquarePulse 1.8s infinite ease-in-out;
+        }
+
+        @keyframes emptySquarePulse {
+            0%, 100% { border-color: rgba(251, 191, 36, 0.85); }
+            50% { border-color: rgba(251, 191, 36, 0.35); }
+        }
+
+        /* جزئیات متنی زیر مربع‌ها (مخصوص مودال جزئیات کامل) */
+        .stock-squares-legend {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            padding-top: 3px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.08);
+        }
+
+        .stock-remain-num {
+            color: #ffffff;
+            font-weight: 800;
+        }
+
+        .card-stock-box.in-stock .stock-remain-num { color: #34d399; }
+        .card-stock-box.low-stock .stock-remain-num { color: #fbbf24; }
+        .card-stock-box.out-of-stock .stock-remain-num { color: #f87171; }
+
+        /* ==========================================================================
+           بهبود کامل UI برند و حجم مکمل (رفع تداخل) + قیمت و دکمه‌های پایین کارت
+           ========================================================================== */
+        .card-top {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 8px !important;
+            margin-bottom: 10px !important;
+            width: 100% !important;
+            min-width: 0 !important;
+        }
+
+        .card-brand-line {
+            flex: 0 1 auto !important;
+            min-width: 0 !important;
+            max-width: 100% !important;
+            overflow: hidden !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+            padding: 3px 8px !important;
+            font-size: 0.75rem !important;
+            border-radius: 999px !important;
+            background: rgba(15, 23, 42, 0.72) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .card-brand-logo-mini {
+            width: 19px !important;
+            height: 19px !important;
+            flex-shrink: 0 !important;
+            border-radius: 4px !important;
+        }
+
+        .card-brand-name {
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            min-width: 0;
+        }
+
+        .card-brand-flag {
+            flex-shrink: 0;
+            font-size: 0.8rem;
+            line-height: 1;
+        }
+
+        .brand-filter-active-tag {
+            flex-shrink: 0 !important;
+            font-size: 0.62rem !important;
+            padding: 1px 5px !important;
+        }
+
+        .weight-pill {
+            flex-shrink: 0 !important;
+            white-space: nowrap !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 4px !important;
+            padding: 3px 9px !important;
+            border-radius: 999px !important;
+            font-size: 0.69rem !important;
+            font-weight: 800 !important;
+            color: #e2e8f0 !important;
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.95)) !important;
+            border: 1px solid rgba(148, 163, 184, 0.28) !important;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+            line-height: 1.4 !important;
+        }
+
+        .weight-pill svg {
+            width: 11px;
+            height: 11px;
+            fill: var(--theme-color, #38bdf8);
+            flex-shrink: 0;
+        }
+
+        .card-img-box .out-of-stock-ribbon {
+            top: 8px !important;
+            left: 8px !important;
+            z-index: 6 !important;
+            font-size: 0.68rem !important;
+            padding: 2px 7px !important;
+            margin: 0 !important;
+        }
+
+        .card-ing-tags {
+            margin-bottom: 10px !important;
+        }
+
+        /* فیکس ساختار قیمت و دکمه‌های پایین کارت در تمام ابعاد و ستون‌ها */
+        .card-actions {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 8px !important;
+            padding-top: 10px !important;
+            margin-top: auto !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+            width: 100% !important;
+            min-width: 0 !important;
+        }
+
+        .price-text-box {
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: baseline !important;
+            justify-content: space-between !important;
+            gap: 6px !important;
+            width: 100% !important;
+            min-width: 0 !important;
+        }
+
+        .price-title {
+            font-size: 0.7rem !important;
+            font-weight: 600 !important;
+            color: var(--text-muted) !important;
+            white-space: nowrap !important;
+            flex-shrink: 0 !important;
+        }
+
+        .price-number {
+            font-size: 0.94rem !important;
+            font-weight: 900 !important;
+            color: var(--neon-green) !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            line-height: 1.25 !important;
+        }
+
+        .card-btn-actions-group {
+            display: grid !important;
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            gap: 6px !important;
+            width: 100% !important;
+            min-width: 0 !important;
+        }
+
+        .card-btn-actions-group.single-action {
+            grid-template-columns: 1fr !important;
+        }
+
+        .card-btn-actions-group .btn-cart-action,
+        .card-btn-actions-group .btn-instant-order,
+        .card-btn-actions-group .btn-out-of-stock {
+            width: 100% !important;
+            min-width: 0 !important;
+            height: 32px !important;
+            padding: 0 8px !important;
+            border-radius: 8px !important;
+            font-size: 0.71rem !important;
+            font-weight: 700 !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 4px !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            box-sizing: border-box !important;
+        }
+
+        .card-btn-actions-group svg {
+            width: 12px !important;
+            height: 12px !important;
+            flex-shrink: 0 !important;
+        }
+
+        .products-grid.grid-cols-4 .product-card {
+            padding: 13px !important;
+        }
+
+        .products-grid.grid-cols-4 .card-top {
+            gap: 6px !important;
+            margin-bottom: 8px !important;
+        }
+
+        .products-grid.grid-cols-4 .card-brand-line {
+            padding: 2px 6px !important;
+            font-size: 0.69rem !important;
+            gap: 4px !important;
+        }
+
+        .products-grid.grid-cols-4 .card-brand-logo-mini {
+            width: 16px !important;
+            height: 16px !important;
+        }
+
+        .products-grid.grid-cols-4 .weight-pill {
+            padding: 2px 7px !important;
+            font-size: 0.65rem !important;
+        }
+
+        .products-grid.grid-cols-4 .price-number {
+            font-size: 0.85rem !important;
+        }
+
+        .products-grid.grid-cols-4 .card-btn-actions-group {
+            gap: 5px !important;
+        }
+
+        .products-grid.grid-cols-4 .card-btn-actions-group .btn-cart-action,
+        .products-grid.grid-cols-4 .card-btn-actions-group .btn-instant-order,
+        .products-grid.grid-cols-4 .card-btn-actions-group .btn-out-of-stock {
+            height: 30px !important;
+            padding: 0 5px !important;
+            font-size: 0.65rem !important;
+            gap: 3px !important;
+        }
+
+        @media (max-width: 680px) {
+            .product-card {
+                padding: 11px !important;
+                border-radius: 13px !important;
+            }
+            .card-top {
+                gap: 5px !important;
+                margin-bottom: 7px !important;
+            }
+            .card-brand-line {
+                padding: 2px 6px !important;
+                font-size: 0.67rem !important;
+                gap: 4px !important;
+            }
+            .card-brand-logo-mini {
+                width: 16px !important;
+                height: 16px !important;
+            }
+            .weight-pill {
+                padding: 2px 6px !important;
+                font-size: 0.63rem !important;
+                gap: 3px !important;
+            }
+            .card-img-box {
+                height: 145px !important;
+                margin-bottom: 8px !important;
+            }
+            .product-real-img {
+                max-height: 132px !important;
+            }
+            .price-title {
+                font-size: 0.64rem !important;
+            }
+            .price-number {
+                font-size: 0.82rem !important;
+            }
+            .card-btn-actions-group {
+                gap: 4px !important;
+            }
+            .card-btn-actions-group .btn-cart-action,
+            .card-btn-actions-group .btn-instant-order,
+            .card-btn-actions-group .btn-out-of-stock {
+                height: 29px !important;
+                padding: 0 4px !important;
+                font-size: 0.64rem !important;
+                gap: 3px !important;
+                border-radius: 7px !important;
+            }
+            .card-btn-actions-group svg {
+                width: 11px !important;
+                height: 11px !important;
+            }
+        }
+
+        /* باکس جامع دستور و زمان مصرف در پنجره جزئیات بعد از کلیک */
+        .modal-usage-panel {
+            margin-top: 14px;
+            margin-bottom: 12px;
+            background: rgba(15, 23, 42, 0.88);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            border-radius: 12px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .modal-usage-header {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: var(--neon-blue);
+        }
+
+        .modal-usage-header svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+            flex-shrink: 0;
+        }
+
+        .modal-usage-main {
+            font-size: 0.83rem;
+            line-height: 1.65;
+            color: #e2e8f0;
+        }
+
+        .modal-timings-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .modal-timing-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            background: rgba(0, 229, 255, 0.06);
+            border: 1px solid rgba(0, 229, 255, 0.16);
+            border-radius: 8px;
+            padding: 7px 10px;
+            font-size: 0.78rem;
+            line-height: 1.5;
+        }
+
+        .modal-timing-badge {
+            flex-shrink: 0;
+            background: rgba(0, 229, 255, 0.16);
+            color: #7dd3fc;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 6px;
+            padding: 2px 8px;
+            font-weight: 800;
+            font-size: 0.72rem;
+            white-space: nowrap;
+        }
+
+        .modal-timing-desc {
+            color: #cbd5e1;
+        }
+
+        .modal-usage-warning {
+            font-size: 0.76rem;
+            line-height: 1.55;
+            color: #fcd34d;
+            background: rgba(245, 158, 11, 0.09);
+            border: 1px solid rgba(245, 158, 11, 0.25);
+            border-radius: 8px;
+            padding: 7px 10px;
+        }
+
+
+        /* ------------------------------------------------------------- */
+        /* کشوی شیشه‌ای تمام‌قدِ چسبیده به نوار چپ (ایده ۲ + ایده ۳ + هاور سریع) */
+        /* ------------------------------------------------------------- */
+        .ingredients-sidebar.mini-collapsed .ing-group-header {
+            position: relative !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .ingredients-sidebar.mini-collapsed .ing-group.active .ing-group-header::after {
+            content: "";
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--theme-color, #38bdf8);
+            box-shadow: 0 0 8px var(--theme-color, #38bdf8);
+        }
+
+        .ingredients-sidebar.mini-collapsed .ing-group.flyout-open .ing-group-header {
+            border-color: var(--theme-color, #38bdf8) !important;
+            background: rgba(56, 189, 248, 0.24) !important;
+            box-shadow: 0 0 16px var(--theme-glow, rgba(56, 189, 248, 0.45)) !important;
+            transform: scale(1.08);
+        }
+
+        .left-mini-flyout {
+            position: fixed !important;
+            top: 75px !important;
+            bottom: 16px !important;
+            height: calc(100vh - 95px) !important;
+            width: 326px !important;
+            max-width: calc(100vw - 86px) !important;
+            z-index: 1600 !important;
+            background: rgba(9, 14, 26, 0.96) !important;
+            backdrop-filter: blur(26px) !important;
+            -webkit-backdrop-filter: blur(26px) !important;
+            border: 1.5px solid var(--theme-border, rgba(56, 189, 248, 0.45)) !important;
+            border-radius: 20px !important;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.92), 0 0 32px var(--theme-glow, rgba(56, 189, 248, 0.28)) !important;
+            overflow: hidden !important;
+            display: flex !important;
+            flex-direction: column !important;
+            animation: leftMiniDrawerSlideIn 0.24s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            direction: rtl !important;
+        }
+
+        @keyframes leftMiniDrawerSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-16px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+
+        .left-mini-flyout-header {
+            padding: 14px 16px 12px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.02);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .left-mini-flyout-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .left-mini-flyout-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.92rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .left-mini-flyout-icon {
+            font-size: 1.25rem;
+            line-height: 1;
+        }
+
+        .left-mini-flyout-badge-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .left-mini-flyout-stats {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--theme-color, #38bdf8);
+            background: var(--theme-bg-tint, rgba(56, 189, 248, 0.14));
+            border: 1px solid var(--theme-border, rgba(56, 189, 248, 0.35));
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+
+        .left-mini-flyout-close-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--card-border);
+            color: var(--text-secondary);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .left-mini-flyout-close-btn svg {
+            width: 15px;
+            height: 15px;
+            fill: currentColor;
+        }
+
+        .left-mini-flyout-close-btn:hover {
+            color: #ffffff;
+            background: rgba(239, 68, 68, 0.22);
+            border-color: rgba(239, 68, 68, 0.5);
+        }
+
+        .left-mini-flyout-actions-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .left-mini-flyout-action-btn {
+            flex: 1;
+            padding: 6px 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            color: var(--text-secondary);
+            font-size: 0.73rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .left-mini-flyout-action-btn:hover {
+            background: var(--theme-bg-tint, rgba(56, 189, 248, 0.15));
+            color: #ffffff;
+            border-color: var(--theme-color, #38bdf8);
+        }
+
+        .left-mini-flyout-action-btn.active-clear {
+            color: #fca5a5;
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .left-mini-flyout-action-btn.active-clear:hover {
+            background: rgba(239, 68, 68, 0.22);
+            color: #ffffff;
+        }
+
+        .left-mini-flyout-search-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .left-mini-flyout-search-icon {
+            position: absolute;
+            right: 10px;
+            width: 15px;
+            height: 15px;
+            fill: var(--text-muted);
+            pointer-events: none;
+        }
+
+        .left-mini-flyout-search-input {
+            width: 100%;
+            height: 34px;
+            padding: 0 32px 0 28px;
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 0.77rem;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .left-mini-flyout-search-input:focus {
+            border-color: var(--theme-color, #38bdf8);
+            box-shadow: 0 0 10px var(--theme-glow, rgba(56, 189, 248, 0.35));
+        }
+
+        .left-mini-flyout-search-clear {
+            position: absolute;
+            left: 8px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            cursor: pointer;
+            line-height: 1;
+            padding: 2px 4px;
+        }
+
+        .left-mini-flyout-search-clear:hover {
+            color: #ffffff;
+        }
+
+        /* رگبار حبابی عمودی (Idea 3) */
+        .left-mini-flyout-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px 12px;
+        }
+
+        .left-mini-flyout-body::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .left-mini-flyout-body::-webkit-scrollbar-thumb {
+            background: rgba(148, 163, 184, 0.3);
+            border-radius: 6px;
+        }
+
+        .bubble-cascade-list {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .bubble-chip-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 9px 14px;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-secondary);
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: bubbleCascadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+            animation-delay: calc(var(--bubble-idx, 0) * 0.032s);
+        }
+
+        @keyframes bubbleCascadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(10px) scale(0.93);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .bubble-chip-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(56, 189, 248, 0.45);
+            color: #ffffff;
+            transform: translateX(-3px);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+        }
+
+        .bubble-chip-item.checked {
+            background: rgba(56, 189, 248, 0.16) !important;
+            border-color: var(--theme-color, #38bdf8) !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 14px var(--theme-glow, rgba(56, 189, 248, 0.38)) !important;
+            transform: translateX(-3px);
+        }
+
+        .bubble-chip-main {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            min-width: 0;
+        }
+
+        .bubble-checkbox {
+            width: 17px;
+            height: 17px;
+            border-radius: 5px;
+            border: 1.5px solid rgba(255, 255, 255, 0.25);
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .bubble-chip-item.checked .bubble-checkbox {
+            background: var(--theme-color, #38bdf8);
+            border-color: var(--theme-color, #38bdf8);
+            box-shadow: 0 0 8px var(--theme-glow, rgba(56, 189, 248, 0.6));
+        }
+
+        .bubble-chip-name {
+            font-size: 0.8rem;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .bubble-count-badge {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2px 8px;
+            border-radius: 12px;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+        }
+
+        .bubble-chip-item.checked .bubble-count-badge {
+            background: rgba(56, 189, 248, 0.25);
+            color: var(--theme-color, #38bdf8);
+        }
+
+        .bubble-empty-msg {
+            text-align: center;
+            padding: 28px 14px;
+            color: var(--text-muted);
+            font-size: 0.82rem;
+        }
+
+        @media (max-width: 1024px) {
+            .left-mini-flyout {
+                display: none !important;
+            }
+        }
+
+        /* ------------------------------------------------------------- */
+        /* انیمیشن متن عنوان ستون‌های راست و چپ هنگام روشن بودن فیلتر      */
+        /* ------------------------------------------------------------- */
+        @keyframes filterTitleGradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes filterTitleNeonPulse {
+            0%, 100% {
+                filter: drop-shadow(0 0 4px var(--theme-glow, rgba(56, 189, 248, 0.55)));
+                transform: translateY(0px);
+            }
+            50% {
+                filter: drop-shadow(0 0 12px var(--theme-color, #38bdf8)) drop-shadow(0 0 20px rgba(255, 255, 255, 0.35));
+                transform: translateY(-1.5px);
+            }
+        }
+
+        @keyframes filterTitleIconPulse {
+            0%, 100% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 4px var(--theme-color, #38bdf8));
+            }
+            50% {
+                transform: scale(1.18);
+                filter: drop-shadow(0 0 12px var(--theme-color, #38bdf8));
+            }
+        }
+
+        @keyframes miniFilterHeaderAura {
+            0%, 100% {
+                box-shadow: 0 0 0 1px var(--theme-border, rgba(56, 189, 248, 0.45)), 0 0 10px var(--theme-glow, rgba(56, 189, 248, 0.35));
+            }
+            50% {
+                box-shadow: 0 0 0 2px var(--theme-color, #38bdf8), 0 0 20px var(--theme-glow, rgba(56, 189, 248, 0.75));
+            }
+        }
+
+        .filter-sidebar.has-active-filter .sidebar-title span,
+        .ingredients-sidebar.has-active-filter .ing-title span,
+        .mobile-corner-drawer-btn.has-active-filter span {
+            background: linear-gradient(
+                90deg,
+                #ffffff 0%,
+                var(--theme-color, #38bdf8) 28%,
+                #a5f3fc 50%,
+                var(--theme-color, #38bdf8) 72%,
+                #ffffff 100%
+            );
+            background-size: 240% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent !important;
+            -webkit-text-fill-color: transparent;
+            animation: filterTitleGradientFlow 2.4s linear infinite, filterTitleNeonPulse 1.7s ease-in-out infinite;
+        }
+
+        .filter-sidebar.has-active-filter .sidebar-title svg,
+        .ingredients-sidebar.has-active-filter .ing-title svg,
+        .mobile-corner-drawer-btn.has-active-filter svg {
+            animation: filterTitleIconPulse 1.7s ease-in-out infinite;
+        }
+
+        .filter-sidebar.has-active-filter .sidebar-header,
+        .ingredients-sidebar.has-active-filter .ing-header {
+            border-bottom-color: var(--theme-border, rgba(56, 189, 248, 0.45)) !important;
+        }
+
+        .filter-sidebar.mini-collapsed.has-active-filter .right-drawer-toggle,
+        .ingredients-sidebar.mini-collapsed.has-active-filter .left-drawer-toggle {
+            border-color: var(--theme-color, #38bdf8) !important;
+            animation: miniFilterHeaderAura 1.8s ease-in-out infinite;
+        }
+
+        /* ==========================================================================
+           استایل دکمه و مودال ایده‌ها و برنامه توسعه آینده فروشگاه (Roadmap Modal)
+           ========================================================================== */
+        .roadmap-btn-header {
+            width: 38px !important;
+            height: 38px !important;
+            border-radius: 50% !important;
+            background: rgba(10, 15, 26, 0.85) !important;
+            border: 1px solid rgba(234, 179, 8, 0.4) !important;
+            color: #facc15 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            cursor: pointer !important;
+            position: relative !important;
+            transition: all 0.25s ease !important;
+            flex-shrink: 0 !important;
+        }
+
+        .roadmap-btn-header svg {
+            width: 19px !important;
+            height: 19px !important;
+            fill: currentColor !important;
+            transition: transform 0.25s ease !important;
+        }
+
+        .roadmap-btn-header:hover {
+            color: #ffffff !important;
+            border-color: #facc15 !important;
+            box-shadow: 0 0 16px rgba(234, 179, 8, 0.6) !important;
+            transform: scale(1.06) !important;
+        }
+
+        .roadmap-badge-dot {
+            position: absolute !important;
+            top: -4px !important;
+            left: -4px !important;
+            background: #eab308 !important;
+            color: #0b0f19 !important;
+            font-size: 0.68rem !important;
+            font-weight: 900 !important;
+            min-width: 18px !important;
+            height: 18px !important;
+            border-radius: 10px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            box-shadow: 0 0 8px rgba(234, 179, 8, 0.7) !important;
+        }
+
+        .roadmap-modal-card {
+            max-width: 760px !important;
+            background: #090e1a !important;
+            border: 1px solid rgba(234, 179, 8, 0.35) !important;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 35px rgba(234, 179, 8, 0.2) !important;
+        }
+
+        .roadmap-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .roadmap-header-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #facc15;
+            font-size: 1.15rem;
+            font-weight: 900;
+        }
+
+        .roadmap-header-title svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        .roadmap-section-title {
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: #e2e8f0;
+            margin: 16px 0 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .roadmap-cards-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .roadmap-item-card {
+            background: rgba(15, 23, 42, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 12px 14px;
+            transition: all 0.25s ease;
+            position: relative;
+        }
+
+        .roadmap-item-card:hover {
+            border-color: rgba(234, 179, 8, 0.45);
+            background: rgba(20, 30, 55, 0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+        }
+
+        .roadmap-item-card.priority-card {
+            border-color: rgba(234, 179, 8, 0.4);
+            background: linear-gradient(135deg, rgba(234, 179, 8, 0.08), rgba(15, 23, 42, 0.85));
+        }
+
+        .roadmap-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .roadmap-card-name {
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .roadmap-status-badge {
+            font-size: 0.68rem;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 999px;
+            white-space: nowrap;
+        }
+
+        .roadmap-status-badge.in-queue {
+            background: rgba(234, 179, 8, 0.16);
+            color: #facc15;
+            border: 1px solid rgba(234, 179, 8, 0.4);
+        }
+
+        .roadmap-status-badge.future {
+            background: rgba(56, 189, 248, 0.12);
+            color: #7dd3fc;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+
+        .roadmap-card-desc {
+            font-size: 0.81rem;
+            line-height: 1.6;
+            color: #cbd5e1;
+        }
     </style>
 
     <!-- کتابخانه رندر سه‌بعدی تعاملی Three.js -->
@@ -7430,6 +8705,7 @@
             if (btnIran) btnIran.classList.toggle("active", currentOrigin === "iran");
             if (btnForeign) btnForeign.classList.toggle("active", currentOrigin === "foreign");
 
+            updateSidebarFilterAnimations();
             renderAll();
         }
 
@@ -7533,25 +8809,19 @@
                 </button>
             </nav>
 
-            <!-- ابزارهای سمت چپ هدر: سرچ بازشونده و سبد خرید -->
+            <!-- ابزارهای سمت چپ هدر: نوار جستجوی انیمیشنی هدر و سبد خرید -->
             <div class="header-actions">
-                <!-- کادر جستجوی شناور بدون کوچکترین تغییر موقعیت دکمه‌ها -->
-                <div class="floating-search-overlay" id="inlineSearchBox">
-                    <svg style="width: 16px; height: 16px; fill: var(--theme-color);" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-                    <input type="text" id="searchInput" placeholder="جستجوی محصول، برند..." oninput="onSearchInput(this.value)" onfocus="renderLiveSearchResults(this.value)" autocomplete="off">
-                    <button class="search-clear-btn" id="searchClearBtn" onclick="clearSearch()" style="display: none;">✕</button>
-
-                    <!-- پنل شناور نتایج جستجوی زنده، لحظه‌ای و تصویری -->
-                    <div class="live-search-dropdown" id="liveSearchDropdown" style="display: none;"></div>
+                <!-- نوار جستجوی هوشمند هدر (تبدیل مستقیم دکمه به search bar در خود هدر) -->
+                <div class="header-search-box" id="headerSearchBox">
+                    <button type="button" class="header-search-btn" id="searchToggleBtn" onclick="toggleSearchBox()" data-tooltip="جستجوی محصولات" aria-label="جستجو">
+                        <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                    </button>
+                    <input type="text" id="searchInput" class="header-search-input" placeholder="جستجوی محصول یا برند..." oninput="onSearchInput(this.value)" autocomplete="off">
+                    <button type="button" class="header-search-close" id="searchClearBtn" onclick="handleSearchCloseOrClear()" title="بستن جستجو" aria-label="بستن">✕</button>
                 </div>
 
-                <!-- دکمه آیکون سرچ کوچک -->
-                <button class="search-btn-compact" id="searchToggleBtn" onclick="toggleSearchBox()" data-tooltip="جستجوی سریع">
-                    <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-                </button>
-
                 <!-- دکمه سبد خرید فقط آیکون بدون متن -->
-                <button class="cart-btn-icon-only" id="headerCartBtn" onclick="toggleCartDrawer(true)" data-tooltip="مشاهده سبد خرید">
+                <button type="button" class="cart-btn-icon-only" id="headerCartBtn" onclick="toggleCartDrawer(true)" data-tooltip="مشاهده سبد خرید">
                     <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
                     <span class="cart-badge-dot" id="cartCountBadge">0</span>
                 </button>
@@ -7592,18 +8862,18 @@
         <!-- ستون سمت راست: برندها و اصالت کالا -->
         <aside class="filter-sidebar" id="filterSidebar">
             <div class="sidebar-header">
-                <div class="sidebar-title">
-                    <svg style="width: 18px; height: 18px; fill: var(--neon-blue);" viewBox="0 0 24 24"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>
-                    <span>فیلتر برند و سازنده</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 6px;">
-                    <button class="icon-btn" onclick="resetAllFilters()" data-tooltip="حذف تمام فیلترها" style="width: 30px; height: 30px;">
-                        <svg viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <!-- دکمه کشویی دقیقاً در بالا سمت راست ستون راست (بدون هیچ ضربدری) -->
+                    <button class="sidebar-drawer-btn right-drawer-toggle" id="btnSlideRightSidebar" onclick="toggleRightSidebar()" data-tooltip="جمع کردن به نوار آیکونی (سمت راست)">
+                        <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
                     </button>
-                    <button class="sidebar-close-btn" onclick="toggleRightSidebar(false)" data-tooltip="بستن منو (افزایش فضای محصولات)">
-                        <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-                    </button>
+                    <div class="sidebar-title">
+                        <span>فیلتر برند و سازنده</span>
+                    </div>
                 </div>
+                <button class="icon-btn sidebar-reset-btn" onclick="resetAllFilters()" data-tooltip="حذف تمام فیلترها" style="width: 30px; height: 30px;">
+                    <svg viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+                </button>
             </div>
 
             <!-- دکمه‌های فیلتر مبدأ: فقط ایران و وارداتی، در یک خط، پیش‌فرض خاموش -->
@@ -7665,19 +8935,6 @@
             <!-- نوار مدرن چیدمان و مرتب‌سازی بالای کاتالوگ محصولات -->
             <div class="catalog-top-bar-modern" id="catalogTopBarModern">
                 <!-- دکمه‌های کنترل دو سایدبار (راست و چپ) -->
-                <div class="sidebar-toggle-group">
-                    <button type="button" class="sidebar-toggle-btn active" id="btnToggleRightSidebar" onclick="toggleRightSidebar()" data-tooltip="فیلتر برندها و سازنده (منوی راست)">
-                        <svg viewBox="0 0 24 24"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>
-                        <span>فیلتر برندها</span>
-                        <span class="sidebar-status-dot" id="rightSidebarDot"></span>
-                    </button>
-                    <button type="button" class="sidebar-toggle-btn active" id="btnToggleLeftSidebar" onclick="toggleLeftSidebar()" data-tooltip="جدول ترکیبات و مشخصات (منوی چپ)">
-                        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
-                        <span>جدول ترکیبات</span>
-                        <span class="sidebar-status-dot" id="leftSidebarDot"></span>
-                    </button>
-                </div>
-
                 <!-- بخش شمارنده تعداد محصولات -->
                 <div class="catalog-count-box">
                     <span class="count-indicator-dot"></span>
@@ -7751,7 +9008,6 @@
                     <span id="leftSidebarTitle">جدول ترکیبات و محتویات</span>
                 </div>
                 <div style="display: flex; align-items: center; gap: 8px;">
-                    <span class="ing-badge-count" id="activeIngCountBadge">همه آزاد</span>
                     <button class="sidebar-drawer-btn left-drawer-toggle" id="btnSlideLeftSidebar" onclick="toggleLeftSidebar()" data-tooltip="جمع کردن کشویی به سمت چپ">
                         <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
                     </button>
@@ -7767,6 +9023,9 @@
         </aside>
 
     </main>
+
+    <!-- منوی کشویی شناور تمام‌قد برای آیکون‌های ستون چپ در حالت مینیمیز (ایده ۲ + ایده ۳ + هاور سریع) -->
+    <div class="left-mini-flyout" id="leftMiniFlyoutMenu" style="display: none;" onmouseenter="handleFlyoutMouseEnter()" onmouseleave="handleFlyoutMouseLeave()" aria-hidden="true"></div>
 
     <!-- مدال بررسی کامل محصول -->
     <div class="modal-overlay" id="productModal" onclick="handleModalBackdropClick(event)">
@@ -9788,10 +11047,11 @@
             // سطر اول: ۴ دپارتمان اصلی هدر سایت
             departments: {
                 supplements: {
-                    color: "#00e5ff", // فیروزه‌ای الکتریک سایبری (جایگزین سبز)
-                    glow: "rgba(0, 229, 255, 0.4)",
-                    border: "rgba(0, 229, 255, 0.5)",
-                    bg: "rgba(0, 229, 255, 0.12)"
+                    color: "#e8c668", // طلایی شامپاینی لوکس و قهرمانی
+                    glow: "rgba(232, 198, 104, 0.45)",
+                    border: "rgba(232, 198, 104, 0.58)",
+                    bg: "rgba(232, 198, 104, 0.14)",
+                    ambient: "rgba(232, 198, 104, 0.16)"
                 },
                 apparel_men: {
                     color: "#00b4d8", // آبی سایبری متالیک
@@ -9812,98 +11072,105 @@
                     bg: "rgba(249, 115, 22, 0.12)"
                 }
             },
-            // سطر دوم: سرشاخه‌های اختصاصی هر بخش
+            // سطر دوم: سرشاخه‌های اختصاصی هر بخش (همگی در هارمونی نزدیک به سطر اول دپارتمان مادر)
             categories: {
+                // ۱. مکمل‌های ورزشی: تماماً در خانواده رنگ طلایی، کهربایی، برنز و پلاتینیوم نزدیک به سطر اول
                 protein: {
-                    color: "#00e5ff", // فیروزه‌ای نئونی یخی
-                    glow: "rgba(0, 229, 255, 0.45)",
-                    border: "rgba(0, 229, 255, 0.55)",
-                    bg: "rgba(0, 229, 255, 0.12)",
-                    ambient: "rgba(0, 229, 255, 0.14)"
+                    color: "#e8c668", // طلایی شامپاینی درخشان پروتئین (دقیقاً هماهنگ با دپارتمان مکمل)
+                    glow: "rgba(232, 198, 104, 0.45)",
+                    border: "rgba(232, 198, 104, 0.58)",
+                    bg: "rgba(232, 198, 104, 0.14)",
+                    ambient: "rgba(232, 198, 104, 0.16)"
                 },
                 gainer: {
-                    color: "#f59e0b", // طلایی کهربایی حجم‌ساز
-                    glow: "rgba(245, 158, 11, 0.45)",
-                    border: "rgba(245, 158, 11, 0.55)",
-                    bg: "rgba(245, 158, 11, 0.12)",
-                    ambient: "rgba(245, 158, 11, 0.14)"
+                    color: "#f5a623", // طلایی کهربایی غنی گینر و وزن‌ساز
+                    glow: "rgba(245, 166, 35, 0.45)",
+                    border: "rgba(245, 166, 35, 0.58)",
+                    bg: "rgba(245, 166, 35, 0.14)",
+                    ambient: "rgba(245, 166, 35, 0.15)"
                 },
                 creatine: {
-                    color: "#ef4444", // قرمز یاقوتی آتشین قدرت
-                    glow: "rgba(239, 68, 68, 0.45)",
-                    border: "rgba(239, 68, 68, 0.55)",
-                    bg: "rgba(239, 68, 68, 0.12)",
-                    ambient: "rgba(239, 68, 68, 0.14)"
+                    color: "#df9b35", // طلایی برنز متالیک کراتین و قدرت
+                    glow: "rgba(223, 155, 53, 0.45)",
+                    border: "rgba(223, 155, 53, 0.58)",
+                    bg: "rgba(223, 155, 53, 0.14)",
+                    ambient: "rgba(223, 155, 53, 0.15)"
                 },
                 amino: {
-                    color: "#a855f7", // بنفش الکتریک و ارغوانی
-                    glow: "rgba(168, 85, 247, 0.45)",
-                    border: "rgba(168, 85, 247, 0.55)",
-                    bg: "rgba(168, 85, 247, 0.12)",
-                    ambient: "rgba(168, 85, 247, 0.14)"
+                    color: "#f1d77a", // طلایی شنی و پلاتینیوم آمینو اسیدها
+                    glow: "rgba(241, 215, 122, 0.45)",
+                    border: "rgba(241, 215, 122, 0.58)",
+                    bg: "rgba(241, 215, 122, 0.14)",
+                    ambient: "rgba(241, 215, 122, 0.15)"
                 },
                 energy: {
-                    color: "#eab308", // زرد صاعقه‌ای لایتنینگ
-                    glow: "rgba(234, 179, 8, 0.45)",
-                    border: "rgba(234, 179, 8, 0.55)",
-                    bg: "rgba(234, 179, 8, 0.12)",
-                    ambient: "rgba(234, 179, 8, 0.14)"
+                    color: "#facc15", // طلایی زرین براق انرژی‌زا و پمپ
+                    glow: "rgba(250, 204, 21, 0.45)",
+                    border: "rgba(250, 204, 21, 0.58)",
+                    bg: "rgba(250, 204, 21, 0.14)",
+                    ambient: "rgba(250, 204, 21, 0.15)"
                 },
                 fatburn: {
-                    color: "#fb923c", // نارنجی گدازه‌ای ترموژنیک
-                    glow: "rgba(251, 146, 60, 0.45)",
-                    border: "rgba(251, 146, 60, 0.55)",
-                    bg: "rgba(251, 146, 60, 0.12)",
-                    ambient: "rgba(251, 146, 60, 0.14)"
+                    color: "#e09f3e", // طلایی مسی گرم چربی‌سوز
+                    glow: "rgba(224, 159, 62, 0.45)",
+                    border: "rgba(224, 159, 62, 0.58)",
+                    bg: "rgba(224, 159, 62, 0.14)",
+                    ambient: "rgba(224, 159, 62, 0.15)"
                 },
                 health: {
-                    color: "#14b8a6", // سبز آبی نعنایی مفاصل و سلامت
-                    glow: "rgba(20, 184, 166, 0.45)",
-                    border: "rgba(20, 184, 166, 0.55)",
-                    bg: "rgba(20, 184, 166, 0.12)",
-                    ambient: "rgba(20, 184, 166, 0.14)"
+                    color: "#d4af37", // طلایی متالیک اصیل مفاصل و سلامت
+                    glow: "rgba(212, 175, 55, 0.45)",
+                    border: "rgba(212, 175, 55, 0.58)",
+                    bg: "rgba(212, 175, 55, 0.14)",
+                    ambient: "rgba(212, 175, 55, 0.15)"
                 },
-                // پوشاک مردانه
-                shorts: { color: "#3b82f6", glow: "rgba(59, 130, 246, 0.4)", border: "rgba(59, 130, 246, 0.5)", bg: "rgba(59, 130, 246, 0.12)", ambient: "rgba(59, 130, 246, 0.12)" },
-                pants: { color: "#6366f1", glow: "rgba(99, 102, 241, 0.4)", border: "rgba(99, 102, 241, 0.5)", bg: "rgba(99, 102, 241, 0.12)", ambient: "rgba(99, 102, 241, 0.12)" },
-                tshirt: { color: "#06b6d4", glow: "rgba(6, 182, 212, 0.4)", border: "rgba(6, 182, 212, 0.5)", bg: "rgba(6, 182, 212, 0.12)", ambient: "rgba(6, 182, 212, 0.12)" },
-                tanktop: { color: "#8b5cf6", glow: "rgba(139, 92, 246, 0.4)", border: "rgba(139, 92, 246, 0.5)", bg: "rgba(139, 92, 246, 0.12)", ambient: "rgba(139, 92, 246, 0.12)" },
-                // پوشاک زنانه
-                leg: { color: "#ec4899", glow: "rgba(236, 72, 153, 0.4)", border: "rgba(236, 72, 153, 0.5)", bg: "rgba(236, 72, 153, 0.12)", ambient: "rgba(236, 72, 153, 0.12)" },
-                skirt: { color: "#f43f5e", glow: "rgba(244, 63, 94, 0.4)", border: "rgba(244, 63, 94, 0.5)", bg: "rgba(244, 63, 94, 0.12)", ambient: "rgba(244, 63, 94, 0.12)" },
-                top_body: { color: "#d946ef", glow: "rgba(217, 70, 239, 0.4)", border: "rgba(217, 70, 239, 0.5)", bg: "rgba(217, 70, 239, 0.12)", ambient: "rgba(217, 70, 239, 0.12)" },
-                // تجهیزات
-                qomqome: { color: "#0d9488", glow: "rgba(13, 148, 136, 0.4)", border: "rgba(13, 148, 136, 0.5)", bg: "rgba(13, 148, 136, 0.12)", ambient: "rgba(13, 148, 136, 0.12)" },
-                kamarband: { color: "#c2410c", glow: "rgba(194, 65, 12, 0.4)", border: "rgba(194, 65, 12, 0.5)", bg: "rgba(194, 65, 12, 0.12)", ambient: "rgba(194, 65, 12, 0.12)" },
-                mochband: { color: "#ea580c", glow: "rgba(234, 88, 12, 0.4)", border: "rgba(234, 88, 12, 0.5)", bg: "rgba(234, 88, 12, 0.12)", ambient: "rgba(234, 88, 12, 0.12)" }
+                // ۲. پوشاک مردانه: نزدیک به رنگ سطر اول (خانواده آبی)
+                shorts: { color: "#00b4d8", glow: "rgba(0, 180, 216, 0.4)", border: "rgba(0, 180, 216, 0.5)", bg: "rgba(0, 180, 216, 0.12)", ambient: "rgba(0, 180, 216, 0.12)" },
+                pants: { color: "#0284c7", glow: "rgba(2, 132, 199, 0.4)", border: "rgba(2, 132, 199, 0.5)", bg: "rgba(2, 132, 199, 0.12)", ambient: "rgba(2, 132, 199, 0.12)" },
+                tshirt: { color: "#38bdf8", glow: "rgba(56, 189, 248, 0.4)", border: "rgba(56, 189, 248, 0.5)", bg: "rgba(56, 189, 248, 0.12)", ambient: "rgba(56, 189, 248, 0.12)" },
+                tanktop: { color: "#2563eb", glow: "rgba(37, 99, 235, 0.4)", border: "rgba(37, 99, 235, 0.5)", bg: "rgba(37, 99, 235, 0.12)", ambient: "rgba(37, 99, 235, 0.12)" },
+                // ۳. پوشاک زنانه: نزدیک به رنگ سطر اول (خانواده سرخابی و رزگلد)
+                leg: { color: "#f43f5e", glow: "rgba(244, 63, 94, 0.4)", border: "rgba(244, 63, 94, 0.5)", bg: "rgba(244, 63, 94, 0.12)", ambient: "rgba(244, 63, 94, 0.12)" },
+                skirt: { color: "#fb7185", glow: "rgba(251, 113, 133, 0.4)", border: "rgba(251, 113, 133, 0.5)", bg: "rgba(251, 113, 133, 0.12)", ambient: "rgba(251, 113, 133, 0.12)" },
+                top_body: { color: "#e11d48", glow: "rgba(225, 29, 72, 0.4)", border: "rgba(225, 29, 72, 0.5)", bg: "rgba(225, 29, 72, 0.12)", ambient: "rgba(225, 29, 72, 0.12)" },
+                // ۴. تجهیزات: نزدیک به رنگ سطر اول (خانواده نارنجی و برنز)
+                qomqome: { color: "#fb923c", glow: "rgba(251, 146, 60, 0.4)", border: "rgba(251, 146, 60, 0.5)", bg: "rgba(251, 146, 60, 0.12)", ambient: "rgba(251, 146, 60, 0.12)" },
+                kamarband: { color: "#ea580c", glow: "rgba(234, 88, 12, 0.4)", border: "rgba(234, 88, 12, 0.5)", bg: "rgba(234, 88, 12, 0.12)", ambient: "rgba(234, 88, 12, 0.12)" },
+                mochband: { color: "#c2410c", glow: "rgba(194, 65, 12, 0.4)", border: "rgba(194, 65, 12, 0.5)", bg: "rgba(194, 65, 12, 0.12)", ambient: "rgba(194, 65, 12, 0.12)" }
             },
             // سطر سوم: زیرشاخه‌های تخصصی
             subCategories: {
-                // پروتئین
-                isolate: { color: "#00f5d4", glow: "rgba(0, 245, 212, 0.45)", border: "rgba(0, 245, 212, 0.5)", bg: "rgba(0, 245, 212, 0.14)", ambient: "rgba(0, 245, 212, 0.12)" },
-                concentrate: { color: "#38bdf8", glow: "rgba(56, 189, 248, 0.45)", border: "rgba(56, 189, 248, 0.5)", bg: "rgba(56, 189, 248, 0.14)", ambient: "rgba(56, 189, 248, 0.12)" },
-                hydrolyzed: { color: "#60a5fa", glow: "rgba(96, 165, 250, 0.45)", border: "rgba(96, 165, 250, 0.5)", bg: "rgba(96, 165, 250, 0.14)", ambient: "rgba(96, 165, 250, 0.12)" },
-                casein: { color: "#818cf8", glow: "rgba(129, 140, 248, 0.45)", border: "rgba(129, 140, 248, 0.5)", bg: "rgba(129, 140, 248, 0.14)", ambient: "rgba(129, 140, 248, 0.12)" },
-                beef: { color: "#f87171", glow: "rgba(248, 113, 113, 0.45)", border: "rgba(248, 113, 113, 0.5)", bg: "rgba(248, 113, 113, 0.14)", ambient: "rgba(248, 113, 113, 0.12)" },
-                egg: { color: "#fde047", glow: "rgba(253, 224, 71, 0.45)", border: "rgba(253, 224, 71, 0.5)", bg: "rgba(253, 224, 71, 0.14)", ambient: "rgba(253, 224, 71, 0.12)" },
-                plant: { color: "#4ade80", glow: "rgba(74, 222, 128, 0.45)", border: "rgba(74, 222, 128, 0.5)", bg: "rgba(74, 222, 128, 0.14)", ambient: "rgba(74, 222, 128, 0.12)" },
-                // گینر
-                mass: { color: "#d97706", glow: "rgba(217, 119, 6, 0.45)", border: "rgba(217, 119, 6, 0.5)", bg: "rgba(217, 119, 6, 0.14)", ambient: "rgba(217, 119, 6, 0.12)" },
-                lean: { color: "#fbbf24", glow: "rgba(251, 191, 36, 0.45)", border: "rgba(251, 191, 36, 0.5)", bg: "rgba(251, 191, 36, 0.14)", ambient: "rgba(251, 191, 36, 0.12)" },
-                carbo: { color: "#facc15", glow: "rgba(250, 204, 21, 0.45)", border: "rgba(250, 204, 21, 0.5)", bg: "rgba(250, 204, 21, 0.14)", ambient: "rgba(250, 204, 21, 0.12)" },
-                // کراتین
-                monohydrate: { color: "#ef4444", glow: "rgba(239, 68, 68, 0.45)", border: "rgba(239, 68, 68, 0.5)", bg: "rgba(239, 68, 68, 0.14)", ambient: "rgba(239, 68, 68, 0.12)" },
-                creapure: { color: "#dc2626", glow: "rgba(220, 38, 38, 0.45)", border: "rgba(220, 38, 38, 0.5)", bg: "rgba(220, 38, 38, 0.14)", ambient: "rgba(220, 38, 38, 0.12)" },
-                complex: { color: "#f97316", glow: "rgba(249, 115, 22, 0.45)", border: "rgba(249, 115, 22, 0.5)", bg: "rgba(249, 115, 22, 0.14)", ambient: "rgba(249, 115, 22, 0.12)" },
+                // پروتئین (طیف‌های مختلف و هماهنگ طلایی شامپاینی و پلاتینیوم)
+                isolate: { color: "#fef08a", glow: "rgba(254, 240, 138, 0.45)", border: "rgba(254, 240, 138, 0.5)", bg: "rgba(254, 240, 138, 0.14)", ambient: "rgba(254, 240, 138, 0.12)" },
+                concentrate: { color: "#fde047", glow: "rgba(253, 224, 71, 0.45)", border: "rgba(253, 224, 71, 0.5)", bg: "rgba(253, 224, 71, 0.14)", ambient: "rgba(253, 224, 71, 0.12)" },
+                hydrolyzed: { color: "#fef9c3", glow: "rgba(254, 249, 195, 0.45)", border: "rgba(254, 249, 195, 0.5)", bg: "rgba(254, 249, 195, 0.14)", ambient: "rgba(254, 249, 195, 0.12)" },
+                casein: { color: "#f3d98b", glow: "rgba(243, 217, 139, 0.45)", border: "rgba(243, 217, 139, 0.5)", bg: "rgba(243, 217, 139, 0.14)", ambient: "rgba(243, 217, 139, 0.12)" },
+                blend: { color: "#ebd287", glow: "rgba(235, 210, 135, 0.45)", border: "rgba(235, 210, 135, 0.5)", bg: "rgba(235, 210, 135, 0.14)", ambient: "rgba(235, 210, 135, 0.12)" },
+                beef: { color: "#eab308", glow: "rgba(234, 179, 8, 0.45)", border: "rgba(234, 179, 8, 0.5)", bg: "rgba(234, 179, 8, 0.14)", ambient: "rgba(234, 179, 8, 0.12)" },
+                egg: { color: "#fde68a", glow: "rgba(253, 230, 138, 0.45)", border: "rgba(253, 230, 138, 0.5)", bg: "rgba(253, 230, 138, 0.14)", ambient: "rgba(253, 230, 138, 0.12)" },
+                plant: { color: "#d9b84b", glow: "rgba(217, 184, 75, 0.45)", border: "rgba(217, 184, 75, 0.5)", bg: "rgba(217, 184, 75, 0.14)", ambient: "rgba(217, 184, 75, 0.12)" },
+                // گینر (طیف‌های طلایی کهربایی)
+                mass: { color: "#e5a93c", glow: "rgba(229, 169, 60, 0.45)", border: "rgba(229, 169, 60, 0.5)", bg: "rgba(229, 169, 60, 0.14)", ambient: "rgba(229, 169, 60, 0.12)" },
+                lean: { color: "#f7c948", glow: "rgba(247, 201, 72, 0.45)", border: "rgba(247, 201, 72, 0.5)", bg: "rgba(247, 201, 72, 0.14)", ambient: "rgba(247, 201, 72, 0.12)" },
+                carbo: { color: "#f0b429", glow: "rgba(240, 180, 41, 0.45)", border: "rgba(240, 180, 41, 0.5)", bg: "rgba(240, 180, 41, 0.14)", ambient: "rgba(240, 180, 41, 0.12)" },
+                // کراتین (طیف‌های طلایی برنز متالیک)
+                monohydrate: { color: "#df9b35", glow: "rgba(223, 155, 53, 0.45)", border: "rgba(223, 155, 53, 0.5)", bg: "rgba(223, 155, 53, 0.14)", ambient: "rgba(223, 155, 53, 0.12)" },
+                micronized: { color: "#e8a838", glow: "rgba(232, 168, 56, 0.45)", border: "rgba(232, 168, 56, 0.5)", bg: "rgba(232, 168, 56, 0.14)", ambient: "rgba(232, 168, 56, 0.12)" },
+                creapure: { color: "#e29d33", glow: "rgba(226, 157, 51, 0.45)", border: "rgba(226, 157, 51, 0.5)", bg: "rgba(226, 157, 51, 0.14)", ambient: "rgba(226, 157, 51, 0.12)" },
+                complex: { color: "#f39c12", glow: "rgba(243, 156, 18, 0.45)", border: "rgba(243, 156, 18, 0.5)", bg: "rgba(243, 156, 18, 0.14)", ambient: "rgba(243, 156, 18, 0.12)" },
+                beta_creatine: { color: "#d49432", glow: "rgba(212, 148, 50, 0.45)", border: "rgba(212, 148, 50, 0.5)", bg: "rgba(212, 148, 50, 0.14)", ambient: "rgba(212, 148, 50, 0.12)" },
                 // مفاصل و سلامت
-                joint: { color: "#0d9488", glow: "rgba(13, 148, 136, 0.45)", border: "rgba(13, 148, 136, 0.5)", bg: "rgba(13, 148, 136, 0.14)", ambient: "rgba(13, 148, 136, 0.12)" }
+                joint: { color: "#d4af37", glow: "rgba(212, 175, 55, 0.45)", border: "rgba(212, 175, 55, 0.5)", bg: "rgba(212, 175, 55, 0.14)", ambient: "rgba(212, 175, 55, 0.12)" }
             }
         };
 
+        let lastNavClickTier = 'dept';
+
         // اعمال بلادرنگ سیستم تم‌بندی ۳ سطری تعاملی بر اساس کلیک کاربر:
         // سطر ۱: دپارتمان | سطر ۲: سرشاخه | سطر ۳: زیرشاخه
-        function applyDynamicAtmosphere(deptKey, catKey, subKey) {
+        function applyDynamicAtmosphere(deptKey, catKey, subKey, clickedTier) {
             const root = document.documentElement;
+            if (clickedTier) lastNavClickTier = clickedTier;
 
             // ۱. تنظیم استایل سطر اول (دپارتمان مادر)
             const pDept = ThemePalettes.departments[deptKey] || ThemePalettes.departments.supplements;
@@ -9912,14 +11179,15 @@
             root.style.setProperty('--lvl1-border', pDept.border);
             root.style.setProperty('--lvl1-bg', pDept.bg);
 
-            // ۲. تنظیم استایل سطر دوم (سرشاخه)
+            // ۲. تنظیم استایل سطر دوم (سرشاخه - همواره در خانواده رنگی هماهنگ با سطر اول)
             const pCat = ThemePalettes.categories[catKey] || {
                 color: pDept.color,
                 glow: pDept.glow,
                 border: pDept.border,
                 bg: pDept.bg,
-                ambient: pDept.glow
+                ambient: pDept.ambient || pDept.glow
             };
+
             root.style.setProperty('--lvl2-color', pCat.color);
             root.style.setProperty('--lvl2-glow', pCat.glow);
             root.style.setProperty('--lvl2-border', pCat.border);
@@ -9935,7 +11203,7 @@
                     glow: pCat.glow,
                     border: pCat.border,
                     bg: pCat.bg,
-                    ambient: pCat.ambient
+                    ambient: pCat.ambient || pCat.glow
                 };
             }
             root.style.setProperty('--lvl3-color', pSub.color);
@@ -9947,24 +11215,28 @@
             root.style.setProperty('--theme-ambient-1', pCat.ambient || pCat.glow);
             root.style.setProperty('--theme-ambient-2', pSub.ambient || pSub.glow);
 
-            // ۵. رنگ فراگیر تم کارت‌ها و دکمه‌ها متناسب با عمیق‌ترین انتخاب کاربر
-            const activeColor = (subKey && subKey !== 'all') ? pSub.color : pCat.color;
-            const activeGlow = (subKey && subKey !== 'all') ? pSub.glow : pCat.glow;
-            const activeBorder = (subKey && subKey !== 'all') ? pSub.border : pCat.border;
-            const activeBg = (subKey && subKey !== 'all') ? pSub.bg : pCat.bg;
+            // ۵. رنگ فراگیر تم کارت‌ها، هدر، سایدبارها و دکمه‌ها
+            const activePalette = (subKey && subKey !== 'all') ? pSub : pCat;
 
-            root.style.setProperty('--theme-color', activeColor);
-            root.style.setProperty('--theme-glow', activeGlow);
-            root.style.setProperty('--theme-border', activeBorder);
-            root.style.setProperty('--theme-bg-tint', activeBg || pCat.bg || pDept.bg);
+            root.style.setProperty('--theme-color', activePalette.color);
+            root.style.setProperty('--theme-glow', activePalette.glow);
+            root.style.setProperty('--theme-border', activePalette.border);
+            root.style.setProperty('--theme-bg-tint', activePalette.bg || pCat.bg || pDept.bg);
         }
 function selectDepartment(deptKey) {
             currentDepartment = deptKey;
+            lastNavClickTier = 'dept';
 
-            // ۱. تغییر تم کلی سایت و پس‌زمینه اتمسفریک با موتور تم داینامیک
+            const deptConf = DepartmentsConfig[deptKey];
+            if (deptConf && deptConf.categories.length > 0) {
+                currentCategory = deptConf.categories[0].id;
+                currentSubType = "all"; // حالت پیش‌فرض: نمایش همه مدل‌های این دسته
+            }
+
+            // ۱. تغییر تم کلی سایت و پس‌زمینه اتمسفریک با رنگ دپارتمان انتخاب‌شده
             document.body.classList.remove("initial-state");
             document.body.setAttribute("data-theme", deptKey);
-            applyDynamicAtmosphere(deptKey, currentCategory, currentSubType);
+            applyDynamicAtmosphere(deptKey, currentCategory, currentSubType, 'dept');
 
             // ۲. هایلایت دکمه دپارتمان فعال در هدر
             document.querySelectorAll(".header-dept-btn").forEach(c => {
@@ -9981,12 +11253,6 @@ function selectDepartment(deptKey) {
                 setTimeout(() => {
                     layout.classList.add("revealed");
                 }, 40);
-            }
-
-            const deptConf = DepartmentsConfig[deptKey];
-            if (deptConf && deptConf.categories.length > 0) {
-                currentCategory = deptConf.categories[0].id;
-                currentSubType = "all"; // حالت پیش‌فرض: نمایش همه مدل‌های این دسته
             }
 
             selectedIngredients = [];
@@ -10087,8 +11353,8 @@ function selectDepartment(deptKey) {
             }
         }
 
-                // =========================================================================
-        // مدیریت سیستم دقیق جستجوی درون‌دکمه‌ای (هم‌اندازه دکمه و تبدیل به ضربدر قرمز)
+                        // =========================================================================
+        // مدیریت سیستم دقیق جستجوی درون‌دکمه‌ای (دسکتاپ: هم‌اندازه دکمه + موبایل: نوار تمام‌عرض ردیف)
         // =========================================================================
         let activeSearchBtnId = null;
 
@@ -10110,11 +11376,21 @@ function selectDepartment(deptKey) {
             const btn = document.getElementById("btn_" + btnId);
             if (btn) {
                 btn.classList.add("is-searching");
+
+                // افزودن کلاس به ردیف والد در موبایل جهت باز شدن کشویی تمام‌عرض روی کل ردیف
+                const row = btn.closest(".categories-capsules-row") || btn.closest(".sub-categories-row") || btn.closest(".sub-categories-inner");
+                if (row) row.classList.add("row-is-searching");
+
                 const input = document.getElementById("input_" + btnId);
                 if (input) {
                     setTimeout(() => {
                         input.focus();
                         input.select();
+                        // هدایت خودکار به سمت آخرین کاراکترها
+                        try {
+                            input.scrollLeft = -99999;
+                            if (input.scrollLeft === 0) input.scrollLeft = 99999;
+                        } catch (err) {}
                     }, 40);
                 }
             }
@@ -10126,18 +11402,37 @@ function selectDepartment(deptKey) {
             const targetId = btnId || activeSearchBtnId;
             if (targetId) {
                 const btn = document.getElementById("btn_" + targetId);
-                if (btn) btn.classList.remove("is-searching");
+                if (btn) {
+                    btn.classList.remove("is-searching");
+                    const row = btn.closest(".categories-capsules-row") || btn.closest(".sub-categories-row") || btn.closest(".sub-categories-inner");
+                    if (row) row.classList.remove("row-is-searching");
+                }
                 const input = document.getElementById("input_" + targetId);
                 if (input) input.value = "";
             }
+
+            // پاک کردن کلاس از تمام ردیف‌ها
+            document.querySelectorAll(".row-is-searching").forEach(r => r.classList.remove("row-is-searching"));
 
             activeSearchBtnId = null;
             searchQuery = "";
             renderAll();
         }
 
-        function handleInlineSearchInput(val) {
-            searchQuery = (val || "").trim();
+        // هنگام تایپ: به‌روزرسانی نتایج و هدایت اسکرول به آخرین کاراکترهای در حال تایپ
+        function handleInlineSearchInput(input) {
+            if (!input) return;
+            const val = input.value || "";
+            searchQuery = val.trim();
+
+            // هدایت خودکار اسکرول متن به سمت آخرین حروفی که کاربر تایپ می‌کند
+            try {
+                input.scrollLeft = -99999;
+                if (input.scrollLeft === 0) {
+                    input.scrollLeft = 99999;
+                }
+            } catch (err) {}
+
             renderAll();
         }
 
@@ -10149,7 +11444,7 @@ function selectDepartment(deptKey) {
             }
         }
 
-        // رندر سرشاخه‌های اختصاصی هر دپارتمان بالای کاتالوگ محصولات با جستجوی دقیق درون‌دکمه‌ای
+        // رندر سرشاخه‌های اختصاصی هر دپارتمان بالای کاتالوگ محصولات با جستجوی هوشمند
         function renderCategoriesBar() {
             const bar = document.getElementById("categoriesBar");
             if (!bar) return;
@@ -10168,7 +11463,8 @@ function selectDepartment(deptKey) {
                      class="cat-capsule-btn ${isActive ? 'active' : ''} ${isSearching ? 'is-searching' : ''}" 
                      id="btn_cat_${cat.id}"
                      data-cat="${cat.id}" 
-                     onclick="onCategoryClick('${cat.id}', event)">
+                     onclick="onCategoryClick('${cat.id}', event)"
+                     title="${cat.name}">
                     <span class="btn-normal-content">
                         ${cat.svg}
                         <span class="cat-capsule-text">${cat.name}</span>
@@ -10177,14 +11473,15 @@ function selectDepartment(deptKey) {
                         <input type="text" 
                                class="inline-search-input" 
                                id="input_cat_${cat.id}"
-                               placeholder="جستجو..." 
+                               placeholder="جستجو در ${cat.name}..." 
                                value="${isSearching ? searchQuery : ''}"
-                               oninput="handleInlineSearchInput(this.value)"
+                               oninput="handleInlineSearchInput(this)"
                                onkeydown="handleInlineSearchKeyDown(event, 'cat_${cat.id}')">
                     </div>
                     <span role="button"
                           class="btn-search-toggle-icon" 
-                          onclick="toggleButtonInlineSearch('cat_${cat.id}', event)">
+                          onclick="toggleButtonInlineSearch('cat_${cat.id}', event)" 
+                          title="جستجو در ${cat.name}">
                         <svg class="icon-magnifier" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
                         <svg class="icon-close-x" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
                     </span>
@@ -10209,7 +11506,7 @@ function selectDepartment(deptKey) {
             renderAll();
         }
 
-        // رندر زیرشاخه‌های هر سرشاخه با جستجوی دقیق درون‌دکمه‌ای
+        // رندر زیرشاخه‌های هر سرشاخه با جستجوی هوشمند
         function renderSubCategories() {
             const bar = document.getElementById("subCategoriesBar");
             const container = document.getElementById("subCategoriesContainer");
@@ -10241,7 +11538,8 @@ function selectDepartment(deptKey) {
                      class="sub-capsule-btn ${isActive ? 'active' : ''} ${isSearching ? 'is-searching' : ''}" 
                      id="btn_sub_${s.id}"
                      data-sub="${s.id}" 
-                     onclick="onSubCategoryClick('${s.id}', event)">
+                     onclick="onSubCategoryClick('${s.id}', event)"
+                     title="${s.name}">
                     <span class="btn-normal-content">
                         <span class="sub-btn-icon">${icon}</span>
                         <span class="sub-capsule-text">${s.name}</span>
@@ -10250,15 +11548,16 @@ function selectDepartment(deptKey) {
                         <input type="text" 
                                class="inline-search-input" 
                                id="input_sub_${s.id}"
-                               placeholder="جستجو..." 
+                               placeholder="جستجو در ${s.name}..." 
                                value="${isSearching ? searchQuery : ''}"
-                               oninput="handleInlineSearchInput(this.value)"
+                               oninput="handleInlineSearchInput(this)"
                                onkeydown="handleInlineSearchKeyDown(event, 'sub_${s.id}')">
                     </div>
                     <span role="button"
                           class="btn-search-toggle-icon" 
-                          onclick="toggleButtonInlineSearch('sub_${s.id}', event)">
-                        <svg class="icon-magnifier" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                          onclick="toggleButtonInlineSearch('sub_${s.id}', event)" 
+                          title="جستجو در ${s.name}">
+                        <svg class="icon-magnifier" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 14z"/></svg>
                         <svg class="icon-close-x" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
                     </span>
                 </div>
@@ -10313,7 +11612,7 @@ function selectDepartment(deptKey) {
             html += brands.map(b => {
                 const meta = BrandMeta[b] || { logo: "images/brands/kalleh.svg", flag: "🌐" };
                 return `
-                    <div class="brand-row ${currentBrand === b ? 'active' : ''}" onclick="selectBrand('${b}')">
+                    <div class="brand-row ${currentBrand === b ? 'active' : ''}" onclick="selectBrand('${b}')" data-tooltip="${b}">
                         <div class="brand-info">
                             <img src="${meta.logo}" class="brand-logo-img" alt="${b}" onerror="this.style.display='none';">
                             <span>${b}</span>
@@ -10334,6 +11633,7 @@ function selectDepartment(deptKey) {
                 currentBrand = b;
             }
             initBrandSidebar();
+            updateSidebarFilterAnimations();
             renderAll();
         }
 
@@ -10363,7 +11663,7 @@ function selectDepartment(deptKey) {
                         <div class="empty-subtitle">آماده درج دسته‌بندی‌ها و مشخصات اعلامی شما...</div>
                     </div>
                 `;
-                updateActiveIngBadge();
+                updateSidebarFilterAnimations();
                 return;
             }
 
@@ -10401,8 +11701,8 @@ function selectDepartment(deptKey) {
                 }).join("");
 
                 return `
-                    <div class="ing-group ${isOpen ? 'open' : ''} ${hasActiveSelection ? 'active' : ''}" id="ingGroup_${grp.id}">
-                        <button class="ing-group-header" onclick="toggleIngredientGroup('${grp.id}')">
+                    <div class="ing-group ${isOpen ? 'open' : ''} ${hasActiveSelection ? 'active' : ''} ${activeLeftFlyoutGroupId === grp.id ? 'flyout-open' : ''}" id="ingGroup_${grp.id}">
+                        <button type="button" class="ing-group-header" onclick="toggleIngredientGroup('${grp.id}', this)" onmouseenter="handleMiniGroupHover('${grp.id}', this)" onmouseleave="handleMiniGroupLeave()" data-tooltip="${grp.name}">
                             <div class="ing-group-title" style="display:flex; align-items:center; gap:8px;">
                                 <span>${grp.icon}</span>
                                 <span>${grp.name}</span>
@@ -10419,18 +11719,297 @@ function selectDepartment(deptKey) {
             }).join("");
 
             container.innerHTML = htmlContent;
-            updateActiveIngBadge();
+            updateSidebarFilterAnimations();
         }
 
-        function toggleIngredientGroup(groupId) {
+        let activeLeftFlyoutGroupId = null;
+        let miniFlyoutHoverTimer = null;
+        let miniFlyoutCloseTimer = null;
+        let isFlyoutPinned = false;
+        let leftFlyoutSearchQuery = "";
+
+        function updateSidebarFilterAnimations() {
+            const rightSidebar = document.getElementById("filterSidebar");
+            const leftSidebar = document.getElementById("ingredientsSidebar");
+            const cornerRight = document.getElementById("mobileCornerRightBtn");
+            const cornerLeft = document.getElementById("mobileCornerLeftBtn");
+
+            const isRightFiltered = (currentOrigin !== "all") || (currentBrand !== "all");
+            const isLeftFiltered = Array.isArray(selectedIngredients) && selectedIngredients.length > 0;
+
+            if (rightSidebar) rightSidebar.classList.toggle("has-active-filter", isRightFiltered);
+            if (leftSidebar) leftSidebar.classList.toggle("has-active-filter", isLeftFiltered);
+            if (cornerRight) cornerRight.classList.toggle("has-active-filter", isRightFiltered);
+            if (cornerLeft) cornerLeft.classList.toggle("has-active-filter", isLeftFiltered);
+        }
+
+        function closeLeftMiniFlyout() {
+            if (miniFlyoutHoverTimer) {
+                clearTimeout(miniFlyoutHoverTimer);
+                miniFlyoutHoverTimer = null;
+            }
+            if (miniFlyoutCloseTimer) {
+                clearTimeout(miniFlyoutCloseTimer);
+                miniFlyoutCloseTimer = null;
+            }
+            isFlyoutPinned = false;
+            leftFlyoutSearchQuery = "";
+            const flyout = document.getElementById("leftMiniFlyoutMenu");
+            if (flyout) {
+                flyout.style.display = "none";
+                flyout.setAttribute("aria-hidden", "true");
+            }
+            activeLeftFlyoutGroupId = null;
+            document.querySelectorAll("#ingredientsAccordionContainer .ing-group.flyout-open").forEach(el => {
+                el.classList.remove("flyout-open");
+            });
+        }
+
+        function handleFlyoutMouseEnter() {
+            if (miniFlyoutCloseTimer) {
+                clearTimeout(miniFlyoutCloseTimer);
+                miniFlyoutCloseTimer = null;
+            }
+        }
+
+        function handleFlyoutMouseLeave() {
+            if (isFlyoutPinned) return;
+            if (miniFlyoutCloseTimer) clearTimeout(miniFlyoutCloseTimer);
+            miniFlyoutCloseTimer = setTimeout(() => {
+                closeLeftMiniFlyout();
+            }, 280);
+        }
+
+        function handleMiniGroupHover(groupId, btnEl) {
+            if (window.innerWidth <= 1024 || isLeftSidebarOpen) return;
+            if (miniFlyoutCloseTimer) {
+                clearTimeout(miniFlyoutCloseTimer);
+                miniFlyoutCloseTimer = null;
+            }
+            const flyout = document.getElementById("leftMiniFlyoutMenu");
+            if (activeLeftFlyoutGroupId === groupId && flyout && flyout.style.display === "flex") {
+                return;
+            }
+            if (miniFlyoutHoverTimer) clearTimeout(miniFlyoutHoverTimer);
+            const delay = activeLeftFlyoutGroupId ? 0 : 50;
+            miniFlyoutHoverTimer = setTimeout(() => {
+                openLeftMiniFlyout(groupId, btnEl, false);
+            }, delay);
+        }
+
+        function handleMiniGroupLeave() {
+            if (window.innerWidth <= 1024 || isLeftSidebarOpen) return;
+            if (miniFlyoutHoverTimer) {
+                clearTimeout(miniFlyoutHoverTimer);
+                miniFlyoutHoverTimer = null;
+            }
+            if (isFlyoutPinned) return;
+            if (miniFlyoutCloseTimer) clearTimeout(miniFlyoutCloseTimer);
+            miniFlyoutCloseTimer = setTimeout(() => {
+                closeLeftMiniFlyout();
+            }, 280);
+        }
+
+        function clearGroupIngredients(groupId) {
+            const deptConf = DepartmentsConfig[currentDepartment];
+            if (!deptConf) return;
+            const grp = (deptConf.ingredientGroups || []).find(g => g.id === groupId);
+            if (!grp) return;
+            const groupIds = new Set(grp.items.map(it => it.id));
+            selectedIngredients = selectedIngredients.filter(id => !groupIds.has(id));
+            initIngredientsSidebar();
+            if (activeLeftFlyoutGroupId === groupId) {
+                renderLeftMiniFlyoutContent(groupId);
+            }
+            renderAll();
+        }
+
+        function selectAllInGroup(groupId) {
+            const deptConf = DepartmentsConfig[currentDepartment];
+            if (!deptConf) return;
+            const grp = (deptConf.ingredientGroups || []).find(g => g.id === groupId);
+            if (!grp) return;
+            grp.items.forEach(it => {
+                if (!selectedIngredients.includes(it.id)) {
+                    selectedIngredients.push(it.id);
+                }
+            });
+            initIngredientsSidebar();
+            if (activeLeftFlyoutGroupId === groupId) {
+                renderLeftMiniFlyoutContent(groupId);
+            }
+            renderAll();
+        }
+
+        function handleLeftFlyoutSearch(query) {
+            leftFlyoutSearchQuery = query;
+            if (activeLeftFlyoutGroupId) {
+                renderLeftMiniFlyoutContent(activeLeftFlyoutGroupId);
+                const input = document.getElementById("leftFlyoutSearchInput");
+                if (input) {
+                    input.focus();
+                    input.setSelectionRange(input.value.length, input.value.length);
+                }
+            }
+        }
+
+        function clearLeftFlyoutSearch() {
+            leftFlyoutSearchQuery = "";
+            if (activeLeftFlyoutGroupId) {
+                renderLeftMiniFlyoutContent(activeLeftFlyoutGroupId);
+                const input = document.getElementById("leftFlyoutSearchInput");
+                if (input) input.focus();
+            }
+        }
+
+        function renderLeftMiniFlyoutContent(groupId) {
+            const flyout = document.getElementById("leftMiniFlyoutMenu");
+            if (!flyout) return;
+            const deptConf = DepartmentsConfig[currentDepartment];
+            if (!deptConf) return;
+            const grp = (deptConf.ingredientGroups || []).find(g => g.id === groupId);
+            if (!grp) {
+                closeLeftMiniFlyout();
+                return;
+            }
+
+            const deptProducts = fullStoreDB.filter(p => p.department === currentDepartment);
+            const ingCounts = {};
+            deptProducts.forEach(item => {
+                const tags = item.ingredients || item.specs || [];
+                tags.forEach(t => {
+                    ingCounts[t] = (ingCounts[t] || 0) + 1;
+                });
+            });
+
+            const activeGroupCount = grp.items.filter(it => selectedIngredients.includes(it.id)).length;
+            const totalGroupCount = grp.items.length;
+
+            const q = (leftFlyoutSearchQuery || "").trim().toLowerCase();
+            const filteredItems = grp.items.filter(it => {
+                if (!q) return true;
+                return (it.name || "").toLowerCase().includes(q);
+            });
+
+            const itemsHtml = filteredItems.map((it, idx) => {
+                const isChecked = selectedIngredients.includes(it.id);
+                const isAmino = it.id.startsWith("amino_");
+                const countBadge = isAmino
+                    ? '<span class="bubble-count-badge" style="opacity:0.9;">تخصصی</span>'
+                    : `<span class="bubble-count-badge">${ingCounts[it.id] || 0}</span>`;
+
+                return `
+                    <div class="bubble-chip-item ${isChecked ? 'checked' : ''}" style="--bubble-idx: ${idx};" onclick="toggleIngredient('${it.id}')" title="${it.name}">
+                        <div class="bubble-chip-main">
+                            <div class="bubble-checkbox">
+                                <svg style="width:11px; height:11px; fill:#ffffff; display:${isChecked ? 'block' : 'none'};" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                            </div>
+                            <span class="bubble-chip-name">${it.name}</span>
+                        </div>
+                        ${countBadge}
+                    </div>
+                `;
+            }).join("");
+
+            const emptyMsg = filteredItems.length === 0
+                ? `<div class="bubble-empty-msg">موردی با عنوان «${q}» یافت نشد.</div>`
+                : '';
+
+            flyout.innerHTML = `
+                <div class="left-mini-flyout-header">
+                    <div class="left-mini-flyout-title-row">
+                        <div class="left-mini-flyout-title">
+                            <span class="left-mini-flyout-icon">${grp.icon}</span>
+                            <span class="left-mini-flyout-name">${grp.name}</span>
+                        </div>
+                        <div class="left-mini-flyout-badge-wrap">
+                            <span class="left-mini-flyout-stats">${activeGroupCount > 0 ? `${activeGroupCount} فعال` : `${totalGroupCount} گزینه`}</span>
+                            <button type="button" class="left-mini-flyout-close-btn" onclick="closeLeftMiniFlyout()" title="بستن این پنل">
+                                <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="left-mini-flyout-actions-row">
+                        <button type="button" class="left-mini-flyout-action-btn" onclick="selectAllInGroup('${grp.id}')" title="انتخاب همه گزینه‌های این گروه">انتخاب همه</button>
+                        <button type="button" class="left-mini-flyout-action-btn ${activeGroupCount > 0 ? 'active-clear' : ''}" onclick="clearGroupIngredients('${grp.id}')" title="حذف تیک‌های این گروه">پاک‌کردن تیک‌ها</button>
+                    </div>
+
+                    <div class="left-mini-flyout-search-wrap">
+                        <svg class="left-mini-flyout-search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                        <input type="text" class="left-mini-flyout-search-input" id="leftFlyoutSearchInput" placeholder="جستجو در ترکیبات این بخش..." value="${q}" oninput="handleLeftFlyoutSearch(this.value)" autocomplete="off">
+                        ${q ? `<button type="button" class="left-mini-flyout-search-clear" onclick="clearLeftFlyoutSearch()">×</button>` : ''}
+                    </div>
+                </div>
+
+                <div class="left-mini-flyout-body">
+                    <div class="bubble-cascade-list">
+                        ${itemsHtml}
+                    </div>
+                    ${emptyMsg}
+                </div>
+            `;
+        }
+
+        function openLeftMiniFlyout(groupId, anchorEl, pin = false) {
+            const flyout = document.getElementById("leftMiniFlyoutMenu");
+            if (!flyout) return;
+
+            if (pin && activeLeftFlyoutGroupId === groupId && flyout.style.display === "flex") {
+                closeLeftMiniFlyout();
+                return;
+            }
+
+            if (pin) {
+                isFlyoutPinned = true;
+            }
+
+            activeLeftFlyoutGroupId = groupId;
+
+            document.querySelectorAll("#ingredientsAccordionContainer .ing-group").forEach(el => {
+                el.classList.toggle("flyout-open", el.id === "ingGroup_" + groupId);
+            });
+
+            renderLeftMiniFlyoutContent(groupId);
+            flyout.style.display = "flex";
+            flyout.setAttribute("aria-hidden", "false");
+
+            const leftSidebar = document.getElementById("ingredientsSidebar");
+            let leftPos = 74;
+            if (leftSidebar && typeof leftSidebar.getBoundingClientRect === "function") {
+                const rect = leftSidebar.getBoundingClientRect();
+                leftPos = Math.round(rect.right + 8);
+            } else if (anchorEl && typeof anchorEl.getBoundingClientRect === "function") {
+                const rect = anchorEl.getBoundingClientRect();
+                leftPos = Math.round(rect.right + 8);
+            }
+            flyout.style.left = Math.max(72, leftPos) + "px";
+        }
+
+        function toggleIngredientGroup(groupId, btnEl) {
             const el = document.getElementById("ingGroup_" + groupId);
             if (!el) return;
+
+            // در دسکتاپ وقتی ستون چپ مینیمیز است، با کلیک روی آیکون کشوی تمام‌قد باز/بسته می‌شود
+            if (window.innerWidth > 1024 && !isLeftSidebarOpen) {
+                const anchor = btnEl || el.querySelector(".ing-group-header");
+                openLeftMiniFlyout(groupId, anchor, true);
+                return;
+            }
+
+            const contentEl = el.querySelector(".ing-group-content");
+            const arrowEl = el.querySelector(".ing-group-arrow");
+
             if (openGroupsSet.has(groupId)) {
                 openGroupsSet.delete(groupId);
                 el.classList.remove("open");
+                if (contentEl) contentEl.style.display = "none";
+                if (arrowEl) arrowEl.style.transform = "rotate(0deg)";
             } else {
                 openGroupsSet.add(groupId);
                 el.classList.add("open");
+                if (contentEl) contentEl.style.display = "block";
+                if (arrowEl) arrowEl.style.transform = "rotate(180deg)";
             }
         }
 
@@ -10442,14 +12021,18 @@ function selectDepartment(deptKey) {
                 selectedIngredients.push(id);
             }
             initIngredientsSidebar();
-            initSidebarsState();
+            if (activeLeftFlyoutGroupId) {
+                renderLeftMiniFlyoutContent(activeLeftFlyoutGroupId);
+            }
             renderAll();
         }
 
         function clearAllIngredients() {
             selectedIngredients = [];
             initIngredientsSidebar();
-            initSidebarsState();
+            if (activeLeftFlyoutGroupId) {
+                renderLeftMiniFlyoutContent(activeLeftFlyoutGroupId);
+            }
             renderAll();
         }
 
@@ -10462,22 +12045,10 @@ function selectDepartment(deptKey) {
             });
             selectedIngredients = allIds;
             initIngredientsSidebar();
-            initSidebarsState();
-            renderAll();
-        }
-
-        function updateActiveIngBadge() {
-            const badge = document.getElementById("activeIngCountBadge");
-            if (!badge) return;
-            if (selectedIngredients.length === 0) {
-                badge.textContent = "همه آزاد";
-                badge.style.background = "rgba(255,255,255,0.06)";
-                badge.style.color = "var(--text-muted)";
-            } else {
-                badge.textContent = `${selectedIngredients.length} فیلتر فعال`;
-                badge.style.background = "rgba(56, 189, 248, 0.15)";
-                badge.style.color = "var(--neon-blue)";
+            if (activeLeftFlyoutGroupId) {
+                renderLeftMiniFlyoutContent(activeLeftFlyoutGroupId);
             }
+            renderAll();
         }
 
         // هماهنگی خودکار کلیک روی دسته‌ها و زیردسته‌ها با تیک‌خوردن چک‌باکس‌ها
@@ -10506,7 +12077,10 @@ function selectDepartment(deptKey) {
             }
 
             initIngredientsSidebar();
-            initSidebarsState();
+            if (activeLeftFlyoutGroupId) {
+                renderLeftMiniFlyoutContent(activeLeftFlyoutGroupId);
+            }
+            updateSidebarFilterAnimations();
         }
 
         // فیلتر کردن کاتالوگ
@@ -10595,6 +12169,7 @@ function selectDepartment(deptKey) {
 
         // تعیین وضعیت هوشمند ستون‌ها متناسب با صفحه نمایش
         function initSidebarsState() {
+            if (typeof closeLeftMiniFlyout === 'function') closeLeftMiniFlyout();
             const isMobile = window.innerWidth <= 1024;
             if (isMobile) {
                 // در حالت موبایل و اندازه کم: ستون چپ به خاطر فشردگی صفحه کاملاً پنهان (hide) است
@@ -10620,7 +12195,6 @@ function selectDepartment(deptKey) {
                 isRightSidebarOpen = !isRightSidebarOpen;
             }
 
-            // در موبایل و اندازه کم: قانون انحصار متقابل (باز شدن منوی راست، منوی چپ را فوراً می‌بندد)
             if (isMobile && isRightSidebarOpen) {
                 isLeftSidebarOpen = false;
             }
@@ -10628,7 +12202,11 @@ function selectDepartment(deptKey) {
             syncSidebarsUI();
         }
 
-        // کنترل باز و بسته شدن منوی سمت چپ (جدول ترکیبات)
+        function toggleRightSidebarDrawer() {
+            toggleRightSidebar();
+        }
+
+        // کنترل باز و بسته شدن کشویی منوی سمت چپ (جدول ترکیبات)
         function toggleLeftSidebar(forceState) {
             const isMobile = window.innerWidth <= 1024;
             if (typeof forceState === 'boolean') {
@@ -10637,7 +12215,6 @@ function selectDepartment(deptKey) {
                 isLeftSidebarOpen = !isLeftSidebarOpen;
             }
 
-            // در موبایل و اندازه کم: قانون انحصار متقابل (باز شدن منوی چپ، منوی راست را فوراً می‌بندد تا فضا آزاد باشد)
             if (isMobile && isLeftSidebarOpen) {
                 isRightSidebarOpen = false;
             }
@@ -10645,70 +12222,169 @@ function selectDepartment(deptKey) {
             syncSidebarsUI();
         }
 
-        // بستن تمام سایدبارها (کلیک روی پس‌زمینه یا دکمه‌های بستن)
         function closeAllSidebars() {
             isRightSidebarOpen = false;
             isLeftSidebarOpen = false;
             syncSidebarsUI();
         }
 
-        // همگام‌سازی کامل رابط کاربری ستون‌ها، دکمه‌های هدر و نوار داک پایین موبایل
+        // همگام‌سازی کامل رابط کاربری مینی‌بار دوطرفه در دسکتاپ و کشوهای موبایل
         function syncSidebarsUI() {
             const layout = document.getElementById("storeMainLayout");
             const rightSidebar = document.getElementById("filterSidebar");
             const leftSidebar = document.getElementById("ingredientsSidebar");
             const backdrop = document.getElementById("sidebarBackdropOverlay");
 
-            const btnRight = document.getElementById("btnToggleRightSidebar");
-            const btnLeft = document.getElementById("btnToggleLeftSidebar");
-            const dockBtnRight = document.getElementById("dockBtnRightSidebar");
-            const dockBtnLeft = document.getElementById("dockBtnLeftSidebar");
+            const slideRightBtn = document.getElementById("btnSlideRightSidebar");
+            const slideLeftBtn = document.getElementById("btnSlideLeftSidebar");
+
+            if (isLeftSidebarOpen || isMobile) {
+                closeLeftMiniFlyout();
+            }
 
             if (!layout) return;
 
             const isMobile = window.innerWidth <= 1024;
 
-            // کلاس‌های لایه‌بندی در دسکتاپ
-            layout.classList.remove("sidebar-right-only", "sidebar-left-only", "sidebars-both-closed", "sidebars-both-open");
-            
-            if (isRightSidebarOpen && isLeftSidebarOpen) {
-                layout.classList.add("sidebars-both-open");
-            } else if (isRightSidebarOpen && !isLeftSidebarOpen) {
-                layout.classList.add("sidebar-right-only");
-            } else if (!isRightSidebarOpen && isLeftSidebarOpen) {
-                layout.classList.add("sidebar-left-only");
+            layout.classList.remove(
+                "sidebar-right-only", "sidebar-left-only", "sidebars-both-closed", "sidebars-both-open",
+                "right-mini", "left-mini", "both-mini", "right-drawer-collapsed"
+            );
+
+            if (!isMobile) {
+                // در دسکتاپ: تبدیل به حالت مینی‌بار آیکونی ۶۶ پیکسلی هنگام جمع شدن
+                if (isRightSidebarOpen && isLeftSidebarOpen) {
+                    layout.classList.add("sidebars-both-open");
+                } else if (!isRightSidebarOpen && isLeftSidebarOpen) {
+                    layout.classList.add("right-mini");
+                } else if (isRightSidebarOpen && !isLeftSidebarOpen) {
+                    layout.classList.add("left-mini");
+                } else {
+                    layout.classList.add("both-mini");
+                }
+
+                if (rightSidebar) {
+                    rightSidebar.classList.toggle("mini-collapsed", !isRightSidebarOpen);
+                    rightSidebar.classList.remove("sidebar-open", "drawer-hidden");
+                }
+                if (leftSidebar) {
+                    leftSidebar.classList.toggle("mini-collapsed", !isLeftSidebarOpen);
+                    leftSidebar.classList.remove("sidebar-open", "drawer-hidden");
+                }
             } else {
-                layout.classList.add("sidebars-both-closed");
+                // در موبایل و تبلت: کشوهای بازشونده تمام‌قد همراه با دکمه بالا راست و بالا چپ و سوایپ لمسی
+                if (rightSidebar) {
+                    rightSidebar.classList.remove("mini-collapsed", "drawer-hidden");
+                    rightSidebar.classList.toggle("sidebar-open", isRightSidebarOpen);
+                }
+                if (leftSidebar) {
+                    leftSidebar.classList.remove("mini-collapsed", "drawer-hidden");
+                    leftSidebar.classList.toggle("sidebar-open", isLeftSidebarOpen);
+                }
+                document.body.classList.toggle("mobile-right-open", isRightSidebarOpen);
+                document.body.classList.toggle("mobile-left-open", isLeftSidebarOpen);
             }
 
-            // کلاس‌های وضعیت سایدبارها در موبایل و دسکتاپ
-            if (rightSidebar) {
-                rightSidebar.classList.toggle("sidebar-open", isRightSidebarOpen);
+            if (slideRightBtn) {
+                slideRightBtn.setAttribute("data-tooltip", isRightSidebarOpen ? "جمع کردن به نوار آیکونی (سمت راست)" : "باز کردن کشویی به سمت چپ");
             }
-            if (leftSidebar) {
-                leftSidebar.classList.toggle("sidebar-open", isLeftSidebarOpen);
+            if (slideLeftBtn) {
+                slideLeftBtn.setAttribute("data-tooltip", isLeftSidebarOpen ? "جمع کردن به نوار آیکونی (سمت چپ)" : "باز کردن کشویی به سمت راست");
             }
 
-            // به‌روزرسانی هایلایت دکمه‌های بالای کاتالوگ
-            if (btnRight) btnRight.classList.toggle("active", isRightSidebarOpen);
-            if (btnLeft) btnLeft.classList.toggle("active", isLeftSidebarOpen);
+            updateSidebarFilterAnimations();
 
-            // به‌روزرسانی دکمه‌های نوار دسترسی سریع موبایل
-            if (dockBtnRight) dockBtnRight.classList.toggle("active", isRightSidebarOpen);
-            if (dockBtnLeft) dockBtnLeft.classList.toggle("active", isLeftSidebarOpen);
-
-            // مدیریت بک‌دراپ تاریک در موبایل
             if (backdrop) {
                 if (isMobile && (isRightSidebarOpen || isLeftSidebarOpen)) {
                     backdrop.classList.add("active");
                     document.body.style.overflow = "hidden";
                 } else {
                     backdrop.classList.remove("active");
-                    document.body.style.overflow = "";
+                    const modal = document.getElementById("productModal");
+                    if (!modal || !modal.classList.contains("active")) {
+                        document.body.style.overflow = "";
+                    }
                 }
             }
 
-            updateAutoGridLayout();
+            if (typeof updateAutoGridLayout === 'function') {
+                updateAutoGridLayout();
+            }
+        }
+
+        // بستن خودکار منوی شناور ستون چپ هنگام کلیک بیرون یا تغییر اندازه صفحه
+        if (!window._leftFlyoutListenersAdded) {
+            window._leftFlyoutListenersAdded = true;
+            document.addEventListener("click", (e) => {
+                if (!activeLeftFlyoutGroupId) return;
+                const flyout = document.getElementById("leftMiniFlyoutMenu");
+                if (flyout && flyout.contains(e.target)) return;
+                if (e.target.closest("#ingredientsSidebar .ing-group-header")) return;
+                closeLeftMiniFlyout();
+            });
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "Escape" && activeLeftFlyoutGroupId) {
+                    closeLeftMiniFlyout();
+                }
+            });
+            window.addEventListener("resize", () => {
+                if (activeLeftFlyoutGroupId) closeLeftMiniFlyout();
+            });
+        }
+
+        // راه‌اندازی سوایپ لمسی با انگشت در موبایل و تبلت (Touch Swipe Gestures)
+        if (!window._mobileSwipeInitialized) {
+            window._mobileSwipeInitialized = true;
+            let touchStartX = 0;
+            let touchStartY = 0;
+            let isTrackingSwipe = false;
+
+            document.addEventListener("touchstart", (e) => {
+                if (window.innerWidth > 1024) return;
+                if (e.touches.length !== 1) return;
+
+                if (e.target.closest("#product3DStudioContainer, .categories-capsules-row, .sub-categories-row, .modal-card")) {
+                    isTrackingSwipe = false;
+                    return;
+                }
+
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+                isTrackingSwipe = true;
+            }, { passive: true });
+
+            document.addEventListener("touchend", (e) => {
+                if (!isTrackingSwipe || window.innerWidth > 1024) return;
+                isTrackingSwipe = false;
+
+                if (e.changedTouches.length !== 1) return;
+                const touchEndX = e.changedTouches[0].clientX;
+                const touchEndY = e.changedTouches[0].clientY;
+
+                const deltaX = touchEndX - touchStartX;
+                const deltaY = touchEndY - touchStartY;
+
+                // تشخیص سوایپ افقی عمدی بدون تداخل با اسکرول عمودی
+                if (Math.abs(deltaX) > 45 && Math.abs(deltaX) > Math.abs(deltaY) * 1.4) {
+                    const screenW = window.innerWidth;
+
+                    if (deltaX < 0) {
+                        // سوایپ به سمت چپ
+                        if (isLeftSidebarOpen) {
+                            toggleLeftSidebar(false); // بستن منوی چپ به سمت چپ
+                        } else if (!isRightSidebarOpen && touchStartX > screenW * 0.65) {
+                            toggleRightSidebar(true); // بیرون کشیدن منوی راست از لبه راست
+                        }
+                    } else {
+                        // سوایپ به سمت راست
+                        if (isRightSidebarOpen) {
+                            toggleRightSidebar(false); // بستن منوی راست به سمت راست
+                        } else if (!isLeftSidebarOpen && touchStartX < screenW * 0.35) {
+                            toggleLeftSidebar(true); // بیرون کشیدن منوی چپ از لبه چپ
+                        }
+                    }
+                }
+            }, { passive: true });
         }
 
         // ==========================================================================
@@ -10867,6 +12543,88 @@ function selectDepartment(deptKey) {
             if (typeof item.soldCount === 'number') return item.soldCount;
             const hash = (item.id || '').split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
             return 95 + (hash % 380);
+        }
+
+        // محاسبه آمار دقیق آخرین شارژ، مربع‌های پُر (فروش) و مربع‌های خالی (باقی‌مانده)
+        function getProductChargeStats(item) {
+            const stock = getProductStock(item); // فروخته نشده (مربع‌های خالی)
+            const totalSold = getProductSoldCount(item); // کل فروش تاریخی این مکمل
+
+            let lastCharge = item.lastCharge;
+            if (typeof lastCharge !== 'number') {
+                const hash = (item.id || '').split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
+                // تعداد آخرین شارژ بین ۸ تا ۱۴ عدد (بسته به محصول)
+                const baseBatch = 8 + (hash % 6); // بین 8 تا 13
+                if (stock === 0) {
+                    lastCharge = 10 + (hash % 5); // 10 تا 14 عدد که همگی فروخته شده‌اند
+                } else {
+                    lastCharge = Math.max(stock + 2, baseBatch);
+                }
+            }
+
+            const soldFromCharge = Math.max(0, lastCharge - stock); // فروخته شده از آخرین شارژ (مربع‌های پر)
+            return {
+                stock,
+                lastCharge,
+                soldFromCharge,
+                totalSold
+            };
+        }
+
+        // ساخت کد HTML نمایش مربع‌مربع وضعیت انبار، آخرین شارژ و کل فروش (حالت مینیمال روی کارت و کامل در مودال)
+        function renderProductStockSquaresBox(item, isCompact = true) {
+            const stats = getProductChargeStats(item);
+            const isOutOfStock = (stats.stock === 0);
+            const isLowStock = (!isOutOfStock && stats.stock <= 3);
+
+            let boxClass = 'in-stock';
+            let dotColor = 'green';
+            let statusTitle = isCompact ? `مانده: ${stats.stock} از ${stats.lastCharge}` : 'موجود در انبار';
+
+            if (isOutOfStock) {
+                boxClass = 'out-of-stock';
+                dotColor = 'red';
+                statusTitle = isCompact ? `فروش کامل (${stats.lastCharge})` : 'اتمام پارت (فروش کامل)';
+            } else if (isLowStock) {
+                boxClass = 'low-stock';
+                dotColor = 'amber';
+                statusTitle = isCompact ? `فقط ${stats.stock} از ${stats.lastCharge}` : `تنها ${stats.stock} عدد مانده!`;
+            }
+
+            // تولید مربع‌ها به تعداد آخرین شارژ:
+            // مربع‌های پُر = فروخته شده | مربع‌های خالی = فروخته نشده (باقی‌مانده)
+            let squaresHtml = '';
+            for (let i = 0; i < stats.soldFromCharge; i++) {
+                squaresHtml += '<span class="stock-square filled" title="فروخته شده از آخرین شارژ"></span>';
+            }
+            for (let j = 0; j < stats.stock; j++) {
+                squaresHtml += '<span class="stock-square empty" title="فروخته نشده (موجود در انبار)"></span>';
+            }
+
+            const legendHtml = isCompact ? '' : `
+                    <div class="stock-squares-legend">
+                        <span>شارژ آخر (${stats.lastCharge}): <strong style="color:#ffffff;">${stats.soldFromCharge}</strong> فروش</span>
+                        <span>باقی‌مانده: <strong class="stock-remain-num">${stats.stock}</strong></span>
+                    </div>`;
+
+            return `
+                <div class="card-stock-box ${boxClass} ${isCompact ? 'compact-stock' : ''}">
+                    <div class="stock-row-info">
+                        <span class="stock-status-label">
+                            <span class="stock-indicator-dot ${dotColor}"></span>
+                            <span>${statusTitle}</span>
+                        </span>
+                        <span class="total-sold-badge" title="مجموع کل فروش از این مکمل تا امروز">
+                            🔥 کل فروش: <strong>${stats.totalSold}</strong>
+                        </span>
+                    </div>
+
+                    <div class="stock-squares-row" title="آخرین شارژ: ${stats.lastCharge} عدد | پُر (${stats.soldFromCharge}): فروخته شده | خالی (${stats.stock}): فروخته نشده">
+                        ${squaresHtml}
+                    </div>
+                    ${legendHtml}
+                </div>
+            `;
         }
 
         function notifyStockRestock(productId, event) {
@@ -11855,57 +13613,8 @@ function selectDepartment(deptKey) {
             const subPathName = parentSub ? parentSub.name : '';
             const fullPathBadge = catPathName ? (catPathName + (subPathName ? (' › ' + subPathName) : '')) : '';
 
-            // نوار وضعیت انبار
-            let stockHtml = '';
-            if (isOutOfStock) {
-                stockHtml = `
-                    <div class="card-stock-box out-of-stock">
-                        <div class="stock-row-info">
-                            <span style="display:flex; align-items:center; gap:6px;">
-                                <span class="stock-indicator-dot red"></span>
-                                <span>اتمام موجودی در انبار</span>
-                            </span>
-                            <span style="font-weight:700; color:#ffffff;">🔥 <strong>${soldCount}</strong> عدد خریداری شده</span>
-                        </div>
-                        <div class="stock-mini-bar">
-                            <div class="stock-mini-fill red" style="width: 100%;"></div>
-                        </div>
-                    </div>
-                `;
-            } else if (stock <= 3) {
-                stockHtml = `
-                    <div class="card-stock-box low-stock">
-                        <div class="stock-row-info">
-                            <span style="display:flex; align-items:center; gap:6px;">
-                                <span class="stock-indicator-dot amber"></span>
-                                <span>تنها <strong>${stock}</strong> عدد در انبار باقیست!</span>
-                            </span>
-                            <span style="font-size:0.72rem; opacity:0.85;">${soldCount} خریدار</span>
-                        </div>
-                        <div class="stock-mini-bar">
-                            <div class="stock-mini-fill amber" style="width: ${Math.max(20, stock * 25)}%;"></div>
-                        </div>
-                    </div>
-                `;
-            } else {
-                stockHtml = `
-                    <div class="card-stock-box in-stock">
-                        <div class="stock-row-info">
-                            <span style="display:flex; align-items:center; gap:6px;">
-                                <span class="stock-indicator-dot green"></span>
-                                <span>موجودی: <strong>${stock}</strong> عدد در انبار</span>
-                            </span>
-                            <span style="font-size:0.72rem; opacity:0.85;">${soldCount} خریدار</span>
-                        </div>
-                        <div class="stock-mini-bar">
-                            <div class="stock-mini-fill green" style="width: 75%;"></div>
-                        </div>
-                    </div>
-                `;
-            }
-
-            // نحوه و زمان مصرف
-            const usageText = item.usage || (item.timings && item.timings[0] ? item.timings[0].time + ': ' + item.timings[0].desc : 'روزانه یک پیمانه در آب سرد مخلوط و مصرف شود.');
+            // نوار مینیمال مربع‌مربع وضعیت آخرین شارژ، فروش پارت و کل فروش مکمل
+            const stockHtml = renderProductStockSquaresBox(item, true);
 
             // دکمه‌های اقدام خرید
             let actionButtonsHtml = '';
@@ -11941,18 +13650,20 @@ function selectDepartment(deptKey) {
                      onmouseenter="highlightParentNav('${item.category}', '${item.subType}')" 
                      onmouseleave="unhighlightParentNav()"
                      onclick="openDetailModal('${item.id}')">
-                    ${isOutOfStock ? '<div class="out-of-stock-ribbon">اتمام موجودی</div>' : ''}
                     <div>
                         <div class="card-top">
                             <div class="card-brand-line ${currentBrand === item.brand ? 'active-brand-filter' : ''}" 
                                  onclick="toggleBrandFilter('${encodeURIComponent(item.brand)}', event)" 
-                                 title="${currentBrand === item.brand ? 'فیلتر این برند فعال است؛ برای نمایش همه محصولات کلیک کنید' : 'فیلتر فقط محصولات برند ' + item.brand}">
+                                 title="${currentBrand === item.brand ? 'فیلتر برند ' + item.brand + ' فعال است؛ برای نمایش همه کلیک کنید' : 'فیلتر فقط محصولات برند ' + item.brand}">
                                 <img src="${bMeta.logo}" class="card-brand-logo-mini" alt="${item.brand}" onerror="this.style.display='none';">
-                                <span>${item.brand}</span>
-                                <span>${bMeta.flag}</span>
-                                ${currentBrand === item.brand ? '<span class="brand-filter-active-tag">فیلتر فعال ✕</span>' : ''}
+                                <span class="card-brand-name">${item.brand}</span>
+                                <span class="card-brand-flag">${bMeta.flag}</span>
+                                ${currentBrand === item.brand ? '<span class="brand-filter-active-tag">✕</span>' : ''}
                             </div>
-                            <span class="weight-pill">${item.weight || 'تضمین اصالت'}</span>
+                            <span class="weight-pill" title="وزن / حجم: ${item.weight || 'تضمین اصالت'}">
+                                <svg viewBox="0 0 24 24"><path d="M12 3a3 3 0 00-2.83 2H7l-3 14h16L17 5h-2.17A3 3 0 0012 3zm0 2a1 1 0 110 2 1 1 0 010-2z"/></svg>
+                                <span>${item.weight || 'اورجینال'}</span>
+                            </span>
                         </div>
 
                         ${fullPathBadge ? `
@@ -11963,19 +13674,11 @@ function selectDepartment(deptKey) {
                         ` : ''}
 
                         <div class="card-img-box">
+                            ${isOutOfStock ? '<div class="out-of-stock-ribbon">اتمام موجودی</div>' : ''}
                             ${imgBoxHtml}
                         </div>
 
                         <h3 class="card-title">${item.name}</h3>
-
-                        <!-- نوار دستور و زمان مصرف -->
-                        <div class="card-usage-snippet">
-                            <div class="usage-title-line">
-                                <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
-                                <span>دستور و زمان مصرف:</span>
-                            </div>
-                            <div class="usage-desc-text">${usageText}</div>
-                        </div>
 
                         ${stockHtml}
                         <div class="card-ing-tags">${tagsHtml}</div>
@@ -11986,7 +13689,7 @@ function selectDepartment(deptKey) {
                             <span class="price-title">قیمت روز:</span>
                             <span class="price-number">${formatPrice(item.price)}</span>
                         </div>
-                        <div class="card-btn-actions-group">
+                        <div class="card-btn-actions-group ${isOutOfStock ? 'single-action' : ''}">
                             ${actionButtonsHtml}
                         </div>
                     </div>
@@ -11995,6 +13698,7 @@ function selectDepartment(deptKey) {
         }
 
         function renderAll() {
+            updateSidebarFilterAnimations();
             const container = document.getElementById("productsContainer");
             const filtered = getFilteredProducts();
             const sorted = sortProducts(filtered);
@@ -12057,6 +13761,7 @@ function selectDepartment(deptKey) {
             const item = fullStoreDB.find(s => s.id === id);
             if (!item) return;
 
+            const isBought = getBoughtList().includes(id);
             const bMeta = BrandMeta[item.brand] || { logo: "images/brands/kalleh.svg", flag: "🌐", country: "اورجینال" };
             const tags = item.ingredients || item.specs || [];
             const tagsBadges = tags.map(t => `
@@ -12064,6 +13769,18 @@ function selectDepartment(deptKey) {
                     ✓ ${t.replace(/_/g, ' ')}
                 </div>
             `).join("");
+
+            const timingsHtml = (Array.isArray(item.timings) && item.timings.length > 0)
+                ? `<div class="modal-timings-list">${item.timings.map(t => `
+                    <div class="modal-timing-item">
+                        <span class="modal-timing-badge">🕒 ${t.time}</span>
+                        <span class="modal-timing-desc">${t.desc || ''}</span>
+                    </div>`).join("")}</div>`
+                : '';
+
+            const warningHtml = item.warnings
+                ? `<div class="modal-usage-warning">⚠️ <strong>هشدار و توصیه مصرف:</strong> ${item.warnings}</div>`
+                : '';
 
             // پاکسازی استودیوی سه‌بعدی قبلی در صورت وجود
             if (active3DStudio) {
@@ -12108,10 +13825,22 @@ function selectDepartment(deptKey) {
                             <span style="color:var(--neon-blue); font-size:0.92rem; font-weight:700;">${item.brand} • ساخت ${bMeta.country} ${bMeta.flag}</span>
                         </div>
                         <h2 style="font-size:1.25rem; font-weight:900; color:#ffffff; line-height:1.4; margin-bottom:12px;">${item.name}</h2>
-                        <div style="font-size:1.35rem; font-weight:900; color:var(--neon-green); margin-bottom:16px;">${formatPrice(item.price)}</div>
+                        <div style="font-size:1.35rem; font-weight:900; color:var(--neon-green); margin-bottom:12px;">${formatPrice(item.price)}</div>
+                        <div style="margin-bottom:16px;">${renderProductStockSquaresBox(item, false)}</div>
                         
                         <!-- جدول رسمی و مهندسی ارزش دارویی مکمل (گزینه ۱) -->
                         ${renderSupplementFactsTable(item)}
+
+                        <!-- دستورالعمل و بهترین زمان مصرف (فقط در نمای جزئیات بعد از کلیک) -->
+                        <div class="modal-usage-panel">
+                            <div class="modal-usage-header">
+                                <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                                <span>دستورالعمل و زمان مصرف:</span>
+                            </div>
+                            <div class="modal-usage-main">${item.usage || 'طبق دستور مربی یا برچسب محصول مصرف شود.'}</div>
+                            ${timingsHtml}
+                            ${warningHtml}
+                        </div>
 
                         <!-- توضیحات و نقد تخصصی محصول: با اسکرول آسان -->
                         <div style="background:rgba(15,23,42,0.85); border:1px solid var(--card-border); border-radius:12px; padding:14px; margin-bottom:14px;">
@@ -12130,10 +13859,6 @@ function selectDepartment(deptKey) {
                         <div style="padding-top:12px; border-top:1px dashed rgba(255,255,255,0.1); margin-top:12px;">
                             <strong style="color:var(--neon-blue); display:block; margin-bottom:8px; font-size:0.85rem;">🧪 فرمولاسیون و ترکیبات کلیدی:</strong>
                             <div style="display:flex; flex-wrap:wrap; gap:6px;">${tagsBadges}</div>
-                        </div>
-
-                        <div style="margin-top:16px; margin-bottom:12px; font-size:0.82rem; color:var(--text-muted); background:rgba(0,0,0,0.3); padding:10px; border-radius:8px;">
-                            <strong style="color:#ffffff;">دستورالعمل و زمان مصرف:</strong> ${item.usage || 'طبق دستور مربی یا برچسب مصرف شود.'}
                         </div>
                     </div>
                 </div>
@@ -12173,9 +13898,11 @@ function selectDepartment(deptKey) {
             selectedIngredients = [];
             currentSubType = "all";
 
-            document.querySelectorAll(".icon-btn[data-origin]").forEach(b => {
+            document.querySelectorAll(".icon-btn[data-origin], .origin-chip-btn[data-origin]").forEach(b => {
                 b.classList.toggle("active", b.getAttribute("data-origin") === "all");
             });
+
+            closeLeftMiniFlyout();
 
             if (currentDepartment && DepartmentsConfig[currentDepartment]) {
                 const deptConf = DepartmentsConfig[currentDepartment];
@@ -12185,26 +13912,21 @@ function selectDepartment(deptKey) {
                 syncIngredientsWithCategory(currentCategory, "all");
                 initBrandSidebar();
                 initIngredientsSidebar();
-            initSidebarsState();
+                updateSidebarFilterAnimations();
                 renderAll();
             }
         }
 
         function filterByBoughtOnly() {
             currentOrigin = "bought";
-            document.querySelectorAll(".icon-btn[data-origin]").forEach(b => {
+            document.querySelectorAll(".icon-btn[data-origin], .origin-chip-btn[data-origin]").forEach(b => {
                 b.classList.toggle("active", b.getAttribute("data-origin") === "bought");
             });
+            updateSidebarFilterAnimations();
             renderAll();
         }
 
-        function clearSearch() {
-            searchQuery = "";
-            const input = document.getElementById("searchInput");
-            if (input) input.value = "";
-            document.getElementById("searchClearBtn").style.display = "none";
-            renderAll();
-        }
+        
 
         // مدیریت تولتیپ سراسری
         function setupTooltips() {
@@ -12260,37 +13982,51 @@ function selectDepartment(deptKey) {
             applyGridColumnsClass();
         });
 
-        // کنترل کادر جستجوی بازشونده از سمت راست دکمه درون هدر
+        // باز و بسته شدن انیمیشنی نوار جستجو در خود هدر
         function toggleSearchBox(force) {
-            const box = document.getElementById("inlineSearchBox");
+            const bar = document.getElementById("headerSearchBox") || document.getElementById("inlineSearchBox");
             const btn = document.getElementById("searchToggleBtn");
             const input = document.getElementById("searchInput");
-            if (!box) return;
+            if (!bar) return;
 
-            const isOpen = force !== undefined ? force : !box.classList.contains("open");
-            box.classList.toggle("open", isOpen);
-            if (btn) btn.classList.toggle("active", isOpen);
+            const shouldOpen = force !== undefined ? force : !bar.classList.contains("active");
+            bar.classList.toggle("active", shouldOpen);
+            if (btn) btn.classList.toggle("active", shouldOpen);
 
-            if (isOpen) {
+            if (shouldOpen) {
                 setTimeout(() => {
-                    if (input) {
-                        input.focus();
-                        if (typeof renderLiveSearchResults === 'function') renderLiveSearchResults(input.value);
-                    }
+                    if (input) input.focus();
                 }, 80);
             } else {
-                const dropdown = document.getElementById("liveSearchDropdown");
-                if (dropdown) dropdown.style.display = "none";
+                if (input) input.blur();
             }
         }
 
-        function onSearchInput(val) {
-            searchQuery = val.trim();
-            const clearBtn = document.getElementById("searchClearBtn");
-            if (clearBtn) clearBtn.style.display = searchQuery ? "inline-block" : "none";
-            renderAll();
+        // عملکرد دکمه ضربدر: در صورت وجود متن آن را پاک می‌کند، و در صورت خالی بودن نوار سرچ را جمع می‌کند
+        function handleSearchCloseOrClear() {
+            const input = document.getElementById("searchInput");
+            if (input && input.value.trim() !== "") {
+                clearSearch();
+            } else {
+                toggleSearchBox(false);
+            }
         }
 
+        // اعمال زنده و مستقیم متن جستجو بر محصولات فروشگاه بدون منوی لیست
+        function onSearchInput(val) {
+            searchQuery = (val || "").trim();
+            
+            // در صورت حضور در صفحه فرود خوش‌آمدگویی، ورود خودکار به اولین دپارتمان جهت نمایش فیلتر زنده
+            if (searchQuery && !currentDepartment && typeof selectDepartment === 'function') {
+                selectDepartment('supplements');
+            }
+
+            if (typeof renderAll === 'function' && currentDepartment) {
+                renderAll();
+            }
+        }
+
+        // پاک کردن متن جستجو و بازگرداندن همه محصولات
         function clearSearch() {
             searchQuery = "";
             const input = document.getElementById("searchInput");
@@ -12298,17 +14034,18 @@ function selectDepartment(deptKey) {
                 input.value = "";
                 input.focus();
             }
-            const clearBtn = document.getElementById("searchClearBtn");
-            if (clearBtn) clearBtn.style.display = "none";
-            renderAll();
+            if (typeof renderAll === 'function' && currentDepartment) {
+                renderAll();
+            }
         }
 
-        // بستن خودکار سرچ‌بار با کلیک یا لمس در هر نقطه دیگری از صفحه
+        // بستن نوار جستجو با کلیک در بیرون از آن
         function handleOutsideSearch(e) {
-            const box = document.getElementById("inlineSearchBox");
-            const btn = document.getElementById("searchToggleBtn");
-            if (!box || !btn) return;
-            if (box.classList.contains("open") && !box.contains(e.target) && !btn.contains(e.target)) {
+            const bar = document.getElementById("headerSearchBox") || document.getElementById("inlineSearchBox");
+            if (!bar) return;
+            if (!document.body.contains(e.target)) return;
+
+            if (bar.classList.contains("active") && !bar.contains(e.target)) {
                 toggleSearchBox(false);
             }
         }
@@ -12316,11 +14053,10 @@ function selectDepartment(deptKey) {
         document.addEventListener("click", handleOutsideSearch);
         document.addEventListener("touchstart", handleOutsideSearch, { passive: true });
 
-        // کلید Escape برای بستن پنجره‌ها
         document.addEventListener("keydown", (e) => {
             if (e.key === "Escape") {
                 toggleSearchBox(false);
-                closeModal();
+                if (typeof closeModal === 'function') closeModal();
             }
         });
     
@@ -12869,158 +14605,41 @@ function selectDepartment(deptKey) {
         }
 
         // ==========================================================================
-        // جستجوی زنده، لحظه‌ای و تصویری (Live Instant Visual Search)
+        // جستجوی مستقیم و سریع محصولات (بدون منوی بازشونده در پایین و بدون تگ پیشنهادی)
         // ==========================================================================
-        function onSearchInput(val) {
-            searchQuery = val.trim();
-            const clearBtn = document.getElementById("searchClearBtn");
-            if (clearBtn) clearBtn.style.display = searchQuery ? "inline-block" : "none";
-            
-            // رندر نتایج تصویری در پنل زنده
-            renderLiveSearchResults(searchQuery);
-            
-            // اجرای فیلتر در صفحه اصلی
-            if (typeof renderAll === 'function') renderAll();
-        }
-
         function renderLiveSearchResults(query) {
+            // طبق دستور کاربر: جستجو مستقیماً بر روی محصولات گرید اعمال شده و منوی لیست زیرین و دکمه‌های پیشنهادی حذف شدند
             const dropdown = document.getElementById("liveSearchDropdown");
-            if (!dropdown) return;
-
-            dropdown.style.display = "flex";
-
-            // اگر کوئری خالی است: نمایش تگ‌های پیشنهادی محبوب
-            if (!query) {
-                dropdown.innerHTML = `
-                    <div class="live-search-header">
-                        <span>دسته‌بندی‌ها و جستجوهای پرطرفدار</span>
-                        <span class="live-search-badge">پیشنهاد سریع</span>
-                    </div>
-                    <div class="live-search-body">
-                        <div class="live-search-empty-state">
-                            <span style="font-size: 1.8rem;">🔥</span>
-                            <div style="font-size: 0.82rem; font-weight: 700; color: #ffffff;">به دنبال چه مکملی یا محصولی هستید؟</div>
-                            <div class="live-search-tags">
-                                <span class="live-search-tag-chip" onclick="selectSearchTag('کراتین')">کراتین مونوهیدرات</span>
-                                <span class="live-search-tag-chip" onclick="selectSearchTag('پروتئین وی')">پروتئین وی</span>
-                                <span class="live-search-tag-chip" onclick="selectSearchTag('گینر')">گینر حجم</span>
-                                <span class="live-search-tag-chip" onclick="selectSearchTag('شیکر')">شیکر و قمقمه</span>
-                                <span class="live-search-tag-chip" onclick="selectSearchTag('کمربند')">کمربند بدنسازی</span>
-                                <span class="live-search-tag-chip" onclick="selectSearchTag('تیشرت')">پوشاک ورزشی</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                return;
-            }
-
-            const q = query.toLowerCase();
-            const allItems = typeof fullStoreDB !== 'undefined' ? fullStoreDB : [];
-            const matches = allItems.filter(item => {
-                const combined = (
-                    (item.name || "") + " " +
-                    (item.brand || "") + " " +
-                    (item.purpose || "") + " " +
-                    (item.category || "") + " " +
-                    (item.subType || "")
-                ).toLowerCase();
-                return combined.includes(q);
-            });
-
-            if (matches.length === 0) {
-                dropdown.innerHTML = `
-                    <div class="live-search-header">
-                        <span>نتیجه جستجوی زنده</span>
-                        <span class="live-search-badge">۰ محصول</span>
-                    </div>
-                    <div class="live-search-body">
-                        <div class="live-search-empty-state">
-                            <span style="font-size: 1.8rem;">🔍</span>
-                            <div style="font-size: 0.85rem; font-weight: 700; color: #ffffff;">محصولی مطابق «${query}» یافت نشد!</div>
-                            <div style="font-size: 0.75rem; color: #94a3b8;">می‌توانید عبارات پیشنهادی زیر را امتحان فرمایید:</div>
-                            <div class="live-search-tags">
-                                <span class="live-search-tag-chip" onclick="selectSearchTag('کراتین')">کراتین</span>
-                                <span class="live-search-tag-chip" onclick="selectSearchTag('پروتئین')">پروتئین</span>
-                                <span class="live-search-tag-chip" onclick="selectSearchTag('آمینو')">آمینو</span>
-                                <span class="live-search-tag-chip" onclick="selectSearchTag('شیکر')">شیکر</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                return;
-            }
-
-            // نمایش نتایج منطبق (تا ۸ محصول)
-            const topMatches = matches.slice(0, 8);
-            let itemsHtml = "";
-
-            topMatches.forEach(item => {
-                let imgBox = '';
-                if (item.image) {
-                    imgBox = `<img src="${item.image}" alt="${item.name}" onerror="this.onerror=null; this.parentNode.innerHTML='<span style=\'font-size:1.3rem;\'>📦</span>';">`;
-                } else if (item.svg) {
-                    imgBox = item.svg;
-                } else {
-                    imgBox = '<span style="font-size: 1.3rem;">⚡</span>';
-                }
-
-                // عنوان دپارتمان
-                let deptName = 'مکمل ورزشی';
-                if (item.department === 'apparel_men') deptName = 'پوشاک آقایان';
-                if (item.department === 'apparel_women') deptName = 'پوشاک بانوان';
-                if (item.department === 'gym_gear') deptName = 'تجهیزات باشگاه';
-
-                itemsHtml += `
-                    <div class="live-search-item" onclick="focusProductInStore('${item.id}', '${item.department}')">
-                        <div class="live-search-img-box">
-                            ${imgBox}
-                        </div>
-                        <div class="live-search-info">
-                            <div class="live-search-title">${item.name}</div>
-                            <div class="live-search-meta">
-                                <span>${item.brand}</span>
-                                <span class="live-search-dept-badge">${deptName}</span>
-                            </div>
-                        </div>
-                        <div class="live-search-price-box">
-                            <div class="live-search-price">${formatPrice(item.price)}</div>
-                            <button class="live-search-quick-buy" onclick="event.stopPropagation(); addToCartPro('${item.id}', 1, event);" title="افزودن سریع به سبد">
-                                <span>+ خرید</span>
-                            </button>
-                        </div>
-                    </div>
-                `;
-            });
-
-            dropdown.innerHTML = `
-                <div class="live-search-header">
-                    <span>نتایج لحظه‌ای برای: «${query}»</span>
-                    <span class="live-search-badge">${matches.length.toLocaleString('fa-IR')} محصول یافت شد</span>
-                </div>
-                <div class="live-search-body">
-                    ${itemsHtml}
-                </div>
-            `;
+            if (dropdown) dropdown.style.display = "none";
         }
 
-        function selectSearchTag(tag) {
+        function selectSearchTag(tag, event) {
+            if (event) event.stopPropagation();
             const input = document.getElementById("searchInput");
             if (input) {
-                input.value = tag;
-                onSearchInput(tag);
+                input.value = tag || "";
+                onSearchInput(input.value);
                 input.focus();
             }
         }
 
         // هدایت مستقیم به محصول از نتایج جستجو
         function focusProductInStore(productId, department) {
-            // بستن پنجره نتایج سرچ
-            const dropdown = document.getElementById("liveSearchDropdown");
-            if (dropdown) dropdown.style.display = "none";
+            toggleSearchBox(false);
+            const item = (typeof fullStoreDB !== 'undefined' ? fullStoreDB : []).find(p => p.id === productId);
             
-            // اگر در دپارتمان فعلی نیست، تغییر دپارتمان
             if (typeof selectDepartment === 'function' && department && department !== currentDepartment) {
                 selectDepartment(department);
+            }
+            
+            if (item) {
+                currentCategory = item.category || "all";
+                currentSubType = "all";
+                currentBrand = "all";
+                currentOrigin = "all";
+                if (typeof initCategoriesBar === 'function') initCategoriesBar();
+                if (typeof initBrandSidebar === 'function') initBrandSidebar();
+                if (typeof renderAll === 'function') renderAll();
             }
             
             setTimeout(() => {
@@ -13033,33 +14652,7 @@ function selectDepartment(deptKey) {
             }, 300);
         }
 
-        // پاک کردن کامل فیلد سرچ و بستن درپ‌داون
-        function clearSearch() {
-            searchQuery = "";
-            const input = document.getElementById("searchInput");
-            if (input) {
-                input.value = "";
-                input.focus();
-            }
-            const clearBtn = document.getElementById("searchClearBtn");
-            if (clearBtn) clearBtn.style.display = "none";
-            
-            const dropdown = document.getElementById("liveSearchDropdown");
-            if (dropdown) dropdown.style.display = "none";
-            
-            if (typeof renderAll === 'function') renderAll();
-        }
-
-        // بستن درپ‌داون سرچ هنگام کلیک در خارج
-        document.addEventListener("click", function(e) {
-            const box = document.getElementById("inlineSearchBox");
-            const dropdown = document.getElementById("liveSearchDropdown");
-            if (!box || !dropdown) return;
-            
-            if (!box.contains(e.target)) {
-                dropdown.style.display = "none";
-            }
-        });
+        
 
         // باز کردن خودکار کشوی سبد در صورت فراخوانی filterByBoughtOnly از قبل
         function filterByBoughtOnly() {
@@ -13390,17 +14983,9 @@ function selectDepartment(deptKey) {
             <span>سبد خرید</span>
             <span class="dock-cart-badge" id="dockCartBadge" style="display: none;">0</span>
         </button>
-        <button type="button" class="dock-btn" id="dockBtnRightSidebar" onclick="toggleRightSidebar()" title="فیلتر برندها و سازنده">
-            <svg viewBox="0 0 24 24"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>
-            <span>فیلتر برندها</span>
-        </button>
         <button type="button" class="dock-btn" id="dockBtnLayout" onclick="cycleMobileLayout()" title="تغییر چیدمان محصولات">
             <span class="dock-icon-text">🪄</span>
             <span id="dockLayoutLabel">خودکار</span>
-        </button>
-        <button type="button" class="dock-btn" id="dockBtnLeftSidebar" onclick="toggleLeftSidebar()" title="جدول ترکیبات و محتویات">
-            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
-            <span>جدول ترکیبات</span>
         </button>
         <button type="button" class="dock-btn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="اسکرول به بالای صفحه">
             <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>

@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>برنامه‌ریز هوشمند فروشگاه و ۳ مدل همکاری تجاری</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: Vazirmatn, Tahoma, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      margin: 0;
+      background-color: #080c16;
+      color: #f1f5f9;
+    }
+
+    /* رنگ‌های سه سطح */
+    .tier-gray {
+      border-color: rgba(148, 163, 184, 0.4);
+      background: linear-gradient(135deg, rgba(148, 163, 184, 0.08), rgba(30, 41, 59, 0.5));
+    }
+    .tier-purple {
+      border-color: rgba(168, 85, 247, 0.45);
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(46, 16, 101, 0.4));
+    }
+    .tier-gold {
+      border-color: rgba(245, 158, 11, 0.5);
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(69, 26, 3, 0.45));
+    }
+
+    .badge-gray { background-color: #475569; color: #f8fafc; }
+    .badge-purple { background-color: #8b5cf6; color: #ffffff; }
+    .badge-gold { background: linear-gradient(90deg, #d97706, #f59e0b); color: #0f172a; font-weight: 700; }
+
+    /* هایلایت مسیر پیشنهادی هنگام هاور یا انتخاب */
+    .rec-highlight {
+      box-shadow: 0 0 0 2px #38bdf8, 0 0 20px rgba(56, 189, 248, 0.35) !important;
+      border-color: #38bdf8 !important;
+      transform: translateY(-2px);
+    }
+    .rec-step-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      background: #0284c7;
+      color: #ffffff;
+      box-shadow: 0 0 10px rgba(2, 132, 199, 0.7);
+      animation: pulseStep 1.6s infinite alternate;
+    }
+    @keyframes pulseStep {
+      0% { transform: scale(0.95); opacity: 0.9; }
+      100% { transform: scale(1.1); opacity: 1; }
+    }
+
+    .mode-btn-active {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.25), rgba(37, 99, 235, 0.35)) !important;
+      border-color: #38bdf8 !important;
+      color: #ffffff !important;
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.3) !important;
+    }
+
+    .progress-bar-smooth {
+      transition: width 0.35s ease-out;
+    }
+
+    @media print {
+      .no-print { display: none !important; }
+      body { background: #ffffff !important; color: #000000 !important; }
+    }
+  </style>
+</head>
+<body class="p-3 sm:p-5">
+
+  <div class="max-w-4xl mx-auto space-y-4">
+
+    <!-- ========================================================= -->
+    <!-- هدر مینیمال + ۳ کلید انتخاب استراتژی تجاری -->
+    <!-- ========================================================= -->
+    <header class="bg-[#0f172a]/90 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl space-y-4 no-print">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div>
+          <span class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-sky-500/15 text-sky-400 border border-sky-500/30 mb-1">
+            برنامه‌ریز تصمیم‌گیری اقتصادی
+          </span>
+          <h1 class="text-base sm:text-lg font-bold text-white">
+            ۳ مدل همکاری و مسیر پیشنهادی انتخاب امکانات
+          </h1>
+        </div>
+        <div class="text-xs text-slate-400">
+          ماوس را روی هر مدل ببرید تا ترتیب گام‌ها روشن شود
+        </div>
+      </div>
+
+      <!-- ۳ دکمه اصلی مدل همکاری -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+        <!-- مدل ۱: پرداخت نقدی کامل -->
+        <button
+          type="button"
+          id="btnMode_full"
+          onclick="selectMode('full')"
+          onmouseenter="previewMode('full')"
+          onmouseleave="clearPreview()"
+          class="mode-btn-active rounded-xl border border-slate-700 bg-slate-800/60 p-3 text-right cursor-pointer transition hover:border-sky-400"
+        >
+          <div class="flex items-center justify-between text-xs font-bold text-sky-300">
+            <span>مدل ۱: پرداخت نقدی کامل</span>
+            <span class="text-xs bg-sky-500/20 px-2 py-0.5 rounded-md">بیشترین تخفیف</span>
+          </div>
+          <div class="text-xs text-slate-300 mt-1 font-semibold">مالکیت دائمی + ۲۰٪ تخفیف پکیج یک‌جا</div>
+          <div class="text-[11px] text-slate-400 mt-0.5">مناسب کسانی که بودجه کامل دارند و بیشترین سود را می‌خواهند.</div>
+        </button>
+
+        <!-- مدل ۲: اجرای مرحله‌ای در ۳ راند -->
+        <button
+          type="button"
+          id="btnMode_phased"
+          onclick="selectMode('phased')"
+          onmouseenter="previewMode('phased')"
+          onmouseleave="clearPreview()"
+          class="rounded-xl border border-slate-700 bg-slate-800/60 p-3 text-right cursor-pointer transition hover:border-purple-400"
+        >
+          <div class="flex items-center justify-between text-xs font-bold text-purple-300">
+            <span>مدل ۲: اجرای مرحله‌ای ۳ رانده</span>
+            <span class="text-xs bg-purple-500/20 px-2 py-0.5 rounded-md">رشد پله‌ای</span>
+          </div>
+          <div class="text-xs text-slate-300 mt-1 font-semibold">پرداخت خرد + توسعه با سود خود مغازه</div>
+          <div class="text-[11px] text-slate-400 mt-0.5">راند ۱ را بسازید، جنس بفروشید و با سود آن راند ۲ و ۳ را باز کنید.</div>
+        </button>
+
+        <!-- مدل ۳: پایه اقتصادی + شراکت در سود فروش -->
+        <button
+          type="button"
+          id="btnMode_revshare"
+          onclick="selectMode('revshare')"
+          onmouseenter="previewMode('revshare')"
+          onmouseleave="clearPreview()"
+          class="rounded-xl border border-slate-700 bg-slate-800/60 p-3 text-right cursor-pointer transition hover:border-amber-400"
+        >
+          <div class="flex items-center justify-between text-xs font-bold text-amber-300">
+            <span>مدل ۳: پایه + شراکت در فروش</span>
+            <span class="text-xs bg-amber-500/20 px-2 py-0.5 rounded-md">کمترین پیش‌پرداخت</span>
+          </div>
+          <div class="text-xs text-slate-300 mt-1 font-semibold">۵۰٪ تخفیف هزینه اولیه + ۴٪ از درگاه</div>
+          <div class="text-[11px] text-slate-400 mt-0.5">شروع بسیار سبک؛ شریک رشد هم می‌شویم و سهم روی درگاه کسر می‌شود.</div>
+        </button>
+      </div>
+
+      <!-- نوار توضیح مسیر فعال و اعمال خودکار مسیر پیشنهادی -->
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 p-3 rounded-xl bg-slate-900/80 border border-slate-800 text-xs">
+        <div class="space-y-0.5">
+          <div class="text-slate-300">
+            <strong id="activeModeTitle" class="text-sky-300 font-bold">مسیر پیشنهادی مدل ۱ (خرید کامل نقدی):</strong>
+            <span id="activeModeDesc" class="text-slate-400">تمام ۲۷ امکان با تخفیف یک‌جا و روشن شدن همه ویژگی‌های لوکس</span>
+          </div>
+          <div id="hoverHintNotice" class="text-amber-400 font-semibold text-[11px] hidden">
+            در حال پیش‌نمایش گام‌های پیشنهادی این مدل...
+          </div>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+          <button type="button" onclick="applySuggestedPath()" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-sky-500 text-slate-950 hover:bg-sky-400 cursor-pointer">
+            تیک زدن خودکار همین پیشنهاد
+          </button>
+          <button type="button" onclick="resetToCustom()" class="px-3 py-1.5 rounded-lg text-xs font-semibold border border-slate-700 hover:border-slate-500 cursor-pointer text-slate-300">
+            انتخاب آزاد دستی
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ========================================================= -->
+    <!-- نوار چسبیده داشبورد هزینه‌ها و مقایسه زنده ۳ مدل -->
+    <!-- ========================================================= -->
+    <div class="sticky top-2 z-30 bg-[#0b1120]/95 backdrop-blur-md border border-slate-800 rounded-2xl p-3.5 shadow-xl space-y-3 no-print">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
+        <div class="rounded-xl bg-slate-900/70 border border-slate-800 p-2">
+          <div class="text-slate-400">گزینه‌های فعال</div>
+          <div id="hudItemsCount" class="text-base font-extrabold text-white mt-0.5">۰ مورد</div>
+        </div>
+
+        <div class="rounded-xl bg-slate-900/70 border border-slate-800 p-2">
+          <div class="text-slate-400">قدرت کلی فروشگاه</div>
+          <div id="hudTotalPct" class="text-base font-extrabold text-purple-400 mt-0.5">۰٪</div>
+        </div>
+
+        <div class="rounded-xl bg-slate-900/70 border border-slate-800 p-2 col-span-2 sm:col-span-2">
+          <div class="flex items-center justify-between text-slate-400 px-1">
+            <span>مبلغ قابل پرداخت در مدل انتخابی:</span>
+            <span id="hudActiveModeTag" class="text-[11px] font-bold text-sky-400">مدل نقدی کامل</span>
+          </div>
+          <div id="hudActiveCost" class="text-lg font-black text-emerald-400 mt-0.5">۰ تومان</div>
+        </div>
+      </div>
+
+      <!-- مقایسه هزینه همین گزینه‌های انتخابی در هر ۳ مدل -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px] pt-1 border-t border-slate-800">
+        <div id="compareBox_full" class="p-2 rounded-lg border border-sky-500/40 bg-sky-500/10 flex justify-between items-center">
+          <span>نقدی کامل:</span>
+          <strong id="costMode_full" class="text-sky-300">۰ تومان</strong>
+        </div>
+        <div id="compareBox_phased" class="p-2 rounded-lg border border-purple-500/30 bg-purple-500/5 flex justify-between items-center">
+          <span>مرحله‌ای (راند ۱):</span>
+          <strong id="costMode_phased" class="text-purple-300">۰ تومان</strong>
+        </div>
+        <div id="compareBox_revshare" class="p-2 rounded-lg border border-amber-500/30 bg-amber-500/5 flex justify-between items-center">
+          <span>شراکت (پیش‌پرداخت):</span>
+          <strong id="costMode_revshare" class="text-amber-300">۰ تومان + ۴٪</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- ۳ ردیف عمودی و متوالی امکانات (خاکستری ➔ بنفش ➔ طلایی) -->
+    <!-- ========================================================= -->
+    <main id="optionsRoot" class="space-y-4 no-print">
+      <!-- با جاوااسکریپت به شکل مینیمال و خوانا ساخته می‌شود -->
+    </main>
+
+    <!-- ========================================================= -->
+    <!-- پیش‌فاکتور تمیز + قوانین و امضای دیجیتال -->
+    <!-- ========================================================= -->
+    <section id="invoiceContainer" class="bg-[#0f172a] border border-slate-800 rounded-2xl p-4 sm:p-5 space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-800 pb-3">
+        <div>
+          <h2 class="text-base font-bold text-white">برگه تایید نهایی و فاکتور رسمی</h2>
+          <p class="text-xs text-slate-400">خلاصه اقلام، مدل همکاری تاییدشده و تعهدنامه</p>
+        </div>
+        <div class="text-xs text-slate-400 space-y-0.5 text-left sm:text-right">
+          <div>شماره فاکتور: <strong id="invNumber" class="text-white">—</strong></div>
+          <div>تاریخ: <strong id="invDate" class="text-white">—</strong></div>
+        </div>
+      </div>
+
+      <!-- جدول فشرده اقلام -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-xs text-right border-collapse">
+          <thead>
+            <tr class="border-b border-slate-800 text-slate-400">
+              <th class="py-1.5 px-2">ردیف</th>
+              <th class="py-1.5 px-2">شرح امکانات انتخابی</th>
+              <th class="py-1.5 px-2 text-center">سطح</th>
+              <th class="py-1.5 px-2 text-center">گام</th>
+              <th class="py-1.5 px-2 text-left">مبلغ تکی</th>
+            </tr>
+          </thead>
+          <tbody id="invTbody" class="divide-y divide-slate-800/60 text-slate-300">
+            <!-- ردیف‌ها -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- جمع‌بندی مالی متناسب با مدل همکاری انتخابی -->
+      <div id="invSummaryBlock" class="p-3.5 rounded-xl bg-slate-900 border border-slate-800 space-y-1.5 text-xs">
+        <!-- با جاوااسکریپت ساخته می‌شود -->
+      </div>
+
+      <!-- قوانین ۵ گانه -->
+      <div class="p-3.5 rounded-xl border border-slate-800 bg-slate-900/60 space-y-2 text-xs">
+        <div class="font-bold text-slate-200">بندهای توافق‌نامه:</div>
+        <ul class="space-y-1 text-slate-400 list-disc pr-4 text-[11px] leading-relaxed">
+          <li><strong>مدل انتخابی:</strong> پرداخت‌ها و زمان‌بندی دقیقاً مطابق با استراتژی برگزیده (کامل، ۳ رانده یا شراکتی) اعمال می‌شود.</li>
+          <li><strong>مالکیت و امنیت:</strong> مالکیت کامل آدرس سایت، داده‌های مشتریان و انبار پس از تسویه متعلق به کارفرما خواهد بود.</li>
+          <li><strong>تضمین اجرا:</strong> تحویل اولیه و بررسی تست کیفیت پیش از تسویه نهایی هر مرحله انجام می‌گیرد.</li>
+          <li><strong>مهلت اجرای مرحله‌ای:</strong> در مدل ۳ رانده، کل ۳ راند در بازه ۹۰ روزه تکمیل می‌گردد تا تخفیف‌ها معتبر بماند.</li>
+        </ul>
+        <label class="flex items-center gap-2 pt-1 text-slate-200 cursor-pointer">
+          <input type="checkbox" id="chkTerms" onchange="checkTermsState()" class="w-4 h-4 cursor-pointer">
+          <span class="font-semibold">شرایط و مفاد بالا را مطالعه کرده و قبول دارم.</span>
+        </label>
+      </div>
+
+      <!-- محل امضای دیجیتال -->
+      <div class="space-y-2 no-print">
+        <div class="flex items-center justify-between text-xs">
+          <span class="font-bold text-slate-200">محل امضای الکترونیکی (با انگشت یا ماوس بکشید):</span>
+          <button type="button" onclick="clearSign()" class="text-slate-400 hover:text-white underline cursor-pointer">پاک کردن</button>
+        </div>
+        <div class="relative rounded-xl border-2 border-dashed border-slate-700 bg-white overflow-hidden">
+          <canvas id="signPad" class="w-full block touch-none cursor-crosshair" style="height: 130px;"></canvas>
+          <div id="signTip" class="absolute inset-0 flex items-center justify-center text-xs text-slate-400 pointer-events-none">
+            اینجا امضا کنید...
+          </div>
+          <div id="stampBox" class="hidden absolute top-3 left-3 px-3 py-1 rounded-lg border-2 border-emerald-600 bg-emerald-50 text-emerald-700 font-extrabold text-xs rotate-[-6deg]">
+            تایید و امضا شد ✓
+          </div>
+        </div>
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
+          <span id="signFeedback" class="text-xs text-slate-400">ابتدا تیک قوانین را بزنید و سپس امضا فرمایید.</span>
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="lockSignature()" class="px-4 py-2 rounded-xl text-xs font-bold badge-gold hover:opacity-90 cursor-pointer">
+              ثبت نهایی امضا
+            </button>
+            <button type="button" onclick="window.print()" class="px-3.5 py-2 rounded-xl text-xs font-semibold border border-slate-700 hover:border-slate-500 cursor-pointer text-slate-300">
+              چاپ / ذخیره فاکتور
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    // =========================================================
+    // ۱. دیتابیس ۲۷ آپشن طبق سطوح خاکستری، بنفش، طلایی
+    // =========================================================
+    const optionsData = [
+      // سطح ۱: خاکستری (ضروری و پایه)
+      { id: "g1", tier: "gray", title: "ویترین تخصصی فروش مکمل‌های ورزشی", desc: "کاتالوگ مکمل، برندهای داخلی/خارجی و جدول ترکیبات", pct: 4, price: 6, req: [] },
+      { id: "g2", tier: "gray", title: "سبد خرید هوشمند و فرم ثبت سفارش", desc: "محاسبه هزینه ارسال و فیلدهای ثبت آدرس", pct: 3, price: 3, req: [] },
+      { id: "g3", tier: "gray", title: "درگاه بانکی مستقیم + ثبت فیش کارت‌به‌کارت", desc: "پرداخت آنلاین و ثبت حواله بانکی به حساب شما", pct: 3, price: 3.5, req: [] },
+      { id: "g4", tier: "gray", title: "نماد اعتماد (اینماد) و پروتکل امنیتی SSL", desc: "رسمیت بخشیدن به فروشگاه و جلب اعتماد خریداران", pct: 2, price: 2, req: [] },
+      { id: "g5", tier: "gray", title: "نسخه بهینه‌شده برای مرورگر موبایل", desc: "طراحی دسترسی سریع ویژه صفحه‌نمایش گوشی", pct: 3, price: 2.5, req: [] },
+      { id: "g6", tier: "gray", title: "پنل مدیریت کالاها و لیست سفارش‌ها", desc: "تغییر قیمت، عکس و مدیریت دستی کالاها", pct: 3, price: 3, req: [] },
+      { id: "g7", tier: "gray", title: "ربات تلگرام خبررسان سفارش‌های جدید", desc: "ارسال فاکتور لحظه‌ای خریدها مستقیم به تلگرام شما", pct: 3, price: 2.5, req: [] },
+      { id: "g8", tier: "gray", title: "آدرس اینترنتی اختصاصی و آموزش کاربری", desc: "ثبت دامنه به نام برند شما و فایل آموزش تصویری", pct: 2, price: 2, req: [] },
+
+      // سطح ۲: بنفش (رشد فروش، ارسال و اعتمادسازی)
+      { id: "p1", tier: "purple", title: "بخش فروش پوشاک ورزشی مردانه و زنانه", desc: "انتخاب سایز، رنگ، جنس و جدول راهنمای اندازه", pct: 4, price: 5, req: ["g1"] },
+      { id: "p2", tier: "purple", title: "بخش فروش تجهیزات باشگاهی و شیکرها", desc: "کمربند، مچ‌بند، اکسسوری و شیکرهای ورزشی", pct: 4, price: 4, req: ["g1"] },
+      { id: "p3", tier: "purple", title: "تغییر رنگ و نورپردازی زنده متناسب با هر دسته", desc: "افزایش جلوه بصری و لوکس به نظر رسیدن سایت", pct: 3, price: 3, req: ["g1"] },
+      { id: "p4", tier: "purple", title: "نمای ۳۶۰ درجه سه‌بعدی قوطی مکمل و جدول آن", desc: "چرخش با انگشت و اثبات اصالت محصول", pct: 4, price: 6, req: ["g1", "g5"] },
+      { id: "p5", tier: "purple", title: "مقایسه دو کالا کنار هم + استعلام اصالت", desc: "جدول مقایسه برندها و رفع شک اصالت کالا", pct: 3, price: 3.5, req: ["g1"] },
+      { id: "p6", tier: "purple", title: "ربات تلگرام دریافت فیش واریزی و تایید با ۱ لمس", desc: "دریافت عکس فیش، تایید فوری و پیامک کد رهگیری", pct: 4, price: 4.5, req: ["g3", "g7"] },
+      { id: "p7", tier: "purple", title: "ورود بدون رمز با کد پیامک + پیامک سفارش", desc: "ورود فوق‌سریع با شماره و ارسال خودکار کد رهگیری", pct: 3, price: 4, req: ["g2", "g3"] },
+      { id: "p8", tier: "purple", title: "کد تخفیف مناسبتی + نوار ارسال رایگان", desc: "تشویق خریدار به افزودن جنس بیشتر برای ارسال رایگان", pct: 3, price: 2.5, req: ["g2"] },
+      { id: "p9", tier: "purple", title: "اتصال به پست و تیپاکس + چاپ برچسب کارتن", desc: "محاسبه دقیق کرایه پستی و پرینت نشانی روی بسته", pct: 3, price: 3.5, req: ["g2"] },
+      { id: "p10", tier: "purple", title: "انبارداری زنده + تغییر قیمت درصدی کل یک برند", desc: "تغییر قیمت کل برند با نوسان ارز تنها با یک کلیک", pct: 4, price: 4, req: ["g6"] },
+
+      // سطح ۳: طلایی (لوکس، هوش مصنوعی، سود مالی و تبلیغات)
+      { id: "y1", tier: "gold", title: "نمای سه‌بعدی واقعی پوشاک روی مانکن و تجهیزات", desc: "چرخش ۳۶۰ درجه تیشرت و شیکر برای فروش بالا", pct: 4, price: 12, req: ["p1", "p2", "p4"] },
+      { id: "y2", tier: "gold", title: "درگاه خرید اقساطی ۴ قسطه برای مشتریان", desc: "افزایش فروش مکمل‌های گران‌قیمت با شرایط قسطی", pct: 4, price: 6, req: ["g3"] },
+      { id: "y3", tier: "gold", title: "ربات همه‌کاره تلگرام: فروش داخل ربات و یادآوری ۳۰ روزه", desc: "خرید در تلگرام و یادآوری خودکار خرید مجدد قوطی تمام‌شده", pct: 4, price: 9, req: ["p6"] },
+      { id: "y4", tier: "gold", title: "گزارش مالی دقیق: چی خریدم، چی فروختم و سود خالص", desc: "محاسبه اتوماتیک سود، سرمایه خوابیده و پرفروش‌ها", pct: 4, price: 8, req: ["p10"] },
+      { id: "y5", tier: "gold", title: "رادار کلیک مشتری: محبوب‌ترین دکمه‌ها و برندها", desc: "گزارش علایق بازدیدکنندگان برای هدف‌گذاری دقیق جنس", pct: 3, price: 7, req: ["g7"] },
+      { id: "y6", tier: "gold", title: "باشگاه مشتریان + پورسانت معرف مربی‌های باشگاه", desc: "سیستم کد تخفیف مربی و واریز خودکار سهم او از خرید شاگردان", pct: 4, price: 7, req: ["p7", "p8"] },
+      { id: "y7", tier: "gold", title: "مشاور هوشمند خرید با هوش مصنوعی (قد، وزن، هدف)", desc: "پیشنهاد مکمل اختصاصی بر اساس وزن و هدف خریدار", pct: 4, price: 9, req: ["p4", "p5"] },
+      { id: "y8", tier: "gold", title: "اتصال به سامانه برنامه تمرین و ریکاوری خواب", desc: "خریدار پنل تمرین ورزشی هدیه می‌گیرد و همیشه مشتری می‌ماند", pct: 4, price: 11, req: ["y6"] },
+      { id: "y9", tier: "gold", title: "اپلیکیشن اختصاصی موبایل + پشتیبانی VIP شش‌ماهه", desc: "نرم‌افزار مستقل گوشی با نوتیفیکیشن حراجی و آرامش ۶ ماهه", pct: 4, price: 15, req: ["g5", "y4"] }
+    ];
+
+    const optMap = new Map(optionsData.map(o => [o.id, o]));
+
+    // =========================================================
+    // ۲. مسیرهای پیشنهادی در هریک از ۳ استراتژی همکاری (با ترتیب گام‌ها)
+    // =========================================================
+    const strategies = {
+      full: {
+        key: "full",
+        title: "مدل ۱ (خرید نقدی کامل و پکیج جامع):",
+        desc: "تمام امکانات حیاتی، سه‌بعدی، ربات تلگرام و گزارش‌های مالی با ۲۰٪ تخفیف کل فاکتور و مالکیت مادام‌العمر",
+        // ترتیب گام‌های پیشنهادی
+        sequence: [
+          "g1", "g2", "g3", "g5", "g6", "g7", "g8", "g4",
+          "p1", "p2", "p4", "p6", "p7", "p9", "p10", "p3", "p5", "p8",
+          "y1", "y2", "y3", "y4", "y6", "y7", "y8", "y5", "y9"
+        ]
+      },
+      phased: {
+        key: "phased",
+        title: "مدل ۲ (اجرای ۳ رانده مرحله‌ای):",
+        desc: "راند ۱ (پایه با ۲۴.۵ م) ➔ فروش کالا ➔ راند ۲ (پوشاک، سه‌بعدی و ربات با ۲۶ م) ➔ راند ۳ (امپراتوری طلایی با سود مغازه)",
+        sequence: [
+          // راند ۱ (پایه ضروری)
+          "g1", "g2", "g3", "g5", "g6", "g7", "g8", "g4",
+          // راند ۲ (موتور رشد و سفارشات)
+          "p1", "p2", "p4", "p6", "p7", "p9", "p10",
+          // راند ۳ (امپراتوری نهایی)
+          "y1", "y3", "y4", "y6", "y7", "y8"
+        ]
+      },
+      revshare: {
+        key: "revshare",
+        title: "مدل ۳ (پایه اقتصادی + شراکت در سود فروش):",
+        desc: "کاهش ۵۰ درصدی پیش‌پرداخت اولیه + پرداخت ۴٪ کارمزد مستقیم از درگاه بانکی همگام با رشد فروش آنلاین",
+        sequence: [
+          "g1", "g2", "g3", "g5", "g7", "g8",
+          "p6", "p7", "p9", "p10", "p4",
+          "y2", "y3", "y4", "y6"
+        ]
+      }
+    };
+
+    let selectedMode = "full"; // full | phased | revshare
+    let previewingMode = null;
+    let checkedSet = new Set(strategies.full.sequence); // پیش‌فرض پکیج کامل انتخاب است
+    let isSigned = false;
+
+    function formatTomans(mil) {
+      return Number(mil).toLocaleString('fa-IR') + " میلیون تومان";
+    }
+
+    // تغییر مود با کلیک
+    function selectMode(modeKey) {
+      selectedMode = modeKey;
+      previewingMode = null;
+      document.getElementById("hoverHintNotice").classList.add("hidden");
+      updateModeButtonsUI();
+      renderAll();
+    }
+
+    // هاور روی دکمه‌های مدل برای دیدن ترتیب گام‌ها
+    function previewMode(modeKey) {
+      previewingMode = modeKey;
+      document.getElementById("hoverHintNotice").classList.remove("hidden");
+      renderAll();
+    }
+
+    function clearPreview() {
+      previewingMode = null;
+      document.getElementById("hoverHintNotice").classList.add("hidden");
+      renderAll();
+    }
+
+    function updateModeButtonsUI() {
+      ["full", "phased", "revshare"].forEach(k => {
+        const btn = document.getElementById("btnMode_" + k);
+        if (k === selectedMode) {
+          btn.className = "mode-btn-active rounded-xl border p-3 text-right cursor-pointer transition";
+        } else {
+          btn.className = "rounded-xl border border-slate-700 bg-slate-800/60 p-3 text-right cursor-pointer transition hover:border-slate-500";
+        }
+      });
+
+      const s = strategies[selectedMode];
+      document.getElementById("activeModeTitle").textContent = s.title;
+      document.getElementById("activeModeDesc").textContent = s.desc;
+
+      const tagMap = {
+        full: "مدل ۱: خرید نقدی کامل (با تخفیف)",
+        phased: "مدل ۲: راند ۱ مرحله‌ای",
+        revshare: "مدل ۳: پیش‌پرداخت شراکتی"
+      };
+      document.getElementById("hudActiveModeTag").textContent = tagMap[selectedMode];
+    }
+
+    function applySuggestedPath() {
+      const mode = previewingMode || selectedMode;
+      checkedSet = new Set(strategies[mode].sequence);
+      selectedMode = mode;
+      previewingMode = null;
+      document.getElementById("hoverHintNotice").classList.add("hidden");
+      updateModeButtonsUI();
+      renderAll();
+    }
+
+    function resetToCustom() {
+      checkedSet.clear();
+      // حداقل پایه انتخاب می‌ماند
+      checkedSet.add("g1");
+      checkedSet.add("g2");
+      checkedSet.add("g3");
+      checkedSet.add("g5");
+      renderAll();
+    }
+
+    function toggleOption(id) {
+      if (checkedSet.has(id)) {
+        checkedSet.delete(id);
+      } else {
+        checkedSet.add(id);
+      }
+      isSigned = false;
+      renderAll();
+    }
+
+    // محاسبه قیمت در ۳ مدل برای گزینه‌های انتخابی فعلی
+    function calculateCostsForCurrentSelection() {
+      let rawSum = 0;
+      let totalPct = 0;
+      checkedSet.forEach(id => {
+        const o = optMap.get(id);
+        if (o) {
+          rawSum += o.price;
+          totalPct += o.pct;
+        }
+      });
+      totalPct = Math.min(100, totalPct);
+
+      // مدل ۱: نقدی کامل (۲۰٪ تخفیف اگر بیش از ۶۰ م باشد یا ۱۵٪ برای بقیه)
+      const fullDiscountRate = rawSum >= 60 ? 0.20 : 0.12;
+      const costFull = Math.round((rawSum * (1 - fullDiscountRate)) * 10) / 10;
+      const fullSaved = Math.round((rawSum - costFull) * 10) / 10;
+
+      // مدل ۲: مرحله‌ای ۳ رانده (راند ۱ سهم موارد خاکستری و پایه‌ها است)
+      let r1Sum = 0, r2Sum = 0, r3Sum = 0;
+      checkedSet.forEach(id => {
+        const o = optMap.get(id);
+        if (!o) return;
+        if (o.tier === "gray") r1Sum += o.price;
+        else if (o.tier === "purple") r2Sum += o.price;
+        else r3Sum += o.price;
+      });
+
+      // مدل ۳: شراکتی (۵۰٪ تخفیف روی هزینه اولیه + ۴٪ از درگاه آنلاین)
+      const costRevshareDown = Math.round((rawSum * 0.5) * 10) / 10;
+
+      return {
+        rawSum,
+        totalPct,
+        costFull,
+        fullSaved,
+        r1Sum,
+        r2Sum,
+        r3Sum,
+        costRevshareDown
+      };
+    }
+
+    function renderAll() {
+      const calc = calculateCostsForCurrentSelection();
+      const effectiveMode = previewingMode || selectedMode;
+      const activeSequence = strategies[effectiveMode].sequence;
+      const seqIndexMap = new Map();
+      activeSequence.forEach((id, idx) => seqIndexMap.set(id, idx + 1));
+
+      // به‌روزرسانی هدر و داشبورد
+      document.getElementById("hudItemsCount").textContent = `${checkedSet.size.toLocaleString('fa-IR')} از ۲۷ مورد`;
+      document.getElementById("hudTotalPct").textContent = `${calc.totalPct.toLocaleString('fa-IR')}٪`;
+
+      // مبلغ نمایش داده شده متناسب با استراتژی فعال
+      let activeDisplayCost = "";
+      if (selectedMode === "full") {
+        activeDisplayCost = formatTomans(calc.costFull) + ` (با ${calc.fullSaved.toLocaleString('fa-IR')} م تخفیف نقدی)`;
+      } else if (selectedMode === "phased") {
+        activeDisplayCost = formatTomans(calc.r1Sum) + ` (شروع با راند ۱ | جمع ۳ راند: ${calc.rawSum.toLocaleString('fa-IR')} م)`;
+      } else {
+        activeDisplayCost = formatTomans(calc.costRevshareDown) + " + ۴٪ سهم از فروش آنلاین";
+      }
+      document.getElementById("hudActiveCost").textContent = activeDisplayCost;
+
+      // باکس‌های مقایسه ۳ حالت زیر داشبورد
+      document.getElementById("costMode_full").textContent = formatTomans(calc.costFull);
+      document.getElementById("costMode_phased").textContent = `راند ۱: ${calc.r1Sum.toLocaleString('fa-IR')} م (کل: ${calc.rawSum.toLocaleString('fa-IR')} م)`;
+      document.getElementById("costMode_revshare").textContent = `${calc.costRevshareDown.toLocaleString('fa-IR')} م پیش‌پرداخت + ۴٪`;
+
+      ["full", "phased", "revshare"].forEach(k => {
+        const box = document.getElementById("compareBox_" + k);
+        box.classList.toggle("ring-2", k === selectedMode);
+        box.classList.toggle("ring-sky-400", k === selectedMode);
+      });
+
+      // رندر ردیف‌های سه‌گانه
+      const tiersConfig = [
+        { key: "gray", name: "سطح ۱ — خاکستری: ستون فقرات و حداقل‌های راه‌اندازی (پایه ضروری)", badgeCls: "badge-gray", wrapCls: "tier-gray" },
+        { key: "purple", name: "سطح ۲ — بنفش: پوشاک، سه‌بعدی مکمل، ارسال پستی و ربات رسید (موتور رشد)", badgeCls: "badge-purple", wrapCls: "tier-purple" },
+        { key: "gold", name: "سطح ۳ — طلایی: سه‌بعدی لباس، اقساطی، هوش مصنوعی، گزارش سود و اپلیکیشن (امپراتوری)", badgeCls: "badge-gold", wrapCls: "tier-gold" }
+      ];
+
+      const container = document.getElementById("optionsRoot");
+      container.innerHTML = tiersConfig.map(t => {
+        const items = optionsData.filter(o => o.tier === t.key);
+
+        const cards = items.map(opt => {
+          const isChecked = checkedSet.has(opt.id);
+          const stepNum = seqIndexMap.get(opt.id);
+          const isHighlighted = Boolean(stepNum);
+
+          return `
+            <div
+              onclick="toggleOption('${opt.id}')"
+              class="rounded-xl border p-3 flex flex-col justify-between gap-2 cursor-pointer transition select-none ${isChecked ? t.wrapCls : 'border-slate-800 bg-slate-900/40'} ${isHighlighted ? 'rec-highlight' : ''}"
+            >
+              <div class="flex items-start justify-between gap-2">
+                <div class="flex items-start gap-2.5">
+                  <input
+                    type="checkbox"
+                    ${isChecked ? "checked" : ""}
+                    onclick="event.stopPropagation(); toggleOption('${opt.id}')"
+                    class="mt-1 w-4 h-4 cursor-pointer"
+                  >
+                  <div>
+                    <div class="text-xs sm:text-sm font-bold text-white flex items-center gap-1.5 flex-wrap">
+                      <span>${opt.title}</span>
+                    </div>
+                    <div class="text-[11px] text-slate-400 mt-0.5 leading-relaxed">${opt.desc}</div>
+                  </div>
+                </div>
+
+                <!-- نشانگر گام پیشنهادی در مدل انتخابی -->
+                ${stepNum ? `
+                  <span class="rec-step-badge shrink-0" title="اولویت پیشنهادی در این مدل: گام شماره ${stepNum}">
+                    ${stepNum.toLocaleString('fa-IR')}
+                  </span>
+                ` : ""}
+              </div>
+
+              <div class="flex items-center justify-between pt-2 border-t border-slate-800/80 text-[11px]">
+                <span class="px-2 py-0.5 rounded-md ${t.badgeCls}">+${opt.pct.toLocaleString('fa-IR')}٪ قدرت</span>
+                <span class="font-bold text-slate-200">${opt.price.toLocaleString('fa-IR')} میلیون تومان</span>
+              </div>
+            </div>
+          `;
+        }).join("");
+
+        return `
+          <section class="bg-[#0f172a] border border-slate-800 rounded-2xl p-3.5 sm:p-4 space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+              <h2 class="text-xs sm:text-sm font-bold text-slate-200">${t.name}</h2>
+              <span class="text-[11px] text-slate-400 font-semibold">${items.length.toLocaleString('fa-IR')} امکان</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+              ${cards}
+            </div>
+          </section>
+        `;
+      }).join("");
+
+      // رندر فاکتور
+      renderInvoiceTable(calc, seqIndexMap);
+    }
+
+    function renderInvoiceTable(calc, seqIndexMap) {
+      if (!document.getElementById("invNumber").dataset.init) {
+        document.getElementById("invNumber").textContent = "ORD-" + Math.floor(100000 + Math.random() * 900000);
+        document.getElementById("invNumber").dataset.init = "1";
+        document.getElementById("invDate").textContent = new Date().toLocaleDateString('fa-IR');
+      }
+
+      const tbody = document.getElementById("invTbody");
+      const list = [...checkedSet].map(id => optMap.get(id)).filter(Boolean);
+
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="py-3 text-center text-slate-500">هیچ امکانی انتخاب نشده است.</td></tr>`;
+      } else {
+        tbody.innerHTML = list.map((item, idx) => {
+          const step = seqIndexMap.get(item.id) || "—";
+          const tierTxt = item.tier === "gray" ? "خاکستری" : (item.tier === "purple" ? "بنفش" : "طلایی");
+          return `
+            <tr>
+              <td class="py-1.5 px-2">${(idx + 1).toLocaleString('fa-IR')}</td>
+              <td class="py-1.5 px-2 font-semibold text-slate-200">${item.title}</td>
+              <td class="py-1.5 px-2 text-center text-slate-400">${tierTxt}</td>
+              <td class="py-1.5 px-2 text-center text-sky-400 font-bold">${step !== "—" ? step.toLocaleString('fa-IR') : "—"}</td>
+              <td class="py-1.5 px-2 text-left font-bold text-slate-200">${item.price.toLocaleString('fa-IR')} م</td>
+            </tr>
+          `;
+        }).join("");
+      }
+
+      // بلوک جمع‌بندی مالی متناسب با مدل همکاری انتخابی
+      const summaryBox = document.getElementById("invSummaryBlock");
+      if (selectedMode === "full") {
+        summaryBox.innerHTML = `
+          <div class="flex justify-between text-slate-400">
+            <span>مدل توافق مالی:</span>
+            <strong class="text-sky-300">پرداخت نقدی کامل (مالکیت دائمی بدون وابستگی)</strong>
+          </div>
+          <div class="flex justify-between text-slate-400">
+            <span>ارزش اولیه کاتالوگ:</span>
+            <span>${formatTomans(calc.rawSum)}</span>
+          </div>
+          <div class="flex justify-between text-emerald-400">
+            <span>تخفیف پکیج یک‌جا:</span>
+            <span>- ${formatTomans(calc.fullSaved)}</span>
+          </div>
+          <div class="flex justify-between text-white text-sm font-extrabold pt-1.5 border-t border-slate-800">
+            <span>مبلغ نهایی تسویه نقدی:</span>
+            <span class="text-emerald-400">${formatTomans(calc.costFull)}</span>
+          </div>
+        `;
+      } else if (selectedMode === "phased") {
+        summaryBox.innerHTML = `
+          <div class="flex justify-between text-slate-400">
+            <span>مدل توافق مالی:</span>
+            <strong class="text-purple-300">اجرای مرحله‌ای ۳ رانده (توسعه گام‌به‌گام با فروش)</strong>
+          </div>
+          <div class="flex justify-between text-slate-300">
+            <span>پیش‌پرداخت راند ۱ (پایه راه‌اندازی):</span>
+            <strong class="text-purple-400 font-bold">${formatTomans(calc.r1Sum)}</strong>
+          </div>
+          <div class="flex justify-between text-slate-400">
+            <span>هزینه راند ۲ (پس از فروش اول مغازه):</span>
+            <span>${formatTomans(calc.r2Sum)}</span>
+          </div>
+          <div class="flex justify-between text-slate-400">
+            <span>هزینه راند ۳ (امپراتوری طلایی):</span>
+            <span>${formatTomans(calc.r3Sum)}</span>
+          </div>
+          <div class="flex justify-between text-white font-bold pt-1.5 border-t border-slate-800">
+            <span>جمع کل تعهد ۳ راند:</span>
+            <span>${formatTomans(calc.rawSum)}</span>
+          </div>
+        `;
+      } else {
+        summaryBox.innerHTML = `
+          <div class="flex justify-between text-slate-400">
+            <span>مدل توافق مالی:</span>
+            <strong class="text-amber-300">پایه اقتصادی + شراکت ۴٪ از درگاه آنلاین</strong>
+          </div>
+          <div class="flex justify-between text-slate-400">
+            <span>ارزش کامل خدمات:</span>
+            <span>${formatTomans(calc.rawSum)}</span>
+          </div>
+          <div class="flex justify-between text-amber-400 font-bold">
+            <span>پیش‌پرداخت اولیه (۵۰٪ تخفیف ساخت):</span>
+            <span class="text-sm font-extrabold">${formatTomans(calc.costRevshareDown)}</span>
+          </div>
+          <div class="flex justify-between text-slate-300 pt-1 border-t border-slate-800">
+            <span>کارمزد سهم شراکت روی درگاه پرداخت:</span>
+            <strong class="text-emerald-400">۴٪ از هر تراکنش موفق آنلاین</strong>
+          </div>
+        `;
+      }
+    }
+
+    // =========================================================
+    // ۳. مدیریت امضای دیجیتال مینیمال
+    // =========================================================
+    const canvas = document.getElementById("signPad");
+    const ctx = canvas.getContext("2d");
+    let isDrawing = false;
+    let hasDrawn = false;
+
+    function resizeSignPad() {
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+      ctx.strokeStyle = "#0284c7";
+      ctx.lineWidth = 2.4;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+    }
+
+    function getCoords(e) {
+      const rect = canvas.getBoundingClientRect();
+      const cx = e.touches ? e.touches[0].clientX : e.clientX;
+      const cy = e.touches ? e.touches[0].clientY : e.clientY;
+      return { x: cx - rect.left, y: cy - rect.top };
+    }
+
+    function startDraw(e) {
+      e.preventDefault();
+      isDrawing = true;
+      hasDrawn = true;
+      document.getElementById("signTip").style.display = "none";
+      const p = getCoords(e);
+      ctx.beginPath();
+      ctx.moveTo(p.x, p.y);
+    }
+    function moveDraw(e) {
+      if (!isDrawing) return;
+      e.preventDefault();
+      const p = getCoords(e);
+      ctx.lineTo(p.x, p.y);
+      ctx.stroke();
+    }
+    function endDraw() {
+      isDrawing = false;
+    }
+
+    canvas.addEventListener("mousedown", startDraw);
+    canvas.addEventListener("mousemove", moveDraw);
+    window.addEventListener("mouseup", endDraw);
+    canvas.addEventListener("touchstart", startDraw, { passive: false });
+    canvas.addEventListener("touchmove", moveDraw, { passive: false });
+    window.addEventListener("touchend", endDraw);
+
+    function clearSign() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      hasDrawn = false;
+      isSigned = false;
+      document.getElementById("signTip").style.display = "flex";
+      document.getElementById("stampBox").classList.add("hidden");
+      document.getElementById("signFeedback").textContent = "ابتدا تیک قوانین را بزنید و سپس امضا فرمایید.";
+      document.getElementById("signFeedback").className = "text-xs text-slate-400";
+    }
+
+    function checkTermsState() {
+      const ok = document.getElementById("chkTerms").checked;
+      const msg = document.getElementById("signFeedback");
+      if (ok) {
+        msg.textContent = "قوانین تایید شد. اکنون امضا کنید و دکمه ثبت نهایی را بزنید.";
+        msg.className = "text-xs text-sky-400 font-semibold";
+      } else {
+        msg.textContent = "ابتدا تیک قوانین را بزنید و سپس امضا فرمایید.";
+        msg.className = "text-xs text-slate-400";
+      }
+    }
+
+    function lockSignature() {
+      const ok = document.getElementById("chkTerms").checked;
+      const msg = document.getElementById("signFeedback");
+      if (!ok) {
+        msg.textContent = "ابتدا باید تیک تایید شرایط توافق‌نامه را بزنید!";
+        msg.className = "text-xs text-rose-400 font-bold";
+        return;
+      }
+      if (!hasDrawn) {
+        msg.textContent = "لطفاً امضای خود را داخل کادر سفید بکشید!";
+        msg.className = "text-xs text-rose-400 font-bold";
+        return;
+      }
+      isSigned = true;
+      document.getElementById("stampBox").classList.remove("hidden");
+      msg.textContent = "فاکتور و توافق‌نامه با موفقیت ثبت نهایی و مهر شد ✓";
+      msg.className = "text-xs text-emerald-400 font-bold";
+    }
+
+    // راه‌اندازی اولیه
+    resizeSignPad();
+    updateModeButtonsUI();
+    renderAll();
+
+    window.addEventListener("resize", () => {
+      if (!hasDrawn) resizeSignPad();
+    });
+  </script>
+</body>
+</html>

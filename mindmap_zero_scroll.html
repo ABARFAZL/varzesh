@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نقشه ذهنی تصمیم‌گیری فروشگاه ورزشی (یکپارچه و بدون اسکرول)</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #070a13;
+      color: #f1f5f9;
+      font-family: Vazirmatn, Tahoma, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    /* رنگ‌های سطوح سه‌گانه */
+    .node-gray {
+      border-color: rgba(148, 163, 184, 0.45);
+      background: linear-gradient(135deg, rgba(148, 163, 184, 0.12), rgba(30, 41, 59, 0.7));
+    }
+    .node-purple {
+      border-color: rgba(168, 85, 247, 0.55);
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(59, 7, 100, 0.65));
+    }
+    .node-gold {
+      border-color: rgba(245, 158, 11, 0.65);
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.18), rgba(120, 53, 15, 0.65));
+    }
+
+    .badge-gray { background-color: #475569; color: #f8fafc; }
+    .badge-purple { background-color: #9333ea; color: #ffffff; }
+    .badge-gold { background: linear-gradient(90deg, #d97706, #f59e0b); color: #0f172a; font-weight: 800; }
+
+    /* دکمه‌های کپسولی فشرده نقشه */
+    .map-capsule {
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+      user-select: none;
+    }
+    .map-capsule:hover {
+      transform: translateY(-1px) scale(1.02);
+      border-color: #38bdf8 !important;
+      z-index: 20;
+    }
+
+    /* نشانگر گام پیشنهادی */
+    .step-indicator {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      border-radius: 9999px;
+      font-size: 0.65rem;
+      font-weight: 900;
+      background: #0284c7;
+      color: #ffffff;
+      box-shadow: 0 0 8px rgba(2, 132, 199, 0.9);
+      animation: stepGlow 1.4s infinite alternate;
+      flex-shrink: 0;
+    }
+    @keyframes stepGlow {
+      0% { transform: scale(0.92); opacity: 0.9; }
+      100% { transform: scale(1.12); opacity: 1; }
+    }
+
+    .highlighted-suggested {
+      box-shadow: 0 0 0 1.5px #38bdf8, 0 0 12px rgba(56, 189, 248, 0.45) !important;
+      border-color: #38bdf8 !important;
+    }
+
+    .mode-tab-active {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.28), rgba(37, 99, 235, 0.4)) !important;
+      border-color: #38bdf8 !important;
+      color: #ffffff !important;
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.35) !important;
+    }
+
+    /* تول‌تیپ شناور سریع */
+    #quickTooltip {
+      pointer-events: none;
+      transition: opacity 0.12s ease, transform 0.12s ease;
+      z-index: 60;
+    }
+  </style>
+</head>
+<body class="h-screen w-screen flex flex-col p-2.5 sm:p-3 overflow-hidden">
+
+  <!-- ========================================================= -->
+  <!-- ۱. نوار فشرده و زنده بالای صفحه (جمع درصد، هزینه‌ها و ۳ مدل) -->
+  <!-- ========================================================= -->
+  <header class="bg-[#0f172a] border border-slate-800 rounded-xl px-3 py-2 shrink-0 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-2 shadow-md">
+    
+    <!-- سمت راست هدر: ۳ مدل استراتژی انتخاب -->
+    <div class="flex items-center gap-1.5 flex-wrap">
+      <span class="text-xs font-bold text-slate-400 ml-1">۳ مسیر پیشنهادی:</span>
+      
+      <!-- مدل ۱ -->
+      <button
+        type="button"
+        id="modeBtn_full"
+        onclick="setStrategy('full')"
+        onmouseenter="previewStrategy('full')"
+        onmouseleave="endPreviewStrategy()"
+        class="mode-tab-active px-2.5 py-1.5 rounded-lg border border-slate-700 text-xs font-bold transition cursor-pointer flex items-center gap-1.5"
+      >
+        <span class="w-2 h-2 rounded-full bg-sky-400"></span>
+        <span>۱. پرداخت نقدی کامل</span>
+        <span class="text-[10px] bg-sky-500/25 px-1.5 py-0.2 rounded text-sky-200">۲۰٪ تخفیف</span>
+      </button>
+
+      <!-- مدل ۲ -->
+      <button
+        type="button"
+        id="modeBtn_phased"
+        onclick="setStrategy('phased')"
+        onmouseenter="previewStrategy('phased')"
+        onmouseleave="endPreviewStrategy()"
+        class="px-2.5 py-1.5 rounded-lg border border-slate-700 bg-slate-800/80 text-xs font-bold text-slate-300 transition cursor-pointer flex items-center gap-1.5 hover:border-purple-400"
+      >
+        <span class="w-2 h-2 rounded-full bg-purple-400"></span>
+        <span>۲. اجرای ۳ رانده</span>
+        <span class="text-[10px] bg-purple-500/25 px-1.5 py-0.2 rounded text-purple-200">پله‌به‌پله</span>
+      </button>
+
+      <!-- مدل ۳ -->
+      <button
+        type="button"
+        id="modeBtn_revshare"
+        onclick="setStrategy('revshare')"
+        onmouseenter="previewStrategy('revshare')"
+        onmouseleave="endPreviewStrategy()"
+        class="px-2.5 py-1.5 rounded-lg border border-slate-700 bg-slate-800/80 text-xs font-bold text-slate-300 transition cursor-pointer flex items-center gap-1.5 hover:border-amber-400"
+      >
+        <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+        <span>۳. پایه + ۴٪ درگاه</span>
+        <span class="text-[10px] bg-amber-500/25 px-1.5 py-0.2 rounded text-amber-200">۵۰٪ تخفیف ساخت</span>
+      </button>
+
+      <button
+        type="button"
+        onclick="applyActiveRecommendation()"
+        class="mr-2 px-2.5 py-1.5 rounded-lg text-xs font-extrabold bg-sky-500 hover:bg-sky-400 text-slate-950 cursor-pointer shadow-sm transition"
+        title="انتخاب خودکار گزینه‌های همین مسیر"
+      >
+        تیک زدن مسیر
+      </button>
+      <button
+        type="button"
+        onclick="clearAllToBasics()"
+        class="px-2 py-1.5 rounded-lg text-xs font-semibold border border-slate-700 hover:border-slate-500 text-slate-400 hover:text-slate-200 cursor-pointer"
+        title="انتخاب دستی آزاد"
+      >
+        پاکسازی تیک‌ها
+      </button>
+    </div>
+
+    <!-- سمت چپ هدر: خلاصه هزینه و درصد زنده و دکمه فاکتور -->
+    <div class="flex items-center gap-2 flex-wrap justify-between lg:justify-end">
+      <!-- درصد کل -->
+      <div class="flex items-center gap-1.5 bg-slate-900/90 border border-slate-800 rounded-lg px-2 py-1 text-xs">
+        <span class="text-slate-400">قدرت:</span>
+        <span id="headerPct" class="font-black text-purple-400 text-sm">۰٪</span>
+      </div>
+
+      <!-- مقایسه هزینه در مدل فعال -->
+      <div class="flex items-center gap-1.5 bg-slate-900/90 border border-slate-800 rounded-lg px-2.5 py-1 text-xs">
+        <span id="headerModeTag" class="text-sky-400 font-bold">نقدی کامل:</span>
+        <span id="headerCostValue" class="font-black text-emerald-400 text-sm">۰ تومان</span>
+      </div>
+
+      <!-- دکمه باز کردن فاکتور رسمی بدون اسکرول صفحه -->
+      <button
+        type="button"
+        onclick="openInvoiceModal()"
+        class="px-3 py-1.5 rounded-lg text-xs font-bold badge-gold hover:opacity-90 cursor-pointer shadow-md flex items-center gap-1"
+      >
+        <span>فاکتور و امضا</span>
+        <span class="text-[10px]">↗</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ========================================================= -->
+  <!-- ۲. بدنه نقشه ذهنی یکپارچه از چپ به راست (بدون نیاز به اسکرول) -->
+  <!-- ========================================================= -->
+  <main class="flex-1 my-2 grid grid-cols-12 gap-2 min-h-0 overflow-hidden" dir="ltr">
+    
+    <!-- ستون ۱ سمت چپ (۲.۵ از ۱۲): ریشه و وضعیت استراتژی فعال -->
+    <div class="col-span-12 lg:col-span-3 flex flex-col gap-2 min-h-0" dir="rtl">
+      <!-- کارت ریشه پلتفرم -->
+      <div class="bg-[#0f172a] border border-slate-800 rounded-xl p-3 flex-1 flex flex-col justify-between shadow-sm">
+        <div class="space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-sky-500/20 text-sky-300 border border-sky-500/30">
+              هسته اصلی نقشه
+            </span>
+            <span id="rootCountBadge" class="text-xs font-extrabold text-slate-300">۰ از ۲۶ امکان</span>
+          </div>
+          <h2 class="text-sm font-bold text-white">سوپراستور ورزشی و بازاریابی</h2>
+          <p id="rootStrategyDesc" class="text-xs text-slate-400 leading-relaxed">
+            مدل فعال: تمام امکانات با مالکیت دائمی و تخفیف نقدی یک‌جا.
+          </p>
+        </div>
+
+        <!-- مقایسه فشرده ۳ مدل روی همین انتخاب‌ها -->
+        <div class="space-y-1.5 pt-2 border-t border-slate-800 text-xs">
+          <div class="text-[11px] font-bold text-slate-300">مقایسه هزینه انتخاب‌های شما:</div>
+          <div class="flex justify-between items-center p-1.5 rounded bg-slate-900/80 border border-slate-800">
+            <span class="text-slate-400">۱. نقدی کامل:</span>
+            <strong id="miniCost_full" class="text-sky-300">۰ م</strong>
+          </div>
+          <div class="flex justify-between items-center p-1.5 rounded bg-slate-900/80 border border-slate-800">
+            <span class="text-slate-400">۲. مرحله‌ای (راند ۱):</span>
+            <strong id="miniCost_phased" class="text-purple-300">۰ م</strong>
+          </div>
+          <div class="flex justify-between items-center p-1.5 rounded bg-slate-900/80 border border-slate-800">
+            <span class="text-slate-400">۳. شراکت درگاه:</span>
+            <strong id="miniCost_revshare" class="text-amber-300">۰ م + ۴٪</strong>
+          </div>
+        </div>
+
+        <!-- راهنمای رنگ‌های ۳ سطح -->
+        <div class="grid grid-cols-3 gap-1 pt-2 border-t border-slate-800 text-[10px] text-center font-bold">
+          <div class="py-1 rounded node-gray border text-slate-300">خاکستری: پایه</div>
+          <div class="py-1 rounded node-purple border text-purple-300">بنفش: رشد</div>
+          <div class="py-1 rounded node-gold border text-amber-300">طلایی: لوکس</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ستون ۲ سمت راست (۹.۵ از ۱۲): ۶ شاخه تخصصی با دکمه‌های کپسولی مختصر -->
+    <div class="col-span-12 lg:col-span-9 flex flex-col justify-between gap-1.5 min-h-0" id="branchesGrid" dir="rtl">
+      <!-- ۶ ردیف شاخه توسط جاوااسکریپت ساخته می‌شوند و کل ارتفاع صفحه را پر می‌کنند -->
+    </div>
+
+  </main>
+
+  <!-- ========================================================= -->
+  <!-- ۳. نوار پایین صفحه: بازرس متنی برای نمایش آنی توضیحات هاور -->
+  <!-- ========================================================= -->
+  <footer class="bg-[#0f172a] border border-slate-800 rounded-xl px-3 py-1.5 shrink-0 flex items-center justify-between text-xs gap-3">
+    <div class="flex items-center gap-2 overflow-hidden flex-1">
+      <span id="inspPillTag" class="px-2 py-0.5 rounded text-[10px] font-bold badge-gold shrink-0">راهنما</span>
+      <span id="inspTitleText" class="font-bold text-white shrink-0">ماوس را روی هر کپسول ببرید:</span>
+      <span id="inspDetailText" class="text-slate-400 truncate text-[11px]">
+        توضیحات بیزنسی، تاثیر در فروش، درصد پیشرفت و پیش‌نیازها فوراً در این نوار نمایش داده می‌شود.
+      </span>
+    </div>
+    <div class="flex items-center gap-2 shrink-0 text-[11px] text-slate-400">
+      <span>تعداد گام‌های مسیر: <strong id="recStepsTotal" class="text-sky-300">۲۶ گام</strong></span>
+    </div>
+  </footer>
+
+  <!-- ========================================================= -->
+  <!-- ۴. مودال تمام‌صفحه فاکتور رسمی و امضا (بدون ایجاد اسکرول صفحه) -->
+  <!-- ========================================================= -->
+  <div id="invoiceModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-3">
+    <div class="bg-[#0f172a] border border-slate-800 rounded-2xl w-full max-w-3xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden">
+      
+      <!-- هدر مودال -->
+      <div class="p-3.5 border-b border-slate-800 flex items-center justify-between">
+        <div>
+          <h3 class="text-sm font-bold text-white">پیش‌فاکتور رسمی و برگه تایید ۳ مدل</h3>
+          <p class="text-[11px] text-slate-400">اقلام انتخابی، شرایط توافق و محل امضای دیجیتال</p>
+        </div>
+        <button type="button" onclick="closeInvoiceModal()" class="w-7 h-7 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center font-bold text-xs cursor-pointer">✕</button>
+      </div>
+
+      <!-- بدنه قابل اسکرول فقط داخل خود پنجره مودال -->
+      <div class="p-4 space-y-3.5 overflow-y-auto flex-1 text-xs">
+        <!-- مشخصات سربرگ -->
+        <div class="flex justify-between items-center text-slate-400 text-[11px] pb-2 border-b border-slate-800">
+          <div>شماره فاکتور: <strong id="invModalCode" class="text-white">—</strong></div>
+          <div>تاریخ: <strong id="invModalDate" class="text-white">—</strong></div>
+          <div>مدل انتخابی: <strong id="invModalModeLabel" class="text-sky-400 font-bold">—</strong></div>
+        </div>
+
+        <!-- جدول اقلام -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-right border-collapse text-[11px]">
+            <thead>
+              <tr class="border-b border-slate-800 text-slate-400">
+                <th class="py-1 px-1.5">ردیف</th>
+                <th class="py-1 px-1.5">عنوان امکان</th>
+                <th class="py-1 px-1.5 text-center">سطح</th>
+                <th class="py-1 px-1.5 text-center">گام</th>
+                <th class="py-1 px-1.5 text-left">مبلغ تکی</th>
+              </tr>
+            </thead>
+            <tbody id="invModalTbody" class="divide-y divide-slate-800/60 text-slate-300"></tbody>
+          </table>
+        </div>
+
+        <!-- جمع‌بندی مالی متناسب با استراتژی -->
+        <div id="invModalSummary" class="p-3 rounded-xl bg-slate-900 border border-slate-800 space-y-1.5"></div>
+
+        <!-- قوانین -->
+        <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800 space-y-1.5 text-[11px] text-slate-400">
+          <div class="font-bold text-slate-200">شرایط و قوانین:</div>
+          <ul class="list-disc pr-4 space-y-0.5">
+            <li>مالکیت کامل آدرس سایت و پنل پس از تسویه متعلق به کارفرما خواهد بود.</li>
+            <li>در مدل ۳ رانده، کل ۳ مرحله در بازه ۹۰ روزه تکمیل می‌گردد.</li>
+            <li>در مدل شراکتی، کارمزد ۴٪ از طریق درگاه مستقیم اعمال خواهد شد.</li>
+          </ul>
+          <label class="flex items-center gap-2 pt-1 text-slate-200 cursor-pointer">
+            <input type="checkbox" id="chkModalRules" onchange="toggleSignButton()" class="w-4 h-4 cursor-pointer">
+            <span class="font-semibold text-xs">قوانین را قبول دارم و تایید می‌کنم.</span>
+          </label>
+        </div>
+
+        <!-- کادر امضای دیجیتال -->
+        <div class="space-y-1.5">
+          <div class="flex justify-between items-center text-[11px]">
+            <span class="font-bold text-slate-300">امضای دیجیتال (با ماوس یا انگشت):</span>
+            <button type="button" onclick="clearModalSignature()" class="text-slate-400 hover:text-white underline cursor-pointer">پاک کردن</button>
+          </div>
+          <div class="relative rounded-xl border-2 border-dashed border-slate-700 bg-white overflow-hidden">
+            <canvas id="modalSignPad" class="w-full block touch-none cursor-crosshair" style="height: 110px;"></canvas>
+            <div id="modalSignTip" class="absolute inset-0 flex items-center justify-center text-xs text-slate-400 pointer-events-none">
+              اینجا امضا فرمایید...
+            </div>
+            <div id="modalStamp" class="hidden absolute top-2 left-2 px-2.5 py-1 rounded border-2 border-emerald-600 bg-emerald-50 text-emerald-700 font-extrabold text-xs rotate-[-6deg]">
+              تایید و امضا شد ✓
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- فوتر مودال -->
+      <div class="p-3 border-t border-slate-800 flex items-center justify-between">
+        <span id="modalSignStatus" class="text-xs text-slate-400">تیک تایید قوانین را بزنید و امضا فرمایید.</span>
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="finalizeModalSign()" id="btnFinalSign" class="px-3.5 py-1.5 rounded-lg text-xs font-bold badge-gold hover:opacity-90 cursor-pointer">
+            ثبت نهایی امضا
+          </button>
+          <button type="button" onclick="window.print()" class="px-3 py-1.5 rounded-lg text-xs font-semibold border border-slate-700 text-slate-300 hover:border-slate-500 cursor-pointer">
+            چاپ / ذخیره
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // =========================================================
+    // دیتابیس ۲۶ گزینه در ۶ شاخه چپ‌به‌راست و ۳ سطح رنگی
+    // =========================================================
+    const branchesData = [
+      {
+        id: "b_store",
+        name: "۱. ویترین و کاتالوگ",
+        items: [
+          { id: "g1", tier: "gray", short: "ویترین مکمل", title: "ویترین تخصصی مکمل‌ها", price: 6, pct: 4, desc: "کاتالوگ با برندهای ایرانی/خارجی، جدول ارزش غذایی و ترکیبات" },
+          { id: "p1", tier: "purple", short: "پوشاک ورزشی", title: "بخش پوشاک زنانه/مردانه", price: 5, pct: 4, desc: "انتخاب سایز، رنگ و جدول راهنمای اندازه برای لباس ورزشی" },
+          { id: "p2", tier: "purple", short: "لوازم باشگاه", title: "تجهیزات و شیکرها", price: 4, pct: 4, desc: "شیکر، کمربند، مچ‌بند، کش و لوازم جانبی تمرین" },
+          { id: "y1", tier: "gold", short: "۵۰+ محصول آماده", title: "تکمیل کاتالوگ آماده فروش", price: 4, pct: 3, desc: "تحویل با توضیحات علمی و ۵۰+ کالای آماده بدون نیاز به تایپ شما" }
+        ]
+      },
+      {
+        id: "b_visual",
+        name: "۲. سه‌بعدی و بصری",
+        items: [
+          { id: "g5", tier: "gray", short: "نسخه موبایل", title: "نسخه اختصاصی مرورگر گوشی", price: 2.5, pct: 3, desc: "چیدمان ریسپانسیو و دسترسی سریع پایین صفحه در موبایل" },
+          { id: "p3", tier: "purple", short: "نورپردازی زنده", title: "تغییر تم زنده هر دسته", price: 3, pct: 3, desc: "تغییر نور و رنگ‌بندی فضا متناسب با دسته‌بندی انتخابی خریدار" },
+          { id: "p4", tier: "purple", short: "سه‌بعدی مکمل", title: "نمای ۳۶۰ درجه قوطی مکمل", price: 6, pct: 5, desc: "چرخش ۳۶۰ درجه و زوم قوطی و جدول ترکیبات برای اثبات اصالت" },
+          { id: "y2", tier: "gold", short: "سه‌بعدی لباس/لوازم", title: "سه‌بعدی لباس روی مانکن", price: 12, pct: 5, desc: "چرخش ۳۶۰ درجه تیشرت روی مانکن و شیکر با نهایت شکوه" }
+        ]
+      },
+      {
+        id: "b_checkout",
+        name: "۳. سفارش و درگاه",
+        items: [
+          { id: "g2", tier: "gray", short: "سبد خرید", title: "سبد خرید و ثبت آدرس", price: 3, pct: 3, desc: "ثبت ۳ مرحله‌ای، محاسبه خودکار کرایه و آدرس خریدار" },
+          { id: "g3", tier: "gray", short: "درگاه بانکی", title: "درگاه بانکی + کارت‌به‌کارت", price: 3.5, pct: 4, desc: "پرداخت مستقیم آنلاین به حساب شما + فرم ثبت فیش واریزی" },
+          { id: "p7", tier: "purple", short: "ورود پیامکی", title: "ورود با رمز یکبارمصرف SMS", price: 4, pct: 4, desc: "ورود بدون رمز و پیامک خودکار ثبت سفارش و کد پیگیری" },
+          { id: "y4", tier: "gold", short: "فروش اقساطی", title: "درگاه خرید ۴ قسطه مشتریان", price: 6, pct: 4, desc: "امکان خرید قسطی مکمل‌های گران‌قیمت و افزایش انفجاری سفارش" }
+        ]
+      },
+      {
+        id: "b_bot",
+        name: "۴. ربات تلگرام",
+        items: [
+          { id: "g7", tier: "gray", short: "ربات اطلاع‌رسانی", title: "خبررسان تلگرام فروشنده", price: 2.5, pct: 3, desc: "ارسال آنی فاکتور خرید خریداران داخل تلگرام شما" },
+          { id: "p6", tier: "purple", short: "ربات تایید رسید", title: "دریافت فیش و تایید با ۱ لمس", price: 4.5, pct: 4, desc: "دریافت عکس رسید مشتری و ارسال کد پیگیری با یک دکمه" },
+          { id: "y3", tier: "gold", short: "ربات فروش و تمدید", title: "ربات فروش + یادآوری ۳۰ روزه", price: 9, pct: 4, desc: "خرید داخل تلگرام + پیامک یادآوری خرید مجدد بعد از اتمام مکمل" },
+          { id: "p8", tier: "purple", short: "کد تخفیف", title: "تخفیف مناسبتی + ارسال رایگان", price: 2.5, pct: 3, desc: "کوپن تخفیف و نوار ترغیب به اضافه کردن کالا برای ارسال رایگان" }
+        ]
+      },
+      {
+        id: "b_admin",
+        name: "۵. انبارداری و ارسال",
+        items: [
+          { id: "g6", tier: "gray", short: "پنل مدیریت", title: "پنل افزودن و ویرایش کالا", price: 3, pct: 4, desc: "تغییر قیمت، کنترل موجودی و مدیریت وضعیت سفارش‌ها" },
+          { id: "p9", tier: "purple", short: "اتصال پست/تیپاکس", title: "محاسبه کرایه و پرینت برچسب", price: 3.5, pct: 3, desc: "محاسبه خودکار هزینه پست هر شهر و تولید برچسب آماده کارتن" },
+          { id: "p10", tier: "purple", short: "تغییر قیمت درصدی", title: "انبار زنده + تغییر کل یک برند", price: 4, pct: 4, desc: "به‌روزرسانی قیمت کل برند با نوسان ارز فقط با یک دکمه" },
+          { id: "y5", tier: "gold", short: "گزارش سود و زیان", title: "گزارش مالی چی خریدم چی فروختم", price: 8, pct: 5, desc: "محاسبه اتوماتیک سود خالص، سرمایه انبار و پرفروش‌ها" }
+        ]
+      },
+      {
+        id: "b_ai",
+        name: "۶. هوش مصنوعی و رشد",
+        items: [
+          { id: "g8", tier: "gray", short: "دامنه و آموزش", title: "آدرس سایت، فضا و آموزش", price: 2, pct: 3, desc: "ثبت آدرس اختصاصی به نام شما، میزبانی امن و آموزش کامل" },
+          { id: "p5", tier: "purple", short: "مقایسه و استعلام", title: "مقایسه دو کالا + اصالت‌سنج", price: 3.5, pct: 3, desc: "مقایسه جدول ترکیبات دو برند و تایید اصالت کالا" },
+          { id: "y6", tier: "gold", short: "رادار کلیک‌ها", title: "رادار محبوب‌ترین دکمه‌ها و برندها", price: 7, pct: 4, desc: "بفهمید کدام برند بیشتر کلیک شده و مشتری دنبال چه جنسی است" },
+          { id: "y7", tier: "gold", short: "مشاور هوشمند AI", title: "مشاور هوش مصنوعی قد/وزن", price: 9, pct: 4, desc: "پیشنهاد خودکار مکمل و سایز متناسب با قد، وزن و هدف" },
+          { id: "y8", tier: "gold", short: "سامانه تمرین/خواب", title: "اتصال سامانه تمرین و ریکاوری", price: 11, pct: 4, desc: "خریدار پنل برنامه تمرین هدیه می‌گیرد و همیشه مشتری می‌ماند" }
+        ]
+      }
+    ];
+
+    // دیکشنری دسترسی سریع به کالاها
+    const allOptionsMap = new Map();
+    branchesData.forEach(b => b.items.forEach(i => allOptionsMap.set(i.id, { ...i, branchName: b.name })));
+
+    // ۳ استراتژی با ترتیب پیشنهادی گام‌به‌گام
+    const strategies = {
+      full: {
+        key: "full",
+        name: "مدل ۱: پرداخت نقدی کامل (بیشترین تخفیف)",
+        desc: "تمام ۲۶ امکان پلتفرم با ۲۰٪ تخفیف کل فاکتور، تسویه یک‌جا و مالکیت دائمی بدون وابستگی.",
+        sequence: [
+          "g1", "g2", "g3", "g5", "g6", "g7", "g8",
+          "p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8", "p9", "p10",
+          "y1", "y2", "y3", "y4", "y5", "y6", "y7", "y8"
+        ]
+      },
+      phased: {
+        key: "phased",
+        name: "مدل ۲: اجرای ۳ رانده مرحله‌ای",
+        desc: "راند ۱ (پایه با ۲۴ م) ➔ فروش جنس ➔ راند ۲ (پوشاک، سه‌بعدی و ربات با ۳۰ م) ➔ راند ۳ (امپراتوری طلایی با سود مغازه).",
+        sequence: [
+          // راند ۱
+          "g1", "g2", "g3", "g5", "g6", "g7", "g8",
+          // راند ۲
+          "p1", "p2", "p4", "p6", "p7", "p9", "p10", "p3",
+          // راند ۳
+          "y1", "y3", "y4", "y5", "y7", "y8"
+        ]
+      },
+      revshare: {
+        key: "revshare",
+        name: "مدل ۳: پایه اقتصادی + شراکت ۴٪ درگاه",
+        desc: "۵۰٪ تخفیف روی هزینه اولیه ساخت + کسر ۴٪ کارمزد خودکار از هر خرید موفق درگاه آنلاین.",
+        sequence: [
+          "g1", "g2", "g3", "g5", "g6", "g7",
+          "p6", "p7", "p9", "p10", "p4",
+          "y3", "y4", "y7"
+        ]
+      }
+    };
+
+    let activeStrategy = "full";
+    let previewStrategyKey = null;
+    let checkedItems = new Set(strategies.full.sequence); // پیش‌فرض همه انتخاب هستند
+
+    function formatMillion(num) {
+      return Number(num).toLocaleString('fa-IR') + " م ت";
+    }
+
+    function setStrategy(key) {
+      activeStrategy = key;
+      previewStrategyKey = null;
+      updateHeaderButtons();
+      renderMindMap();
+    }
+
+    function previewStrategy(key) {
+      previewStrategyKey = key;
+      renderMindMap();
+    }
+
+    function endPreviewStrategy() {
+      previewStrategyKey = null;
+      renderMindMap();
+    }
+
+    function applyActiveRecommendation() {
+      const targetKey = previewStrategyKey || activeStrategy;
+      checkedItems = new Set(strategies[targetKey].sequence);
+      activeStrategy = targetKey;
+      previewStrategyKey = null;
+      updateHeaderButtons();
+      renderMindMap();
+    }
+
+    function clearAllToBasics() {
+      checkedItems.clear();
+      checkedItems.add("g1");
+      checkedItems.add("g2");
+      checkedItems.add("g3");
+      checkedItems.add("g5");
+      renderMindMap();
+    }
+
+    function toggleItem(id) {
+      if (checkedItems.has(id)) {
+        checkedItems.delete(id);
+      } else {
+        checkedItems.add(id);
+      }
+      renderMindMap();
+    }
+
+    function updateHeaderButtons() {
+      ["full", "phased", "revshare"].forEach(k => {
+        const btn = document.getElementById("modeBtn_" + k);
+        btn.classList.toggle("mode-tab-active", k === activeStrategy);
+      });
+      document.getElementById("rootStrategyDesc").textContent = strategies[activeStrategy].desc;
+    }
+
+    function calculateLive() {
+      let rawSum = 0;
+      let totalPct = 0;
+      checkedItems.forEach(id => {
+        const item = allOptionsMap.get(id);
+        if (item) {
+          rawSum += item.price;
+          totalPct += item.pct;
+        }
+      });
+      totalPct = Math.min(100, totalPct);
+
+      // مدل ۱: نقدی با تخفیف
+      const fullDiscount = rawSum >= 50 ? 0.20 : 0.12;
+      const costFull = Math.round((rawSum * (1 - fullDiscount)) * 10) / 10;
+      const savedFull = Math.round((rawSum - costFull) * 10) / 10;
+
+      // مدل ۲: مرحله‌ای (راند ۱ پایه خاکستری است)
+      let r1Cost = 0, r2Cost = 0, r3Cost = 0;
+      checkedItems.forEach(id => {
+        const item = allOptionsMap.get(id);
+        if (!item) return;
+        if (item.tier === "gray") r1Cost += item.price;
+        else if (item.tier === "purple") r2Cost += item.price;
+        else r3Cost += item.price;
+      });
+
+      // مدل ۳: شراکتی (۵۰٪ تخفیف پیش‌پرداخت)
+      const costRevshare = Math.round((rawSum * 0.5) * 10) / 10;
+
+      return {
+        rawSum,
+        totalPct,
+        costFull,
+        savedFull,
+        r1Cost,
+        r2Cost,
+        r3Cost,
+        costRevshare
+      };
+    }
+
+    function renderMindMap() {
+      const calc = calculateLive();
+      const currentModeKey = previewStrategyKey || activeStrategy;
+      const seq = strategies[currentModeKey].sequence;
+      const seqMap = new Map(seq.map((id, idx) => [id, idx + 1]));
+
+      // به‌روزرسانی نوار بالا
+      document.getElementById("headerPct").textContent = calc.totalPct.toLocaleString('fa-IR') + "٪";
+      document.getElementById("recStepsTotal").textContent = `${seq.length.toLocaleString('fa-IR')} گام در ${strategies[currentModeKey].name.split(':')[0]}`;
+      document.getElementById("rootCountBadge").textContent = `${checkedItems.size.toLocaleString('fa-IR')} از ۲۶ امکان`;
+
+      const modeLabels = {
+        full: "نقدی کامل:",
+        phased: "مرحله‌ای (راند ۱):",
+        revshare: "پیش‌پرداخت شراکت:"
+      };
+      document.getElementById("headerModeTag").textContent = modeLabels[activeStrategy];
+
+      let activeCostText = "";
+      if (activeStrategy === "full") {
+        activeCostText = formatMillion(calc.costFull) + ` (با ${calc.savedFull.toLocaleString('fa-IR')} م تخفیف)`;
+      } else if (activeStrategy === "phased") {
+        activeCostText = formatMillion(calc.r1Cost) + ` (کل ۳ راند: ${calc.rawSum.toLocaleString('fa-IR')} م)`;
+      } else {
+        activeCostText = formatMillion(calc.costRevshare) + " + ۴٪ سهم درگاه";
+      }
+      document.getElementById("headerCostValue").textContent = activeCostText;
+
+      // مقایسه‌های فشرده ستون چپ
+      document.getElementById("miniCost_full").textContent = formatMillion(calc.costFull);
+      document.getElementById("miniCost_phased").textContent = `راند ۱: ${calc.r1Cost.toLocaleString('fa-IR')} م (کل ${calc.rawSum.toLocaleString('fa-IR')} م)`;
+      document.getElementById("miniCost_revshare").textContent = `${calc.costRevshare.toLocaleString('fa-IR')} م + ۴٪`;
+
+      // رندر ۶ شاخه در ستون راست (توزیع متوازن بدون اسکرول)
+      const container = document.getElementById("branchesGrid");
+      container.innerHTML = branchesData.map(branch => {
+        const capsulesHtml = branch.items.map(item => {
+          const isChecked = checkedItems.has(item.id);
+          const stepNum = seqMap.get(item.id);
+          const isSuggested = Boolean(stepNum);
+
+          const tierClass = item.tier === "gray" ? "node-gray" : (item.tier === "purple" ? "node-purple" : "node-gold");
+          const badgeClass = item.tier === "gray" ? "badge-gray" : (item.tier === "purple" ? "badge-purple" : "badge-gold");
+
+          return `
+            <div
+              onclick="toggleItem('${item.id}')"
+              onmouseenter="inspectItem('${item.id}', ${stepNum || 'null'})"
+              class="map-capsule flex-1 min-w-0 rounded-lg border px-2 py-1 flex items-center justify-between gap-1.5 cursor-pointer text-xs ${isChecked ? tierClass : 'border-slate-800 bg-slate-900/60 opacity-60'} ${isSuggested ? 'highlighted-suggested' : ''}"
+            >
+              <div class="flex items-center gap-1.5 min-w-0 overflow-hidden">
+                <input
+                  type="checkbox"
+                  ${isChecked ? 'checked' : ''}
+                  onclick="event.stopPropagation(); toggleItem('${item.id}')"
+                  class="w-3.5 h-3.5 cursor-pointer shrink-0"
+                >
+                <span class="font-bold text-white truncate text-[11px] sm:text-xs">${item.short}</span>
+              </div>
+
+              <div class="flex items-center gap-1 shrink-0">
+                ${stepNum ? `
+                  <span class="step-indicator" title="گام شماره ${stepNum} در این مسیر">${stepNum.toLocaleString('fa-IR')}</span>
+                ` : ""}
+                <span class="text-[10px] font-semibold text-slate-300">${item.price.toLocaleString('fa-IR')}م</span>
+              </div>
+            </div>
+          `;
+        }).join("");
+
+        return `
+          <div class="flex items-center gap-2 bg-[#0b101e] border border-slate-800/80 rounded-xl px-2.5 py-1.5 flex-1 min-h-0">
+            <div class="w-28 sm:w-32 shrink-0 border-l border-slate-800 pl-2">
+              <div class="text-[11px] sm:text-xs font-extrabold text-sky-300 truncate">${branch.name}</div>
+            </div>
+            <div class="flex items-center gap-1.5 flex-1 min-w-0">
+              ${capsulesHtml}
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function inspectItem(id, stepNum) {
+      const item = allOptionsMap.get(id);
+      if (!item) return;
+
+      const tagEl = document.getElementById("inspPillTag");
+      tagEl.className = "px-2 py-0.5 rounded text-[10px] font-bold shrink-0 " +
+        (item.tier === "gray" ? "badge-gray" : (item.tier === "purple" ? "badge-purple" : "badge-gold"));
+      tagEl.textContent = (item.tier === "gray" ? "پایه" : (item.tier === "purple" ? "رشد" : "طلایی")) +
+        (stepNum ? ` • گام ${stepNum.toLocaleString('fa-IR')}` : "");
+
+      document.getElementById("inspTitleText").textContent = item.title + ` (${item.price.toLocaleString('fa-IR')} میلیون تومان / +${item.pct}٪ قدرت):`;
+      document.getElementById("inspDetailText").textContent = item.desc;
+    }
+
+    // =========================================================
+    // مودال پاپ‌آپ فاکتور و امضا (بدون نیاز به اسکرول صفحه اصلی)
+    // =========================================================
+    function openInvoiceModal() {
+      const calc = calculateLive();
+      const currentModeKey = activeStrategy;
+      const seq = strategies[currentModeKey].sequence;
+      const seqMap = new Map(seq.map((id, idx) => [id, idx + 1]));
+
+      document.getElementById("invModalCode").textContent = "ORD-" + Math.floor(100000 + Math.random() * 900000);
+      document.getElementById("invModalDate").textContent = new Date().toLocaleDateString('fa-IR');
+      document.getElementById("invModalModeLabel").textContent = strategies[activeStrategy].name;
+
+      const tbody = document.getElementById("invModalTbody");
+      const list = [...checkedItems].map(id => allOptionsMap.get(id)).filter(Boolean);
+
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="py-3 text-center text-slate-500">هیچ امکانی انتخاب نشده است.</td></tr>`;
+      } else {
+        tbody.innerHTML = list.map((item, idx) => {
+          const step = seqMap.get(item.id) || "—";
+          const tierTxt = item.tier === "gray" ? "خاکستری" : (item.tier === "purple" ? "بنفش" : "طلایی");
+          return `
+            <tr>
+              <td class="py-1 px-1.5">${(idx + 1).toLocaleString('fa-IR')}</td>
+              <td class="py-1 px-1.5 font-semibold text-slate-200">${item.title}</td>
+              <td class="py-1 px-1.5 text-center text-slate-400">${tierTxt}</td>
+              <td class="py-1 px-1.5 text-center text-sky-400 font-bold">${step !== "—" ? step.toLocaleString('fa-IR') : "—"}</td>
+              <td class="py-1 px-1.5 text-left font-bold text-slate-200">${item.price.toLocaleString('fa-IR')} م</td>
+            </tr>
+          `;
+        }).join("");
+      }
+
+      // خلاصه مالی متناسب با مدل
+      const summaryBox = document.getElementById("invModalSummary");
+      if (activeStrategy === "full") {
+        summaryBox.innerHTML = `
+          <div class="flex justify-between text-slate-400 text-[11px]">
+            <span>جمع ارزش کاتالوگ:</span>
+            <span>${calc.rawSum.toLocaleString('fa-IR')} میلیون تومان</span>
+          </div>
+          <div class="flex justify-between text-emerald-400 text-[11px]">
+            <span>تخفیف تسویه نقدی کامل:</span>
+            <span>- ${calc.savedFull.toLocaleString('fa-IR')} میلیون تومان</span>
+          </div>
+          <div class="flex justify-between text-white font-bold text-xs pt-1 border-t border-slate-800">
+            <span>مبلغ نهایی پرداخت نقدی:</span>
+            <span class="text-emerald-400">${calc.costFull.toLocaleString('fa-IR')} میلیون تومان</span>
+          </div>
+        `;
+      } else if (activeStrategy === "phased") {
+        summaryBox.innerHTML = `
+          <div class="flex justify-between text-slate-300 text-[11px]">
+            <span>پیش‌پرداخت راند ۱ (پایه راه‌اندازی):</span>
+            <strong class="text-purple-400 font-bold">${calc.r1Cost.toLocaleString('fa-IR')} میلیون تومان</strong>
+          </div>
+          <div class="flex justify-between text-slate-400 text-[11px]">
+            <span>هزینه راند ۲ (پس از اولین فروش‌های مغازه):</span>
+            <span>${calc.r2Cost.toLocaleString('fa-IR')} میلیون تومان</span>
+          </div>
+          <div class="flex justify-between text-slate-400 text-[11px]">
+            <span>هزینه راند ۳ (امپراتوری طلایی):</span>
+            <span>${calc.r3Cost.toLocaleString('fa-IR')} میلیون تومان</span>
+          </div>
+          <div class="flex justify-between text-white font-bold text-xs pt-1 border-t border-slate-800">
+            <span>جمع کل تعهد ۳ مرحله:</span>
+            <span>${calc.rawSum.toLocaleString('fa-IR')} میلیون تومان</span>
+          </div>
+        `;
+      } else {
+        summaryBox.innerHTML = `
+          <div class="flex justify-between text-slate-400 text-[11px]">
+            <span>ارزش کامل خدمات:</span>
+            <span>${calc.rawSum.toLocaleString('fa-IR')} میلیون تومان</span>
+          </div>
+          <div class="flex justify-between text-amber-400 font-bold text-[11px]">
+            <span>پیش‌پرداخت اولیه (۵۰٪ تخفیف ساخت):</span>
+            <span>${calc.costRevshare.toLocaleString('fa-IR')} میلیون تومان</span>
+          </div>
+          <div class="flex justify-between text-slate-300 text-[11px] pt-1 border-t border-slate-800">
+            <span>سهم مشارکت روی درگاه پرداخت:</span>
+            <strong class="text-emerald-400">۴٪ از هر تراکنش موفق آنلاین</strong>
+          </div>
+        `;
+      }
+
+      document.getElementById("invoiceModal").classList.remove("hidden");
+      setTimeout(initModalSignPad, 50);
+    }
+
+    function closeInvoiceModal() {
+      document.getElementById("invoiceModal").classList.add("hidden");
+    }
+
+    // امضای دیجیتال داخل مودال
+    const modalCanvas = document.getElementById("modalSignPad");
+    const mCtx = modalCanvas.getContext("2d");
+    let mDrawing = false;
+    let mHasDrawn = false;
+
+    function initModalSignPad() {
+      const rect = modalCanvas.getBoundingClientRect();
+      modalCanvas.width = rect.width;
+      modalCanvas.height = rect.height;
+      mCtx.strokeStyle = "#0284c7";
+      mCtx.lineWidth = 2.4;
+      mCtx.lineCap = "round";
+      mCtx.lineJoin = "round";
+    }
+
+    function getModalCoords(e) {
+      const rect = modalCanvas.getBoundingClientRect();
+      const cx = e.touches ? e.touches[0].clientX : e.clientX;
+      const cy = e.touches ? e.touches[0].clientY : e.clientY;
+      return { x: cx - rect.left, y: cy - rect.top };
+    }
+
+    function mStart(e) {
+      e.preventDefault();
+      mDrawing = true;
+      mHasDrawn = true;
+      document.getElementById("modalSignTip").style.display = "none";
+      const p = getModalCoords(e);
+      mCtx.beginPath();
+      mCtx.moveTo(p.x, p.y);
+    }
+    function mMove(e) {
+      if (!mDrawing) return;
+      e.preventDefault();
+      const p = getModalCoords(e);
+      mCtx.lineTo(p.x, p.y);
+      mCtx.stroke();
+    }
+    function mEnd() { mDrawing = false; }
+
+    modalCanvas.addEventListener("mousedown", mStart);
+    modalCanvas.addEventListener("mousemove", mMove);
+    window.addEventListener("mouseup", mEnd);
+    modalCanvas.addEventListener("touchstart", mStart, { passive: false });
+    modalCanvas.addEventListener("touchmove", mMove, { passive: false });
+    window.addEventListener("touchend", mEnd);
+
+    function clearModalSignature() {
+      mCtx.clearRect(0, 0, modalCanvas.width, modalCanvas.height);
+      mHasDrawn = false;
+      document.getElementById("modalSignTip").style.display = "flex";
+      document.getElementById("modalStamp").classList.add("hidden");
+      document.getElementById("modalSignStatus").textContent = "تیک تایید قوانین را بزنید و امضا فرمایید.";
+      document.getElementById("modalSignStatus").className = "text-xs text-slate-400";
+    }
+
+    function toggleSignButton() {
+      const ok = document.getElementById("chkModalRules").checked;
+      const status = document.getElementById("modalSignStatus");
+      if (ok) {
+        status.textContent = "قوانین تایید شد. لطفاً امضا کنید و دکمه ثبت نهایی را بزنید.";
+        status.className = "text-xs text-sky-400 font-semibold";
+      } else {
+        status.textContent = "تیک تایید قوانین را بزنید و امضا فرمایید.";
+        status.className = "text-xs text-slate-400";
+      }
+    }
+
+    function finalizeModalSign() {
+      const ok = document.getElementById("chkModalRules").checked;
+      const status = document.getElementById("modalSignStatus");
+      if (!ok) {
+        status.textContent = "ابتدا تیک تایید شرایط و قوانین را بزنید!";
+        status.className = "text-xs text-rose-400 font-bold";
+        return;
+      }
+      if (!mHasDrawn) {
+        status.textContent = "لطفاً امضای خود را در کادر سفید بکشید!";
+        status.className = "text-xs text-rose-400 font-bold";
+        return;
+      }
+      document.getElementById("modalStamp").classList.remove("hidden");
+      status.textContent = "فاکتور رسمی با موفقیت امضا و ثبت نهایی شد ✓";
+      status.className = "text-xs text-emerald-400 font-bold";
+    }
+
+    // راه‌اندازی اولیه
+    updateHeaderButtons();
+    renderMindMap();
+  </script>
+</body>
+</html>

@@ -34,3 +34,13 @@ locate_*.js
 update_store_step*.js
 replace_sort_*.js
 do_replace_*.js
+
+.vercel
+.env*
+
+apply_*.js
+verify_*.js
+test_*.js
+show_*.js
+audit_*.js
+list_*.js
