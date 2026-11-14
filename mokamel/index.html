@@ -1526,16 +1526,42 @@
             filter: drop-shadow(0 0 8px var(--theme-glow));
         }
 
-        /* انیمیشن نبض و برق‌برقی برای وقتی که هنوز هیچ دکمه‌ای انتخاب نشده است */
-        body.initial-state .header-dept-btn {
-            animation: deptPulse 2.4s infinite ease-in-out;
+        /* ========================================================
+           استایل و انیمیشن ۴ دکمه سطر اول (دپارتمان‌ها) در تمامی صفحات
+           رنگ‌های متمایز، آیکون‌های اختصاصی، هاله‌ی نوری بدون تغییر ابعاد کادر
+           ======================================================== */
+        .header-dept-btn {
+            position: relative;
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #f1f5f9;
+            font-size: 0.84rem;
+            font-weight: 700;
+            padding: 7px 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            overflow: hidden;
+            transform: none !important;
+            transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+            animation: deptAuraHalo 3.2s infinite ease-in-out;
+            will-change: box-shadow, border-color;
         }
 
-        body.initial-state .header-dept-btn::after {
+        .header-dept-btn svg {
+            width: 18px;
+            height: 18px;
+            transition: fill 0.3s ease, filter 0.3s ease;
+        }
+
+        /* خط درخشش برق نوری مورب بدون تغییر ابعاد کادر */
+        .header-dept-btn::after {
             content: '';
             position: absolute;
             top: -50%;
-            left: -100%;
+            left: -120%;
             width: 50%;
             height: 200%;
             background: linear-gradient(
@@ -1545,44 +1571,163 @@
                 transparent
             );
             transform: rotate(30deg);
-            animation: shimmerSweep 3.2s infinite ease-in-out;
+            animation: shimmerSweep 3.6s infinite ease-in-out;
             pointer-events: none;
         }
 
-        /* تاخیر ریتمیک برای برق‌زدن دکمه‌ها */
-        body.initial-state .header-dept-btn[data-dept="supplements"] {
-            border-color: rgba(232, 198, 104, 0.45);
-            box-shadow: 0 0 12px rgba(232, 198, 104, 0.14);
+        /* ۱. مکمل‌های ورزشی: طلایی / کهربایی لوکس */
+        .header-dept-btn[data-dept="supplements"] {
+            --dept-accent: #e8c668;
+            --dept-glow-idle: rgba(232, 198, 104, 0.16);
+            --dept-glow-peak: rgba(232, 198, 104, 0.48);
+            --dept-border-idle: rgba(232, 198, 104, 0.42);
+            background: rgba(232, 198, 104, 0.08);
+            border-color: rgba(232, 198, 104, 0.42);
             animation-delay: 0s;
         }
-        body.initial-state .header-dept-btn[data-dept="supplements"]::after { animation-delay: 0.1s; }
-
-        body.initial-state .header-dept-btn[data-dept="apparel_men"] {
-            border-color: rgba(0, 180, 216, 0.35);
-            animation-delay: 0.6s;
+        .header-dept-btn[data-dept="supplements"] svg {
+            fill: #e8c668;
+            filter: drop-shadow(0 0 5px rgba(232, 198, 104, 0.4));
         }
-        body.initial-state .header-dept-btn[data-dept="apparel_men"]::after { animation-delay: 0.8s; }
-
-        body.initial-state .header-dept-btn[data-dept="apparel_women"] {
-            border-color: rgba(244, 114, 182, 0.4);
-            animation-delay: 1.2s;
+        .header-dept-btn[data-dept="supplements"]::after {
+            animation-delay: 0.1s;
         }
-        body.initial-state .header-dept-btn[data-dept="apparel_women"]::after { animation-delay: 1.5s; }
-
-        body.initial-state .header-dept-btn[data-dept="gym_gear"] {
-            border-color: rgba(249, 115, 22, 0.35);
-            animation-delay: 1.8s;
+        .header-dept-btn[data-dept="supplements"]:hover {
+            background: rgba(232, 198, 104, 0.18);
+            border-color: #e8c668;
+            box-shadow: 0 0 16px rgba(232, 198, 104, 0.45);
+            color: #ffffff;
+            transform: none !important;
         }
-        body.initial-state .header-dept-btn[data-dept="gym_gear"]::after { animation-delay: 2.2s; }
+        .header-dept-btn[data-dept="supplements"].active {
+            background: rgba(232, 198, 104, 0.22) !important;
+            border-color: #e8c668 !important;
+            box-shadow: 0 0 18px rgba(232, 198, 104, 0.55), inset 0 0 10px rgba(232, 198, 104, 0.2) !important;
+            color: #ffffff !important;
+            transform: none !important;
+        }
+        .header-dept-btn[data-dept="supplements"].active svg {
+            fill: #e8c668 !important;
+            filter: drop-shadow(0 0 8px rgba(232, 198, 104, 0.8)) !important;
+        }
 
-        @keyframes deptPulse {
+        /* ۲. پوشاک مردانه: آبی سایبری الکتریک */
+        .header-dept-btn[data-dept="apparel_men"] {
+            --dept-accent: #00b4d8;
+            --dept-glow-idle: rgba(0, 180, 216, 0.16);
+            --dept-glow-peak: rgba(0, 180, 216, 0.48);
+            --dept-border-idle: rgba(0, 180, 216, 0.42);
+            background: rgba(0, 180, 216, 0.08);
+            border-color: rgba(0, 180, 216, 0.42);
+            animation-delay: 0.8s;
+        }
+        .header-dept-btn[data-dept="apparel_men"] svg {
+            fill: #00b4d8;
+            filter: drop-shadow(0 0 5px rgba(0, 180, 216, 0.4));
+        }
+        .header-dept-btn[data-dept="apparel_men"]::after {
+            animation-delay: 0.9s;
+        }
+        .header-dept-btn[data-dept="apparel_men"]:hover {
+            background: rgba(0, 180, 216, 0.18);
+            border-color: #00b4d8;
+            box-shadow: 0 0 16px rgba(0, 180, 216, 0.45);
+            color: #ffffff;
+            transform: none !important;
+        }
+        .header-dept-btn[data-dept="apparel_men"].active {
+            background: rgba(0, 180, 216, 0.22) !important;
+            border-color: #00b4d8 !important;
+            box-shadow: 0 0 18px rgba(0, 180, 216, 0.55), inset 0 0 10px rgba(0, 180, 216, 0.2) !important;
+            color: #ffffff !important;
+            transform: none !important;
+        }
+        .header-dept-btn[data-dept="apparel_men"].active svg {
+            fill: #00b4d8 !important;
+            filter: drop-shadow(0 0 8px rgba(0, 180, 216, 0.8)) !important;
+        }
+
+        /* ۳. پوشاک زنانه: صورتی نئون فیتنس */
+        .header-dept-btn[data-dept="apparel_women"] {
+            --dept-accent: #f472b6;
+            --dept-glow-idle: rgba(244, 114, 182, 0.16);
+            --dept-glow-peak: rgba(244, 114, 182, 0.48);
+            --dept-border-idle: rgba(244, 114, 182, 0.42);
+            background: rgba(244, 114, 182, 0.08);
+            border-color: rgba(244, 114, 182, 0.42);
+            animation-delay: 1.6s;
+        }
+        .header-dept-btn[data-dept="apparel_women"] svg {
+            fill: #f472b6;
+            filter: drop-shadow(0 0 5px rgba(244, 114, 182, 0.4));
+        }
+        .header-dept-btn[data-dept="apparel_women"]::after {
+            animation-delay: 1.7s;
+        }
+        .header-dept-btn[data-dept="apparel_women"]:hover {
+            background: rgba(244, 114, 182, 0.18);
+            border-color: #f472b6;
+            box-shadow: 0 0 16px rgba(244, 114, 182, 0.45);
+            color: #ffffff;
+            transform: none !important;
+        }
+        .header-dept-btn[data-dept="apparel_women"].active {
+            background: rgba(244, 114, 182, 0.22) !important;
+            border-color: #f472b6 !important;
+            box-shadow: 0 0 18px rgba(244, 114, 182, 0.55), inset 0 0 10px rgba(244, 114, 182, 0.2) !important;
+            color: #ffffff !important;
+            transform: none !important;
+        }
+        .header-dept-btn[data-dept="apparel_women"].active svg {
+            fill: #f472b6 !important;
+            filter: drop-shadow(0 0 8px rgba(244, 114, 182, 0.8)) !important;
+        }
+
+        /* ۴. تجهیزات و لوازم باشگاه: نارنجی متالیک آتشین */
+        .header-dept-btn[data-dept="gym_gear"] {
+            --dept-accent: #f97316;
+            --dept-glow-idle: rgba(249, 115, 22, 0.16);
+            --dept-glow-peak: rgba(249, 115, 22, 0.48);
+            --dept-border-idle: rgba(249, 115, 22, 0.42);
+            background: rgba(249, 115, 22, 0.08);
+            border-color: rgba(249, 115, 22, 0.42);
+            animation-delay: 2.4s;
+        }
+        .header-dept-btn[data-dept="gym_gear"] svg {
+            fill: #f97316;
+            filter: drop-shadow(0 0 5px rgba(249, 115, 22, 0.4));
+        }
+        .header-dept-btn[data-dept="gym_gear"]::after {
+            animation-delay: 2.5s;
+        }
+        .header-dept-btn[data-dept="gym_gear"]:hover {
+            background: rgba(249, 115, 22, 0.18);
+            border-color: #f97316;
+            box-shadow: 0 0 16px rgba(249, 115, 22, 0.45);
+            color: #ffffff;
+            transform: none !important;
+        }
+        .header-dept-btn[data-dept="gym_gear"].active {
+            background: rgba(249, 115, 22, 0.22) !important;
+            border-color: #f97316 !important;
+            box-shadow: 0 0 18px rgba(249, 115, 22, 0.55), inset 0 0 10px rgba(249, 115, 22, 0.2) !important;
+            color: #ffffff !important;
+            transform: none !important;
+        }
+        .header-dept-btn[data-dept="gym_gear"].active svg {
+            fill: #f97316 !important;
+            filter: drop-shadow(0 0 8px rgba(249, 115, 22, 0.8)) !important;
+        }
+
+        /* انیمیشن تنفس هاله‌ای رنگی: صرفاً هاله و نور بدون تغییر اندازه کادر */
+        @keyframes deptAuraHalo {
             0%, 100% {
-                transform: scale(1);
-                box-shadow: 0 0 0px transparent;
+                box-shadow: 0 0 6px var(--dept-glow-idle, rgba(255, 255, 255, 0.1));
+                border-color: var(--dept-border-idle, rgba(255, 255, 255, 0.25));
             }
             50% {
-                transform: scale(1.05);
-                box-shadow: 0 0 16px var(--theme-glow);
+                box-shadow: 0 0 16px var(--dept-glow-peak, rgba(255, 255, 255, 0.45));
+                border-color: var(--dept-accent, rgba(255, 255, 255, 0.65));
             }
         }
 
@@ -1596,6 +1741,30 @@
             100% {
                 left: 220%;
             }
+        }
+
+        /* قطع موقت انیمیشن دکمه پس از انتخاب شدن تا زمان فعال بودن */
+        .header-dept-btn.active {
+            animation: none !important;
+        }
+        .header-dept-btn.active::after {
+            animation: none !important;
+            display: none !important;
+            opacity: 0 !important;
+        }
+
+        /* توقف موقت انیمیشن نوار دکمه‌ها در لحظه انتخاب شدن برای آرامش بصری */
+        .header-departments-nav.temporarily-paused .header-dept-btn {
+            animation-play-state: paused !important;
+        }
+        .header-departments-nav.temporarily-paused .header-dept-btn::after {
+            animation-play-state: paused !important;
+            opacity: 0 !important;
+        }
+
+        /* جلوگیری از کوچک و بزرگ شدن کادر در هنگام کلیک */
+        .header-dept-btn:active {
+            transform: none !important;
         }
 
         /* دکمه‌های اکشن هدر: سرچ کوچک و بازشونده از سمت راست دکمه */
@@ -3044,7 +3213,7 @@
         }
 
         /* انیمیشن جذاب کلیک دکمه‌ها: هاله نوری نئون و ترنزیشن درخشان */
-        .cat-capsule-btn:active, .sub-capsule-btn:active, .header-dept-btn:active {
+        .cat-capsule-btn:active, .sub-capsule-btn:active {
             transform: scale(0.96) !important;
         }
 
@@ -5496,6 +5665,11 @@
     pointer-events: auto;
 }
 
+.cart-drawer-overlay, .cart-drawer-panel {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
 .cart-drawer-panel {
     position: fixed;
     top: 0;
@@ -9158,59 +9332,37 @@
             transition: max-width 0.4s ease;
         }
 
-        /* انیمیشن بازگشت و جمع شدن نرم سطر ۳ به سمت بالا */
-        .sub-categories-row.ux-slide-up {
-            display: block !important;
-            animation: subCatSlideUp 0.24s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
-            pointer-events: none !important;
+        /* ============================================================
+           انیمیشن رفت و برگشت فوق‌العاده روان، پرسرعت و بدون گلیچ سطر سوم
+           ============================================================ */
+        .sub-categories-row {
             overflow: hidden !important;
         }
-        @keyframes subCatSlideUp {
-            0% {
-                opacity: 1;
-                transform: translateY(0);
-                max-height: 140px;
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-16px);
-                max-height: 0;
-                margin-top: 0;
-                padding-top: 0;
-            }
+
+        .sub-categories-inner {
+            will-change: transform, opacity;
         }
 
-        /* انیمیشن باز شدن نرم سطر ۳ از بالا به پایین */
-        .sub-categories-row.ux-slide-down {
-            display: block !important;
-            animation: subCatSlideDown 0.34s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
-            overflow: visible !important;
+        /* رفتن بسیار روان و سریع دکمه‌ها به سمت بالا و محو شدن */
+        .sub-categories-inner.sub-anim-up {
+            opacity: 0 !important;
+            transform: translateY(-10px) !important;
+            transition: transform 0.13s cubic-bezier(0.4, 0, 1, 1), opacity 0.12s linear !important;
+            pointer-events: none !important;
         }
-        @keyframes subCatSlideDown {
+
+        /* فرود آمدن نرم، شیک و بدون تاخیر دکمه‌های جدید از بالا به پایین */
+        .sub-categories-inner.sub-anim-down {
+            animation: subCatFastDown 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+        }
+        @keyframes subCatFastDown {
             0% {
                 opacity: 0;
-                transform: translateY(-16px);
-                max-height: 0;
+                transform: translateY(-10px);
             }
             100% {
                 opacity: 1;
                 transform: translateY(0);
-                max-height: 140px;
-            }
-        }
-
-        /* ظهور آبشاری و جذاب دکمه‌های زیرشاخه جدید در سطر ۳ */
-        .sub-categories-row.ux-slide-down .sub-capsule-btn {
-            animation: subCapsulePop 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
-        }
-        @keyframes subCapsulePop {
-            0% {
-                opacity: 0;
-                transform: translateY(-8px) scale(0.92);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
             }
         }
 
@@ -9315,40 +9467,140 @@
             }
         }
 
-        /* باکس راهنمای بصری مینیمال و مرحله‌ای */
+        /* ============================================================
+           حالت شاینینگ و درخشش دکمه‌های سطر ۲ و ۳ در زمان انتظار (Waiting State)
+           بدون هیچ متن یا راهنمای متنی - فقط دکمه‌های کپسولی درخشان با انیمیشن
+           ============================================================ */
+
+        /* حذف کامل هرگونه باکس یا متن راهنما در حالت انتظار */
         .ux-flow-stage-hint {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 18px 24px;
-            margin: 20px auto 30px auto;
-            max-width: 520px;
-            background: rgba(13, 20, 36, 0.5);
-            backdrop-filter: blur(14px);
-            border: 1px dashed rgba(56, 189, 248, 0.35);
-            border-radius: 14px;
-            color: #94a3b8;
-            font-size: 0.88rem;
-            animation: hintSlideFade 0.35s ease forwards;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            height: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
         }
 
-        .ux-flow-hint-pulse {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #38bdf8;
-            box-shadow: 0 0 10px #38bdf8;
-            animation: countPulse 1.8s infinite ease-in-out;
-            flex-shrink: 0;
+        /* دکمه‌های کپسولی شاینینگ در حالت انتظار برای سطر دوم و سوم (بدون متن) */
+        .capsule-btn-shining-placeholder {
+            position: relative !important;
+            overflow: hidden !important;
+            background: rgba(15, 23, 42, 0.72) !important;
+            border: 1px solid rgba(56, 189, 248, 0.28) !important;
+            box-shadow: 0 0 16px rgba(56, 189, 248, 0.1), inset 0 0 10px rgba(255, 255, 255, 0.03) !important;
+            cursor: pointer !important;
+            user-select: none !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            backdrop-filter: blur(12px) !important;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            animation: capsuleWaitingPulse 2.4s infinite ease-in-out !important;
         }
 
-        @keyframes hintSlideFade {
-            0% { opacity: 0; transform: translateY(-8px); }
-            100% { opacity: 1; transform: translateY(0); }
+        /* ابعاد دکمه شاینینگ سطر دوم */
+        .categories-capsules-row .capsule-btn-shining-placeholder {
+            height: 38px !important;
+            border-radius: 30px !important;
+            padding: 0 16px !important;
         }
 
+        /* ابعاد دکمه شاینینگ سطر سوم */
+        .sub-categories-row .capsule-btn-shining-placeholder,
+        .sub-categories-inner .capsule-btn-shining-placeholder {
+            height: 32px !important;
+            border-radius: 20px !important;
+            padding: 0 12px !important;
+        }
+
+        /* موج نوری شاینینگ (Shining Wave) که پیوسته روی دکمه‌ها می‌لغزد */
+        .capsule-btn-shining-placeholder::after {
+            content: '' !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: -150% !important;
+            width: 150% !important;
+            height: 100% !important;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(56, 189, 248, 0.08) 25%,
+                rgba(255, 255, 255, 0.38) 50%,
+                rgba(56, 189, 248, 0.15) 75%,
+                transparent 100%
+            ) !important;
+            transform: skewX(-24deg) !important;
+            animation: capsuleShineSweep 1.8s infinite cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        /* خط نوری درخشان مینیمال داخل دکمه به جای متن */
+        .capsule-btn-shining-placeholder .shining-inner-line {
+            height: 6px !important;
+            border-radius: 6px !important;
+            background: rgba(255, 255, 255, 0.18) !important;
+            box-shadow: 0 0 8px rgba(56, 189, 248, 0.35) !important;
+            display: block !important;
+            pointer-events: none !important;
+        }
+
+        .capsule-btn-shining-placeholder .shining-inner-dot {
+            width: 8px !important;
+            height: 8px !important;
+            border-radius: 50% !important;
+            background: #38bdf8 !important;
+            box-shadow: 0 0 10px #38bdf8, 0 0 16px rgba(56, 189, 248, 0.8) !important;
+            margin-left: 8px !important;
+            flex-shrink: 0 !important;
+            animation: dotGlowBlink 1.8s infinite ease-in-out !important;
+        }
+
+        @keyframes dotGlowBlink {
+            0%, 100% { opacity: 0.45; transform: scale(0.9); }
+            50% { opacity: 1; transform: scale(1.15); box-shadow: 0 0 14px #38bdf8; }
+        }
+
+        @keyframes capsuleShineSweep {
+            0% { left: -150%; }
+            60%, 100% { left: 150%; }
+        }
+
+        @keyframes capsuleWaitingPulse {
+            0%, 100% {
+                border-color: rgba(56, 189, 248, 0.22);
+                box-shadow: 0 0 12px rgba(56, 189, 248, 0.08);
+            }
+            50% {
+                border-color: rgba(56, 189, 248, 0.55);
+                box-shadow: 0 0 22px rgba(56, 189, 248, 0.25);
+            }
+        }
+
+        /* درخشش شاینینگ زنده برای دکمه‌های کپسولی فعال در حالت انتظار انتخاب */
+        .cat-capsule-btn.is-waiting-shining,
+        .sub-capsule-btn.is-waiting-shining {
+            position: relative !important;
+            overflow: hidden !important;
+        }
+
+        .cat-capsule-btn.is-waiting-shining::after,
+        .sub-capsule-btn.is-waiting-shining::after {
+            content: '' !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: -160% !important;
+            width: 140% !important;
+            height: 100% !important;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.22) 50%,
+                transparent 100%
+            ) !important;
+            transform: skewX(-20deg) !important;
+            animation: capsuleShineSweep 2.2s infinite ease-in-out !important;
+            pointer-events: none !important;
+        }
 
         /* ========================================================================= */
         /* سیستم ترغیب خرید، دکمه اشتراک و بازخورد لمسی و صوتی */
@@ -9566,73 +9818,76 @@
         }
 
         /* ========================================================= */
-        /* سیستم سوییچر شعب/فروشگاه‌ها (AbarStore / Miti / Ali)     */
+        /* سیستم منوی شعب مستقیماً روی عنوان بالا سمت راست           */
         /* ========================================================= */
-        .header-brand-group {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .store-switcher-container {
+        .store-brand-menu-wrapper {
             position: relative;
+            display: inline-block;
+            z-index: 1000;
         }
 
-        .store-switcher-trigger {
+        .brand-title-box {
             display: inline-flex;
             align-items: center;
-            gap: 7px;
-            padding: 6px 12px;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--theme-border);
-            color: #ffffff;
-            font-size: 0.8rem;
-            font-weight: 700;
+            gap: 10px;
             cursor: pointer;
-            backdrop-filter: blur(12px);
+            user-select: none;
+            padding: 7px 14px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(12px);
         }
 
-        .store-switcher-trigger:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: #ffffff;
+        .brand-title-box:hover {
+            background: rgba(255, 255, 255, 0.09);
+            border-color: rgba(255, 255, 255, 0.22);
             transform: translateY(-1px);
         }
 
-        .switcher-badge-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--theme-color);
-            box-shadow: 0 0 8px var(--theme-color);
-            transition: background 0.3s ease;
+        .brand-title-box.pulse-aura {
+            border-color: var(--aura-color, #f472b6) !important;
+            box-shadow: 0 0 25px var(--aura-color, #f472b6), inset 0 0 15px rgba(255, 255, 255, 0.15) !important;
+            animation: brandPulseGlow 0.85s ease-out forwards;
         }
 
-        .switcher-chevron-icon {
-            width: 14px;
-            height: 14px;
+        @keyframes brandPulseGlow {
+            0% { transform: scale(0.97); }
+            50% { transform: scale(1.04); }
+            100% { transform: scale(1); }
+        }
+
+        .brand-dropdown-arrow {
+            width: 15px;
+            height: 15px;
             fill: currentColor;
-            opacity: 0.7;
-            transition: transform 0.25s ease;
+            opacity: 0.65;
+            transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+            margin-right: -2px;
         }
 
-        .store-switcher-container.open .switcher-chevron-icon {
+        .store-brand-menu-wrapper.open .brand-dropdown-arrow {
             transform: rotate(180deg);
+            opacity: 1;
+        }
+
+        .store-brand-menu-wrapper.open .brand-title-box {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--theme-color);
         }
 
         .store-switcher-dropdown {
             position: absolute;
-            top: calc(100% + 8px);
+            top: calc(100% + 10px);
             right: 0;
-            min-width: 260px;
-            background: rgba(12, 18, 30, 0.96);
-            backdrop-filter: blur(22px);
+            min-width: 270px;
+            background: rgba(10, 15, 26, 0.96);
+            backdrop-filter: blur(24px);
             border: 1px solid var(--theme-border);
-            border-radius: 16px;
-            padding: 8px;
-            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 0, 0, 0.5);
+            border-radius: 18px;
+            padding: 10px;
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.85), 0 0 25px rgba(0, 0, 0, 0.5);
             z-index: 10000;
             opacity: 0;
             pointer-events: none;
@@ -9641,7 +9896,7 @@
                         transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .store-switcher-container.open .store-switcher-dropdown {
+        .store-brand-menu-wrapper.open .store-switcher-dropdown {
             opacity: 1;
             pointer-events: auto;
             transform: translateY(0) scale(1);
@@ -9655,7 +9910,7 @@
             font-size: 0.75rem;
             color: var(--text-muted);
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .switcher-tag {
@@ -9663,7 +9918,7 @@
             color: #10b981;
             border: 1px solid rgba(16, 185, 129, 0.3);
             border-radius: 6px;
-            padding: 2px 6px;
+            padding: 2px 7px;
             font-size: 0.68rem;
             font-weight: 800;
         }
@@ -9673,8 +9928,8 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            padding: 8px 10px;
-            border-radius: 10px;
+            padding: 9px 12px;
+            border-radius: 12px;
             background: transparent;
             border: 1px solid transparent;
             color: #ffffff;
@@ -9685,20 +9940,20 @@
         }
 
         .switcher-option-btn:hover {
-            background: rgba(255, 255, 255, 0.06);
-            border-color: rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 255, 255, 0.14);
         }
 
         .switcher-option-btn.active {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.12);
             border-color: var(--theme-color);
-            box-shadow: 0 0 12px var(--theme-glow);
+            box-shadow: 0 0 14px var(--theme-glow);
         }
 
         .switcher-opt-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -9720,16 +9975,16 @@
         }
 
         .switcher-opt-icon.mitishop-icon {
-            background: rgba(244, 114, 182, 0.18);
-            border: 1px solid rgba(244, 114, 182, 0.45);
+            background: rgba(244, 114, 182, 0.2);
+            border: 1px solid rgba(244, 114, 182, 0.5);
         }
         .switcher-opt-icon.mitishop-icon svg {
             fill: #f472b6;
         }
 
         .switcher-opt-icon.alishop-icon {
-            background: rgba(0, 180, 216, 0.18);
-            border: 1px solid rgba(0, 180, 216, 0.45);
+            background: rgba(0, 180, 216, 0.2);
+            border: 1px solid rgba(0, 180, 216, 0.5);
         }
         .switcher-opt-icon.alishop-icon svg {
             fill: #00b4d8;
@@ -9743,17 +9998,17 @@
         }
 
         .switcher-opt-title {
-            font-size: 0.88rem;
+            font-size: 0.9rem;
             font-weight: 800;
         }
 
         .switcher-opt-sub {
-            font-size: 0.7rem;
+            font-size: 0.72rem;
             color: var(--text-muted);
         }
 
         .switcher-opt-check {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 900;
             color: var(--theme-color);
             opacity: 0;
@@ -9816,123 +10071,238 @@
         }
 
         /* ========================================================= */
-        /* انیمیشن سینمایی موج نوری هاله هنگام تعویض فروشگاه         */
+        /* انیمیشن هاله نوری ساطع شونده از متن بالا سمت راست          */
         /* ========================================================= */
-        .store-aura-overlay {
+        .store-corner-aura-layer {
             position: fixed;
             inset: 0;
-            z-index: 20000;
+            z-index: 15000;
             pointer-events: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            overflow: hidden;
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.2s ease;
         }
 
-        .store-aura-overlay.active {
+        .store-corner-aura-layer.active {
             opacity: 1;
         }
 
-        .store-aura-ripple {
+        .corner-aura-wave {
             position: absolute;
-            width: 120px;
-            height: 120px;
+            top: -60px;
+            right: -60px;
+            width: 180px;
+            height: 180px;
             border-radius: 50%;
-            background: radial-gradient(circle, var(--aura-color, #f472b6) 0%, transparent 70%);
+            background: radial-gradient(circle at center, var(--aura-color, #f472b6) 0%, rgba(244, 114, 182, 0.5) 30%, rgba(244, 114, 182, 0.15) 55%, transparent 75%);
+            filter: blur(12px);
             opacity: 0;
             transform: scale(0.2);
+            transform-origin: top right;
         }
 
-        .store-aura-overlay.active .store-aura-ripple {
-            animation: auraWaveExpand 1.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        .store-corner-aura-layer.active .corner-aura-wave {
+            animation: cornerAuraExpand 1.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        .store-aura-card {
-            position: relative;
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            padding: 24px 36px;
-            border-radius: 24px;
-            background: rgba(10, 16, 28, 0.88);
-            backdrop-filter: blur(25px);
-            border: 1.5px solid var(--aura-color, #f472b6);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85), 0 0 35px var(--aura-color, #f472b6);
-            transform: scale(0.8);
+        .corner-aura-flare {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: #ffffff;
+            box-shadow: 0 0 50px 25px var(--aura-color, #f472b6);
             opacity: 0;
         }
 
-        .store-aura-overlay.active .store-aura-card {
-            animation: auraCardPop 1.05s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        .store-corner-aura-layer.active .corner-aura-flare {
+            animation: cornerFlareFlash 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        .store-aura-icon {
-            width: 58px;
-            height: 58px;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 0 20px var(--aura-color, #f472b6);
-        }
-
-        .store-aura-icon svg {
-            width: 34px;
-            height: 34px;
-            fill: var(--aura-color, #f472b6);
-        }
-
-        .store-aura-name {
-            font-size: 1.6rem;
-            font-weight: 900;
-            color: #ffffff;
-            letter-spacing: 1px;
-            text-shadow: 0 0 15px var(--aura-color, #f472b6);
-        }
-
-        .store-aura-tag {
-            font-size: 0.85rem;
-            color: var(--aura-color, #f472b6);
-            font-weight: 700;
-        }
-
-        @keyframes auraWaveExpand {
+        @keyframes cornerAuraExpand {
             0% {
-                transform: scale(0.1);
-                opacity: 0.85;
+                transform: scale(0.2);
+                opacity: 0.95;
+            }
+            40% {
+                opacity: 0.75;
+            }
+            100% {
+                transform: scale(32);
+                opacity: 0;
+            }
+        }
+
+        @keyframes cornerFlareFlash {
+            0% {
+                transform: scale(0.4);
+                opacity: 1;
             }
             50% {
-                opacity: 0.5;
+                transform: scale(2.2);
+                opacity: 0.8;
             }
             100% {
-                transform: scale(40);
+                transform: scale(3.5);
                 opacity: 0;
             }
         }
 
-        @keyframes auraCardPop {
-            0% {
-                transform: scale(0.6);
-                opacity: 0;
-            }
-            35% {
-                transform: scale(1.05);
-                opacity: 1;
-            }
-            75% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(0.95);
-                opacity: 0;
-            }
+
+        /* استایل اختصاصی دکمه شاپ هماهنگ با تم و جلوه‌های نئونی صفحه اصلی */
+        .header-shop-nav-btn {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            padding: 7px 16px !important;
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.12), rgba(99, 102, 241, 0.18)) !important;
+            border: 1px solid var(--neon-blue) !important;
+            border-radius: 30px !important;
+            color: #ffffff !important;
+            font-size: 0.85rem !important;
+            font-weight: 800 !important;
+            cursor: pointer !important;
+            box-shadow: 0 0 14px var(--neon-blue-glow) !important;
+            transition: var(--transition) !important;
+            text-decoration: none !important;
+            white-space: nowrap !important;
+            user-select: none !important;
         }
 
+        .header-shop-nav-btn:hover {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.24), rgba(99, 102, 241, 0.32)) !important;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.55) !important;
+            transform: translateY(-1px) scale(1.03) !important;
+            border-color: #ffffff !important;
+        }
+
+        .header-shop-nav-btn svg {
+            width: 18px !important;
+            height: 18px !important;
+            fill: var(--neon-blue) !important;
+            filter: drop-shadow(0 0 6px var(--neon-blue-glow)) !important;
+            transition: var(--transition) !important;
+        }
+
+        .shop-nav-label {
+            font-weight: 800 !important;
+            color: #ffffff !important;
+            letter-spacing: -0.2px !important;
+        }
+
+        .shop-nav-badge {
+            background: var(--neon-green) !important;
+            color: #041220 !important;
+            border-radius: 12px !important;
+            padding: 2px 7px !important;
+            font-size: 0.72rem !important;
+            font-weight: 900 !important;
+            box-shadow: 0 0 8px var(--neon-green-glow) !important;
+        }
+    
+        /* ============================================================
+           قانون قطعی: پنهان بودن کامل ستون‌های چپ و راست تا قبل از مرحله ۳
+           ============================================================ */
+        .store-layout:not(.ux-step-3) #filterSidebar,
+        .store-layout:not(.ux-step-3) #ingredientsSidebar,
+        .store-layout.ux-step-1 #filterSidebar,
+        .store-layout.ux-step-1 #ingredientsSidebar,
+        .store-layout.ux-step-2 #filterSidebar,
+        .store-layout.ux-step-2 #ingredientsSidebar,
+        body.initial-state #filterSidebar,
+        body.initial-state #ingredientsSidebar {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            width: 0 !important;
+            min-width: 0 !important;
+            max-width: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            pointer-events: none !important;
+            position: absolute !important;
+            left: -9999px !important;
+        }
+
+        .store-layout:not(.ux-step-3),
+        .store-layout.ux-step-1,
+        .store-layout.ux-step-2,
+        body.initial-state .store-layout {
+            grid-template-columns: 1fr !important;
+            max-width: 1200px !important;
+        }
+
+
+        /* دکمه‌های آیکونی خرید مینیمال روی کارت */
+        .btn-cart-action-icon,
+        .btn-instant-order-icon,
+        .btn-out-of-stock-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid var(--card-border);
+            flex-shrink: 0;
+        }
+
+        .btn-cart-action-icon {
+            background: linear-gradient(135deg, rgba(2, 132, 199, 0.9), rgba(14, 165, 233, 0.85));
+            border-color: #38bdf8;
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+        }
+
+        .btn-cart-action-icon:hover {
+            transform: scale(1.08) translateY(-2px);
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.55);
+            background: #0284c7;
+        }
+
+        .btn-cart-action-icon.in-cart {
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-color: #34d399;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-cart-action-icon svg,
+        .btn-instant-order-icon svg,
+        .btn-out-of-stock-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        .btn-instant-order-icon {
+            background: rgba(30, 41, 59, 0.8);
+            color: #38bdf8;
+            border-color: rgba(56, 189, 248, 0.3);
+        }
+
+        .btn-instant-order-icon:hover {
+            background: rgba(56, 189, 248, 0.15);
+            border-color: #38bdf8;
+            color: #ffffff;
+            transform: scale(1.08) translateY(-2px);
+            box-shadow: 0 4px 14px rgba(56, 189, 248, 0.3);
+        }
+
+        .btn-out-of-stock-icon {
+            background: rgba(30, 41, 59, 0.5);
+            color: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .card-btn-actions-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 </style>
 
     <!-- کتابخانه رندر سه‌بعدی تعاملی Three.js -->
@@ -10029,74 +10399,64 @@
     <div id="globalTooltip"></div>
 
     <!-- لایه انیمیشن سینمایی موج نوری هاله هنگام تعویض فروشگاه -->
-    <div class="store-aura-overlay" id="storeAuraOverlay">
-        <div class="store-aura-ripple"></div>
-        <div class="store-aura-card" id="storeAuraCard">
-            <div class="store-aura-icon" id="storeAuraIcon"></div>
-            <div class="store-aura-name" id="storeAuraName"></div>
-            <div class="store-aura-tag" id="storeAuraTag"></div>
-        </div>
+    <div class="store-corner-aura-layer" id="storeCornerAuraLayer">
+        <div class="corner-aura-wave" id="cornerAuraWave"></div>
+        <div class="corner-aura-flare" id="cornerAuraFlare"></div>
+    </div>
     </div>
 
     <header>
         <div class="header-main">
             <!-- لوگو و برند سایت همراه با سوییچر شعب/فروشگاه‌ها -->
-            <div class="header-brand-group">
-                <div class="brand-title-box" onclick="resetToInitialState()" title="صفحه اصلی ابر استور">
-                    <div class="brand-logo-badge">
-                        <svg viewBox="0 0 24 24"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43 1.43 1.43 2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29z"/></svg>
+            <div class="store-brand-menu-wrapper" id="storeBrandMenuWrapper">
+                <div class="brand-title-box" id="brandTitleBox" onclick="toggleStoreSwitcher(event)" title="تغییر شعبه و فروشگاه">
+                    <div class="brand-logo-badge" id="headerBrandLogoBadge">
+                        <svg viewBox="0 0 24 24" id="headerBrandLogoSvg"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43 1.43 1.43 2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29z"/></svg>
                     </div>
                     <div class="brand-title-text" id="headerMainBrandTitle">ABARSTORE</div>
+                    <svg class="brand-dropdown-arrow" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
                 </div>
 
-                <!-- دکمه منوی کشویی انتخاب فروشگاه (سمت چپ ابر استور) -->
-                <div class="store-switcher-container" id="storeSwitcherContainer">
-                    <button type="button" class="store-switcher-trigger" id="storeSwitcherTrigger" onclick="toggleStoreSwitcher(event)" aria-label="تعویض فروشگاه">
-                        <span class="switcher-badge-dot"></span>
-                        <span class="switcher-current-label" id="switcherCurrentLabel">AbarStore</span>
-                        <svg class="switcher-chevron-icon" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
-                    </button>
-                    <!-- پنل کشویی مدرن -->
-                    <div class="store-switcher-dropdown" id="storeSwitcherDropdown">
-                        <div class="switcher-dropdown-header">
-                            <span>انتخاب فروشگاه تخصصی</span>
-                            <span class="switcher-tag">شعبه فعال</span>
-                        </div>
-                        <div class="switcher-options-list">
-                            <!-- ۱. ابر استور -->
-                            <button type="button" class="switcher-option-btn active" data-store="abarstore" onclick="selectStoreBrand('abarstore')">
-                                <span class="switcher-opt-icon abarstore-icon">
-                                    <svg viewBox="0 0 24 24"><path d="M12 2L9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2z"/></svg>
-                                </span>
-                                <div class="switcher-opt-text">
-                                    <div class="switcher-opt-title">AbarStore</div>
-                                    <div class="switcher-opt-sub">فروشگاه جامع ورزشی (تم مشکی کربنی کلاسیک)</div>
-                                </div>
-                                <span class="switcher-opt-check">✓</span>
-                            </button>
-                            <!-- ۲. میتی شاپ -->
-                            <button type="button" class="switcher-option-btn" data-store="mitishop" onclick="selectStoreBrand('mitishop')">
-                                <span class="switcher-opt-icon mitishop-icon">
-                                    <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                                </span>
-                                <div class="switcher-opt-text">
-                                    <div class="switcher-opt-title">Miti Shop</div>
-                                    <div class="switcher-opt-sub">بوتیک تخصصی فیتنس (تم صورتی دخترانه لوکس)</div>
-                                </div>
-                                <span class="switcher-opt-check">✓</span>
-                            </button>
-                            <!-- ۳. علی شاپ -->
-                            <button type="button" class="switcher-option-btn" data-store="alishop" onclick="selectStoreBrand('alishop')">
-                                <span class="switcher-opt-icon alishop-icon">
-                                    <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-                                </span>
-                                <div class="switcher-opt-text">
-                                    <div class="switcher-opt-title">Ali Shop</div>
-                                    <div class="switcher-opt-sub">پاورهاوس تخصصی آقایان (تم آبی سایبری)</div>
-                                </div>
-                                <span class="switcher-opt-check">✓</span>
-                            </button>
-                        </div>
+                <!-- پنل کشویی انتخاب فروشگاه زیر عنوان -->
+                <div class="store-switcher-dropdown" id="storeSwitcherDropdown">
+                    <div class="switcher-dropdown-header">
+                        <span>انتخاب شعبه تخصصی</span>
+                        <span class="switcher-tag">شعبه فعال</span>
+                    </div>
+                    <div class="switcher-options-list">
+                        <!-- ۱. ابر استور -->
+                        <button type="button" class="switcher-option-btn active" data-store="abarstore" onclick="selectStoreBrand('abarstore', event)">
+                            <span class="switcher-opt-icon abarstore-icon">
+                                <svg viewBox="0 0 24 24"><path d="M12 2L9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2z"/></svg>
+                            </span>
+                            <div class="switcher-opt-text">
+                                <div class="switcher-opt-title">AbarStore</div>
+                                <div class="switcher-opt-sub">فروشگاه اصلی ورزشی (تم مشکی کربنی کلاسیک)</div>
+                            </div>
+                            <span class="switcher-opt-check">✓</span>
+                        </button>
+                        <!-- ۲. میتی شاپ -->
+                        <button type="button" class="switcher-option-btn" data-store="mitishop" onclick="selectStoreBrand('mitishop', event)">
+                            <span class="switcher-opt-icon mitishop-icon">
+                                <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                            </span>
+                            <div class="switcher-opt-text">
+                                <div class="switcher-opt-title">Miti Shop</div>
+                                <div class="switcher-opt-sub">بوتیک تخصصی فیتنس بانوان (تم صورتی دخترانه)</div>
+                            </div>
+                            <span class="switcher-opt-check">✓</span>
+                        </button>
+                        <!-- ۳. علی شاپ -->
+                        <button type="button" class="switcher-option-btn" data-store="alishop" onclick="selectStoreBrand('alishop', event)">
+                            <span class="switcher-opt-icon alishop-icon">
+                                <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                            </span>
+                            <div class="switcher-opt-text">
+                                <div class="switcher-opt-title">Ali Shop</div>
+                                <div class="switcher-opt-sub">پاورهاوس تخصصی آقایان (تم آبی پسرانه)</div>
+                            </div>
+                            <span class="switcher-opt-check">✓</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -10136,9 +10496,10 @@
                 <div class="header-search-dropdown" id="headerSearchDropdown" style="display: none;"></div>
 
                 <!-- دکمه سبد خرید فقط آیکون بدون متن -->
-                <button type="button" class="cart-btn-icon-only" id="headerCartBtn" onclick="toggleCartDrawer(true)" data-tooltip="مشاهده سبد خرید">
+                <button type="button" class="header-shop-nav-btn" id="headerCartBtn" onclick="goToShopPage()" data-tooltip="مشاهده سبد خرید و ثبت نهایی سفارش">
                     <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
-                    <span class="cart-badge-dot" id="cartCountBadge">0</span>
+                    <span class="shop-nav-label">فروشگاه</span>
+                    <span class="shop-nav-badge" id="cartCountBadge">0</span>
                 </button>
             </div>
         </div>
@@ -10175,7 +10536,7 @@
     <main class="store-layout right-mini hidden-initial" id="storeMainLayout">
 
         <!-- ستون سمت راست: برندها و اصالت کالا -->
-        <aside class="filter-sidebar mini-collapsed" id="filterSidebar">
+        <aside class="filter-sidebar" id="filterSidebar" style="display: none;">
             <div class="sidebar-header">
                 <div style="display: flex; align-items: center; gap: 8px;">
                     <!-- دکمه کشویی دقیقاً در بالا سمت راست ستون راست (بدون هیچ ضربدری) -->
@@ -10248,11 +10609,7 @@
             </div>
 
             <!-- نوار مدرن چیدمان و مرتب‌سازی بالای کاتالوگ محصولات -->
-            <!-- باکس راهنمای متحرک و مینیمال مراحل -->
-            <div class="ux-flow-stage-hint" id="uxFlowStageHint" style="display: none;">
-                <span class="ux-flow-hint-pulse"></span>
-                <span id="uxFlowHintText">دسته‌بندی مورد نظر خود را انتخاب نمایید</span>
-            </div>
+            
 
             <div class="catalog-top-bar-modern" id="catalogTopBarModern">
                 <!-- بخش مرتب‌سازی: دکمه مادر در موبایل + زیرمجموعه گزینه‌ها -->
@@ -10263,9 +10620,8 @@
                         <span class="mobile-toggle-indicator">▾</span>
                     </button>
                     <div class="sort-buttons-container" id="sortButtonsContainer">
-                        <span class="sort-label">
+                        <span class="sort-label" title="مرتب‌سازی محصولات">
                             <svg class="sort-icon-head" viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"/></svg>
-                            <span class="sort-label-text">مرتب‌سازی:</span>
                         </span>
                         <div class="sort-btn-group" id="sortButtonGroup">
                             <button type="button" class="sort-pill-btn active" data-sort="bestseller" onclick="changeSort('bestseller')">
@@ -10320,7 +10676,7 @@
         </section>
 
         <!-- ستون سمت چپ: ترکیبات و محتویات مکمل -->
-        <aside class="ingredients-sidebar" id="ingredientsSidebar">
+        <aside class="ingredients-sidebar" id="ingredientsSidebar" style="display: none;">
             <div class="ing-header">
                 <div class="ing-title">
                     <svg style="width: 18px; height: 18px; fill: var(--neon-blue);" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
@@ -12969,12 +13325,8 @@
         let hasSidebarsRevealed = false;
 
         function renderUxFlowHint(msg) {
-            const hint = document.getElementById("uxFlowStageHint");
-            const text = document.getElementById("uxFlowHintText");
-            if (hint && text) {
-                text.textContent = msg;
-                hint.style.display = "flex";
-            }
+            // طبق خواسته صریح، در حالت انتظار هیچ متنی نمایش داده نمی‌شود
+            hideUxFlowHint();
         }
 
         function hideUxFlowHint() {
@@ -12982,6 +13334,40 @@
             if (hint) {
                 hint.style.display = "none";
             }
+        }
+
+        // رندر دکمه‌های شاینینگ و درخشان بدون متن برای سطر سوم در حالت انتظار
+        function renderSubCategoriesWaiting() {
+            const bar = document.getElementById("subCategoriesBar");
+            const container = document.getElementById("subCategoriesContainer");
+            if (!bar || !container) return;
+
+            bar.style.display = "block";
+            bar.classList.add("open");
+            bar.classList.remove("ux-slide-up");
+
+            // دکمه‌های کپسولی شاینینگ بدون متن با انیمیشن درخشش پیوسته
+            const widths = [96, 122, 86, 112, 104, 130, 90, 116];
+            container.innerHTML = widths.map((w, idx) => `
+                <div class="sub-capsule-btn capsule-btn-shining-placeholder" style="width: ${w}px; animation-delay: ${(idx * 0.12).toFixed(2)}s;" title="انتخاب دسته‌بندی">
+                    <span class="shining-inner-dot"></span>
+                    <span class="shining-inner-line" style="width: ${w - 36}px;"></span>
+                </div>
+            `).join("");
+        }
+
+        // رندر دکمه‌های شاینینگ و درخشان بدون متن برای سطر دوم در حالت انتظار
+        function renderCategoriesWaiting() {
+            const bar = document.getElementById("categoriesBar");
+            if (!bar) return;
+
+            const widths = [118, 140, 108, 134, 122, 146, 112];
+            bar.innerHTML = widths.map((w, idx) => `
+                <div class="cat-capsule-btn capsule-btn-shining-placeholder" style="width: ${w}px; animation-delay: ${(idx * 0.12).toFixed(2)}s;" title="در حال بارگذاری...">
+                    <span class="shining-inner-dot"></span>
+                    <span class="shining-inner-line" style="width: ${w - 44}px;"></span>
+                </div>
+            `).join("");
         }
 
         function selectDepartment(deptKey) {
@@ -12993,6 +13379,16 @@
                 c.classList.toggle("active", c.getAttribute("data-dept") === deptKey);
             });
 
+            // توقف موقت انیمیشن نوار سطر اول پس از کلیک و انتخاب دپارتمان
+            const deptNav = document.getElementById("headerDeptNav");
+            if (deptNav) {
+                deptNav.classList.add("temporarily-paused");
+                clearTimeout(window._deptNavPauseTimer);
+                window._deptNavPauseTimer = setTimeout(() => {
+                    deptNav.classList.remove("temporarily-paused");
+                }, 4000);
+            }
+
             // ۲. بازنشانی انتخاب‌های قبلی سطرها و بازگشت به گام اول
             currentCategory = null;
             currentSubType = null;
@@ -13001,17 +13397,10 @@
             hasSidebarsRevealed = false;
             uxCurrentStep = 1;
 
-            // ۳. پنهان‌سازی سریع سطر ۳، سطر ۴، ستون‌ها و محصولات
-            const subBar = document.getElementById("subCategoriesBar");
-            const subContainer = document.getElementById("subCategoriesContainer");
-            if (subBar) {
-                subBar.classList.remove("open", "ux-slide-down");
-                subBar.style.display = "none";
-            }
-            if (subContainer) {
-                subContainer.innerHTML = "";
-            }
+            // ۳. تنظیم سطر ۳: به جای پنهان شدن یا نمایش متن، دکمه‌های شاینینگ و درخشان فعال می‌شوند
+            renderSubCategoriesWaiting();
 
+            // پنهان‌سازی سطر ۴، ستون‌ها و محصولات تا زمان انتخاب
             const topBar = document.getElementById("catalogTopBarModern");
             if (topBar) {
                 topBar.classList.remove("ux-topbar-reveal");
@@ -13041,9 +13430,12 @@
 
             const catBar = document.getElementById("categoriesBar");
 
-            // اگر کاربر دپارتمان را تغییر داده (یا وسط راه پشیمان شده و دکمه دیگری از سطر اول را زده است):
+            // اگر کاربر دپارتمان را تغییر داده است:
             if (isSwitchingDepartment && catBar) {
-                // فاز اول: سطر دوم با انیمیشن روان به سمت بالا می‌رود و پنهان (hide) می‌شود
+                // نمایش لحظه‌ای دکمه‌های شاینینگ سطر ۲ حین جابجایی بدون هیچ متن
+                renderCategoriesWaiting();
+                renderSubCategoriesWaiting();
+
                 catBar.classList.remove("anim-cat-slide-down-reveal");
                 catBar.classList.add("anim-cat-slide-up-exit");
 
@@ -13051,7 +13443,6 @@
                     currentDepartment = deptKey;
                     lastNavClickTier = 'dept';
 
-                    // تغییر تم و اتمسفر رنگی سایت با دپارتمان جدید
                     document.body.classList.remove("initial-state");
                     document.body.setAttribute("data-theme", deptKey);
                     applyDynamicAtmosphere(deptKey, null, null, 'dept');
@@ -13059,19 +13450,16 @@
                     // درج و رندر دکمه‌های دپارتمان جدید در سطر دوم
                     renderCategoriesBar();
 
-                    // فاز دوم: سطر دوم با انیمیشن از بالا دوباره برمی‌گردد و دکمه‌ها را رونمایی می‌کند
                     catBar.classList.remove("anim-cat-slide-up-exit");
                     catBar.classList.add("anim-cat-slide-down-reveal");
-
-                    renderUxFlowHint("گام دوم: لطفاً یکی از دسته‌بندی‌های سطر بالا را انتخاب نمایید");
 
                     setTimeout(() => {
                         catBar.classList.remove("anim-cat-slide-down-reveal");
                     }, 450);
-                }, 220);
+                }, 180);
 
             } else {
-                // ورود اولیه از صفحه هیرو
+                // ورود اولیه
                 currentDepartment = deptKey;
                 lastNavClickTier = 'dept';
 
@@ -13080,6 +13468,7 @@
                 applyDynamicAtmosphere(deptKey, null, null, 'dept');
 
                 renderCategoriesBar();
+                renderSubCategoriesWaiting();
 
                 if (catBar) {
                     catBar.classList.remove("anim-cat-slide-up-exit");
@@ -13088,8 +13477,6 @@
                         catBar.classList.remove("anim-cat-slide-down-reveal");
                     }, 450);
                 }
-
-                renderUxFlowHint("گام دوم: لطفاً یکی از دسته‌بندی‌های سطر بالا را انتخاب نمایید");
             }
         }
 
@@ -13320,7 +13707,8 @@
             }).join("");
         }
 
-        // کلیک روی سرشاخه دپارتمان (سطر ۲)
+        let subRowAnimTimer = null;
+
         // کلیک روی سرشاخه دپارتمان (سطر ۲)
         function onCategoryClick(catId, e) {
             if (activeSearchBtnId) {
@@ -13334,6 +13722,7 @@
             }
 
             const subBar = document.getElementById("subCategoriesBar");
+            const subContainer = document.getElementById("subCategoriesContainer");
             const isSubCurrentlyActiveOrOpen = (currentSubType !== null) || (subBar && subBar.style.display !== 'none' && subBar.classList.contains("open"));
 
             currentCategory = catId;
@@ -13344,32 +13733,39 @@
             renderCategoriesBar();
             applyDynamicAtmosphere(currentDepartment, catId, null, 'cat');
 
-            // رندر سطر سوم (زیردسته‌ها) با انیمیشن نرم
-            if (isSubCurrentlyActiveOrOpen && subBar) {
-                subBar.classList.remove("ux-slide-down");
-                subBar.classList.add("ux-slide-up");
-                setTimeout(() => {
-                    subBar.classList.remove("ux-slide-up");
-                    renderSubCategories();
-                }, 200);
+            // پاکسازی هرگونه تایمر قبلی برای جلوگیری از گلیچ کلیک‌های سریع و پی‌درپی
+            if (subRowAnimTimer) {
+                clearTimeout(subRowAnimTimer);
+                subRowAnimTimer = null;
+            }
+
+            // رندر سطر سوم (زیردسته‌ها) با انیمیشن رفت به بالا و برگشت به پایین
+            if (isSubCurrentlyActiveOrOpen && subContainer && subContainer.children.length > 0) {
+                subContainer.classList.remove("sub-anim-down");
+                subContainer.classList.add("sub-anim-up");
+                subRowAnimTimer = setTimeout(() => {
+                    subRowAnimTimer = null;
+                    renderSubCategories(true);
+                }, 130);
             } else {
-                renderSubCategories();
+                renderSubCategories(true);
             }
 
             // پدیدار شدن ستون‌ها از طرفین به سمت وسط و ورود آبشاری محصولات از سطر سوم به سمت پایین
             triggerUnifiedStoreReveal(!hasSidebarsRevealed);
         }
 
-        // رندر زیرشاخه‌های هر سرشاخه با انیمیشن ورود روان و جستجوی هوشمند
-        function renderSubCategories() {
+        // رندر زیرشاخه‌های هر سرشاخه با انیمیشن ورود روان و بدون گلیچ
+        function renderSubCategories(animateIn = false) {
             const bar = document.getElementById("subCategoriesBar");
             const container = document.getElementById("subCategoriesContainer");
             if (!bar || !container) return;
 
             if (!currentDepartment || !DepartmentsConfig[currentDepartment] || !currentCategory) {
-                bar.classList.remove("open", "ux-slide-down", "ux-slide-up");
+                bar.classList.remove("open");
                 bar.style.display = "none";
                 container.innerHTML = "";
+                container.className = "sub-categories-inner";
                 return;
             }
 
@@ -13378,26 +13774,24 @@
             const validSubs = (cat && cat.subs) ? cat.subs.filter(s => s.id !== "all" && !s.name.startsWith("همه")) : [];
 
             if (validSubs.length === 0) {
-                bar.classList.remove("open", "ux-slide-down", "ux-slide-up");
+                bar.classList.remove("open");
                 bar.style.display = "none";
                 container.innerHTML = "";
+                container.className = "sub-categories-inner";
                 return;
             }
 
-            bar.style.display = "block";
-            bar.classList.remove("ux-slide-up");
-            bar.classList.add("open", "ux-slide-down");
-            container.innerHTML = validSubs.map((s, idx) => {
+            bar.style.display = "flex";
+            bar.classList.add("open");
+            container.innerHTML = validSubs.map((s) => {
                 const icon = getSubCategoryIcon(s.id);
                 const isActive = currentSubType === s.id;
                 const isSearching = activeSearchBtnId === `sub_${s.id}`;
-                const staggerDelay = (idx * 0.035).toFixed(3);
                 return `
                 <div role="button" tabindex="0"
                      class="sub-capsule-btn ${isActive ? 'active' : ''} ${isSearching ? 'is-searching' : ''}" 
                      id="btn_sub_${s.id}"
                      data-sub="${s.id}" 
-                     style="animation-delay: ${staggerDelay}s;"
                      onclick="onSubCategoryClick('${s.id}', event)"
                      title="${s.name}">
                     <span class="btn-normal-content">
@@ -13423,6 +13817,13 @@
                 </div>
             `;
             }).join("");
+
+            container.classList.remove("sub-anim-up");
+            if (animateIn) {
+                container.classList.remove("sub-anim-down");
+                void container.offsetWidth; // ریست انیمیشن جهت اجرای کاملاً روان
+                container.classList.add("sub-anim-down");
+            }
         }
 
         // ورود هماهنگ و یکپارچه ستون‌ها به سمت وسط و جریان آبشاری محصولات از سطر سوم به پایین
@@ -13510,39 +13911,130 @@
             lastNavClickTier = 'sub';
             uxCurrentStep = 3;
 
-            // اعمال رنگ‌بندی و اتمسفر هماهنگ
+            // اعمال رنگ‌بندی و تم هماهنگ
             applyDynamicAtmosphere(currentDepartment, currentCategory, currentSubType, 'sub');
-            syncIngredientsWithCategory(currentCategory, currentSubType);
             renderSubCategories();
 
-            // اجرای پدیدار شدن ستون‌ها به سمت وسط و جریان آبشاری محصولات از سطر ۳ به پایین
-            triggerUnifiedStoreReveal(!hasSidebarsRevealed);
+            // حذف باکس راهنما با انتخاب نهایی
+            hideUxFlowHint();
+
+            const layout = document.getElementById("storeMainLayout");
+            const rightSidebar = document.getElementById("filterSidebar");
+            const leftSidebar = document.getElementById("ingredientsSidebar");
+            const topBar = document.getElementById("catalogTopBarModern");
+            const productsContainer = document.getElementById("productsContainer");
+
+            // پر کردن و بارگذاری اطلاعات کامل هر دو ستون قبل از نمایش تا هیچ باگ یا سفیدی دیده نشود
+            initBrandSidebar();
+            initIngredientsSidebar();
+            syncIngredientsWithCategory(currentCategory, currentSubType);
+
+            if (!hasSidebarsRevealed) {
+                isRightSidebarOpen = true;
+                isLeftSidebarOpen = true;
+
+                if (layout) {
+                    layout.classList.remove("ux-step-1", "ux-step-2");
+                    layout.classList.add("ux-step-3", "sidebars-animating-in");
+                }
+
+                // ۱. ستون‌های چپ و راست با هم با انیمیشن روان و از بالا به پایین باز می‌شوند
+                if (rightSidebar) {
+                    rightSidebar.style.display = "block";
+                    rightSidebar.style.position = "";
+                    rightSidebar.style.visibility = "";
+                    rightSidebar.style.opacity = "";
+                    rightSidebar.style.width = "";
+                    rightSidebar.style.minWidth = "";
+                    rightSidebar.style.maxWidth = "";
+                    rightSidebar.style.margin = "";
+                    rightSidebar.style.padding = "";
+                    rightSidebar.style.pointerEvents = "";
+                    rightSidebar.style.left = "";
+                    rightSidebar.classList.remove("mini-collapsed");
+                    rightSidebar.classList.add("anim-slide-down-in");
+                }
+                if (leftSidebar) {
+                    leftSidebar.style.display = "block";
+                    leftSidebar.style.position = "";
+                    leftSidebar.style.visibility = "";
+                    leftSidebar.style.opacity = "";
+                    leftSidebar.style.width = "";
+                    leftSidebar.style.minWidth = "";
+                    leftSidebar.style.maxWidth = "";
+                    leftSidebar.style.margin = "";
+                    leftSidebar.style.padding = "";
+                    leftSidebar.style.pointerEvents = "";
+                    leftSidebar.style.left = "";
+                    leftSidebar.classList.remove("mini-collapsed");
+                    leftSidebar.classList.add("anim-slide-down-in");
+                }
+
+                syncSidebarsUI();
+
+                // ۲. بعد از باز شدن ستون‌های چپ و راست (۴۵۰ میلی‌ثانیه)، سطر چهارم مینیمال نمایان می‌شود
+                setTimeout(() => {
+                    if (topBar) {
+                        topBar.style.display = "flex";
+                        topBar.classList.add("ux-topbar-reveal");
+                    }
+
+                    // ۳. بلافاصله بعد از سطر چهارم (۲۰۰ میلی‌ثانیه بعد)، محصولات با انیمیشن آبشاری پدیدار می‌شوند
+                    setTimeout(() => {
+                        if (productsContainer) {
+                            productsContainer.style.display = "grid";
+                            productsContainer.classList.add("ux-products-reveal");
+                        }
+                        renderAll();
+                        hasSidebarsRevealed = true;
+
+                        setTimeout(() => {
+                            if (layout) layout.classList.add("sidebars-revealed");
+                            if (rightSidebar) rightSidebar.classList.remove("anim-slide-down-in");
+                            if (leftSidebar) leftSidebar.classList.remove("anim-slide-down-in");
+                            if (topBar) topBar.classList.remove("ux-topbar-reveal");
+                            if (productsContainer) productsContainer.classList.remove("ux-products-reveal");
+                        }, 600);
+                    }, 200);
+                }, 450);
+
+            } else {
+                // اگر ستون‌ها از قبل باز هستند، فقط محصولات به نرمی به‌روزرسانی می‌شوند
+                renderAll();
+            }
         }
 
         function initBrandSidebar() {
             const container = document.getElementById("brandListContainer");
+            const countEl = document.getElementById("brandListTotalCount");
             if (!container) return;
 
-            const deptProducts = fullStoreDB.filter(p => p.department === currentDepartment);
+            // پیدا کردن محصولات دپارتمان فعال (یا fallback در صورت خالی بودن)
+            const targetDept = currentDepartment || 'supplements';
+            const deptProducts = fullStoreDB.filter(p => p.department === targetDept);
             const brandMap = {};
             deptProducts.forEach(p => {
-                brandMap[p.brand] = (brandMap[p.brand] || 0) + 1;
+                if (p.brand) {
+                    brandMap[p.brand] = (brandMap[p.brand] || 0) + 1;
+                }
             });
 
             const brands = Object.keys(brandMap).sort();
-            document.getElementById("brandListTotalCount").textContent = `${brands.length} برند`;
+            if (countEl) {
+                countEl.textContent = `${brands.length} برند تخصصی`;
+            }
 
-            let html = `
+            let brandHtml = `
                 <div class="brand-row ${currentBrand === 'all' ? 'active' : ''}" onclick="selectBrand('all')">
                     <div class="brand-info">
-                        <div class="brand-logo-img" style="display:flex; align-items:center; justify-content:center; background:#0f172a;">★</div>
+                        <div class="brand-logo-img" style="display:flex; align-items:center; justify-content:center; background:#0f172a; font-size:0.85rem;">★</div>
                         <span>تمام برندها</span>
                     </div>
                     <span class="brand-count-badge">${deptProducts.length}</span>
                 </div>
             `;
 
-            html += brands.map(b => {
+            brandHtml += brands.map(b => {
                 const meta = BrandMeta[b] || { logo: "images/brands/kalleh.svg", flag: "🌐" };
                 return `
                     <div class="brand-row ${currentBrand === b ? 'active' : ''}" onclick="selectBrand('${b}')" data-tooltip="${b}">
@@ -13556,7 +14048,7 @@
                 `;
             }).join("");
 
-            container.innerHTML = html;
+            container.innerHTML = brandHtml;
         }
 
         function selectBrand(b) {
@@ -15904,48 +16396,35 @@
             const soldCount = getProductSoldCount(item);
             const isOutOfStock = (stock === 0);
 
-            // تگ‌های مشخصات
-            const tags = item.ingredients || item.specs || [];
-            const tagsHtml = tags.slice(0, 3).map(t => `<span class="card-ing-tag">${t.replace(/_/g, ' ')}</span>`).join("");
-
             // تصویر محصول
             const imgBoxHtml = item.image ? 
                 `<img src="${item.image}" class="product-real-img" alt="${item.name}" onerror="this.style.display='none';">` :
                 (item.svg || '');
 
-            // شناسایی نام سرشاخه و زیرشاخه جهت نمایش برچسب مسیر
-            const deptConf = DepartmentsConfig[item.department || currentDepartment];
-            const parentCat = deptConf?.categories?.find(c => c.id === item.category);
-            const parentSub = parentCat?.subs?.find(s => s.id === item.subType);
-            const catPathName = parentCat ? parentCat.name : '';
-            const subPathName = parentSub ? parentSub.name : '';
-            const fullPathBadge = catPathName ? (catPathName + (subPathName ? (' › ' + subPathName) : '')) : '';
-
-            // نوار مینیمال مربع‌مربع وضعیت آخرین شارژ، فروش پارت و کل فروش مکمل
+            // نوار مینیمال وضعیت شارژ انبار
             const stockHtml = renderProductStockSquaresBox(item, true);
 
-            // دکمه‌های اقدام خرید
+            // دکمه‌های اقدام خرید آیکونی و مدرن
             let actionButtonsHtml = '';
             if (isOutOfStock) {
                 actionButtonsHtml = `
-                    <button class="btn-out-of-stock" onclick="notifyStockRestock('${item.id}', event)" data-tooltip="ثبت درخواست اطلاع‌رسانی شارژ انبار">
-                        <svg style="width:14px; height:14px; fill:currentColor;" viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
-                        <span>اطلاع از موجودی</span>
+                    <button class="btn-out-of-stock-icon" onclick="notifyStockRestock('${item.id}', event)" title="اطلاع از شارژ موجودی">
+                        <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
                     </button>
                 `;
             } else {
                 actionButtonsHtml = `
-                    <button class="btn-cart-action ${isBought ? 'in-cart' : ''}" 
+                    <button class="btn-cart-action-icon ${isBought ? 'in-cart' : ''}" 
                             id="btnCart_${item.id}"
-                            onclick="handleAddToCart('${item.id}', event)">
+                            onclick="handleAddToCart('${item.id}', event)"
+                            title="${isBought ? 'حذف از سبد خرید' : 'افزودن به سبد خرید'}">
                         ${isBought ? 
-                            '<svg style="width:12px; height:12px; fill:currentColor;" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg><span>حذف از سبد</span>' : 
-                            '<svg style="width:12px; height:12px; fill:currentColor;" viewBox="0 0 24 24"><path d="M11 9h2V6h3V4h-3V1h-2v3H8v2h3v3zm-4 9c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2zm-9.83-3.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.86-7.01L19.42 4h-.01l-1.1 2-2.76 5H8.53l-.13-.27L6.16 6l-.95-2-.94-2H1v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.13 0-.25-.11-.25-.25z"/></svg><span>+ سبد خرید</span>'
+                            '<svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>' : 
+                            '<svg viewBox="0 0 24 24"><path d="M11 9h2V6h3V4h-3V1h-2v3H8v2h3v3zm-4 9c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2zm-9.83-3.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.86-7.01L19.42 4h-.01l-1.1 2-2.76 5H8.53l-.13-.27L6.16 6l-.95-2-.94-2H1v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.13 0-.25-.11-.25-.25z"/></svg>'
                         }
                     </button>
-                    <button class="btn-instant-order" onclick="openInstantOrderModal('${item.id}', event)" title="سفارش سریع از طریق تلگرام">
+                    <button class="btn-instant-order-icon" onclick="openInstantOrderModal('${item.id}', event)" title="خرید مستقیم و سفارش آنی تلگرام">
                         <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
-                        <span>سفارش آنی</span>
                     </button>
                 `;
             }
@@ -15962,56 +16441,48 @@
                         <div class="card-top">
                             <div class="card-brand-line ${currentBrand === item.brand ? 'active-brand-filter' : ''}" 
                                  onclick="toggleBrandFilter('${encodeURIComponent(item.brand)}', event)" 
-                                 title="${currentBrand === item.brand ? 'فیلتر برند ' + item.brand + ' فعال است؛ برای نمایش همه کلیک کنید' : 'فیلتر فقط محصولات برند ' + item.brand}">
+                                 title="${item.brand} • ${bMeta.country}">
                                 <img src="${bMeta.logo}" class="card-brand-logo-mini" alt="${item.brand}" onerror="this.style.display='none';">
-                                <span class="card-brand-name">${item.brand}</span>
                                 <span class="card-brand-flag">${bMeta.flag}</span>
                                 ${currentBrand === item.brand ? '<span class="brand-filter-active-tag">✕</span>' : ''}
                             </div>
-                            <span class="weight-pill" title="وزن / حجم: ${item.weight || 'تضمین اصالت'}">
-                                <svg viewBox="0 0 24 24"><path d="M12 3a3 3 0 00-2.83 2H7l-3 14h16L17 5h-2.17A3 3 0 0012 3zm0 2a1 1 0 110 2 1 1 0 010-2z"/></svg>
-                                <span>${item.weight || 'اورجینال'}</span>
-                            </span>
-                        </div>
-
-                        ${fullPathBadge ? `
-                            <div class="card-category-path-badge" title="زیرمجموعه این دسته در نوار بالای کاتالوگ">
-                                <svg viewBox="0 0 24 24"><path d="M12 2l-5.5 9h11zM12 22l5.5-9h-11z"/></svg>
-                                <span>${fullPathBadge}</span>
-                            </div>
-                        ` : ''}
-
-                        <button class="btn-card-share" onclick="shareProduct('${item.id}', event)" title="اشتراک‌گذاری در تلگرام و واتساپ">
-                                <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>
-                            </button>
-                            <div class="card-img-box">
-                                ${isOutOfStock ? '<div class="out-of-stock-ribbon">اتمام موجودی</div>' : ''}
-                                ${imgBoxHtml}
-                                <button class="btn-card-3d-view" onclick="openProduct3DView('${item.id}', event)" title="مشاهده نمای سه‌بعدی ۳۶۰ درجه">
-                                    <svg viewBox="0 0 24 24"><path d="M21 16.5l-9 5.2-9-5.2V7.5l9-5.2 9 5.2v9zM12 4.2L4.5 8.5 12 12.8l7.5-4.3L12 4.2zm-8.5 5.7v7.2l7.5 4.3v-7.2L3.5 9.9zm9.5 11.5l7.5-4.3V9.9L13 14.2v7.2z"/></svg>
-                                    <span>۳D</span>
+                            <div style="display:flex; align-items:center; gap:6px;">
+                                <span class="weight-pill" title="وزن / مشخصات: ${item.weight || 'استاندارد'}">
+                                    <svg viewBox="0 0 24 24"><path d="M12 3a3 3 0 00-2.83 2H7l-3 14h16L17 5h-2.17A3 3 0 0012 3zm0 2a1 1 0 110 2 1 1 0 010-2z"/></svg>
+                                    <span>${(item.weight || 'اورجینال').replace('وزن خالص:', '').replace('گنجایش:', '').replace('ظرفیت:', '').trim()}</span>
+                                </span>
+                                <button class="btn-card-share" onclick="shareProduct('${item.id}', event)" title="اشتراک‌گذاری">
+                                    <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>
                                 </button>
                             </div>
+                        </div>
+
+                        <div class="card-img-box">
+                            ${isOutOfStock ? '<div class="out-of-stock-ribbon">ناموجود</div>' : ''}
+                            ${imgBoxHtml}
+                            <button class="btn-card-3d-view" onclick="openProduct3DView('${item.id}', event)" title="نمای سه‌بعدی ۳۶۰ درجه">
+                                <svg viewBox="0 0 24 24"><path d="M21 16.5l-9 5.2-9-5.2V7.5l9-5.2 9 5.2v9zM12 4.2L4.5 8.5 12 12.8l7.5-4.3L12 4.2zm-8.5 5.7v7.2l7.5 4.3v-7.2L3.5 9.9zm9.5 11.5l7.5-4.3V9.9L13 14.2v7.2z"/></svg>
+                                <span>۳D</span>
+                            </button>
+                        </div>
 
                         ${(function() {
                             if (isOutOfStock) return '';
                             if (stock <= 3 && stock > 0) {
-                                return `<div class="card-urgency-badge badge-low-stock">🔥 تنها ${stock} عدد در انبار باقی‌مانده</div>`;
+                                return `<div class="card-urgency-badge badge-low-stock" title="موجودی محدود">🔥 تنها ${stock} عدد</div>`;
                             } else if (soldCount && soldCount >= 30) {
-                                return `<div class="card-urgency-badge badge-hot-deal">⭐ پرفروش‌ترین پارت این ماه</div>`;
+                                return `<div class="card-urgency-badge badge-hot-deal" title="پرفروش‌ترین">⭐ پرفروش</div>`;
                             } else {
-                                return `<div class="card-urgency-badge badge-fast-delivery">⚡ تحویل فوری اختصاصی</div>`;
+                                return `<div class="card-urgency-badge badge-fast-delivery" title="ارسال سریع">⚡ تحویل فوری</div>`;
                             }
                         })()}
                         <h3 class="card-title">${item.name}</h3>
 
                         ${stockHtml}
-                        <div class="card-ing-tags">${tagsHtml}</div>
                     </div>
 
                     <div class="card-actions">
                         <div class="price-text-box">
-                            <span class="price-title">قیمت روز:</span>
                             <span class="price-number">${formatPrice(item.price)}</span>
                         </div>
                         <div class="card-btn-actions-group ${isOutOfStock ? 'single-action' : ''}">
@@ -16327,20 +16798,23 @@ function openDetailModal(id) {
 
         const StoreBrandConfig = {
             abarstore: {
-                name: "AbarStore",
-                tag: "فروشگاه جامع ورزشی (تم مشکی کربنی کلاسیک)",
+                name: "ABARSTORE",
+                displayTitle: "ABARSTORE",
+                tag: "فروشگاه اصلی ورزشی",
                 color: "#e8c668",
-                svg: '<svg viewBox="0 0 24 24"><path d="M12 2L9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2z"/></svg>'
+                svg: '<svg viewBox="0 0 24 24"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43 1.43 1.43 2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29z"/></svg>'
             },
             mitishop: {
-                name: "Miti Shop",
-                tag: "بوتیک تخصصی فیتنس (تم صورتی دخترانه لوکس)",
+                name: "MITI SHOP",
+                displayTitle: "MITI SHOP",
+                tag: "بوتیک تخصصی فیتنس بانوان",
                 color: "#f472b6",
                 svg: '<svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>'
             },
             alishop: {
-                name: "Ali Shop",
-                tag: "پاورهاوس تخصصی آقایان (تم آبی سایبری)",
+                name: "ALI SHOP",
+                displayTitle: "ALI SHOP",
+                tag: "پاورهاوس تخصصی آقایان",
                 color: "#00b4d8",
                 svg: '<svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>'
             }
@@ -16349,25 +16823,25 @@ function openDetailModal(id) {
         function toggleStoreSwitcher(e) {
             if (e) {
                 e.stopPropagation();
-                e.preventDefault();
             }
-            const container = document.getElementById("storeSwitcherContainer");
-            if (container) container.classList.toggle("open");
+            const wrapper = document.getElementById("storeBrandMenuWrapper");
+            if (wrapper) wrapper.classList.toggle("open");
         }
 
         function closeStoreSwitcher() {
-            const container = document.getElementById("storeSwitcherContainer");
-            if (container) container.classList.remove("open");
+            const wrapper = document.getElementById("storeBrandMenuWrapper");
+            if (wrapper) wrapper.classList.remove("open");
         }
 
         document.addEventListener("click", (e) => {
-            const container = document.getElementById("storeSwitcherContainer");
-            if (container && !container.contains(e.target)) {
+            const wrapper = document.getElementById("storeBrandMenuWrapper");
+            if (wrapper && !wrapper.contains(e.target)) {
                 closeStoreSwitcher();
             }
         });
 
-        function selectStoreBrand(storeKey, skipAnimation = false) {
+        function selectStoreBrand(storeKey, e, skipAnimation = false) {
+            if (e && e.stopPropagation) e.stopPropagation();
             closeStoreSwitcher();
             if (!StoreBrandConfig[storeKey]) storeKey = "abarstore";
             currentStoreBrand = storeKey;
@@ -16375,46 +16849,52 @@ function openDetailModal(id) {
 
             const conf = StoreBrandConfig[storeKey];
 
-            // به‌روزرسانی برچسب دکمه هدر
-            const labelEl = document.getElementById("switcherCurrentLabel");
-            if (labelEl) labelEl.textContent = conf.name;
+            // به‌روزرسانی متن عنوان بالای صفحه
+            const titleEl = document.getElementById("headerMainBrandTitle");
+            if (titleEl) titleEl.textContent = conf.displayTitle;
 
-            // هایلایت آیتم فعال در لیست
+            // به‌روزرسانی لوگوی عنوان بالای صفحه
+            const logoEl = document.getElementById("headerBrandLogoBadge");
+            if (logoEl) logoEl.innerHTML = conf.svg;
+
+            // هایلایت گزینه فعال در دراپ‌داون
             document.querySelectorAll(".switcher-option-btn").forEach(btn => {
                 btn.classList.toggle("active", btn.getAttribute("data-store") === storeKey);
             });
 
-            // اعمال تم وایب بر روی بدنه سایت (تغییر بیش از ۹۰٪ مساحت و پیکسل‌های تیره)
+            // اعمال تم و وایب بر روی پس‌زمینه و کل فضای تیره سایت (بیش از ۹۰٪ مساحت)
             document.body.classList.remove("store-vibe-abarstore", "store-vibe-mitishop", "store-vibe-alishop");
             document.body.classList.add("store-vibe-" + storeKey);
 
-            // اجرای انیمیشن موج نوری هاله لوگو
+            // اجرای انیمیشن هاله نوری ساطع شونده از متن بالا سمت راست
             if (!skipAnimation) {
-                triggerStoreAuraAnimation(conf);
+                triggerCornerAuraAnimation(conf);
             }
         }
 
-        function triggerStoreAuraAnimation(conf) {
-            const overlay = document.getElementById("storeAuraOverlay");
-            const iconEl = document.getElementById("storeAuraIcon");
-            const nameEl = document.getElementById("storeAuraName");
-            const tagEl = document.getElementById("storeAuraTag");
-            if (!overlay || !iconEl || !nameEl) return;
-
+        function triggerCornerAuraAnimation(conf) {
             document.documentElement.style.setProperty("--aura-color", conf.color);
-            iconEl.innerHTML = conf.svg;
-            nameEl.textContent = conf.name;
-            if (tagEl) tagEl.textContent = conf.tag;
 
-            overlay.classList.remove("active");
-            void overlay.offsetWidth; // Force DOM reflow
-            overlay.classList.add("active");
+            // پالس نوری روی کادر عنوان بالا سمت راست
+            const brandBox = document.getElementById("brandTitleBox");
+            if (brandBox) {
+                brandBox.classList.remove("pulse-aura");
+                void brandBox.offsetWidth; // Force reflow
+                brandBox.classList.add("pulse-aura");
+                setTimeout(() => brandBox.classList.remove("pulse-aura"), 900);
+            }
 
-            setTimeout(() => {
-                overlay.classList.remove("active");
-            }, 1100);
+            // انتشار هاله نوری از گوشه بالا سمت راست به کل صفحه
+            const auraLayer = document.getElementById("storeCornerAuraLayer");
+            if (auraLayer) {
+                auraLayer.classList.remove("active");
+                void auraLayer.offsetWidth; // Force reflow
+                auraLayer.classList.add("active");
+                setTimeout(() => auraLayer.classList.remove("active"), 1250);
+            }
         }
 
+        
         // کنترل سیستم ۲ دکمه‌ای مرتب‌سازی و چیدمان در موبایل
         let currentMobileSubMenu = null;
         function toggleMobileSubMenu(menu) {
@@ -16711,7 +17191,16 @@ function openDetailModal(id) {
         }
 
         // باز و بسته کردن کشوی سبد خرید
+        function goToShopPage() {
+            window.location.href = "shop.html";
+        }
+        window.goToShopPage = goToShopPage;
+
         function toggleCartDrawer(open) {
+            if (open !== false) {
+                goToShopPage();
+                return;
+            }
             const overlay = document.getElementById("cartDrawerOverlay");
             if (!overlay) return;
             
@@ -17587,7 +18076,7 @@ function openDetailModal(id) {
 
     <!-- نوار دسترسی سریع و شناور پایین صفحه در موبایل -->
     <nav class="mobile-quick-dock" id="mobileQuickDock">
-        <button type="button" class="dock-btn" id="dockBtnCart" onclick="toggleCartDrawer(true)" title="سبد خرید شما" style="position: relative;">
+        <button type="button" class="dock-btn" id="dockBtnCart" onclick="goToShopPage()" title="فروشگاه و سبد خرید" style="position: relative;">
             <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
             <span>سبد خرید</span>
             <span class="dock-cart-badge" id="dockCartBadge" style="display: none;">0</span>
