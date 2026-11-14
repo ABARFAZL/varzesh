@@ -9150,27 +9150,46 @@
             display: none !important;
         }
 
-        /* مرحله ۲: سطر ۲ و ۳ باز هستند - ستون‌ها، سطر ۴ و محصولات مخفی هستند */
-        .store-layout.ux-step-2 {
-            grid-template-columns: 1fr !important;
-            max-width: 1200px !important;
+        /* مرحله ۲ و ۳: باز شدن ۳ ستونه و فضای کامل فروشگاه */
+        .store-layout.ux-step-2,
+        .store-layout.ux-step-3 {
+            grid-template-columns: 290px 1fr 310px !important;
+            max-width: 1720px !important;
+            transition: max-width 0.4s ease;
         }
-        .store-layout.ux-step-2 #filterSidebar,
-        .store-layout.ux-step-2 #ingredientsSidebar,
-        .store-layout.ux-step-2 #catalogTopBarModern,
-        .store-layout.ux-step-2 #productsContainer {
-            display: none !important;
+
+        /* انیمیشن بازگشت و جمع شدن نرم سطر ۳ به سمت بالا */
+        .sub-categories-row.ux-slide-up {
+            display: block !important;
+            animation: subCatSlideUp 0.24s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+            pointer-events: none !important;
+            overflow: hidden !important;
+        }
+        @keyframes subCatSlideUp {
+            0% {
+                opacity: 1;
+                transform: translateY(0);
+                max-height: 140px;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-16px);
+                max-height: 0;
+                margin-top: 0;
+                padding-top: 0;
+            }
         }
 
         /* انیمیشن باز شدن نرم سطر ۳ از بالا به پایین */
         .sub-categories-row.ux-slide-down {
             display: block !important;
-            animation: subCatSlideDown 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+            animation: subCatSlideDown 0.34s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+            overflow: visible !important;
         }
         @keyframes subCatSlideDown {
             0% {
                 opacity: 0;
-                transform: translateY(-14px);
+                transform: translateY(-16px);
                 max-height: 0;
             }
             100% {
@@ -9180,21 +9199,14 @@
             }
         }
 
-        /* مرحله ۳: باز شدن ۳ ستونه */
-        .store-layout.ux-step-3 {
-            grid-template-columns: 290px 1fr 310px !important;
-            max-width: 1720px !important;
-            transition: max-width 0.4s ease;
+        /* ظهور آبشاری و جذاب دکمه‌های زیرشاخه جدید در سطر ۳ */
+        .sub-categories-row.ux-slide-down .sub-capsule-btn {
+            animation: subCapsulePop 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
         }
-
-        /* انیمیشن همزمان ستون‌های چپ و راست از بالا به پایین */
-        .anim-slide-down-in {
-            animation: sidebarsSlideDown 0.48s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
-        }
-        @keyframes sidebarsSlideDown {
+        @keyframes subCapsulePop {
             0% {
                 opacity: 0;
-                transform: translateY(-50px) scale(0.97);
+                transform: translateY(-8px) scale(0.92);
             }
             100% {
                 opacity: 1;
@@ -9202,14 +9214,52 @@
             }
         }
 
-        /* انیمیشن نمایان شدن سطر چهارم بعد از باز شدن ستون‌ها */
-        .catalog-top-bar-modern.ux-topbar-reveal {
-            animation: topbarReveal 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+        /* ============================================================
+           انیمیشن‌های ستون‌ها (باز شدن به سمت وسط) و محصولات (پدیدار شدن از سطر ۳ به پایین)
+           ============================================================ */
+        /* ۱. ستون سمت راست: ورود از سمت راست صفحه به سمت وسط */
+        .anim-slide-in-right {
+            animation: sidebarSlideFromRight 0.48s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
         }
-        @keyframes topbarReveal {
+        @keyframes sidebarSlideFromRight {
             0% {
                 opacity: 0;
-                transform: translateY(-14px);
+                transform: translateX(110px) scale(0.96);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+
+        /* ۲. ستون سمت چپ: ورود از سمت چپ صفحه به سمت وسط */
+        .anim-slide-in-left {
+            animation: sidebarSlideFromLeft 0.48s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+        }
+        @keyframes sidebarSlideFromLeft {
+            0% {
+                opacity: 0;
+                transform: translateX(-110px) scale(0.96);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+
+        /* سازگاری عقب‌رو */
+        .anim-slide-down-in {
+            animation: sidebarSlideFromRight 0.48s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+        }
+
+        /* ۳. سطر چهارم (مرتب‌سازی و چیدمان): پدیدار شدن از سطر سوم به سمت پایین */
+        .catalog-top-bar-modern.ux-topbar-reveal {
+            animation: topbarRevealFromRow3 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+        }
+        @keyframes topbarRevealFromRow3 {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
             }
             100% {
                 opacity: 1;
@@ -9217,18 +9267,51 @@
             }
         }
 
-        /* انیمیشن پدیدار شدن محصولات بعد از سطر چهارم */
+        /* ۴. گرید محصولات: پدیدار شدن با انیمیشن آبشاری زیبا از سطر سوم به سمت پایین */
         .products-grid.ux-products-reveal {
-            animation: productsReveal 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+            animation: productsCascadeDownFromRow3 0.46s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
         }
-        @keyframes productsReveal {
+        @keyframes productsCascadeDownFromRow3 {
             0% {
                 opacity: 0;
-                transform: translateY(22px);
+                transform: translateY(-32px) scale(0.98);
             }
             100% {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* جریان آبشاری کارت‌های تکی محصول از زیر سطر سوم به سمت پایین */
+        .products-grid.ux-products-reveal .product-card {
+            animation: productCardCascadeDown 0.42s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+        }
+        .products-grid.ux-products-reveal .product-card:nth-child(1) { animation-delay: 0.02s; }
+        .products-grid.ux-products-reveal .product-card:nth-child(2) { animation-delay: 0.05s; }
+        .products-grid.ux-products-reveal .product-card:nth-child(3) { animation-delay: 0.08s; }
+        .products-grid.ux-products-reveal .product-card:nth-child(4) { animation-delay: 0.11s; }
+        .products-grid.ux-products-reveal .product-card:nth-child(5) { animation-delay: 0.14s; }
+        .products-grid.ux-products-reveal .product-card:nth-child(6) { animation-delay: 0.17s; }
+        .products-grid.ux-products-reveal .product-card:nth-child(7) { animation-delay: 0.20s; }
+        .products-grid.ux-products-reveal .product-card:nth-child(8) { animation-delay: 0.23s; }
+        .products-grid.ux-products-reveal .product-card:nth-child(n+9) { animation-delay: 0.26s; }
+
+        @keyframes productCardCascadeDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px) scale(0.97);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .store-layout.ux-step-2,
+            .store-layout.ux-step-3 {
+                grid-template-columns: 1fr !important;
+                max-width: 100% !important;
             }
         }
 
@@ -9420,6 +9503,436 @@
         .btn-card-3d-view:hover svg {
             transform: rotate(45deg);
         }
+
+        /* ============================================================
+           انیمیشن رفتن به بالا و رونمایی مجدد سطر دوم هنگام تغییر دپارتمان
+           ============================================================ */
+        @keyframes catBarSlideUpExit {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-28px) scale(0.96);
+            }
+        }
+
+        .anim-cat-slide-up-exit {
+            animation: catBarSlideUpExit 0.22s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+            pointer-events: none !important;
+        }
+
+        @keyframes catBarSlideDownReveal {
+            0% {
+                opacity: 0;
+                transform: translateY(-32px) scale(0.96);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .anim-cat-slide-down-reveal {
+            animation: catBarSlideDownReveal 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+        }
+
+        /* رونمایی پله‌ای و لوکس دکمه‌های کپسولی داخل سطر دوم */
+        .anim-cat-slide-down-reveal .cat-capsule-btn {
+            animation: catPillCascade 0.35s cubic-bezier(0.16, 1, 0.3, 1) both !important;
+        }
+
+        .anim-cat-slide-down-reveal .cat-capsule-btn:nth-child(1) { animation-delay: 0.02s !important; }
+        .anim-cat-slide-down-reveal .cat-capsule-btn:nth-child(2) { animation-delay: 0.05s !important; }
+        .anim-cat-slide-down-reveal .cat-capsule-btn:nth-child(3) { animation-delay: 0.08s !important; }
+        .anim-cat-slide-down-reveal .cat-capsule-btn:nth-child(4) { animation-delay: 0.11s !important; }
+        .anim-cat-slide-down-reveal .cat-capsule-btn:nth-child(5) { animation-delay: 0.14s !important; }
+        .anim-cat-slide-down-reveal .cat-capsule-btn:nth-child(6) { animation-delay: 0.17s !important; }
+        .anim-cat-slide-down-reveal .cat-capsule-btn:nth-child(7) { animation-delay: 0.20s !important; }
+        .anim-cat-slide-down-reveal .cat-capsule-btn:nth-child(8) { animation-delay: 0.23s !important; }
+        .anim-cat-slide-down-reveal .cat-capsule-btn:nth-child(9) { animation-delay: 0.26s !important; }
+        .anim-cat-slide-down-reveal .cat-capsule-btn:nth-child(10) { animation-delay: 0.29s !important; }
+
+        @keyframes catPillCascade {
+            0% {
+                opacity: 0;
+                transform: translateY(-12px) scale(0.93);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* ========================================================= */
+        /* سیستم سوییچر شعب/فروشگاه‌ها (AbarStore / Miti / Ali)     */
+        /* ========================================================= */
+        .header-brand-group {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .store-switcher-container {
+            position: relative;
+        }
+
+        .store-switcher-trigger {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--theme-border);
+            color: #ffffff;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            backdrop-filter: blur(12px);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+        }
+
+        .store-switcher-trigger:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #ffffff;
+            transform: translateY(-1px);
+        }
+
+        .switcher-badge-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--theme-color);
+            box-shadow: 0 0 8px var(--theme-color);
+            transition: background 0.3s ease;
+        }
+
+        .switcher-chevron-icon {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+            opacity: 0.7;
+            transition: transform 0.25s ease;
+        }
+
+        .store-switcher-container.open .switcher-chevron-icon {
+            transform: rotate(180deg);
+        }
+
+        .store-switcher-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            min-width: 260px;
+            background: rgba(12, 18, 30, 0.96);
+            backdrop-filter: blur(22px);
+            border: 1px solid var(--theme-border);
+            border-radius: 16px;
+            padding: 8px;
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-8px) scale(0.96);
+            transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .store-switcher-container.open .store-switcher-dropdown {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0) scale(1);
+        }
+
+        .switcher-dropdown-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 6px 10px 10px 10px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 6px;
+        }
+
+        .switcher-tag {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 6px;
+            padding: 2px 6px;
+            font-size: 0.68rem;
+            font-weight: 800;
+        }
+
+        .switcher-option-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 10px;
+            border-radius: 10px;
+            background: transparent;
+            border: 1px solid transparent;
+            color: #ffffff;
+            cursor: pointer;
+            text-align: right;
+            transition: all 0.2s ease;
+            margin-bottom: 4px;
+        }
+
+        .switcher-option-btn:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .switcher-option-btn.active {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--theme-color);
+            box-shadow: 0 0 12px var(--theme-glow);
+        }
+
+        .switcher-opt-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .switcher-opt-icon svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .switcher-opt-icon.abarstore-icon {
+            background: rgba(232, 198, 104, 0.18);
+            border: 1px solid rgba(232, 198, 104, 0.45);
+        }
+        .switcher-opt-icon.abarstore-icon svg {
+            fill: #e8c668;
+        }
+
+        .switcher-opt-icon.mitishop-icon {
+            background: rgba(244, 114, 182, 0.18);
+            border: 1px solid rgba(244, 114, 182, 0.45);
+        }
+        .switcher-opt-icon.mitishop-icon svg {
+            fill: #f472b6;
+        }
+
+        .switcher-opt-icon.alishop-icon {
+            background: rgba(0, 180, 216, 0.18);
+            border: 1px solid rgba(0, 180, 216, 0.45);
+        }
+        .switcher-opt-icon.alishop-icon svg {
+            fill: #00b4d8;
+        }
+
+        .switcher-opt-text {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .switcher-opt-title {
+            font-size: 0.88rem;
+            font-weight: 800;
+        }
+
+        .switcher-opt-sub {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .switcher-opt-check {
+            font-size: 0.9rem;
+            font-weight: 900;
+            color: var(--theme-color);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .switcher-option-btn.active .switcher-opt-check {
+            opacity: 1;
+        }
+
+        /* ========================================================= */
+        /* کلاس‌های وایب اتمسفریک فروشگاه‌ها (پوشش بیش از ۹۰٪ مساحت)  */
+        /* ========================================================= */
+        body.store-vibe-mitishop {
+            background-color: #0e0510 !important;
+            background-image: 
+                radial-gradient(circle at 12% 15%, rgba(244, 114, 182, 0.18) 0%, transparent 50%),
+                radial-gradient(circle at 88% 85%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(244, 114, 182, 0.04) 0%, transparent 65%) !important;
+        }
+
+        body.store-vibe-mitishop header {
+            background: rgba(16, 6, 18, 0.92) !important;
+            border-bottom-color: rgba(244, 114, 182, 0.25) !important;
+        }
+
+        body.store-vibe-mitishop .filter-sidebar,
+        body.store-vibe-mitishop .ingredients-sidebar {
+            background: rgba(20, 8, 22, 0.92) !important;
+            border-color: rgba(244, 114, 182, 0.22) !important;
+        }
+
+        body.store-vibe-mitishop .product-card {
+            background: rgba(24, 10, 26, 0.85) !important;
+            border-color: rgba(244, 114, 182, 0.18) !important;
+        }
+
+        body.store-vibe-alishop {
+            background-color: #030814 !important;
+            background-image: 
+                radial-gradient(circle at 12% 15%, rgba(0, 180, 216, 0.18) 0%, transparent 50%),
+                radial-gradient(circle at 88% 85%, rgba(37, 99, 235, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(0, 180, 216, 0.04) 0%, transparent 65%) !important;
+        }
+
+        body.store-vibe-alishop header {
+            background: rgba(4, 10, 24, 0.92) !important;
+            border-bottom-color: rgba(0, 180, 216, 0.25) !important;
+        }
+
+        body.store-vibe-alishop .filter-sidebar,
+        body.store-vibe-alishop .ingredients-sidebar {
+            background: rgba(6, 14, 30, 0.92) !important;
+            border-color: rgba(0, 180, 216, 0.22) !important;
+        }
+
+        body.store-vibe-alishop .product-card {
+            background: rgba(8, 18, 38, 0.85) !important;
+            border-color: rgba(0, 180, 216, 0.18) !important;
+        }
+
+        /* ========================================================= */
+        /* انیمیشن سینمایی موج نوری هاله هنگام تعویض فروشگاه         */
+        /* ========================================================= */
+        .store-aura-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 20000;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .store-aura-overlay.active {
+            opacity: 1;
+        }
+
+        .store-aura-ripple {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--aura-color, #f472b6) 0%, transparent 70%);
+            opacity: 0;
+            transform: scale(0.2);
+        }
+
+        .store-aura-overlay.active .store-aura-ripple {
+            animation: auraWaveExpand 1.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .store-aura-card {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            padding: 24px 36px;
+            border-radius: 24px;
+            background: rgba(10, 16, 28, 0.88);
+            backdrop-filter: blur(25px);
+            border: 1.5px solid var(--aura-color, #f472b6);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85), 0 0 35px var(--aura-color, #f472b6);
+            transform: scale(0.8);
+            opacity: 0;
+        }
+
+        .store-aura-overlay.active .store-aura-card {
+            animation: auraCardPop 1.05s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .store-aura-icon {
+            width: 58px;
+            height: 58px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 20px var(--aura-color, #f472b6);
+        }
+
+        .store-aura-icon svg {
+            width: 34px;
+            height: 34px;
+            fill: var(--aura-color, #f472b6);
+        }
+
+        .store-aura-name {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: 1px;
+            text-shadow: 0 0 15px var(--aura-color, #f472b6);
+        }
+
+        .store-aura-tag {
+            font-size: 0.85rem;
+            color: var(--aura-color, #f472b6);
+            font-weight: 700;
+        }
+
+        @keyframes auraWaveExpand {
+            0% {
+                transform: scale(0.1);
+                opacity: 0.85;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(40);
+                opacity: 0;
+            }
+        }
+
+        @keyframes auraCardPop {
+            0% {
+                transform: scale(0.6);
+                opacity: 0;
+            }
+            35% {
+                transform: scale(1.05);
+                opacity: 1;
+            }
+            75% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0.95);
+                opacity: 0;
+            }
+        }
+
 </style>
 
     <!-- کتابخانه رندر سه‌بعدی تعاملی Three.js -->
@@ -9515,14 +10028,77 @@
 
     <div id="globalTooltip"></div>
 
+    <!-- لایه انیمیشن سینمایی موج نوری هاله هنگام تعویض فروشگاه -->
+    <div class="store-aura-overlay" id="storeAuraOverlay">
+        <div class="store-aura-ripple"></div>
+        <div class="store-aura-card" id="storeAuraCard">
+            <div class="store-aura-icon" id="storeAuraIcon"></div>
+            <div class="store-aura-name" id="storeAuraName"></div>
+            <div class="store-aura-tag" id="storeAuraTag"></div>
+        </div>
+    </div>
+
     <header>
         <div class="header-main">
-            <!-- لوگو و برند سایت -->
-            <div class="brand-title-box" onclick="resetToInitialState()">
-                <div class="brand-logo-badge">
-                    <svg viewBox="0 0 24 24"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43 1.43 1.43 2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29z"/></svg>
+            <!-- لوگو و برند سایت همراه با سوییچر شعب/فروشگاه‌ها -->
+            <div class="header-brand-group">
+                <div class="brand-title-box" onclick="resetToInitialState()" title="صفحه اصلی ابر استور">
+                    <div class="brand-logo-badge">
+                        <svg viewBox="0 0 24 24"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43 1.43 1.43 2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29z"/></svg>
+                    </div>
+                    <div class="brand-title-text" id="headerMainBrandTitle">ABARSTORE</div>
                 </div>
-                <div class="brand-title-text">ABARSTORE</div>
+
+                <!-- دکمه منوی کشویی انتخاب فروشگاه (سمت چپ ابر استور) -->
+                <div class="store-switcher-container" id="storeSwitcherContainer">
+                    <button type="button" class="store-switcher-trigger" id="storeSwitcherTrigger" onclick="toggleStoreSwitcher(event)" aria-label="تعویض فروشگاه">
+                        <span class="switcher-badge-dot"></span>
+                        <span class="switcher-current-label" id="switcherCurrentLabel">AbarStore</span>
+                        <svg class="switcher-chevron-icon" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+                    </button>
+                    <!-- پنل کشویی مدرن -->
+                    <div class="store-switcher-dropdown" id="storeSwitcherDropdown">
+                        <div class="switcher-dropdown-header">
+                            <span>انتخاب فروشگاه تخصصی</span>
+                            <span class="switcher-tag">شعبه فعال</span>
+                        </div>
+                        <div class="switcher-options-list">
+                            <!-- ۱. ابر استور -->
+                            <button type="button" class="switcher-option-btn active" data-store="abarstore" onclick="selectStoreBrand('abarstore')">
+                                <span class="switcher-opt-icon abarstore-icon">
+                                    <svg viewBox="0 0 24 24"><path d="M12 2L9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2z"/></svg>
+                                </span>
+                                <div class="switcher-opt-text">
+                                    <div class="switcher-opt-title">AbarStore</div>
+                                    <div class="switcher-opt-sub">فروشگاه جامع ورزشی (تم مشکی کربنی کلاسیک)</div>
+                                </div>
+                                <span class="switcher-opt-check">✓</span>
+                            </button>
+                            <!-- ۲. میتی شاپ -->
+                            <button type="button" class="switcher-option-btn" data-store="mitishop" onclick="selectStoreBrand('mitishop')">
+                                <span class="switcher-opt-icon mitishop-icon">
+                                    <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                                </span>
+                                <div class="switcher-opt-text">
+                                    <div class="switcher-opt-title">Miti Shop</div>
+                                    <div class="switcher-opt-sub">بوتیک تخصصی فیتنس (تم صورتی دخترانه لوکس)</div>
+                                </div>
+                                <span class="switcher-opt-check">✓</span>
+                            </button>
+                            <!-- ۳. علی شاپ -->
+                            <button type="button" class="switcher-option-btn" data-store="alishop" onclick="selectStoreBrand('alishop')">
+                                <span class="switcher-opt-icon alishop-icon">
+                                    <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                                </span>
+                                <div class="switcher-opt-text">
+                                    <div class="switcher-opt-title">Ali Shop</div>
+                                    <div class="switcher-opt-sub">پاورهاوس تخصصی آقایان (تم آبی سایبری)</div>
+                                </div>
+                                <span class="switcher-opt-check">✓</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- ۴ دکمه اصلی دپارتمان‌ها در وسط هدر -->
@@ -9596,10 +10172,10 @@
         <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
     </button>
 
-    <main class="store-layout hidden-initial" id="storeMainLayout">
+    <main class="store-layout right-mini hidden-initial" id="storeMainLayout">
 
         <!-- ستون سمت راست: برندها و اصالت کالا -->
-        <aside class="filter-sidebar" id="filterSidebar">
+        <aside class="filter-sidebar mini-collapsed" id="filterSidebar">
             <div class="sidebar-header">
                 <div style="display: flex; align-items: center; gap: 8px;">
                     <!-- دکمه کشویی دقیقاً در بالا سمت راست ستون راست (بدون هیچ ضربدری) -->
@@ -12409,10 +12985,15 @@
         }
 
         function selectDepartment(deptKey) {
-            currentDepartment = deptKey;
-            lastNavClickTier = 'dept';
+            // تشخیص اینکه آیا کاربر در حال تغییر دپارتمان است (از قبل دپارتمانی فعال بوده یا انتخابی در سطرها انجام شده)
+            const isSwitchingDepartment = currentDepartment && (currentDepartment !== deptKey || uxCurrentStep > 1);
 
-            // ریست مقادیر دسته‌ها و زیردسته‌ها تا انتخاب مرحله‌به‌مرحله انجام شود
+            // ۱. تغییر وضعیت بصری دکمه‌های سطر اول در هدر
+            document.querySelectorAll(".header-dept-btn").forEach(c => {
+                c.classList.toggle("active", c.getAttribute("data-dept") === deptKey);
+            });
+
+            // ۲. بازنشانی انتخاب‌های قبلی سطرها و بازگشت به گام اول
             currentCategory = null;
             currentSubType = null;
             selectedIngredients = [];
@@ -12420,32 +13001,15 @@
             hasSidebarsRevealed = false;
             uxCurrentStep = 1;
 
-            // ۱. تغییر تم کلی سایت با رنگ دپارتمان انتخاب‌شده
-            document.body.classList.remove("initial-state");
-            document.body.setAttribute("data-theme", deptKey);
-            applyDynamicAtmosphere(deptKey, null, null, 'dept');
-
-            // ۲. هایلایت دکمه دپارتمان فعال در هدر (سطر اول)
-            document.querySelectorAll(".header-dept-btn").forEach(c => {
-                c.classList.toggle("active", c.getAttribute("data-dept") === deptKey);
-            });
-
-            // ۳. پنهان کردن صفحه فرود اولیه و آماده‌سازی لایه فروشگاه در گام اول
-            const hero = document.getElementById("heroWelcomeStage");
-            if (hero) hero.classList.add("hidden");
-
-            const layout = document.getElementById("storeMainLayout");
-            if (layout) {
-                layout.classList.remove("hidden-initial");
-                layout.classList.remove("ux-step-2", "ux-step-3", "sidebars-animating-in", "sidebars-revealed");
-                layout.classList.add("revealed", "ux-step-1");
-            }
-
-            // پنهان‌سازی سطر ۳، سطر ۴، و محصولات تا رسیدن به گام‌های مربوطه
+            // ۳. پنهان‌سازی سریع سطر ۳، سطر ۴، ستون‌ها و محصولات
             const subBar = document.getElementById("subCategoriesBar");
+            const subContainer = document.getElementById("subCategoriesContainer");
             if (subBar) {
                 subBar.classList.remove("open", "ux-slide-down");
                 subBar.style.display = "none";
+            }
+            if (subContainer) {
+                subContainer.innerHTML = "";
             }
 
             const topBar = document.getElementById("catalogTopBarModern");
@@ -12461,14 +13025,74 @@
                 productsContainer.innerHTML = "";
             }
 
-            // رندر سطر دوم (دسته‌های اصلی دپارتمان)
-            renderCategoriesBar();
+            const rightSidebar = document.getElementById("filterSidebar");
+            const leftSidebar = document.getElementById("ingredientsSidebar");
+            if (rightSidebar) rightSidebar.style.display = "none";
+            if (leftSidebar) leftSidebar.style.display = "none";
 
-            // راهنمای بصری زیبا و چشم‌نواز
-            renderUxFlowHint("گام دوم: لطفاً یکی از دسته‌بندی‌های سطر بالا را انتخاب نمایید");
+            const layout = document.getElementById("storeMainLayout");
+            if (layout) {
+                layout.classList.remove("hidden-initial", "ux-step-2", "ux-step-3", "sidebars-animating-in", "sidebars-revealed");
+                layout.classList.add("revealed", "ux-step-1");
+            }
+
+            const hero = document.getElementById("heroWelcomeStage");
+            if (hero) hero.classList.add("hidden");
+
+            const catBar = document.getElementById("categoriesBar");
+
+            // اگر کاربر دپارتمان را تغییر داده (یا وسط راه پشیمان شده و دکمه دیگری از سطر اول را زده است):
+            if (isSwitchingDepartment && catBar) {
+                // فاز اول: سطر دوم با انیمیشن روان به سمت بالا می‌رود و پنهان (hide) می‌شود
+                catBar.classList.remove("anim-cat-slide-down-reveal");
+                catBar.classList.add("anim-cat-slide-up-exit");
+
+                setTimeout(() => {
+                    currentDepartment = deptKey;
+                    lastNavClickTier = 'dept';
+
+                    // تغییر تم و اتمسفر رنگی سایت با دپارتمان جدید
+                    document.body.classList.remove("initial-state");
+                    document.body.setAttribute("data-theme", deptKey);
+                    applyDynamicAtmosphere(deptKey, null, null, 'dept');
+
+                    // درج و رندر دکمه‌های دپارتمان جدید در سطر دوم
+                    renderCategoriesBar();
+
+                    // فاز دوم: سطر دوم با انیمیشن از بالا دوباره برمی‌گردد و دکمه‌ها را رونمایی می‌کند
+                    catBar.classList.remove("anim-cat-slide-up-exit");
+                    catBar.classList.add("anim-cat-slide-down-reveal");
+
+                    renderUxFlowHint("گام دوم: لطفاً یکی از دسته‌بندی‌های سطر بالا را انتخاب نمایید");
+
+                    setTimeout(() => {
+                        catBar.classList.remove("anim-cat-slide-down-reveal");
+                    }, 450);
+                }, 220);
+
+            } else {
+                // ورود اولیه از صفحه هیرو
+                currentDepartment = deptKey;
+                lastNavClickTier = 'dept';
+
+                document.body.classList.remove("initial-state");
+                document.body.setAttribute("data-theme", deptKey);
+                applyDynamicAtmosphere(deptKey, null, null, 'dept');
+
+                renderCategoriesBar();
+
+                if (catBar) {
+                    catBar.classList.remove("anim-cat-slide-up-exit");
+                    catBar.classList.add("anim-cat-slide-down-reveal");
+                    setTimeout(() => {
+                        catBar.classList.remove("anim-cat-slide-down-reveal");
+                    }, 450);
+                }
+
+                renderUxFlowHint("گام دوم: لطفاً یکی از دسته‌بندی‌های سطر بالا را انتخاب نمایید");
+            }
         }
 
-        // بازگشت به صفحه فرود اولیه (با کلیک روی برند بالای سایت)
         function resetToInitialState() {
             currentDepartment = null;
             currentCategory = null;
@@ -12696,11 +13320,21 @@
             }).join("");
         }
 
-        // کلیک روی سرشاخه دپارتمان
+        // کلیک روی سرشاخه دپارتمان (سطر ۲)
+        // کلیک روی سرشاخه دپارتمان (سطر ۲)
         function onCategoryClick(catId, e) {
             if (activeSearchBtnId) {
                 closeButtonInlineSearch(activeSearchBtnId);
             }
+
+            // اگر کاربر روی همان سرشاخه‌ای که هم‌اکنون فعال است دوباره کلیک کرد، فقط محصولات با انیمیشن آبشاری بازنمایش داده می‌شوند
+            if (currentCategory === catId) {
+                triggerUnifiedStoreReveal(false);
+                return;
+            }
+
+            const subBar = document.getElementById("subCategoriesBar");
+            const isSubCurrentlyActiveOrOpen = (currentSubType !== null) || (subBar && subBar.style.display !== 'none' && subBar.classList.contains("open"));
 
             currentCategory = catId;
             currentSubType = null;
@@ -12710,23 +13344,20 @@
             renderCategoriesBar();
             applyDynamicAtmosphere(currentDepartment, catId, null, 'cat');
 
-            const layout = document.getElementById("storeMainLayout");
-            if (layout) {
-                layout.classList.remove("ux-step-1", "ux-step-3");
-                layout.classList.add("ux-step-2");
+            // رندر سطر سوم (زیردسته‌ها) با انیمیشن نرم
+            if (isSubCurrentlyActiveOrOpen && subBar) {
+                subBar.classList.remove("ux-slide-down");
+                subBar.classList.add("ux-slide-up");
+                setTimeout(() => {
+                    subBar.classList.remove("ux-slide-up");
+                    renderSubCategories();
+                }, 200);
+            } else {
+                renderSubCategories();
             }
 
-            // رندر سطر سوم (زیردسته‌ها) با انیمیشن روان و شیک از بالا به پایین
-            renderSubCategories();
-
-            // در صورتی که ستون‌ها هنوز باز نشده‌اند، سطر ۴ و محصولات پنهان می‌مانند
-            const topBar = document.getElementById("catalogTopBarModern");
-            if (topBar) topBar.style.display = "none";
-            const productsContainer = document.getElementById("productsContainer");
-            if (productsContainer) productsContainer.style.display = "none";
-
-            hasSidebarsRevealed = false;
-            renderUxFlowHint("گام سوم: لطفاً نوع یا مدل مکمل را از سطر بالا انتخاب نمایید");
+            // پدیدار شدن ستون‌ها از طرفین به سمت وسط و ورود آبشاری محصولات از سطر سوم به سمت پایین
+            triggerUnifiedStoreReveal(!hasSidebarsRevealed);
         }
 
         // رندر زیرشاخه‌های هر سرشاخه با انیمیشن ورود روان و جستجوی هوشمند
@@ -12736,7 +13367,7 @@
             if (!bar || !container) return;
 
             if (!currentDepartment || !DepartmentsConfig[currentDepartment] || !currentCategory) {
-                bar.classList.remove("open", "ux-slide-down");
+                bar.classList.remove("open", "ux-slide-down", "ux-slide-up");
                 bar.style.display = "none";
                 container.innerHTML = "";
                 return;
@@ -12747,23 +13378,26 @@
             const validSubs = (cat && cat.subs) ? cat.subs.filter(s => s.id !== "all" && !s.name.startsWith("همه")) : [];
 
             if (validSubs.length === 0) {
-                bar.classList.remove("open", "ux-slide-down");
+                bar.classList.remove("open", "ux-slide-down", "ux-slide-up");
                 bar.style.display = "none";
                 container.innerHTML = "";
                 return;
             }
 
             bar.style.display = "block";
+            bar.classList.remove("ux-slide-up");
             bar.classList.add("open", "ux-slide-down");
-            container.innerHTML = validSubs.map(s => {
+            container.innerHTML = validSubs.map((s, idx) => {
                 const icon = getSubCategoryIcon(s.id);
                 const isActive = currentSubType === s.id;
                 const isSearching = activeSearchBtnId === `sub_${s.id}`;
+                const staggerDelay = (idx * 0.035).toFixed(3);
                 return `
                 <div role="button" tabindex="0"
                      class="sub-capsule-btn ${isActive ? 'active' : ''} ${isSearching ? 'is-searching' : ''}" 
                      id="btn_sub_${s.id}"
                      data-sub="${s.id}" 
+                     style="animation-delay: ${staggerDelay}s;"
                      onclick="onSubCategoryClick('${s.id}', event)"
                      title="${s.name}">
                     <span class="btn-normal-content">
@@ -12791,32 +13425,17 @@
             }).join("");
         }
 
-        // کلیک روی زیرشاخه (گام سوم UX: باز شدن همزمان دو ستون -> نمایان شدن سطر ۴ -> پدیدار شدن محصولات)
-        function onSubCategoryClick(subId, e) {
-            if (activeSearchBtnId) {
-                closeButtonInlineSearch(activeSearchBtnId);
-            }
-
-            currentSubType = subId;
-            lastNavClickTier = 'sub';
-            uxCurrentStep = 3;
-
-            // اعمال رنگ‌بندی و تم هماهنگ
-            applyDynamicAtmosphere(currentDepartment, currentCategory, currentSubType, 'sub');
-            syncIngredientsWithCategory(currentCategory, currentSubType);
-            renderSubCategories();
-
-            // حذف باکس راهنما با انتخاب نهایی
+        // ورود هماهنگ و یکپارچه ستون‌ها به سمت وسط و جریان آبشاری محصولات از سطر سوم به پایین
+        function triggerUnifiedStoreReveal(forceReanimate = false) {
             hideUxFlowHint();
-
             const layout = document.getElementById("storeMainLayout");
             const rightSidebar = document.getElementById("filterSidebar");
             const leftSidebar = document.getElementById("ingredientsSidebar");
             const topBar = document.getElementById("catalogTopBarModern");
             const productsContainer = document.getElementById("productsContainer");
 
-            if (!hasSidebarsRevealed) {
-                // آماده‌سازی اطلاعات سایدبارها
+            if (!hasSidebarsRevealed || forceReanimate) {
+                // مقداردهی سایدبارها
                 initBrandSidebar();
                 initIngredientsSidebar();
                 initSidebarsState();
@@ -12826,46 +13445,78 @@
                     layout.classList.add("ux-step-3", "sidebars-animating-in");
                 }
 
-                // ۱. ستون‌های چپ و راست با هم با انیمیشن روان و از بالا به پایین باز می‌شوند
+                // ۱. ستون‌های راست و چپ با انیمیشن روان و شیک از طرفین به سمت وسط باز می‌شوند
                 if (rightSidebar) {
                     rightSidebar.style.display = "block";
-                    rightSidebar.classList.add("anim-slide-down-in");
+                    rightSidebar.classList.remove("anim-slide-in-right", "anim-slide-down-in");
+                    void rightSidebar.offsetWidth;
+                    rightSidebar.classList.add("anim-slide-in-right");
                 }
                 if (leftSidebar) {
                     leftSidebar.style.display = "block";
-                    leftSidebar.classList.add("anim-slide-down-in");
+                    leftSidebar.classList.remove("anim-slide-in-left", "anim-slide-down-in");
+                    void leftSidebar.offsetWidth;
+                    leftSidebar.classList.add("anim-slide-in-left");
                 }
 
-                // ۲. بعد از باز شدن ستون‌های چپ و راست (۴۵۰ میلی‌ثانیه)، سطر چهارم مینیمال نمایان می‌شود
-                setTimeout(() => {
-                    if (topBar) {
-                        topBar.style.display = "flex";
-                        topBar.classList.add("ux-topbar-reveal");
-                    }
+                // ۲. سطر چهارم مینیمال (مرتب‌سازی و چیدمان) از سطر ۳ به پایین ظاهر می‌شود
+                if (topBar) {
+                    topBar.style.display = "flex";
+                    topBar.classList.remove("ux-topbar-reveal");
+                    void topBar.offsetWidth;
+                    topBar.classList.add("ux-topbar-reveal");
+                }
 
-                    // ۳. بلافاصله بعد از سطر چهارم (۲۰۰ میلی‌ثانیه بعد)، محصولات با انیمیشن آبشاری پدیدار می‌شوند
-                    setTimeout(() => {
-                        if (productsContainer) {
-                            productsContainer.style.display = "grid";
-                            productsContainer.classList.add("ux-products-reveal");
-                        }
-                        renderAll();
-                        hasSidebarsRevealed = true;
+                // ۳. محصولات با انیمیشن آبشاری روان از سطر سوم به پایین سرازیر می‌شوند
+                if (productsContainer) {
+                    productsContainer.style.display = "grid";
+                    productsContainer.classList.remove("ux-products-reveal");
+                    void productsContainer.offsetWidth;
+                    productsContainer.classList.add("ux-products-reveal");
+                }
 
-                        setTimeout(() => {
-                            if (layout) layout.classList.add("sidebars-revealed");
-                            if (rightSidebar) rightSidebar.classList.remove("anim-slide-down-in");
-                            if (leftSidebar) leftSidebar.classList.remove("anim-slide-down-in");
-                            if (topBar) topBar.classList.remove("ux-topbar-reveal");
-                            if (productsContainer) productsContainer.classList.remove("ux-products-reveal");
-                        }, 600);
-                    }, 200);
-                }, 450);
-
-            } else {
-                // اگر ستون‌ها از قبل باز هستند، فقط محصولات به نرمی به‌روزرسانی می‌شوند
                 renderAll();
+                hasSidebarsRevealed = true;
+
+                setTimeout(() => {
+                    if (layout) layout.classList.add("sidebars-revealed");
+                    if (rightSidebar) rightSidebar.classList.remove("anim-slide-in-right", "anim-slide-down-in");
+                    if (leftSidebar) leftSidebar.classList.remove("anim-slide-in-left", "anim-slide-down-in");
+                    if (topBar) topBar.classList.remove("ux-topbar-reveal");
+                    if (productsContainer) productsContainer.classList.remove("ux-products-reveal");
+                }, 600);
+            } else {
+                // اگر ستون‌ها از قبل باز هستند، محصولات با انیمیشن آبشاری مجدداً از سطر سوم به پایین ظاهر می‌شوند
+                if (productsContainer) {
+                    productsContainer.style.display = "grid";
+                    productsContainer.classList.remove("ux-products-reveal");
+                    void productsContainer.offsetWidth;
+                    productsContainer.classList.add("ux-products-reveal");
+                }
+                renderAll();
+                setTimeout(() => {
+                    if (productsContainer) productsContainer.classList.remove("ux-products-reveal");
+                }, 500);
             }
+        }
+
+        // کلیک روی زیرشاخه (سطر ۳: فیلتر دقیق + باز شدن ستون‌ها به سمت وسط یا جریان آبشاری محصولات از سطر ۳)
+        function onSubCategoryClick(subId, e) {
+            if (activeSearchBtnId) {
+                closeButtonInlineSearch(activeSearchBtnId);
+            }
+
+            currentSubType = subId;
+            lastNavClickTier = 'sub';
+            uxCurrentStep = 3;
+
+            // اعمال رنگ‌بندی و اتمسفر هماهنگ
+            applyDynamicAtmosphere(currentDepartment, currentCategory, currentSubType, 'sub');
+            syncIngredientsWithCategory(currentCategory, currentSubType);
+            renderSubCategories();
+
+            // اجرای پدیدار شدن ستون‌ها به سمت وسط و جریان آبشاری محصولات از سطر ۳ به پایین
+            triggerUnifiedStoreReveal(!hasSidebarsRevealed);
         }
 
         function initBrandSidebar() {
@@ -13645,7 +14296,7 @@
         // ==========================================================================
         // سیستم مدیریت هوشمند ستون‌ها و سایدبارها (منوی راست و چپ با پشتیبانی کامل دسکتاپ و موبایل)
         // ==========================================================================
-        let isRightSidebarOpen = true; // منوی راست: فیلتر برندها و سازنده
+        let isRightSidebarOpen = false; // منوی راست: فیلتر برندها و سازنده (پیش‌فرض بسته به درخواست کاربر)
         let isLeftSidebarOpen = true;  // منوی چپ: جدول ترکیبات و مشخصات تخصصی
 
         // تعیین وضعیت هوشمند ستون‌ها متناسب با صفحه نمایش
@@ -13658,8 +14309,8 @@
                 isLeftSidebarOpen = false;
                 isRightSidebarOpen = false;
             } else {
-                // در حالت دسکتاپ: هر دو منوی راست و چپ به طور پیش‌فرض باز و کاملاً در دسترس هستند
-                isRightSidebarOpen = true;
+                // در حالت دسکتاپ: ستون سمت راست پیش‌فرض بسته است تا فقط در صورت اعلام کاربر باز شود
+                isRightSidebarOpen = false;
                 isLeftSidebarOpen = true;
             }
             syncSidebarsUI();
@@ -15666,7 +16317,103 @@ function openDetailModal(id) {
             setupTooltips();
             initSidebarsState();
             applyGridColumnsClass();
+            selectStoreBrand(currentStoreBrand, true);
         });
+
+        // ==========================================================================
+        // سیستم سوییچر شعب/فروشگاه‌ها (AbarStore / Miti Shop / Ali Shop)
+        // ==========================================================================
+        let currentStoreBrand = localStorage.getItem("selected_store_brand") || "abarstore";
+
+        const StoreBrandConfig = {
+            abarstore: {
+                name: "AbarStore",
+                tag: "فروشگاه جامع ورزشی (تم مشکی کربنی کلاسیک)",
+                color: "#e8c668",
+                svg: '<svg viewBox="0 0 24 24"><path d="M12 2L9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2z"/></svg>'
+            },
+            mitishop: {
+                name: "Miti Shop",
+                tag: "بوتیک تخصصی فیتنس (تم صورتی دخترانه لوکس)",
+                color: "#f472b6",
+                svg: '<svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>'
+            },
+            alishop: {
+                name: "Ali Shop",
+                tag: "پاورهاوس تخصصی آقایان (تم آبی سایبری)",
+                color: "#00b4d8",
+                svg: '<svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>'
+            }
+        };
+
+        function toggleStoreSwitcher(e) {
+            if (e) {
+                e.stopPropagation();
+                e.preventDefault();
+            }
+            const container = document.getElementById("storeSwitcherContainer");
+            if (container) container.classList.toggle("open");
+        }
+
+        function closeStoreSwitcher() {
+            const container = document.getElementById("storeSwitcherContainer");
+            if (container) container.classList.remove("open");
+        }
+
+        document.addEventListener("click", (e) => {
+            const container = document.getElementById("storeSwitcherContainer");
+            if (container && !container.contains(e.target)) {
+                closeStoreSwitcher();
+            }
+        });
+
+        function selectStoreBrand(storeKey, skipAnimation = false) {
+            closeStoreSwitcher();
+            if (!StoreBrandConfig[storeKey]) storeKey = "abarstore";
+            currentStoreBrand = storeKey;
+            localStorage.setItem("selected_store_brand", storeKey);
+
+            const conf = StoreBrandConfig[storeKey];
+
+            // به‌روزرسانی برچسب دکمه هدر
+            const labelEl = document.getElementById("switcherCurrentLabel");
+            if (labelEl) labelEl.textContent = conf.name;
+
+            // هایلایت آیتم فعال در لیست
+            document.querySelectorAll(".switcher-option-btn").forEach(btn => {
+                btn.classList.toggle("active", btn.getAttribute("data-store") === storeKey);
+            });
+
+            // اعمال تم وایب بر روی بدنه سایت (تغییر بیش از ۹۰٪ مساحت و پیکسل‌های تیره)
+            document.body.classList.remove("store-vibe-abarstore", "store-vibe-mitishop", "store-vibe-alishop");
+            document.body.classList.add("store-vibe-" + storeKey);
+
+            // اجرای انیمیشن موج نوری هاله لوگو
+            if (!skipAnimation) {
+                triggerStoreAuraAnimation(conf);
+            }
+        }
+
+        function triggerStoreAuraAnimation(conf) {
+            const overlay = document.getElementById("storeAuraOverlay");
+            const iconEl = document.getElementById("storeAuraIcon");
+            const nameEl = document.getElementById("storeAuraName");
+            const tagEl = document.getElementById("storeAuraTag");
+            if (!overlay || !iconEl || !nameEl) return;
+
+            document.documentElement.style.setProperty("--aura-color", conf.color);
+            iconEl.innerHTML = conf.svg;
+            nameEl.textContent = conf.name;
+            if (tagEl) tagEl.textContent = conf.tag;
+
+            overlay.classList.remove("active");
+            void overlay.offsetWidth; // Force DOM reflow
+            overlay.classList.add("active");
+
+            setTimeout(() => {
+                overlay.classList.remove("active");
+            }, 1100);
+        }
 
         // کنترل سیستم ۲ دکمه‌ای مرتب‌سازی و چیدمان در موبایل
         let currentMobileSubMenu = null;
