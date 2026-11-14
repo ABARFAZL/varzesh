@@ -42,10 +42,11 @@
     }
 
     main {
-      max-width: 1450px;
       width: 100%;
+      max-width: 100%;
       margin: 0 auto;
       flex: 1;
+      padding: 0 4px;
     }
 
     /* تب‌های روزهای تمرینی، چک‌باکس روز و دکمه + استراحت */
@@ -238,7 +239,7 @@
 
     table.workout-table {
       width: 100%;
-      min-width: 1500px;
+      min-width: auto;
       border-collapse: collapse;
       text-align: right;
       font-size: 0.78rem;
@@ -470,10 +471,52 @@
       flex-shrink: 0;
     }
 
+    
+    /* استایل اختصاصی ستون اول (عضله هدف) با نمایش دو سطحی نام اصلی و فرعی */
     .col-muscle {
-      min-width: 135px;
+      width: 115px;
+      min-width: 105px;
       text-align: center !important;
+      padding: 6px 4px !important;
     }
+
+    .muscle-cell-card {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      background: rgba(255, 94, 54, 0.09);
+      border: 1px solid rgba(255, 94, 54, 0.28);
+      border-radius: 8px;
+      padding: 5px 8px;
+      width: 100%;
+      box-sizing: border-box;
+      transition: all 0.2s;
+    }
+
+    table.workout-table tr:hover .muscle-cell-card {
+      background: rgba(255, 94, 54, 0.16);
+      border-color: rgba(255, 94, 54, 0.45);
+    }
+
+    .muscle-group-title {
+      font-weight: 800;
+      font-size: 0.82rem;
+      color: #ff9f7f;
+      line-height: 1.25;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+      letter-spacing: -0.2px;
+    }
+
+    .muscle-sub-title {
+      font-weight: 600;
+      font-size: 0.69rem;
+      color: #cbd5e1;
+      line-height: 1.25;
+      direction: rtl;
+    }
+
 
     .muscle-chip {
       display: inline-block;
@@ -487,7 +530,7 @@
     }
 
     .col-targets {
-      min-width: 210px;
+      min-width: 135px;
     }
 
     .muscle-breakdown {
@@ -543,10 +586,10 @@
     }
 
     .col-muscle-2d {
-      width: 145px;
-      min-width: 145px;
+      width: 118px;
+      min-width: 102px;
       text-align: center !important;
-      padding: 6px !important;
+      padding: 4px 2px !important;
       background: rgba(10, 14, 23, 0.55);
     }
 
@@ -558,8 +601,10 @@
     }
 
     .svg-2d-wrap svg {
-      width: 130px;
-      height: 106px;
+      width: 100%;
+      max-width: 112px;
+      height: auto;
+      aspect-ratio: 130 / 106;
       display: block;
       filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.45));
     }
@@ -620,7 +665,7 @@
     }
 
     .col-name-en {
-      min-width: 165px;
+      min-width: 110px;
       direction: ltr;
       text-align: left !important;
       font-weight: 700;
@@ -630,7 +675,7 @@
     }
 
     .col-posture {
-      min-width: 118px;
+      min-width: 85px;
       font-weight: 700;
       color: #e2e8f0;
       font-size: 0.74rem;
@@ -650,14 +695,14 @@
     }
 
     .col-equip {
-      min-width: 120px;
+      min-width: 85px;
       color: #cbd5e1;
       font-size: 0.74rem;
       font-weight: 600;
     }
 
     .col-execution {
-      min-width: 225px;
+      min-width: 140px;
       font-weight: 500;
       color: #f8fafc;
       font-size: 0.74rem;
@@ -695,7 +740,7 @@
     }
 
     .col-tips {
-      min-width: 215px;
+      min-width: 130px;
       font-size: 0.72rem;
       color: #94a3b8;
     }
@@ -1633,6 +1678,7 @@
     let completedMoves = JSON.parse(localStorage.getItem('gym_completed_moves') || '{}');
 
     const DEFAULT_COLUMN_ORDER = [
+      'muscle',
       'idx',
       'posture',
       'equipment',
@@ -1643,8 +1689,7 @@
       'reps',
       'tempo',
       'targets',
-      'muscle_2d',
-      'muscle'
+      'muscle_2d'
     ];
 
     const PCT_FA_DIGITS = { '۰': '0', '۱': '1', '۲': '2', '۳': '3', '۴': '4', '۵': '5', '۶': '6', '۷': '7', '۸': '8', '۹': '9' };
@@ -1853,10 +1898,71 @@
       `;
     }
 
+    
+    const MUSCLE_CLASSIFICATION = {
+      "زیربغل (پهنای پشت)": { group: "زیربغل / پشت", sub: "(پهنای پشت - لَت)" },
+      "میانه و عمق پشت": { group: "پشت و زیربغل", sub: "(میانه و عمق پشت)" },
+      "سرشانه جلویی و میانی": { group: "سرشانه", sub: "(جلویی و میانی)" },
+      "سرشانه میانی (پهن‌کننده)": { group: "سرشانه", sub: "(میانی - پهن‌کننده)" },
+      "کول (ذوزنقه‌ای بالایی)": { group: "کول / ذوزنقه‌ای", sub: "(بخش بالایی)" },
+      "جلوبازو (پیک و سر کوتاه)": { group: "جلوبازو", sub: "(پیک و سر کوتاه)" },
+      "روی ساعد و عمق بازو": { group: "ساعد و بازو", sub: "(روی ساعد و عمق بازو)" },
+      "راست شکمی (بخش بالایی)": { group: "شکم", sub: "(راست شکمی - بخش بالا)" },
+      "سینه (میانی و حجم کلی)": { group: "سینه", sub: "(میانی و حجم کلی)" },
+      "بالاسینه (بخش ترقوه‌ای)": { group: "سینه", sub: "(بالاسینه - ترقوه‌ای)" },
+      "سینه (خط وسط و بخش داخلی)": { group: "سینه", sub: "(خط وسط و بخش داخلی)" },
+      "پشت‌بازو (سر کناری و بیرونی)": { group: "پشت‌بازو", sub: "(سر کناری و بیرونی)" },
+      "پشت‌بازو (هر سه سر)": { group: "پشت‌بازو", sub: "(هر سه سر)" },
+      "چهارسر ران (فقط پای راست)": { group: "پا / چهارسر", sub: "(فقط پای راست)" },
+      "داخل ران (نزدیک‌کننده‌ها)": { group: "پا / ران", sub: "(داخل ران - نزدیک‌کننده‌ها)" },
+      "خارج ران و کنار باسن": { group: "پا / باسن", sub: "(خارج ران و دورکننده‌ها)" },
+      "فیله کمر (ستون فقرات)": { group: "فیله کمر", sub: "(راست‌کننده ستون فقرات)" },
+      "مورب شکمی (پهلوها)": { group: "شکم و پهلو", sub: "(مورب شکمی - پهلو)" },
+      "پایین زیربغل و جلوبازو": { group: "زیربغل و بازو", sub: "(پایین زیربغل و جلوبازو)" },
+      "لبه بیرونی ساعد و عمق بازو": { group: "ساعد و بازو", sub: "(براکیورادیالیس و عمق بازو)" },
+      "روی ساعد (بازکننده‌های مچ)": { group: "ساعد و مچ", sub: "(بازکننده‌های مچ)" },
+      "داخل ساعد و تاندون انگشتان": { group: "ساعد و پنجه", sub: "(خم‌کننده‌های مچ و انگشتان)" },
+      "تاندون کناری مچ (رادیال)": { group: "مچ دست", sub: "(انحراف رادیال / لترال)" },
+      "پنجه، شست و قدرت انگشتان": { group: "پنجه و انگشتان", sub: "(شست و گیرایی پنجه)" },
+      "جلوی ساق پا (تیبیالیس قدامی)": { group: "ساق پا", sub: "(تیبیالیس قدامی - مچ به بالا)" },
+      "پشت ران (همسترینگ)": { group: "پا / همسترینگ", sub: "(پشت ران - جفت پا)" },
+      "عضله نعلی ساق (فقط پای راست)": { group: "ساق پا", sub: "(عضله نعلی - فقط پای راست)" },
+      "بخش پایینی سینه": { group: "سینه", sub: "(زیرسینه - تحتانی)" },
+      "خط وسط و تفکیک سینه": { group: "سینه", sub: "(خط وسط و تفکیک)" },
+      "سرشانه جلویی": { group: "سرشانه", sub: "(دلتوئید قدامی)" },
+      "پشت‌بازو (سر بلند و حجم)": { group: "پشت‌بازو", sub: "(سر بلند و کشش عمقی)" },
+      "ساق پا (فقط پای راست)": { group: "ساق پا", sub: "(دوقلو - فقط پای راست)" },
+      "فیله کمر و مهره‌ها": { group: "فیله کمر", sub: "(مهره‌ها و عضلات عمقی)" },
+      "زیرشکم (بخش پایینی شکم)": { group: "شکم", sub: "(زیرشکم - تحتانی)" },
+      "پهنای پشت (شکل V کمر)": { group: "زیربغل / پشت", sub: "(پهنای پشت - شکل V)" },
+      "ضخامت پشت و کول میانی": { group: "پشت و کول", sub: "(ضخامت پشت و رومبوئید)" },
+      "پشت سرشانه (دلتوئید خلفی)": { group: "سرشانه", sub: "(پشت سرشانه - خلفی)" },
+      "کول بالایی": { group: "کول / ذوزنقه‌ای", sub: "(بخش بالایی)" },
+      "چرخاننده‌های عمقی مچ و ساعد": { group: "ساعد و مچ", sub: "(پروناتور و سوپیناتور عمقی)" },
+      "پشت ران (همسترینگ راست)": { group: "پا / همسترینگ", sub: "(همسترینگ - تک‌پای راست)" },
+      "راست شکمی": { group: "شکم", sub: "(راست شکمی)" },
+      "مورب شکمی (پهلو)": { group: "شکم و پهلو", sub: "(مورب شکمی - پهلو)" }
+    };
+
+    function parseMuscleInfo(raw) {
+      if (!raw) return { group: 'عمومی', sub: '' };
+      raw = raw.trim();
+      if (MUSCLE_CLASSIFICATION[raw]) {
+        return MUSCLE_CLASSIFICATION[raw];
+      }
+      const m = raw.match(/^([^(]+)(?:\(([^)]+)\))?$/);
+      if (m) {
+        const group = m[1].trim();
+        const sub = m[2] ? `(${m[2].trim()})` : '';
+        return { group, sub };
+      }
+      return { group: raw, sub: '' };
+    }
+
     const COLUMN_DEFS = {
       idx: {
         label: '#',
-        thStyle: 'width: 78px; text-align: center;',
+        thStyle: 'width: 68px; min-width: 58px; text-align: center;',
         cellClass: 'col-idx',
         renderCell: (ex, isMoveDone) => {
           const supersetBadge = ex.superset
@@ -1873,7 +1979,7 @@
       },
       posture: {
         label: 'تکیه‌گاه و زاویه',
-        thStyle: 'min-width: 118px;',
+        thStyle: 'width: 105px; min-width: 88px; text-align: center;',
         cellClass: 'col-posture',
         renderCell: (ex) => {
           const angleHtml = ex.angle ? `<div><span class="angle-badge">📐 ${ex.angle}</span></div>` : '';
@@ -1882,49 +1988,49 @@
       },
       equipment: {
         label: 'تجهیزات',
-        thStyle: 'min-width: 120px;',
+        thStyle: 'width: 110px; min-width: 90px;',
         cellClass: 'col-equip',
         renderCell: (ex) => ex.equipment
       },
       name_en: {
         label: 'English Name',
-        thStyle: 'min-width: 165px; text-align: left; direction: ltr;',
+        thStyle: 'min-width: 125px; text-align: left; direction: ltr;',
         cellClass: 'col-name-en',
         renderCell: (ex) => ex.name_en
       },
       execution: {
         label: 'جزئیات نحوه انجام',
-        thStyle: 'min-width: 225px;',
+        thStyle: 'min-width: 155px;',
         cellClass: 'col-execution',
         renderCell: (ex) => ex.execution
       },
       tips: {
         label: 'مراقبت مفصل و نکات کلیدی',
-        thStyle: 'min-width: 215px;',
+        thStyle: 'min-width: 145px;',
         cellClass: 'col-tips',
         renderCell: (ex) => ex.tips
       },
       sets: {
         label: 'ست',
-        thStyle: 'width: 62px; text-align: center;',
+        thStyle: 'width: 50px; min-width: 44px; text-align: center;',
         cellClass: 'col-sets',
         renderCell: (ex) => ex.sets
       },
       reps: {
         label: 'تکرار',
-        thStyle: 'width: 82px; text-align: center;',
+        thStyle: 'width: 68px; min-width: 58px; text-align: center;',
         cellClass: 'col-reps',
         renderCell: (ex) => ex.reps
       },
       tempo: {
         label: 'تمپو',
-        thStyle: 'width: 78px; text-align: center;',
+        thStyle: 'width: 68px; min-width: 58px; text-align: center;',
         cellClass: 'col-tempo',
         renderCell: (ex) => ex.tempo
       },
       targets: {
         label: 'درصد عضلات درگیر',
-        thStyle: 'min-width: 210px;',
+        thStyle: 'min-width: 145px;',
         cellClass: 'col-targets',
         renderCell: (ex) => {
           const targetsHtml = (ex.targets || []).map(t => {
@@ -1950,21 +2056,29 @@
       },
       muscle_2d: {
         label: 'آناتومی 2D',
-        thStyle: 'width: 145px; text-align: center;',
+        thStyle: 'width: 118px; min-width: 102px; text-align: center;',
         cellClass: 'col-muscle-2d',
         renderCell: (ex) => renderMuscle2D(ex)
       },
       muscle: {
         label: 'عضله هدف',
-        thStyle: 'min-width: 135px; text-align: center;',
+        thStyle: 'min-width: 105px; width: 115px; text-align: center;',
         cellClass: 'col-muscle',
-        renderCell: (ex) => `<span class="muscle-chip">${ex.muscle}</span>`
+        renderCell: (ex) => {
+          const info = parseMuscleInfo(ex.muscle);
+          return `
+            <div class="muscle-cell-card">
+              <span class="muscle-group-title">${info.group}</span>
+              ${info.sub ? `<span class="muscle-sub-title">${info.sub}</span>` : ''}
+            </div>
+          `;
+        }
       }
     };
 
     function loadColumnOrder() {
       try {
-        const saved = JSON.parse(localStorage.getItem('gym_column_order_v3') || 'null');
+        const saved = JSON.parse(localStorage.getItem('gym_column_order_v4') || 'null');
         if (Array.isArray(saved) && saved.length === DEFAULT_COLUMN_ORDER.length) {
           const valid = DEFAULT_COLUMN_ORDER.every(k => saved.includes(k));
           if (valid) return saved;
@@ -1977,7 +2091,7 @@
     let dragSourceIndex = null;
 
     function saveColumnOrder() {
-      localStorage.setItem('gym_column_order_v3', JSON.stringify(columnOrder));
+      localStorage.setItem('gym_column_order_v4', JSON.stringify(columnOrder));
       updateColumnOrderFooter();
     }
 

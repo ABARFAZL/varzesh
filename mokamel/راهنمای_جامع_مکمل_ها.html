@@ -265,12 +265,12 @@
         }
 
         .dept-card[data-dept="apparel_women"] {
-            border-color: rgba(236, 72, 153, 0.3);
+            border-color: rgba(244, 114, 182, 0.35);
         }
         .dept-card[data-dept="apparel_women"].active {
-            border-color: var(--neon-pink);
-            box-shadow: 0 0 24px rgba(236, 72, 153, 0.35);
-            background: rgba(236, 72, 153, 0.16);
+            border-color: #f472b6;
+            box-shadow: 0 0 24px rgba(244, 114, 182, 0.4);
+            background: rgba(244, 114, 182, 0.16);
         }
 
         .dept-card[data-dept="gym_gear"] {
@@ -1435,12 +1435,12 @@
             --theme-bg-tint: rgba(0, 180, 216, 0.07);
         }
 
-        /* ۳. پوشاک زنانه: صورتی ملایم نئونی و لوکس فیتنس، انگیزه و زیبایی فرم بدنی */
+        /* ۳. پوشاک زنانه: صورتی ملایم، جذاب و لوکس فیتنس، انگیزه و زیبایی فرم بدنی */
         body[data-theme="apparel_women"] {
-            --theme-color: #f43f5e;
-            --theme-glow: rgba(244, 63, 94, 0.35);
-            --theme-border: rgba(244, 63, 94, 0.5);
-            --theme-bg-tint: rgba(244, 63, 94, 0.07);
+            --theme-color: #f472b6;
+            --theme-glow: rgba(244, 114, 182, 0.4);
+            --theme-border: rgba(244, 114, 182, 0.55);
+            --theme-bg-tint: rgba(244, 114, 182, 0.09);
         }
 
         /* ۴. تجهیزات و لوازم باشگاه: نارنجی آتشین و کهربایی متالیک وزنه سنگین، پولاد و اراده */
@@ -1564,7 +1564,7 @@
         body.initial-state .header-dept-btn[data-dept="apparel_men"]::after { animation-delay: 0.8s; }
 
         body.initial-state .header-dept-btn[data-dept="apparel_women"] {
-            border-color: rgba(244, 63, 94, 0.35);
+            border-color: rgba(244, 114, 182, 0.4);
             animation-delay: 1.2s;
         }
         body.initial-state .header-dept-btn[data-dept="apparel_women"]::after { animation-delay: 1.5s; }
@@ -5091,6 +5091,169 @@
     }
 }
 
+/* ==========================================================================
+   لیست کشویی نتایج جستجو (ظریف، شیشه‌ای مات و مدرن زیر نوار جستجوی هدر)
+   ========================================================================== */
+.header-search-dropdown {
+    position: absolute !important;
+    top: calc(100% + 8px) !important;
+    left: 0 !important;
+    width: 330px !important;
+    max-width: calc(100vw - 28px) !important;
+    background: rgba(8, 14, 28, 0.98) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid var(--theme-color, #00e5ff) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.85), 0 0 20px var(--theme-glow, rgba(0, 229, 255, 0.25)) !important;
+    z-index: 1000 !important;
+    overflow: hidden !important;
+    direction: rtl !important;
+    text-align: right !important;
+    padding: 6px !important;
+    animation: fadeInDropdown 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+@keyframes fadeInDropdown {
+    from {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.search-dropdown-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-height: 320px;
+    overflow-y: auto;
+}
+
+.search-dropdown-list::-webkit-scrollbar {
+    width: 4px;
+}
+.search-dropdown-list::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+.search-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.search-dropdown-item:hover {
+    background: rgba(0, 229, 255, 0.08);
+    border-color: rgba(0, 229, 255, 0.3);
+    transform: translateX(-3px);
+}
+
+.search-dropdown-thumb {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.search-dropdown-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.search-dropdown-thumb svg {
+    width: 24px;
+    height: 24px;
+}
+
+.search-dropdown-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.search-dropdown-title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.search-dropdown-meta {
+    font-size: 0.72rem;
+    color: var(--text-muted, #94a3b8);
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.search-dropdown-price {
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: var(--theme-color, #00e5ff);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* دکمه موارد بیشتر (More) در انتهای لیست کشویی */
+.search-dropdown-more-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 12px;
+    margin-top: 4px;
+    border-radius: 10px;
+    background: linear-gradient(90deg, rgba(0, 229, 255, 0.12), rgba(124, 58, 237, 0.12));
+    border: 1px solid rgba(0, 229, 255, 0.3);
+    color: #ffffff;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.search-dropdown-more-btn:hover {
+    background: linear-gradient(90deg, rgba(0, 229, 255, 0.22), rgba(124, 58, 237, 0.22));
+    border-color: var(--theme-color, #00e5ff);
+    box-shadow: 0 0 12px var(--theme-glow, rgba(0, 229, 255, 0.25));
+}
+
+.search-dropdown-more-btn svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+    transition: transform 0.2s ease;
+}
+
+.search-dropdown-more-btn:hover svg {
+    transform: translateX(-3px);
+}
+
+.search-dropdown-empty {
+    padding: 16px 12px;
+    text-align: center;
+    font-size: 0.82rem;
+    color: var(--text-muted, #94a3b8);
+}
+
 /* واکنش‌گرایی هدر در تبلت و موبایل جهت جلوگیری از هم‌پوشانی لوگو، دکمه‌های ناوبری و سرچ */
 @media (max-width: 1100px) {
     .header-main {
@@ -8321,6 +8484,160 @@
             color: #ffffff;
         }
 
+        /* تب‌های بالای کشوی شیشه‌ای (ترکیبات / هدف من) */
+        .left-mini-flyout-tabs-bar {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 14px 8px 14px;
+            background: rgba(0, 0, 0, 0.28);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            flex-shrink: 0;
+        }
+
+        .left-mini-flyout-tab-btn {
+            flex: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            padding: 8px 10px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--card-border);
+            color: var(--text-secondary);
+            font-size: 0.76rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.22s ease;
+            user-select: none;
+            position: relative;
+        }
+
+        .left-mini-flyout-tab-btn svg {
+            width: 15px;
+            height: 15px;
+            fill: currentColor;
+        }
+
+        .left-mini-flyout-tab-btn:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(56, 189, 248, 0.3);
+        }
+
+        .left-mini-flyout-tab-btn.active {
+            background: var(--theme-bg-tint, rgba(56, 189, 248, 0.16)) !important;
+            border-color: var(--theme-color, #38bdf8) !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 12px var(--theme-glow, rgba(56, 189, 248, 0.35));
+        }
+
+        .flyout-tab-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--theme-color, #38bdf8);
+            box-shadow: 0 0 8px var(--theme-color, #38bdf8);
+        }
+
+        /* کارت‌های اهداف ورزشی در تب دوم */
+        .goals-list-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+            padding: 4px 0;
+        }
+
+        .goal-card-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.035);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: bubbleCascadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+            animation-delay: calc(var(--goal-idx, 0) * 0.04s);
+            user-select: none;
+        }
+
+        .goal-card-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(56, 189, 248, 0.4);
+            color: #ffffff;
+            transform: translateX(-4px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+        }
+
+        .goal-card-item.active {
+            background: rgba(56, 189, 248, 0.16) !important;
+            border-color: var(--theme-color, #38bdf8) !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 16px var(--theme-glow, rgba(56, 189, 248, 0.38)) !important;
+            transform: translateX(-3px);
+        }
+
+        .goal-card-icon {
+            font-size: 1.5rem;
+            line-height: 1;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .goal-card-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .goal-card-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .goal-card-name {
+            font-size: 0.84rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .goal-card-badge {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--theme-color, #38bdf8);
+            background: rgba(56, 189, 248, 0.15);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            padding: 2px 7px;
+            border-radius: 10px;
+            white-space: nowrap;
+        }
+
+        .goal-card-desc {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            line-height: 1.45;
+        }
+
+        .goal-card-item.active .goal-card-desc {
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        .goal-group-trigger {
+            border-color: rgba(56, 189, 248, 0.4) !important;
+            background: rgba(56, 189, 248, 0.08) !important;
+        }
+
+        .goal-group-trigger:hover {
+            background: rgba(56, 189, 248, 0.2) !important;
+            box-shadow: 0 0 14px var(--theme-glow, rgba(56, 189, 248, 0.4)) !important;
+        }
+
         /* رگبار حبابی عمودی (Idea 3) */
         .left-mini-flyout-body {
             flex: 1;
@@ -8525,6 +8842,546 @@
             border-color: var(--theme-color, #38bdf8) !important;
             animation: miniFilterHeaderAura 1.8s ease-in-out infinite;
         }
+
+        /* ============================================================
+           طراحی نوار بالای کاتالوگ (مرتب‌سازی و چیدمان یکپارچه در یک خط)
+           ============================================================ */
+        .catalog-top-bar-modern {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 12px !important;
+            padding: 6px 14px !important;
+            min-height: 44px !important;
+            background: rgba(10, 16, 28, 0.55) !important;
+            backdrop-filter: blur(20px) saturate(160%) !important;
+            -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-radius: 12px !important;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.2) !important;
+            margin-bottom: 16px !important;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            box-sizing: border-box !important;
+            position: relative !important;
+        }
+
+        /* بخش‌های دسکتاپ */
+        .toolbar-sort-wrap {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+        }
+
+        .toolbar-layout-wrap {
+            display: inline-flex !important;
+            align-items: center !important;
+            margin-right: auto !important;
+            gap: 6px !important;
+        }
+
+        .toolbar-mobile-trigger-btn {
+            display: none !important;
+        }
+
+        .sort-buttons-container {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+        }
+
+        .sort-label {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+            font-size: 0.78rem !important;
+            color: var(--text-muted) !important;
+            white-space: nowrap !important;
+        }
+
+        .sort-icon-head {
+            width: 14px !important;
+            height: 14px !important;
+            fill: var(--theme-color, #00e5ff) !important;
+            opacity: 0.85 !important;
+        }
+
+        .sort-btn-group {
+            display: inline-flex !important;
+            align-items: center !important;
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            border-radius: 8px !important;
+            padding: 2px !important;
+            gap: 2px !important;
+        }
+
+        .sort-pill-btn {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+            padding: 4px 10px !important;
+            height: 28px !important;
+            background: transparent !important;
+            border: 1px solid transparent !important;
+            border-radius: 6px !important;
+            color: rgba(255, 255, 255, 0.65) !important;
+            font-size: 0.78rem !important;
+            font-family: inherit !important;
+            cursor: pointer !important;
+            transition: all 0.2s ease !important;
+            white-space: nowrap !important;
+        }
+
+        .sort-pill-btn:hover {
+            color: #ffffff !important;
+            background: rgba(255, 255, 255, 0.06) !important;
+        }
+
+        .sort-pill-btn.active {
+            background: rgba(56, 189, 248, 0.16) !important;
+            border-color: rgba(56, 189, 248, 0.35) !important;
+            color: #38bdf8 !important;
+            font-weight: 700 !important;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.18) !important;
+        }
+
+        .sort-btn-icon {
+            font-size: 0.85rem !important;
+            line-height: 1 !important;
+        }
+
+        .layout-btn-group {
+            display: inline-flex !important;
+            align-items: center !important;
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.06) !important;
+            border-radius: 8px !important;
+            padding: 2px !important;
+            gap: 3px !important;
+        }
+
+        .layout-icon-only-btn {
+            width: 28px !important;
+            height: 28px !important;
+            border-radius: 6px !important;
+            background: transparent !important;
+            border: 1px solid transparent !important;
+            color: var(--text-muted) !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            cursor: pointer !important;
+            transition: all 0.2s ease !important;
+            padding: 0 !important;
+        }
+
+        .layout-icon-only-btn svg {
+            width: 15px !important;
+            height: 15px !important;
+            fill: currentColor !important;
+        }
+
+        .layout-icon-only-btn:hover {
+            color: #ffffff !important;
+            background: rgba(255, 255, 255, 0.06) !important;
+        }
+
+        .layout-icon-only-btn.active {
+            color: var(--theme-color, #00e5ff) !important;
+            background: rgba(0, 229, 255, 0.14) !important;
+            border-color: rgba(0, 229, 255, 0.35) !important;
+            box-shadow: 0 0 10px var(--theme-glow, rgba(0, 229, 255, 0.2)) !important;
+        }
+
+        /* ------------------------------------------------------------
+           سیستم ۲ دکمه‌ای هوشمند در موبایل (مرتب‌سازی و چیدمان بدون تداخل)
+           ------------------------------------------------------------ */
+        @media (max-width: 768px) {
+            .catalog-top-bar-modern {
+                display: flex !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+                gap: 8px !important;
+                padding: 6px 10px !important;
+            }
+
+            .toolbar-sort-wrap, .toolbar-layout-wrap {
+                flex: 1 !important;
+                margin: 0 !important;
+            }
+
+            /* نمایش ۲ دکمه بزرگ و شیک در حالت پیش‌فرض موبایل */
+            .toolbar-mobile-trigger-btn {
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                gap: 6px !important;
+                width: 100% !important;
+                height: 36px !important;
+                padding: 0 12px !important;
+                background: rgba(15, 23, 42, 0.8) !important;
+                border: 1px solid rgba(255, 255, 255, 0.12) !important;
+                border-radius: 10px !important;
+                color: #ffffff !important;
+                font-size: 0.82rem !important;
+                font-weight: 700 !important;
+                font-family: inherit !important;
+                cursor: pointer !important;
+                transition: all 0.25s ease !important;
+                white-space: nowrap !important;
+            }
+
+            .toolbar-mobile-trigger-btn svg {
+                width: 14px !important;
+                height: 14px !important;
+                fill: var(--theme-color, #00e5ff) !important;
+            }
+
+            .mobile-toggle-indicator {
+                font-size: 0.72rem !important;
+                color: var(--text-muted) !important;
+                transition: transform 0.25s ease !important;
+            }
+
+            /* مخفی بودن زیرمجموعه‌ها در حالت اولیه دو دکمه‌ای */
+            .sort-buttons-container, .layout-btn-group {
+                display: none !important;
+            }
+
+            /* ۱. حالت باز شدن مرتب‌سازی: دکمه چیدمان کاملاً مخفی می‌شود و زیرمجموعه مرتب‌سازی باز می‌شود */
+            .catalog-top-bar-modern.mode-sort-expanded .toolbar-layout-wrap {
+                display: none !important;
+            }
+
+            .catalog-top-bar-modern.mode-sort-expanded .toolbar-sort-wrap {
+                width: 100% !important;
+                flex: 1 !important;
+                gap: 8px !important;
+            }
+
+            .catalog-top-bar-modern.mode-sort-expanded #mobileSortTriggerBtn {
+                width: auto !important;
+                background: rgba(0, 229, 255, 0.18) !important;
+                border-color: var(--theme-color, #00e5ff) !important;
+                color: var(--theme-color, #00e5ff) !important;
+                flex-shrink: 0 !important;
+            }
+
+            .catalog-top-bar-modern.mode-sort-expanded #mobileSortTriggerBtn .mobile-toggle-indicator {
+                transform: rotate(180deg) !important;
+                color: var(--theme-color, #00e5ff) !important;
+            }
+
+            .catalog-top-bar-modern.mode-sort-expanded .sort-buttons-container {
+                display: flex !important;
+                align-items: center !important;
+                flex: 1 !important;
+                min-width: 0 !important;
+                overflow-x: auto !important;
+                scrollbar-width: none !important;
+            }
+
+            .catalog-top-bar-modern.mode-sort-expanded .sort-buttons-container::-webkit-scrollbar {
+                display: none !important;
+            }
+
+            .catalog-top-bar-modern.mode-sort-expanded .sort-label {
+                display: none !important;
+            }
+
+            .catalog-top-bar-modern.mode-sort-expanded .sort-btn-group {
+                display: flex !important;
+                align-items: center !important;
+                gap: 4px !important;
+                width: 100% !important;
+            }
+
+            /* ۲. حالت باز شدن چیدمان: دکمه مرتب‌سازی کاملاً مخفی می‌شود و گزینه‌های چیدمان باز می‌شوند */
+            .catalog-top-bar-modern.mode-layout-expanded .toolbar-sort-wrap {
+                display: none !important;
+            }
+
+            .catalog-top-bar-modern.mode-layout-expanded .toolbar-layout-wrap {
+                width: 100% !important;
+                flex: 1 !important;
+                gap: 8px !important;
+            }
+
+            .catalog-top-bar-modern.mode-layout-expanded #mobileLayoutTriggerBtn {
+                width: auto !important;
+                background: rgba(0, 229, 255, 0.18) !important;
+                border-color: var(--theme-color, #00e5ff) !important;
+                color: var(--theme-color, #00e5ff) !important;
+                flex-shrink: 0 !important;
+            }
+
+            .catalog-top-bar-modern.mode-layout-expanded #mobileLayoutTriggerBtn .mobile-toggle-indicator {
+                transform: rotate(180deg) !important;
+                color: var(--theme-color, #00e5ff) !important;
+            }
+
+            .catalog-top-bar-modern.mode-layout-expanded .layout-btn-group {
+                display: flex !important;
+                align-items: center !important;
+                gap: 8px !important;
+                flex: 1 !important;
+            }
+
+            .catalog-top-bar-modern.mode-layout-expanded .layout-icon-only-btn {
+                width: 34px !important;
+                height: 34px !important;
+                border-radius: 8px !important;
+            }
+        }
+
+        /* ============================================================
+           انیمیشن‌های زنجیره‌ای آبشاری (Progressive Disclosure Flow)
+           ============================================================ */
+        /* مرحله ۱: فقط سطر ۲ باز است - ستون‌های کناری، سطر ۴ و محصولات مخفی هستند */
+        .store-layout.ux-step-1 {
+            grid-template-columns: 1fr !important;
+            max-width: 1200px !important;
+        }
+        .store-layout.ux-step-1 #filterSidebar,
+        .store-layout.ux-step-1 #ingredientsSidebar,
+        .store-layout.ux-step-1 #subCategoriesBar,
+        .store-layout.ux-step-1 #catalogTopBarModern,
+        .store-layout.ux-step-1 #productsContainer {
+            display: none !important;
+        }
+
+        /* مرحله ۲: سطر ۲ و ۳ باز هستند - ستون‌ها، سطر ۴ و محصولات مخفی هستند */
+        .store-layout.ux-step-2 {
+            grid-template-columns: 1fr !important;
+            max-width: 1200px !important;
+        }
+        .store-layout.ux-step-2 #filterSidebar,
+        .store-layout.ux-step-2 #ingredientsSidebar,
+        .store-layout.ux-step-2 #catalogTopBarModern,
+        .store-layout.ux-step-2 #productsContainer {
+            display: none !important;
+        }
+
+        /* انیمیشن باز شدن نرم سطر ۳ از بالا به پایین */
+        .sub-categories-row.ux-slide-down {
+            display: block !important;
+            animation: subCatSlideDown 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+        }
+        @keyframes subCatSlideDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-14px);
+                max-height: 0;
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+                max-height: 140px;
+            }
+        }
+
+        /* مرحله ۳: باز شدن ۳ ستونه */
+        .store-layout.ux-step-3 {
+            grid-template-columns: 290px 1fr 310px !important;
+            max-width: 1720px !important;
+            transition: max-width 0.4s ease;
+        }
+
+        /* انیمیشن همزمان ستون‌های چپ و راست از بالا به پایین */
+        .anim-slide-down-in {
+            animation: sidebarsSlideDown 0.48s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+        }
+        @keyframes sidebarsSlideDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.97);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* انیمیشن نمایان شدن سطر چهارم بعد از باز شدن ستون‌ها */
+        .catalog-top-bar-modern.ux-topbar-reveal {
+            animation: topbarReveal 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+        }
+        @keyframes topbarReveal {
+            0% {
+                opacity: 0;
+                transform: translateY(-14px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* انیمیشن پدیدار شدن محصولات بعد از سطر چهارم */
+        .products-grid.ux-products-reveal {
+            animation: productsReveal 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+        }
+        @keyframes productsReveal {
+            0% {
+                opacity: 0;
+                transform: translateY(22px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* باکس راهنمای بصری مینیمال و مرحله‌ای */
+        .ux-flow-stage-hint {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 18px 24px;
+            margin: 20px auto 30px auto;
+            max-width: 520px;
+            background: rgba(13, 20, 36, 0.5);
+            backdrop-filter: blur(14px);
+            border: 1px dashed rgba(56, 189, 248, 0.35);
+            border-radius: 14px;
+            color: #94a3b8;
+            font-size: 0.88rem;
+            animation: hintSlideFade 0.35s ease forwards;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .ux-flow-hint-pulse {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #38bdf8;
+            box-shadow: 0 0 10px #38bdf8;
+            animation: countPulse 1.8s infinite ease-in-out;
+            flex-shrink: 0;
+        }
+
+        @keyframes hintSlideFade {
+            0% { opacity: 0; transform: translateY(-8px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+
+        /* ========================================================================= */
+        /* سیستم ترغیب خرید، دکمه اشتراک و بازخورد لمسی و صوتی */
+        /* ========================================================================= */
+        
+        /* برچسب ترغیب خرید هوشمند روی کارت محصول */
+        .card-urgency-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.68rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 12px;
+            margin-bottom: 6px;
+            width: fit-content;
+            transition: all 0.25s ease;
+        }
+
+        .card-urgency-badge.badge-low-stock {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.5);
+            color: #fca5a5;
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.25);
+            animation: urgencyPulse 2s infinite ease-in-out;
+        }
+
+        .card-urgency-badge.badge-hot-deal {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.5);
+            color: #fde68a;
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.25);
+        }
+
+        .card-urgency-badge.badge-fast-delivery {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.5);
+            color: #a7f3d0;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.25);
+        }
+
+        @keyframes urgencyPulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 8px rgba(239, 68, 68, 0.3);
+            }
+            50% {
+                transform: scale(1.03);
+                box-shadow: 0 0 16px rgba(239, 68, 68, 0.6);
+            }
+        }
+
+        /* دکمه اشتراک‌گذاری کارت محصول */
+        .btn-card-share {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: var(--text-secondary);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.22s ease;
+            flex-shrink: 0;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 5;
+        }
+
+        .btn-card-share:hover {
+            background: #0284c7;
+            border-color: #38bdf8;
+            color: #ffffff;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.7);
+            transform: scale(1.12);
+        }
+
+        .btn-card-share svg {
+            width: 13px;
+            height: 13px;
+            fill: currentColor;
+        }
+
+        /* اعلان موقت کپی لینک و اشتراک (Toast) */
+        .share-toast-notification {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(10, 16, 28, 0.96);
+            backdrop-filter: blur(14px);
+            border: 1.5px solid var(--neon-blue);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8), 0 0 20px var(--neon-blue-glow);
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 9999;
+            opacity: 0;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+        }
+
+        .share-toast-notification.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
     </style>
 
     <!-- کتابخانه رندر سه‌بعدی تعاملی Three.js -->
@@ -8550,6 +9407,7 @@
 
         // باز کردن مودال آموزش سفارش آنی با مشخصات محصول و لینک‌های اختصاصی چت
         function openInstantOrderModal(id, e) {
+            triggerFeedback("order");
             if (e) e.stopPropagation();
 
             const item = fullStoreDB.find(p => p.id === id);
@@ -8613,6 +9471,7 @@
         }
     </script>
 
+    <link rel="stylesheet" href="css/innovations.css">
 </head>
 <body class="initial-state" data-theme="initial">
 
@@ -8655,9 +9514,12 @@
                     <button type="button" class="header-search-btn" id="searchToggleBtn" onclick="toggleSearchBox()" data-tooltip="جستجوی محصولات" aria-label="جستجو">
                         <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
                     </button>
-                    <input type="text" id="searchInput" class="header-search-input" placeholder="جستجوی محصول یا برند..." oninput="onSearchInput(this.value)" autocomplete="off">
+                    <input type="text" id="searchInput" class="header-search-input" placeholder="جستجوی محصول یا برند..." oninput="onSearchInput(this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault(); applyFullSearch();}" autocomplete="off">
                     <button type="button" class="header-search-close" id="searchClearBtn" onclick="handleSearchCloseOrClear()" title="بستن جستجو" aria-label="بستن">✕</button>
                 </div>
+
+                <!-- لیست کشویی نتایج جستجو (چند آیتم اول + دکمه موارد بیشتر) -->
+                <div class="header-search-dropdown" id="headerSearchDropdown" style="display: none;"></div>
 
                 <!-- دکمه سبد خرید فقط آیکون بدون متن -->
                 <button type="button" class="cart-btn-icon-only" id="headerCartBtn" onclick="toggleCartDrawer(true)" data-tooltip="مشاهده سبد خرید">
@@ -8772,67 +9634,71 @@
             </div>
 
             <!-- نوار مدرن چیدمان و مرتب‌سازی بالای کاتالوگ محصولات -->
-            <div class="catalog-top-bar-modern" id="catalogTopBarModern">
-                <!-- دکمه‌های کنترل دو سایدبار (راست و چپ) -->
-                <!-- بخش شمارنده تعداد محصولات -->
-                <div class="catalog-count-box">
-                    <span class="count-indicator-dot"></span>
-                    <span>نمایش <strong id="catalogCountText">۰</strong> محصول تخصصی</span>
-                </div>
+            <!-- باکس راهنمای متحرک و مینیمال مراحل -->
+            <div class="ux-flow-stage-hint" id="uxFlowStageHint" style="display: none;">
+                <span class="ux-flow-hint-pulse"></span>
+                <span id="uxFlowHintText">دسته‌بندی مورد نظر خود را انتخاب نمایید</span>
+            </div>
 
-                <!-- بخش دکمه‌های مرتب‌سازی (تبدیل به فقط آیکون هنگام کمبود فضا بدون هیچ درهم‌ریختگی) -->
-                <div class="sort-buttons-container">
-                    <span class="sort-label">
+            <div class="catalog-top-bar-modern" id="catalogTopBarModern">
+                <!-- بخش مرتب‌سازی: دکمه مادر در موبایل + زیرمجموعه گزینه‌ها -->
+                <div class="toolbar-sort-wrap" id="toolbarSortWrap">
+                    <button type="button" class="toolbar-mobile-trigger-btn" id="mobileSortTriggerBtn" onclick="toggleMobileSubMenu('sort')">
                         <svg class="sort-icon-head" viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"/></svg>
-                        <span class="sort-label-text">مرتب‌سازی:</span>
-                    </span>
-                    <div class="sort-btn-group" id="sortButtonGroup">
-                        <button type="button" class="sort-pill-btn active" data-sort="bestseller" onclick="changeSort('bestseller')">
-                            <span class="sort-btn-icon">🔥</span>
-                            <span class="sort-btn-text">پرفروش‌ترین</span>
-                        </button>
-                        <button type="button" class="sort-pill-btn" data-sort="price-asc" onclick="changeSort('price-asc')">
-                            <span class="sort-btn-icon">💰</span>
-                            <span class="sort-btn-text">ارزان‌ترین</span>
-                        </button>
-                        <button type="button" class="sort-pill-btn" data-sort="price-desc" onclick="changeSort('price-desc')">
-                            <span class="sort-btn-icon">💎</span>
-                            <span class="sort-btn-text">گران‌ترین</span>
-                        </button>
-                        <button type="button" class="sort-pill-btn" data-sort="newest" onclick="changeSort('newest')">
-                            <span class="sort-btn-icon">✨</span>
-                            <span class="sort-btn-text">جدیدترین</span>
-                        </button>
-                        <button type="button" class="sort-pill-btn" data-sort="name-asc" onclick="changeSort('name-asc')">
-                            <span class="sort-btn-icon">🔤</span>
-                            <span class="sort-btn-text">نام کالا</span>
-                        </button>
+                        <span>مرتب‌سازی</span>
+                        <span class="mobile-toggle-indicator">▾</span>
+                    </button>
+                    <div class="sort-buttons-container" id="sortButtonsContainer">
+                        <span class="sort-label">
+                            <svg class="sort-icon-head" viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"/></svg>
+                            <span class="sort-label-text">مرتب‌سازی:</span>
+                        </span>
+                        <div class="sort-btn-group" id="sortButtonGroup">
+                            <button type="button" class="sort-pill-btn active" data-sort="bestseller" onclick="changeSort('bestseller')">
+                                <span class="sort-btn-icon">🔥</span>
+                                <span class="sort-btn-text">پرفروش‌ترین</span>
+                            </button>
+                            <button type="button" class="sort-pill-btn" data-sort="price-asc" onclick="changeSort('price-asc')">
+                                <span class="sort-btn-icon">💰</span>
+                                <span class="sort-btn-text">ارزان‌ترین</span>
+                            </button>
+                            <button type="button" class="sort-pill-btn" data-sort="price-desc" onclick="changeSort('price-desc')">
+                                <span class="sort-btn-icon">💎</span>
+                                <span class="sort-btn-text">گران‌ترین</span>
+                            </button>
+                            <button type="button" class="sort-pill-btn" data-sort="newest" onclick="changeSort('newest')">
+                                <span class="sort-btn-icon">✨</span>
+                                <span class="sort-btn-text">جدیدترین</span>
+                            </button>
+                            <button type="button" class="sort-pill-btn" data-sort="name-asc" onclick="changeSort('name-asc')">
+                                <span class="sort-btn-icon">🔤</span>
+                                <span class="sort-btn-text">نام کالا</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                <!-- دکمه چیدمان کشویی افقی از سمت چپ به راست (فقط آیکون بدون متن) -->
-                <div class="layout-slider-wrap" id="layoutFlyoutContainer">
-                    <!-- پنل کشویی افقی: از پهلوی چپ دکمه به سمت راست باز می‌شود -->
-                    <div class="layout-slider-drawer" id="layoutDrawerPanel">
-                        <button type="button" class="layout-icon-only-btn" id="layoutBtn_2" data-cols="2" onclick="selectLayoutMode('2')">
+                <!-- بخش چیدمان: دکمه مادر در موبایل + زیرمجموعه گزینه‌ها -->
+                <div class="toolbar-layout-wrap" id="toolbarLayoutWrap">
+                    <button type="button" class="toolbar-mobile-trigger-btn" id="mobileLayoutTriggerBtn" onclick="toggleMobileSubMenu('layout')">
+                        <svg viewBox="0 0 24 24"><path d="M2 3h5v18H2zm7 0h6v18H9zm8 0h5v18h-5z"/></svg>
+                        <span>چیدمان</span>
+                        <span class="mobile-toggle-indicator">▾</span>
+                    </button>
+                    <div class="layout-btn-group" id="layoutButtonGroup">
+                        <button type="button" class="layout-icon-only-btn" id="layoutBtn_2" data-cols="2" onclick="selectLayoutMode('2')" title="چیدمان ۲ ستونه">
                             <svg viewBox="0 0 24 24"><path d="M3 3h8v18H3zm10 0h8v18h-8z"/></svg>
                         </button>
-                        <button type="button" class="layout-icon-only-btn active" id="layoutBtn_3" data-cols="3" onclick="selectLayoutMode('3')">
+                        <button type="button" class="layout-icon-only-btn active" id="layoutBtn_3" data-cols="3" onclick="selectLayoutMode('3')" title="چیدمان ۳ ستونه">
                             <svg viewBox="0 0 24 24"><path d="M2 3h5v18H2zm7 0h6v18H9zm8 0h5v18h-5z"/></svg>
                         </button>
-                        <button type="button" class="layout-icon-only-btn" id="layoutBtn_4" data-cols="4" onclick="selectLayoutMode('4')">
+                        <button type="button" class="layout-icon-only-btn" id="layoutBtn_4" data-cols="4" onclick="selectLayoutMode('4')" title="چیدمان ۴ ستونه">
                             <svg viewBox="0 0 24 24"><path d="M2 3h4v18H2zm5 0h4v18H7zm5 0h4v18h-4zm5 0h5v18h-5z"/></svg>
                         </button>
-                        <button type="button" class="layout-icon-only-btn" id="layoutBtn_list" data-cols="list" onclick="selectLayoutMode('list')">
+                        <button type="button" class="layout-icon-only-btn" id="layoutBtn_list" data-cols="list" onclick="selectLayoutMode('list')" title="چیدمان لیستی">
                             <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
                         </button>
                     </div>
-                    <!-- دکمه اصلی فقط آیکون در سمت چپ -->
-                    <button type="button" class="layout-trigger-icon-btn" id="layoutTriggerBtn" onclick="toggleLayoutDrawer(event)">
-                        <span id="layoutActiveIcon" style="display:flex; align-items:center; justify-content:center;">
-                            <svg viewBox="0 0 24 24"><path d="M2 3h5v18H2zm7 0h6v18H9zm8 0h5v18h-5z"/></svg>
-                        </span>
-                    </button>
                 </div>
             </div>
 
@@ -10709,6 +11575,13 @@
         let currentGridMode = localStorage.getItem("store_grid_layout") || "3";
         let searchQuery = "";
         let selectedIngredients = [];
+        window.getCurrentFilterState = function() {
+            return {
+                brand: currentBrand,
+                origin: currentOrigin,
+                ingredients: selectedIngredients
+            };
+        };
         let openGroupsSet = new Set(["amino_profile", "protein_facts", "fabric_type", "women_tech", "gear_materials"]);
 
         // نقشه دسته‌بندی مکمل‌ها به ترکیبات و مقادیر
@@ -10788,6 +11661,7 @@
 
         // هندلر پیشرفته افزودن به سبد خرید همراه با انیمیشن پرواز و افکت نوری
         function handleAddToCart(id, e) {
+            triggerFeedback("cart");
             if (e) e.stopPropagation();
 
             // ۱. افزودن کالا به سبد با افزایش تعداد
@@ -10899,87 +11773,129 @@
                     bg: "rgba(0, 180, 216, 0.12)"
                 },
                 apparel_women: {
-                    color: "#f43f5e", // سرخابی رزگلد فیتنس
-                    glow: "rgba(244, 63, 94, 0.4)",
-                    border: "rgba(244, 63, 94, 0.5)",
-                    bg: "rgba(244, 63, 94, 0.12)"
+                    color: "#f472b6", // صورتی ملایم، شیک و لوکس فیتنس زنانه
+                    glow: "rgba(244, 114, 182, 0.42)",
+                    border: "rgba(244, 114, 182, 0.55)",
+                    bg: "rgba(244, 114, 182, 0.13)",
+                    ambient: "rgba(244, 114, 182, 0.16)"
                 },
                 gym_gear: {
                     color: "#f97316", // نارنجی متالیک پولاد و قدرت
                     glow: "rgba(249, 115, 22, 0.4)",
                     border: "rgba(249, 115, 22, 0.5)",
-                    bg: "rgba(249, 115, 22, 0.12)"
+                    bg: "rgba(249, 115, 22, 0.12)",
+                    ambient: "rgba(249, 115, 22, 0.16)"
                 }
             },
-            // سطر دوم: سرشاخه‌های اختصاصی هر بخش (همگی در هارمونی نزدیک به سطر اول دپارتمان مادر)
+            // سطر دوم: سرشاخه‌های اختصاصی هر بخش (رنگ‌های کاملاً متمایز و مشخص برای تفکیک واضح هر دسته)
             categories: {
-                // ۱. مکمل‌های ورزشی: تماماً در خانواده رنگ طلایی، کهربایی، برنز و پلاتینیوم نزدیک به سطر اول
+                // ۱. مکمل‌های ورزشی: رنگ‌های متمایز، زنده و باهویت برای هر مکمل
                 protein: {
-                    color: "#e8c668", // طلایی شامپاینی درخشان پروتئین (دقیقاً هماهنگ با دپارتمان مکمل)
+                    color: "#e8c668", // طلایی شامپاینی لوکس پروتئین‌ها
                     glow: "rgba(232, 198, 104, 0.45)",
                     border: "rgba(232, 198, 104, 0.58)",
                     bg: "rgba(232, 198, 104, 0.14)",
                     ambient: "rgba(232, 198, 104, 0.16)"
                 },
-                gainer: {
-                    color: "#f5a623", // طلایی کهربایی غنی گینر و وزن‌ساز
-                    glow: "rgba(245, 166, 35, 0.45)",
-                    border: "rgba(245, 166, 35, 0.58)",
-                    bg: "rgba(245, 166, 35, 0.14)",
-                    ambient: "rgba(245, 166, 35, 0.15)"
-                },
                 creatine: {
-                    color: "#df9b35", // طلایی برنز متالیک کراتین و قدرت
-                    glow: "rgba(223, 155, 53, 0.45)",
-                    border: "rgba(223, 155, 53, 0.58)",
-                    bg: "rgba(223, 155, 53, 0.14)",
-                    ambient: "rgba(223, 155, 53, 0.15)"
+                    color: "#ef4444", // قرمز یاقوتی آتشین کراتین و قدرت انفجاری
+                    glow: "rgba(239, 68, 68, 0.45)",
+                    border: "rgba(239, 68, 68, 0.58)",
+                    bg: "rgba(239, 68, 68, 0.14)",
+                    ambient: "rgba(239, 68, 68, 0.16)"
+                },
+                gainer: {
+                    color: "#f97316", // نارنجی کهربایی گرم گینر و وزن‌سازی
+                    glow: "rgba(249, 115, 22, 0.45)",
+                    border: "rgba(249, 115, 22, 0.58)",
+                    bg: "rgba(249, 115, 22, 0.14)",
+                    ambient: "rgba(249, 115, 22, 0.16)"
                 },
                 amino: {
-                    color: "#f1d77a", // طلایی شنی و پلاتینیوم آمینو اسیدها
-                    glow: "rgba(241, 215, 122, 0.45)",
-                    border: "rgba(241, 215, 122, 0.58)",
-                    bg: "rgba(241, 215, 122, 0.14)",
-                    ambient: "rgba(241, 215, 122, 0.15)"
+                    color: "#a855f7", // بنفش نئونی ارغوانی آمینو اسیدها و ریکاوری
+                    glow: "rgba(168, 85, 247, 0.45)",
+                    border: "rgba(168, 85, 247, 0.58)",
+                    bg: "rgba(168, 85, 247, 0.14)",
+                    ambient: "rgba(168, 85, 247, 0.16)"
                 },
                 energy: {
-                    color: "#facc15", // طلایی زرین براق انرژی‌زا و پمپ
-                    glow: "rgba(250, 204, 21, 0.45)",
-                    border: "rgba(250, 204, 21, 0.58)",
-                    bg: "rgba(250, 204, 21, 0.14)",
-                    ambient: "rgba(250, 204, 21, 0.15)"
+                    color: "#00e5ff", // فیروزه‌ای نئونی الکتریک انرژی‌زا، پمپ و تمرکز
+                    glow: "rgba(0, 229, 255, 0.45)",
+                    border: "rgba(0, 229, 255, 0.58)",
+                    bg: "rgba(0, 229, 255, 0.14)",
+                    ambient: "rgba(0, 229, 255, 0.16)"
                 },
                 fatburn: {
-                    color: "#e09f3e", // طلایی مسی گرم چربی‌سوز
-                    glow: "rgba(224, 159, 62, 0.45)",
-                    border: "rgba(224, 159, 62, 0.58)",
-                    bg: "rgba(224, 159, 62, 0.14)",
-                    ambient: "rgba(224, 159, 62, 0.15)"
+                    color: "#f43f5e", // سرخابی ماگمایی نئونی چربی‌سوز و کالری‌سوزی
+                    glow: "rgba(244, 63, 94, 0.45)",
+                    border: "rgba(244, 63, 94, 0.58)",
+                    bg: "rgba(244, 63, 94, 0.14)",
+                    ambient: "rgba(244, 63, 94, 0.16)"
                 },
                 health: {
-                    color: "#d4af37", // طلایی متالیک اصیل مفاصل و سلامت
-                    glow: "rgba(212, 175, 55, 0.45)",
-                    border: "rgba(212, 175, 55, 0.58)",
-                    bg: "rgba(212, 175, 55, 0.14)",
-                    ambient: "rgba(212, 175, 55, 0.15)"
+                    color: "#10b981", // سبز زمردی آرام‌بخش مفاصل، کلاژن و سلامت عمومی
+                    glow: "rgba(16, 185, 129, 0.45)",
+                    border: "rgba(16, 185, 129, 0.58)",
+                    bg: "rgba(16, 185, 129, 0.14)",
+                    ambient: "rgba(16, 185, 129, 0.16)"
                 },
                 // ۲. پوشاک مردانه: نزدیک به رنگ سطر اول (خانواده آبی)
                 shorts: { color: "#00b4d8", glow: "rgba(0, 180, 216, 0.4)", border: "rgba(0, 180, 216, 0.5)", bg: "rgba(0, 180, 216, 0.12)", ambient: "rgba(0, 180, 216, 0.12)" },
                 pants: { color: "#0284c7", glow: "rgba(2, 132, 199, 0.4)", border: "rgba(2, 132, 199, 0.5)", bg: "rgba(2, 132, 199, 0.12)", ambient: "rgba(2, 132, 199, 0.12)" },
                 tshirt: { color: "#38bdf8", glow: "rgba(56, 189, 248, 0.4)", border: "rgba(56, 189, 248, 0.5)", bg: "rgba(56, 189, 248, 0.12)", ambient: "rgba(56, 189, 248, 0.12)" },
                 tanktop: { color: "#2563eb", glow: "rgba(37, 99, 235, 0.4)", border: "rgba(37, 99, 235, 0.5)", bg: "rgba(37, 99, 235, 0.12)", ambient: "rgba(37, 99, 235, 0.12)" },
-                // ۳. پوشاک زنانه: نزدیک به رنگ سطر اول (خانواده سرخابی و رزگلد)
-                leg: { color: "#f43f5e", glow: "rgba(244, 63, 94, 0.4)", border: "rgba(244, 63, 94, 0.5)", bg: "rgba(244, 63, 94, 0.12)", ambient: "rgba(244, 63, 94, 0.12)" },
-                skirt: { color: "#fb7185", glow: "rgba(251, 113, 133, 0.4)", border: "rgba(251, 113, 133, 0.5)", bg: "rgba(251, 113, 133, 0.12)", ambient: "rgba(251, 113, 133, 0.12)" },
-                top_body: { color: "#e11d48", glow: "rgba(225, 29, 72, 0.4)", border: "rgba(225, 29, 72, 0.5)", bg: "rgba(225, 29, 72, 0.12)", ambient: "rgba(225, 29, 72, 0.12)" },
-                // ۴. تجهیزات: نزدیک به رنگ سطر اول (خانواده نارنجی و برنز)
-                qomqome: { color: "#fb923c", glow: "rgba(251, 146, 60, 0.4)", border: "rgba(251, 146, 60, 0.5)", bg: "rgba(251, 146, 60, 0.12)", ambient: "rgba(251, 146, 60, 0.12)" },
-                kamarband: { color: "#ea580c", glow: "rgba(234, 88, 12, 0.4)", border: "rgba(234, 88, 12, 0.5)", bg: "rgba(234, 88, 12, 0.12)", ambient: "rgba(234, 88, 12, 0.12)" },
-                mochband: { color: "#c2410c", glow: "rgba(194, 65, 12, 0.4)", border: "rgba(194, 65, 12, 0.5)", bg: "rgba(194, 65, 12, 0.12)", ambient: "rgba(194, 65, 12, 0.12)" }
+                // ۳. پوشاک زنانه: در خانواده صورتی فیتنس جذاب و ملایم (جایگزین قرمز/سرخابی)
+                leg: { color: "#f472b6", glow: "rgba(244, 114, 182, 0.42)", border: "rgba(244, 114, 182, 0.55)", bg: "rgba(244, 114, 182, 0.13)", ambient: "rgba(244, 114, 182, 0.16)" },
+                skirt: { color: "#f9a8d4", glow: "rgba(249, 168, 212, 0.42)", border: "rgba(249, 168, 212, 0.55)", bg: "rgba(249, 168, 212, 0.13)", ambient: "rgba(249, 168, 212, 0.16)" },
+                top_body: { color: "#ec4899", glow: "rgba(236, 72, 153, 0.42)", border: "rgba(236, 72, 153, 0.55)", bg: "rgba(236, 72, 153, 0.13)", ambient: "rgba(236, 72, 153, 0.16)" },
+                sports_bra: { color: "#fb7185", glow: "rgba(251, 113, 133, 0.42)", border: "rgba(251, 113, 133, 0.55)", bg: "rgba(251, 113, 133, 0.13)", ambient: "rgba(251, 113, 133, 0.16)" },
+                // ۴. تجهیزات: مچ‌بند و بندلیفت نارنجی رو به مشکی / شیکر نارنجی روشن
+                mochband: { 
+                    color: "#c2410c", // نارنجی رو به مشکی (سوخته زغالی-کربنی متالیک و قدرتمند)
+                    glow: "rgba(194, 65, 12, 0.45)", 
+                    border: "rgba(194, 65, 12, 0.6)", 
+                    bg: "rgba(20, 10, 8, 0.85)", 
+                    ambient: "rgba(194, 65, 12, 0.18)" 
+                },
+                shaker: { 
+                    color: "#ffa726", // شیکر به سمت نارنجی روشن، درخشان و باطراوت
+                    glow: "rgba(255, 167, 38, 0.48)", 
+                    border: "rgba(255, 167, 38, 0.58)", 
+                    bg: "rgba(255, 167, 38, 0.14)", 
+                    ambient: "rgba(255, 167, 38, 0.16)" 
+                },
+                qomqome: { 
+                    color: "#ffa726", // همگام با شیکر: نارنجی روشن
+                    glow: "rgba(255, 167, 38, 0.48)", 
+                    border: "rgba(255, 167, 38, 0.58)", 
+                    bg: "rgba(255, 167, 38, 0.14)", 
+                    ambient: "rgba(255, 167, 38, 0.16)" 
+                },
+                belt: { 
+                    color: "#ea580c", // کمربند چرمی و کش: نارنجی تیره قهرمانی
+                    glow: "rgba(234, 88, 12, 0.42)", 
+                    border: "rgba(234, 88, 12, 0.55)", 
+                    bg: "rgba(234, 88, 12, 0.13)", 
+                    ambient: "rgba(234, 88, 12, 0.16)" 
+                },
+                kamarband: { 
+                    color: "#ea580c", 
+                    glow: "rgba(234, 88, 12, 0.42)", 
+                    border: "rgba(234, 88, 12, 0.55)", 
+                    bg: "rgba(234, 88, 12, 0.13)", 
+                    ambient: "rgba(234, 88, 12, 0.16)" 
+                },
+                spray: { 
+                    color: "#ffb74d", // اسپری بهداشت: نارنجی طلایی متالیک
+                    glow: "rgba(255, 183, 77, 0.42)", 
+                    border: "rgba(255, 183, 77, 0.55)", 
+                    bg: "rgba(255, 183, 77, 0.13)", 
+                    ambient: "rgba(255, 183, 77, 0.16)" 
+                }
             },
             // سطر سوم: زیرشاخه‌های تخصصی
             subCategories: {
-                // پروتئین (طیف‌های مختلف و هماهنگ طلایی شامپاینی و پلاتینیوم)
+                // پروتئین (طیف‌های طلایی شامپاینی و پلاتینیوم)
                 isolate: { color: "#fef08a", glow: "rgba(254, 240, 138, 0.45)", border: "rgba(254, 240, 138, 0.5)", bg: "rgba(254, 240, 138, 0.14)", ambient: "rgba(254, 240, 138, 0.12)" },
                 concentrate: { color: "#fde047", glow: "rgba(253, 224, 71, 0.45)", border: "rgba(253, 224, 71, 0.5)", bg: "rgba(253, 224, 71, 0.14)", ambient: "rgba(253, 224, 71, 0.12)" },
                 hydrolyzed: { color: "#fef9c3", glow: "rgba(254, 249, 195, 0.45)", border: "rgba(254, 249, 195, 0.5)", bg: "rgba(254, 249, 195, 0.14)", ambient: "rgba(254, 249, 195, 0.12)" },
@@ -10988,18 +11904,31 @@
                 beef: { color: "#eab308", glow: "rgba(234, 179, 8, 0.45)", border: "rgba(234, 179, 8, 0.5)", bg: "rgba(234, 179, 8, 0.14)", ambient: "rgba(234, 179, 8, 0.12)" },
                 egg: { color: "#fde68a", glow: "rgba(253, 230, 138, 0.45)", border: "rgba(253, 230, 138, 0.5)", bg: "rgba(253, 230, 138, 0.14)", ambient: "rgba(253, 230, 138, 0.12)" },
                 plant: { color: "#d9b84b", glow: "rgba(217, 184, 75, 0.45)", border: "rgba(217, 184, 75, 0.5)", bg: "rgba(217, 184, 75, 0.14)", ambient: "rgba(217, 184, 75, 0.12)" },
-                // گینر (طیف‌های طلایی کهربایی)
-                mass: { color: "#e5a93c", glow: "rgba(229, 169, 60, 0.45)", border: "rgba(229, 169, 60, 0.5)", bg: "rgba(229, 169, 60, 0.14)", ambient: "rgba(229, 169, 60, 0.12)" },
-                lean: { color: "#f7c948", glow: "rgba(247, 201, 72, 0.45)", border: "rgba(247, 201, 72, 0.5)", bg: "rgba(247, 201, 72, 0.14)", ambient: "rgba(247, 201, 72, 0.12)" },
-                carbo: { color: "#f0b429", glow: "rgba(240, 180, 41, 0.45)", border: "rgba(240, 180, 41, 0.5)", bg: "rgba(240, 180, 41, 0.14)", ambient: "rgba(240, 180, 41, 0.12)" },
-                // کراتین (طیف‌های طلایی برنز متالیک)
-                monohydrate: { color: "#df9b35", glow: "rgba(223, 155, 53, 0.45)", border: "rgba(223, 155, 53, 0.5)", bg: "rgba(223, 155, 53, 0.14)", ambient: "rgba(223, 155, 53, 0.12)" },
-                micronized: { color: "#e8a838", glow: "rgba(232, 168, 56, 0.45)", border: "rgba(232, 168, 56, 0.5)", bg: "rgba(232, 168, 56, 0.14)", ambient: "rgba(232, 168, 56, 0.12)" },
-                creapure: { color: "#e29d33", glow: "rgba(226, 157, 51, 0.45)", border: "rgba(226, 157, 51, 0.5)", bg: "rgba(226, 157, 51, 0.14)", ambient: "rgba(226, 157, 51, 0.12)" },
-                complex: { color: "#f39c12", glow: "rgba(243, 156, 18, 0.45)", border: "rgba(243, 156, 18, 0.5)", bg: "rgba(243, 156, 18, 0.14)", ambient: "rgba(243, 156, 18, 0.12)" },
-                beta_creatine: { color: "#d49432", glow: "rgba(212, 148, 50, 0.45)", border: "rgba(212, 148, 50, 0.5)", bg: "rgba(212, 148, 50, 0.14)", ambient: "rgba(212, 148, 50, 0.12)" },
-                // مفاصل و سلامت
-                joint: { color: "#d4af37", glow: "rgba(212, 175, 55, 0.45)", border: "rgba(212, 175, 55, 0.5)", bg: "rgba(212, 175, 55, 0.14)", ambient: "rgba(212, 175, 55, 0.12)" }
+                // گینر (طیف‌های نارنجی و کهربایی)
+                mass: { color: "#ea580c", glow: "rgba(234, 88, 12, 0.45)", border: "rgba(234, 88, 12, 0.5)", bg: "rgba(234, 88, 12, 0.14)", ambient: "rgba(234, 88, 12, 0.12)" },
+                lean: { color: "#f97316", glow: "rgba(249, 115, 22, 0.45)", border: "rgba(249, 115, 22, 0.5)", bg: "rgba(249, 115, 22, 0.14)", ambient: "rgba(249, 115, 22, 0.12)" },
+                carbo: { color: "#fb923c", glow: "rgba(251, 146, 60, 0.45)", border: "rgba(251, 146, 60, 0.5)", bg: "rgba(251, 146, 60, 0.14)", ambient: "rgba(251, 146, 60, 0.12)" },
+                // کراتین (طیف‌های قرمز یاقوتی آتشین)
+                monohydrate: { color: "#ef4444", glow: "rgba(239, 68, 68, 0.45)", border: "rgba(239, 68, 68, 0.5)", bg: "rgba(239, 68, 68, 0.14)", ambient: "rgba(239, 68, 68, 0.12)" },
+                micronized: { color: "#f87171", glow: "rgba(248, 113, 113, 0.45)", border: "rgba(248, 113, 113, 0.5)", bg: "rgba(248, 113, 113, 0.14)", ambient: "rgba(248, 113, 113, 0.12)" },
+                creapure: { color: "#dc2626", glow: "rgba(220, 38, 38, 0.45)", border: "rgba(220, 38, 38, 0.5)", bg: "rgba(220, 38, 38, 0.14)", ambient: "rgba(220, 38, 38, 0.12)" },
+                complex: { color: "#b91c1c", glow: "rgba(185, 28, 28, 0.45)", border: "rgba(185, 28, 28, 0.5)", bg: "rgba(185, 28, 28, 0.14)", ambient: "rgba(185, 28, 28, 0.12)" },
+                beta_creatine: { color: "#f43f5e", glow: "rgba(244, 63, 94, 0.45)", border: "rgba(244, 63, 94, 0.5)", bg: "rgba(244, 63, 94, 0.14)", ambient: "rgba(244, 63, 94, 0.12)" },
+                // مفاصل و سلامت (طیف‌های زمردی و نعنایی)
+                joint: { color: "#10b981", glow: "rgba(16, 185, 129, 0.45)", border: "rgba(16, 185, 129, 0.5)", bg: "rgba(16, 185, 129, 0.14)", ambient: "rgba(16, 185, 129, 0.12)" },
+                // زیرشاخه‌های پوشاک زنانه (طیف صورتی فیتنس)
+                seamless: { color: "#f472b6", glow: "rgba(244, 114, 182, 0.45)", border: "rgba(244, 114, 182, 0.55)", bg: "rgba(244, 114, 182, 0.14)", ambient: "rgba(244, 114, 182, 0.12)" },
+                scrunch: { color: "#fb7185", glow: "rgba(251, 113, 133, 0.45)", border: "rgba(251, 113, 133, 0.55)", bg: "rgba(251, 113, 133, 0.14)", ambient: "rgba(251, 113, 133, 0.12)" },
+                pleated: { color: "#f9a8d4", glow: "rgba(249, 168, 212, 0.45)", border: "rgba(249, 168, 212, 0.55)", bg: "rgba(249, 168, 212, 0.14)", ambient: "rgba(249, 168, 212, 0.12)" },
+                crop_top: { color: "#ec4899", glow: "rgba(236, 72, 153, 0.45)", border: "rgba(236, 72, 153, 0.55)", bg: "rgba(236, 72, 153, 0.14)", ambient: "rgba(236, 72, 153, 0.12)" },
+                high_impact: { color: "#f43f8e", glow: "rgba(244, 63, 142, 0.45)", border: "rgba(244, 63, 142, 0.55)", bg: "rgba(244, 63, 142, 0.14)", ambient: "rgba(244, 63, 142, 0.12)" },
+                // زیرشاخه‌های تجهیزات باشگاه
+                wrist_wrap: { color: "#9a3412", glow: "rgba(154, 52, 18, 0.45)", border: "rgba(154, 52, 18, 0.55)", bg: "rgba(20, 10, 8, 0.8)", ambient: "rgba(154, 52, 18, 0.14)" },
+                lifting_straps: { color: "#c2410c", glow: "rgba(194, 65, 12, 0.45)", border: "rgba(194, 65, 12, 0.55)", bg: "rgba(20, 10, 8, 0.8)", ambient: "rgba(194, 65, 12, 0.14)" },
+                steel_shaker: { color: "#ffb74d", glow: "rgba(255, 183, 77, 0.45)", border: "rgba(255, 183, 77, 0.55)", bg: "rgba(255, 183, 77, 0.14)", ambient: "rgba(255, 183, 77, 0.12)" },
+                pro_shaker: { color: "#ffa726", glow: "rgba(255, 167, 38, 0.45)", border: "rgba(255, 167, 38, 0.55)", bg: "rgba(255, 167, 38, 0.14)", ambient: "rgba(255, 167, 38, 0.12)" },
+                leather_belt: { color: "#ea580c", glow: "rgba(234, 88, 12, 0.45)", border: "rgba(234, 88, 12, 0.55)", bg: "rgba(234, 88, 12, 0.14)", ambient: "rgba(234, 88, 12, 0.12)" },
+                anti_bacterial: { color: "#f59e0b", glow: "rgba(245, 158, 11, 0.45)", border: "rgba(245, 158, 11, 0.55)", bg: "rgba(245, 158, 11, 0.14)", ambient: "rgba(245, 158, 11, 0.12)" }
             }
         };
 
@@ -11062,52 +11991,95 @@
             root.style.setProperty('--theme-border', activePalette.border);
             root.style.setProperty('--theme-bg-tint', activePalette.bg || pCat.bg || pDept.bg);
         }
-function selectDepartment(deptKey) {
+
+        // متغیرهای وضعیت جریان کاربر (UX Cascading Progressive Disclosure)
+        let uxCurrentStep = 0; // 0: hero, 1: dept, 2: cat, 3: sub
+        let hasSidebarsRevealed = false;
+
+        function renderUxFlowHint(msg) {
+            const hint = document.getElementById("uxFlowStageHint");
+            const text = document.getElementById("uxFlowHintText");
+            if (hint && text) {
+                text.textContent = msg;
+                hint.style.display = "flex";
+            }
+        }
+
+        function hideUxFlowHint() {
+            const hint = document.getElementById("uxFlowStageHint");
+            if (hint) {
+                hint.style.display = "none";
+            }
+        }
+
+        function selectDepartment(deptKey) {
             currentDepartment = deptKey;
             lastNavClickTier = 'dept';
 
-            const deptConf = DepartmentsConfig[deptKey];
-            if (deptConf && deptConf.categories.length > 0) {
-                currentCategory = deptConf.categories[0].id;
-                currentSubType = "all"; // حالت پیش‌فرض: نمایش همه مدل‌های این دسته
-            }
+            // ریست مقادیر دسته‌ها و زیردسته‌ها تا انتخاب مرحله‌به‌مرحله انجام شود
+            currentCategory = null;
+            currentSubType = null;
+            selectedIngredients = [];
+            currentBrand = "all";
+            hasSidebarsRevealed = false;
+            uxCurrentStep = 1;
 
-            // ۱. تغییر تم کلی سایت و پس‌زمینه اتمسفریک با رنگ دپارتمان انتخاب‌شده
+            // ۱. تغییر تم کلی سایت با رنگ دپارتمان انتخاب‌شده
             document.body.classList.remove("initial-state");
             document.body.setAttribute("data-theme", deptKey);
-            applyDynamicAtmosphere(deptKey, currentCategory, currentSubType, 'dept');
+            applyDynamicAtmosphere(deptKey, null, null, 'dept');
 
-            // ۲. هایلایت دکمه دپارتمان فعال در هدر
+            // ۲. هایلایت دکمه دپارتمان فعال در هدر (سطر اول)
             document.querySelectorAll(".header-dept-btn").forEach(c => {
                 c.classList.toggle("active", c.getAttribute("data-dept") === deptKey);
             });
 
-            // ۳. پنهان کردن صفحه فرود و نمایش ۳ ستون فروشگاه با انیمیشن بسیار نرم و اسلو
+            // ۳. پنهان کردن صفحه فرود اولیه و آماده‌سازی لایه فروشگاه در گام اول
             const hero = document.getElementById("heroWelcomeStage");
             if (hero) hero.classList.add("hidden");
 
             const layout = document.getElementById("storeMainLayout");
             if (layout) {
                 layout.classList.remove("hidden-initial");
-                setTimeout(() => {
-                    layout.classList.add("revealed");
-                }, 40);
+                layout.classList.remove("ux-step-2", "ux-step-3", "sidebars-animating-in", "sidebars-revealed");
+                layout.classList.add("revealed", "ux-step-1");
             }
 
-            selectedIngredients = [];
-            currentBrand = "all";
+            // پنهان‌سازی سطر ۳، سطر ۴، و محصولات تا رسیدن به گام‌های مربوطه
+            const subBar = document.getElementById("subCategoriesBar");
+            if (subBar) {
+                subBar.classList.remove("open", "ux-slide-down");
+                subBar.style.display = "none";
+            }
 
+            const topBar = document.getElementById("catalogTopBarModern");
+            if (topBar) {
+                topBar.classList.remove("ux-topbar-reveal");
+                topBar.style.display = "none";
+            }
+
+            const productsContainer = document.getElementById("productsContainer");
+            if (productsContainer) {
+                productsContainer.classList.remove("ux-products-reveal");
+                productsContainer.style.display = "none";
+                productsContainer.innerHTML = "";
+            }
+
+            // رندر سطر دوم (دسته‌های اصلی دپارتمان)
             renderCategoriesBar();
-            renderSubCategories();
-            initBrandSidebar();
-            initIngredientsSidebar();
-            initSidebarsState();
-            renderAll();
+
+            // راهنمای بصری زیبا و چشم‌نواز
+            renderUxFlowHint("گام دوم: لطفاً یکی از دسته‌بندی‌های سطر بالا را انتخاب نمایید");
         }
 
         // بازگشت به صفحه فرود اولیه (با کلیک روی برند بالای سایت)
         function resetToInitialState() {
             currentDepartment = null;
+            currentCategory = null;
+            currentSubType = null;
+            uxCurrentStep = 0;
+            hasSidebarsRevealed = false;
+
             document.body.classList.add("initial-state");
             document.body.setAttribute("data-theme", "initial");
 
@@ -11120,17 +12092,16 @@ function selectDepartment(deptKey) {
 
             const layout = document.getElementById("storeMainLayout");
             if (layout) {
-                layout.classList.remove("revealed");
+                layout.classList.remove("revealed", "ux-step-1", "ux-step-2", "ux-step-3", "sidebars-revealed");
                 setTimeout(() => {
                     layout.classList.add("hidden-initial");
                 }, 400);
             }
 
+            hideUxFlowHint();
             resetAllFilters();
         }
 
-        // رندر نوار دسته‌بندی‌های دپارتمان فعال
-        // آیکون اختصاصی و گویا برای هر زیرشاخه (وی ایزوله، وی هیدرولیزه و...)
         function getSubCategoryIcon(subId) {
             const iconMap = {
                 // پروتئین‌ها
@@ -11336,23 +12307,41 @@ function selectDepartment(deptKey) {
             }
 
             currentCategory = catId;
-            currentSubType = "all"; // در حالت پیش‌فرض همه مدل‌ها نشان داده می‌شوند
+            currentSubType = null;
+            lastNavClickTier = 'cat';
+            uxCurrentStep = 2;
 
             renderCategoriesBar();
-            applyDynamicAtmosphere(currentDepartment, catId);
+            applyDynamicAtmosphere(currentDepartment, catId, null, 'cat');
+
+            const layout = document.getElementById("storeMainLayout");
+            if (layout) {
+                layout.classList.remove("ux-step-1", "ux-step-3");
+                layout.classList.add("ux-step-2");
+            }
+
+            // رندر سطر سوم (زیردسته‌ها) با انیمیشن روان و شیک از بالا به پایین
             renderSubCategories();
-            syncIngredientsWithCategory(catId, "all");
-            renderAll();
+
+            // در صورتی که ستون‌ها هنوز باز نشده‌اند، سطر ۴ و محصولات پنهان می‌مانند
+            const topBar = document.getElementById("catalogTopBarModern");
+            if (topBar) topBar.style.display = "none";
+            const productsContainer = document.getElementById("productsContainer");
+            if (productsContainer) productsContainer.style.display = "none";
+
+            hasSidebarsRevealed = false;
+            renderUxFlowHint("گام سوم: لطفاً نوع یا مدل مکمل را از سطر بالا انتخاب نمایید");
         }
 
-        // رندر زیرشاخه‌های هر سرشاخه با جستجوی هوشمند
+        // رندر زیرشاخه‌های هر سرشاخه با انیمیشن ورود روان و جستجوی هوشمند
         function renderSubCategories() {
             const bar = document.getElementById("subCategoriesBar");
             const container = document.getElementById("subCategoriesContainer");
             if (!bar || !container) return;
 
-            if (!currentDepartment || !DepartmentsConfig[currentDepartment]) {
-                bar.classList.remove("open");
+            if (!currentDepartment || !DepartmentsConfig[currentDepartment] || !currentCategory) {
+                bar.classList.remove("open", "ux-slide-down");
+                bar.style.display = "none";
                 container.innerHTML = "";
                 return;
             }
@@ -11362,12 +12351,14 @@ function selectDepartment(deptKey) {
             const validSubs = (cat && cat.subs) ? cat.subs.filter(s => s.id !== "all" && !s.name.startsWith("همه")) : [];
 
             if (validSubs.length === 0) {
-                bar.classList.remove("open");
+                bar.classList.remove("open", "ux-slide-down");
+                bar.style.display = "none";
                 container.innerHTML = "";
                 return;
             }
 
-            bar.classList.add("open");
+            bar.style.display = "block";
+            bar.classList.add("open", "ux-slide-down");
             container.innerHTML = validSubs.map(s => {
                 const icon = getSubCategoryIcon(s.id);
                 const isActive = currentSubType === s.id;
@@ -11404,27 +12395,83 @@ function selectDepartment(deptKey) {
             }).join("");
         }
 
-        // کلیک روی زیرشاخه (با قابلیت لغو و بازگشت به حالت همه با کلیک مجدد)
+        // کلیک روی زیرشاخه (گام سوم UX: باز شدن همزمان دو ستون -> نمایان شدن سطر ۴ -> پدیدار شدن محصولات)
         function onSubCategoryClick(subId, e) {
             if (activeSearchBtnId) {
                 closeButtonInlineSearch(activeSearchBtnId);
             }
 
-            if (currentSubType === subId) {
-                currentSubType = "all"; // لغو انتخاب و بازگشت به نمایش همه مدل‌ها
-            } else {
-                currentSubType = subId;
-            }
+            currentSubType = subId;
+            lastNavClickTier = 'sub';
+            uxCurrentStep = 3;
 
-            // اعمال زنجیره رنگ‌بندی سطر سوم بر دور دکمه‌ها و پس‌زمینه کل سایت
-            applyDynamicAtmosphere(currentDepartment, currentCategory, currentSubType);
-
+            // اعمال رنگ‌بندی و تم هماهنگ
+            applyDynamicAtmosphere(currentDepartment, currentCategory, currentSubType, 'sub');
             syncIngredientsWithCategory(currentCategory, currentSubType);
             renderSubCategories();
-            renderAll();
+
+            // حذف باکس راهنما با انتخاب نهایی
+            hideUxFlowHint();
+
+            const layout = document.getElementById("storeMainLayout");
+            const rightSidebar = document.getElementById("filterSidebar");
+            const leftSidebar = document.getElementById("ingredientsSidebar");
+            const topBar = document.getElementById("catalogTopBarModern");
+            const productsContainer = document.getElementById("productsContainer");
+
+            if (!hasSidebarsRevealed) {
+                // آماده‌سازی اطلاعات سایدبارها
+                initBrandSidebar();
+                initIngredientsSidebar();
+                initSidebarsState();
+
+                if (layout) {
+                    layout.classList.remove("ux-step-1", "ux-step-2");
+                    layout.classList.add("ux-step-3", "sidebars-animating-in");
+                }
+
+                // ۱. ستون‌های چپ و راست با هم با انیمیشن روان و از بالا به پایین باز می‌شوند
+                if (rightSidebar) {
+                    rightSidebar.style.display = "block";
+                    rightSidebar.classList.add("anim-slide-down-in");
+                }
+                if (leftSidebar) {
+                    leftSidebar.style.display = "block";
+                    leftSidebar.classList.add("anim-slide-down-in");
+                }
+
+                // ۲. بعد از باز شدن ستون‌های چپ و راست (۴۵۰ میلی‌ثانیه)، سطر چهارم مینیمال نمایان می‌شود
+                setTimeout(() => {
+                    if (topBar) {
+                        topBar.style.display = "flex";
+                        topBar.classList.add("ux-topbar-reveal");
+                    }
+
+                    // ۳. بلافاصله بعد از سطر چهارم (۲۰۰ میلی‌ثانیه بعد)، محصولات با انیمیشن آبشاری پدیدار می‌شوند
+                    setTimeout(() => {
+                        if (productsContainer) {
+                            productsContainer.style.display = "grid";
+                            productsContainer.classList.add("ux-products-reveal");
+                        }
+                        renderAll();
+                        hasSidebarsRevealed = true;
+
+                        setTimeout(() => {
+                            if (layout) layout.classList.add("sidebars-revealed");
+                            if (rightSidebar) rightSidebar.classList.remove("anim-slide-down-in");
+                            if (leftSidebar) leftSidebar.classList.remove("anim-slide-down-in");
+                            if (topBar) topBar.classList.remove("ux-topbar-reveal");
+                            if (productsContainer) productsContainer.classList.remove("ux-products-reveal");
+                        }, 600);
+                    }, 200);
+                }, 450);
+
+            } else {
+                // اگر ستون‌ها از قبل باز هستند، فقط محصولات به نرمی به‌روزرسانی می‌شوند
+                renderAll();
+            }
         }
 
-        // سایدبار راست: برندها متناسب با دپارتمان فعال
         function initBrandSidebar() {
             const container = document.getElementById("brandListContainer");
             if (!container) return;
@@ -11516,7 +12563,19 @@ function selectDepartment(deptKey) {
                 });
             });
 
-            const htmlContent = groups.map(grp => {
+            const goalsTriggerHtml = `
+                <div class="ing-group ${currentFlyoutTab === 'goals' && activeLeftFlyoutGroupId === 'goals' ? 'flyout-open' : ''} ${currentGoalFilter !== 'all' ? 'active' : ''}" id="ingGroup_goals">
+                    <button type="button" class="ing-group-header goal-group-trigger" onclick="toggleGoalsGroup(this)" onmouseenter="handleMiniGroupHover('goals', this)" onmouseleave="handleMiniGroupLeave()" data-tooltip="هدف من (حجم، کات، چربی‌سوزی)">
+                        <div class="ing-group-title" style="display:flex; align-items:center; gap:8px;">
+                            <span>🎯</span>
+                            <span>هدف من</span>
+                        </div>
+                        <svg class="ing-group-arrow" style="width:16px; height:16px; fill:currentColor;" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+                    </button>
+                </div>
+            `;
+
+            const htmlContent = goalsTriggerHtml + groups.map(grp => {
                 const isOpen = openGroupsSet.has(grp.id);
                 const hasActiveSelection = grp.items.some(it => selectedIngredients.includes(it.id));
 
@@ -11562,10 +12621,93 @@ function selectDepartment(deptKey) {
         }
 
         let activeLeftFlyoutGroupId = null;
+        let currentFlyoutTab = "ingredients"; // 'ingredients' یا 'goals'
+        let currentGoalFilter = "all";        // فیلتر فعال هدف ورزشی
         let miniFlyoutHoverTimer = null;
         let miniFlyoutCloseTimer = null;
         let isFlyoutPinned = false;
         let leftFlyoutSearchQuery = "";
+
+        // لیست اهداف ورزشی همراه با پکیج‌های مکمل منطبق
+        const WorkoutGoalsList = [
+            {
+                id: "goal_bulk",
+                name: "افزایش وزن و حجم سریع",
+                desc: "گینرهای سنگین، کربوهیدرات خالص و کراتین برای حجم‌گیری سریع",
+                icon: "🚀",
+                categories: ["gainer", "creatine"],
+                subTypes: ["mass", "lean", "carbo", "monohydrate", "complex", "creapure"],
+                ingredients: ["high_calorie_gainer", "complex_carbs", "creatine_mono", "creatine_creapure", "creatine_complex"]
+            },
+            {
+                id: "goal_lean",
+                name: "عضله‌سازی خالص و خشک",
+                desc: "پروتئین وی ایزوله و کنسانتره، BCAA و گلوتامین برای عضله بدون چربی",
+                icon: "⚔️",
+                categories: ["protein", "amino"],
+                subTypes: ["isolate", "concentrate", "hydrolyzed", "blend", "beef", "bcaa", "glutamine", "hmb"],
+                ingredients: ["whey_isolate", "whey_concentrate", "whey_hydrolyzed", "beef_isolate", "bcaa_branched", "glutamine_pure", "hmb_pure"]
+            },
+            {
+                id: "goal_cut",
+                name: "چربی‌سوزی، لاغری و تفکیک",
+                desc: "ال کارنیتین، CLA و عصاره‌های ترموژنیک برای کات عضلانی و کاهش چربی",
+                icon: "🔥",
+                categories: ["fatburn", "amino"],
+                subTypes: ["carnitine", "cla", "thermo", "cut"],
+                ingredients: ["l_carnitine_tartrate", "cla_pure", "thermo_extracts", "ala_antioxidant"]
+            },
+            {
+                id: "goal_pump",
+                name: "پمپ انرژی، قدرت و تمرکز",
+                desc: "مکمل‌های قبل تمرین C4، بتا آلانین و سیترولین برای توان و پمپاژ خون",
+                icon: "⚡",
+                categories: ["energy", "creatine"],
+                subTypes: ["stim", "citrulline", "beta_alanine", "pump", "beta_creatine"],
+                ingredients: ["preworkout_matrix", "citrulline_malate", "beta_alanine_carnosyn", "caffeine_anhydrous"]
+            },
+            {
+                id: "goal_health",
+                name: "ریکاوری، مفاصل و سلامت",
+                desc: "گلوکوزامین مفاصل، مولتی‌ویتامین و ZMA برای ترمیم بافت‌ها و ریکاوری خواب",
+                icon: "🛡️",
+                categories: ["health", "amino"],
+                subTypes: ["joint", "vitamin", "omega", "zma", "glutamine"],
+                ingredients: ["daily_multivitamin", "zma_complex", "glutamine_pure", "ala_antioxidant"]
+            }
+        ];
+
+        function isProductMatchingGoal(item, goal) {
+            if (!item || !goal) return false;
+            if (goal.categories && goal.categories.includes(item.category)) return true;
+            if (goal.subTypes && goal.subTypes.includes(item.subType)) return true;
+            const tags = item.ingredients || item.specs || [];
+            if (goal.ingredients && goal.ingredients.some(id => tags.includes(id))) return true;
+            const text = ((item.name || "") + " " + (item.purpose || "")).toLowerCase();
+            if (goal.id === "goal_bulk" && (text.includes("گینر") || text.includes("حجم") || text.includes("کالری") || text.includes("وزن") || text.includes("کربوهیدرات") || text.includes("کراتین"))) return true;
+            if (goal.id === "goal_lean" && (text.includes("ایزوله") || text.includes("وی") || text.includes("آمینو") || text.includes("bcaa") || text.includes("عضله") || text.includes("پروتئین"))) return true;
+            if (goal.id === "goal_cut" && (text.includes("کارنیتین") || text.includes("چربی") || text.includes("cla") || text.includes("لاغری") || text.includes("سوز"))) return true;
+            if (goal.id === "goal_pump" && (text.includes("پمپ") || text.includes("انرژی") || text.includes("کافئین") || text.includes("آلانین") || text.includes("سیترولین"))) return true;
+            if (goal.id === "goal_health" && (text.includes("مفاصل") || text.includes("ویتامین") || text.includes("سلامت") || text.includes("امگا") || text.includes("zma"))) return true;
+            return false;
+        }
+
+        function getGoalMatchCount(goal) {
+            const deptProducts = fullStoreDB.filter(p => p.department === currentDepartment);
+            return deptProducts.filter(item => isProductMatchingGoal(item, goal)).length;
+        }
+
+        function getIngredientMatchCount(ingId) {
+            const deptProducts = fullStoreDB.filter(p => p.department === currentDepartment);
+            return deptProducts.filter(item => {
+                const tags = item.ingredients || item.specs || [];
+                if (tags.includes(ingId)) return true;
+                if (ingId.startsWith("form_")) {
+                    return getProductPhysicalForm(item) === ingId;
+                }
+                return false;
+            }).length;
+        }
 
         function updateSidebarFilterAnimations() {
             const rightSidebar = document.getElementById("filterSidebar");
@@ -11574,7 +12716,7 @@ function selectDepartment(deptKey) {
             const cornerLeft = document.getElementById("mobileCornerLeftBtn");
 
             const isRightFiltered = (currentOrigin !== "all") || (currentBrand !== "all");
-            const isLeftFiltered = Array.isArray(selectedIngredients) && selectedIngredients.length > 0;
+            const isLeftFiltered = (Array.isArray(selectedIngredients) && selectedIngredients.length > 0) || (currentGoalFilter !== "all");
 
             if (rightSidebar) rightSidebar.classList.toggle("has-active-filter", isRightFiltered);
             if (leftSidebar) leftSidebar.classList.toggle("has-active-filter", isLeftFiltered);
@@ -11649,6 +12791,46 @@ function selectDepartment(deptKey) {
             }, 280);
         }
 
+        function switchLeftFlyoutTab(tab) {
+            currentFlyoutTab = tab;
+            if (tab === "goals") {
+                activeLeftFlyoutGroupId = "goals";
+            } else if (activeLeftFlyoutGroupId === "goals") {
+                const deptConf = DepartmentsConfig[currentDepartment];
+                const firstGrp = (deptConf && deptConf.ingredientGroups && deptConf.ingredientGroups[0]) ? deptConf.ingredientGroups[0].id : null;
+                activeLeftFlyoutGroupId = firstGrp;
+            }
+            renderLeftMiniFlyoutContent(activeLeftFlyoutGroupId);
+        }
+
+        function toggleGoalFilter(goalId) {
+            if (currentGoalFilter === goalId) {
+                currentGoalFilter = "all";
+            } else {
+                currentGoalFilter = goalId;
+            }
+            initIngredientsSidebar();
+            renderLeftMiniFlyoutContent("goals");
+            updateSidebarFilterAnimations();
+            renderAll();
+        }
+
+        function clearGoalFilter() {
+            currentGoalFilter = "all";
+            initIngredientsSidebar();
+            renderLeftMiniFlyoutContent("goals");
+            updateSidebarFilterAnimations();
+            renderAll();
+        }
+
+        function toggleGoalsGroup(btnEl) {
+            if (window.innerWidth > 1024 && !isLeftSidebarOpen) {
+                openLeftMiniFlyout("goals", btnEl, true);
+                return;
+            }
+            openLeftMiniFlyout("goals", btnEl, true);
+        }
+
         function clearGroupIngredients(groupId) {
             const deptConf = DepartmentsConfig[currentDepartment];
             if (!deptConf) return;
@@ -11657,7 +12839,7 @@ function selectDepartment(deptKey) {
             const groupIds = new Set(grp.items.map(it => it.id));
             selectedIngredients = selectedIngredients.filter(id => !groupIds.has(id));
             initIngredientsSidebar();
-            if (activeLeftFlyoutGroupId === groupId) {
+            if (activeLeftFlyoutGroupId) {
                 renderLeftMiniFlyoutContent(groupId);
             }
             renderAll();
@@ -11674,7 +12856,7 @@ function selectDepartment(deptKey) {
                 }
             });
             initIngredientsSidebar();
-            if (activeLeftFlyoutGroupId === groupId) {
+            if (activeLeftFlyoutGroupId) {
                 renderLeftMiniFlyoutContent(groupId);
             }
             renderAll();
@@ -11704,22 +12886,78 @@ function selectDepartment(deptKey) {
         function renderLeftMiniFlyoutContent(groupId) {
             const flyout = document.getElementById("leftMiniFlyoutMenu");
             if (!flyout) return;
+
+            const tabsBarHtml = `
+                <div class="left-mini-flyout-tabs-bar">
+                    <button type="button" class="left-mini-flyout-tab-btn ${currentFlyoutTab === 'ingredients' ? 'active' : ''}" onclick="switchLeftFlyoutTab('ingredients')">
+                        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+                        <span>ترکیبات</span>
+                        ${selectedIngredients.length > 0 ? '<span class="flyout-tab-dot"></span>' : ''}
+                    </button>
+                    <button type="button" class="left-mini-flyout-tab-btn ${currentFlyoutTab === 'goals' ? 'active' : ''}" onclick="switchLeftFlyoutTab('goals')">
+                        <span style="font-size:0.95rem;">🎯</span>
+                        <span>هدف من</span>
+                        ${currentGoalFilter !== 'all' ? '<span class="flyout-tab-dot"></span>' : ''}
+                    </button>
+                </div>
+            `;
+
+            // ۱. رندر تب اهداف ورزشی (Goal Tab)
+            if (currentFlyoutTab === "goals" || groupId === "goals") {
+                currentFlyoutTab = "goals";
+                const activeGoalObj = WorkoutGoalsList.find(g => g.id === currentGoalFilter);
+
+                const goalsCardsHtml = WorkoutGoalsList.map((g, idx) => {
+                    const isActive = currentGoalFilter === g.id;
+                    const matchCount = getGoalMatchCount(g);
+                    return `
+                        <div class="goal-card-item ${isActive ? 'active' : ''}" style="--goal-idx: ${idx};" onclick="toggleGoalFilter('${g.id}')">
+                            <div class="goal-card-icon">${g.icon}</div>
+                            <div class="goal-card-content">
+                                <div class="goal-card-title-row">
+                                    <span class="goal-card-name">${g.name}</span>
+                                    <span class="goal-card-badge">${matchCount} مکمل</span>
+                                </div>
+                                <div class="goal-card-desc">${g.desc}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join("");
+
+                flyout.innerHTML = `
+                    ${tabsBarHtml}
+                    <div class="left-mini-flyout-header">
+                        <div class="left-mini-flyout-title-row">
+                            <div class="left-mini-flyout-title">
+                                <span class="left-mini-flyout-icon">🎯</span>
+                                <span class="left-mini-flyout-name">اهداف و پکیج‌های ورزشی</span>
+                            </div>
+                            <div class="left-mini-flyout-badge-wrap">
+                                ${activeGoalObj ? `<button type="button" class="left-mini-flyout-action-btn active-clear" onclick="clearGoalFilter()" style="padding:3px 8px; font-size:0.7rem;">حذف هدف</button>` : ''}
+                                <button type="button" class="left-mini-flyout-close-btn" onclick="closeLeftMiniFlyout()" title="بستن این پنل">
+                                    <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="left-mini-flyout-body">
+                        <div class="goals-list-wrap">
+                            ${goalsCardsHtml}
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            // ۲. رندر تب ترکیبات تخصصی (Ingredients Tab)
             const deptConf = DepartmentsConfig[currentDepartment];
             if (!deptConf) return;
-            const grp = (deptConf.ingredientGroups || []).find(g => g.id === groupId);
+            const targetGroupId = (groupId && groupId !== 'goals') ? groupId : ((deptConf.ingredientGroups && deptConf.ingredientGroups[0]) ? deptConf.ingredientGroups[0].id : null);
+            const grp = (deptConf.ingredientGroups || []).find(g => g.id === targetGroupId);
             if (!grp) {
                 closeLeftMiniFlyout();
                 return;
             }
-
-            const deptProducts = fullStoreDB.filter(p => p.department === currentDepartment);
-            const ingCounts = {};
-            deptProducts.forEach(item => {
-                const tags = item.ingredients || item.specs || [];
-                tags.forEach(t => {
-                    ingCounts[t] = (ingCounts[t] || 0) + 1;
-                });
-            });
 
             const activeGroupCount = grp.items.filter(it => selectedIngredients.includes(it.id)).length;
             const totalGroupCount = grp.items.length;
@@ -11732,10 +12970,11 @@ function selectDepartment(deptKey) {
 
             const itemsHtml = filteredItems.map((it, idx) => {
                 const isChecked = selectedIngredients.includes(it.id);
+                const matchCount = getIngredientMatchCount(it.id);
                 const isAmino = it.id.startsWith("amino_");
-                const countBadge = isAmino
+                const countBadge = isAmino 
                     ? '<span class="bubble-count-badge" style="opacity:0.9;">تخصصی</span>'
-                    : `<span class="bubble-count-badge">${ingCounts[it.id] || 0}</span>`;
+                    : `<span class="bubble-count-badge">${matchCount > 0 ? matchCount + ' مکمل' : '۰'}</span>`;
 
                 return `
                     <div class="bubble-chip-item ${isChecked ? 'checked' : ''}" style="--bubble-idx: ${idx};" onclick="toggleIngredient('${it.id}')" title="${it.name}">
@@ -11755,6 +12994,7 @@ function selectDepartment(deptKey) {
                 : '';
 
             flyout.innerHTML = `
+                ${tabsBarHtml}
                 <div class="left-mini-flyout-header">
                     <div class="left-mini-flyout-title-row">
                         <div class="left-mini-flyout-title">
@@ -11793,6 +13033,12 @@ function selectDepartment(deptKey) {
         function openLeftMiniFlyout(groupId, anchorEl, pin = false) {
             const flyout = document.getElementById("leftMiniFlyoutMenu");
             if (!flyout) return;
+
+            if (groupId === "goals") {
+                currentFlyoutTab = "goals";
+            } else {
+                currentFlyoutTab = "ingredients";
+            }
 
             if (pin && activeLeftFlyoutGroupId === groupId && flyout.style.display === "flex") {
                 closeLeftMiniFlyout();
@@ -12069,6 +13315,7 @@ function selectDepartment(deptKey) {
 
         // همگام‌سازی کامل رابط کاربری مینی‌بار دوطرفه در دسکتاپ و کشوهای موبایل
         function syncSidebarsUI() {
+            const isMobile = window.innerWidth <= 1024;
             const layout = document.getElementById("storeMainLayout");
             const rightSidebar = document.getElementById("filterSidebar");
             const leftSidebar = document.getElementById("ingredientsSidebar");
@@ -12078,12 +13325,10 @@ function selectDepartment(deptKey) {
             const slideLeftBtn = document.getElementById("btnSlideLeftSidebar");
 
             if (isLeftSidebarOpen || isMobile) {
-                closeLeftMiniFlyout();
+                if (typeof closeLeftMiniFlyout === 'function') closeLeftMiniFlyout();
             }
 
             if (!layout) return;
-
-            const isMobile = window.innerWidth <= 1024;
 
             layout.classList.remove(
                 "sidebar-right-only", "sidebar-left-only", "sidebars-both-closed", "sidebars-both-open",
@@ -13425,6 +14670,105 @@ function selectDepartment(deptKey) {
             }
         }
 
+        
+        // =========================================================================
+        // سیستم ویبره لمسی گوشی (Haptic) و صدای شیک و لوکس تعاملی با Web Audio API
+        // =========================================================================
+        function triggerFeedback(type = 'click') {
+            // ۱. ویبره ملایم و ارگونومیک روی گوشی
+            try {
+                if (navigator.vibrate) {
+                    if (type === 'order') {
+                        navigator.vibrate([25, 40, 25]); // حس تایید سفارش
+                    } else if (type === 'cart') {
+                        navigator.vibrate([15, 30, 15]);
+                    } else {
+                        navigator.vibrate(14); // کلیک ظریف
+                    }
+                }
+            } catch (err) {}
+
+            // ۲. تولید صدای بسیار لطیف و مدرن شیشه‌ای بدون نیاز به فایل خارجی
+            try {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                if (!AudioCtx) return;
+                if (!window._appAudioContext) window._appAudioContext = new AudioCtx();
+                const ctx = window._appAudioContext;
+                if (ctx.state === 'suspended') ctx.resume();
+
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                const now = ctx.currentTime;
+                if (type === 'order') {
+                    osc.frequency.setValueAtTime(520, now);
+                    osc.frequency.exponentialRampToValueAtTime(880, now + 0.12);
+                    gain.gain.setValueAtTime(0.07, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+                    osc.start(now);
+                    osc.stop(now + 0.16);
+                } else if (type === 'cart') {
+                    osc.frequency.setValueAtTime(440, now);
+                    osc.frequency.exponentialRampToValueAtTime(660, now + 0.08);
+                    gain.gain.setValueAtTime(0.05, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.11);
+                    osc.start(now);
+                    osc.stop(now + 0.11);
+                } else {
+                    osc.frequency.setValueAtTime(640, now);
+                    gain.gain.setValueAtTime(0.025, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+                    osc.start(now);
+                    osc.stop(now + 0.04);
+                }
+            } catch (err) {}
+        }
+
+        // =========================================================================
+        // اشتراک‌گذاری سریع مشخصات و لینک محصول در تلگرام، واتساپ یا کپی در حافظه
+        // =========================================================================
+        function shareProduct(id, e) {
+            if (e) e.stopPropagation();
+            triggerFeedback('click');
+
+            const item = fullStoreDB.find(p => p.id === id);
+            if (!item) return;
+
+            const shareText = `🔥 پیشنهاد محصول در ABARSTORE:\n📦 ${item.name} (${item.brand})\n💰 قیمت روز: ${formatPrice(item.price)}\n${item.purpose ? ('🎯 ویژگی: ' + item.purpose + '\n') : ''}ثبت سفارش سریع و مشاوره مستقیم!`;
+            const shareUrl = window.location.href.split('#')[0] + '#' + item.id;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: item.name + ' - ABARSTORE',
+                    text: shareText,
+                    url: shareUrl
+                }).catch(() => {});
+            } else {
+                // کپی متن کامل محصول در کلیپ‌بورد برای دسکتاپ
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(shareText + '\n' + shareUrl);
+                }
+                showShareToast('مشخصات محصول کپی شد؛ آماده ارسال در تلگرام و واتساپ!');
+            }
+        }
+
+        function showShareToast(msg) {
+            let toast = document.getElementById('shareToastEl');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'shareToastEl';
+                toast.className = 'share-toast-notification';
+                document.body.appendChild(toast);
+            }
+            toast.innerHTML = `<svg style="width:18px; height:18px; fill:#38bdf8;" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg><span>${msg}</span>`;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
         function createProductCard(item) {
             const bought = getBoughtList();
             const isBought = bought.includes(item.id);
@@ -13512,11 +14856,24 @@ function selectDepartment(deptKey) {
                             </div>
                         ` : ''}
 
-                        <div class="card-img-box">
-                            ${isOutOfStock ? '<div class="out-of-stock-ribbon">اتمام موجودی</div>' : ''}
-                            ${imgBoxHtml}
-                        </div>
+                        <button class="btn-card-share" onclick="shareProduct('${item.id}', event)" title="اشتراک‌گذاری در تلگرام و واتساپ">
+                                <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>
+                            </button>
+                            <div class="card-img-box">
+                                ${isOutOfStock ? '<div class="out-of-stock-ribbon">اتمام موجودی</div>' : ''}
+                                ${imgBoxHtml}
+                            </div>
 
+                        ${(function() {
+                            if (isOutOfStock) return '';
+                            if (stock <= 3 && stock > 0) {
+                                return `<div class="card-urgency-badge badge-low-stock">🔥 تنها ${stock} عدد در انبار باقی‌مانده</div>`;
+                            } else if (soldCount && soldCount >= 30) {
+                                return `<div class="card-urgency-badge badge-hot-deal">⭐ پرفروش‌ترین پارت این ماه</div>`;
+                            } else {
+                                return `<div class="card-urgency-badge badge-fast-delivery">⚡ تحویل فوری اختصاصی</div>`;
+                            }
+                        })()}
                         <h3 class="card-title">${item.name}</h3>
 
                         ${stockHtml}
@@ -13561,6 +14918,9 @@ function selectDepartment(deptKey) {
             container.innerHTML = sorted.map(item => createProductCard(item)).join("");
             applyGridColumnsClass();
             setupTooltips();
+            if (window.InnovationsEngine) {
+                window.InnovationsEngine.applyAll();
+            }
         }
 
         // باز کردن مودال جزئیات محصول
@@ -13736,6 +15096,7 @@ function selectDepartment(deptKey) {
             currentBrand = "all";
             selectedIngredients = [];
             currentSubType = "all";
+            currentGoalFilter = "all";
 
             document.querySelectorAll(".icon-btn[data-origin], .origin-chip-btn[data-origin]").forEach(b => {
                 b.classList.toggle("active", b.getAttribute("data-origin") === "all");
@@ -13821,11 +15182,34 @@ function selectDepartment(deptKey) {
             applyGridColumnsClass();
         });
 
+        // کنترل سیستم ۲ دکمه‌ای مرتب‌سازی و چیدمان در موبایل
+        let currentMobileSubMenu = null;
+        function toggleMobileSubMenu(menu) {
+            const bar = document.getElementById("catalogTopBarModern");
+            if (!bar) return;
+
+            if (currentMobileSubMenu === menu) {
+                // کلیک مجدد روی همان دکمه -> بازگشت به حالت دو دکمه اولیه
+                currentMobileSubMenu = null;
+                bar.classList.remove("mode-sort-expanded", "mode-layout-expanded");
+            } else {
+                currentMobileSubMenu = menu;
+                bar.classList.remove("mode-sort-expanded", "mode-layout-expanded");
+                if (menu === 'sort') {
+                    bar.classList.add("mode-sort-expanded");
+                } else if (menu === 'layout') {
+                    bar.classList.add("mode-layout-expanded");
+                }
+            }
+        }
+        window.toggleMobileSubMenu = toggleMobileSubMenu;
+
         // باز و بسته شدن انیمیشنی نوار جستجو در خود هدر
         function toggleSearchBox(force) {
             const bar = document.getElementById("headerSearchBox") || document.getElementById("inlineSearchBox");
             const btn = document.getElementById("searchToggleBtn");
             const input = document.getElementById("searchInput");
+            const dropdown = document.getElementById("headerSearchDropdown");
             if (!bar) return;
 
             const shouldOpen = force !== undefined ? force : !bar.classList.contains("active");
@@ -13838,12 +15222,16 @@ function selectDepartment(deptKey) {
                 }, 80);
             } else {
                 if (input) input.blur();
+                if (dropdown) dropdown.style.display = "none";
             }
         }
 
-        // عملکرد دکمه ضربدر: در صورت وجود متن آن را پاک می‌کند، و در صورت خالی بودن نوار سرچ را جمع می‌کند
+        // عملکرد دکمه ضربدر: در صورت وجود متن آن را پاک کرده و کشو را می‌بندد؛ در صورت خالی بودن نوار سرچ را جمع می‌کند
         function handleSearchCloseOrClear() {
             const input = document.getElementById("searchInput");
+            const dropdown = document.getElementById("headerSearchDropdown");
+            if (dropdown) dropdown.style.display = "none";
+
             if (input && input.value.trim() !== "") {
                 clearSearch();
             } else {
@@ -13851,41 +15239,186 @@ function selectDepartment(deptKey) {
             }
         }
 
-        // اعمال زنده و مستقیم متن جستجو بر محصولات فروشگاه بدون منوی لیست
+        // جستجوی زنده در کشوی هدر: صفحه اصلی تغییر نمی‌کند و فقط چند آیتم در کشو نمایش داده می‌شوند
         function onSearchInput(val) {
-            searchQuery = (val || "").trim();
-            
-            // در صورت حضور در صفحه فرود خوش‌آمدگویی، ورود خودکار به اولین دپارتمان جهت نمایش فیلتر زنده
-            if (searchQuery && !currentDepartment && typeof selectDepartment === 'function') {
+            const q = (val || "").trim().toLowerCase();
+            const dropdown = document.getElementById("headerSearchDropdown");
+            if (!dropdown) return;
+
+            // اگر متن خالی یا بدون کاراکتر است، کشو بسته بماند و صفحه دست‌نخورده باشد
+            if (!q) {
+                dropdown.style.display = "none";
+                dropdown.innerHTML = "";
+                return;
+            }
+
+            const allItems = typeof fullStoreDB !== 'undefined' ? fullStoreDB : [];
+            const matches = allItems.filter(item => {
+                const combined = (
+                    (item.name || "") + " " +
+                    (item.brand || "") + " " +
+                    (item.purpose || "") + " " +
+                    (item.category || "") + " " +
+                    (item.subType || "")
+                ).toLowerCase();
+                return combined.includes(q);
+            });
+
+            if (matches.length === 0) {
+                dropdown.innerHTML = `
+                    <div class="search-dropdown-empty">
+                        <span>🔍 موردی مطابق با «${val.trim()}» یافت نشد.</span>
+                    </div>
+                `;
+                dropdown.style.display = "block";
+                return;
+            }
+
+            // نمایش حداکثر ۴ تا از آیتم‌ها
+            const previewMatches = matches.slice(0, 4);
+            let itemsHtml = '<div class="search-dropdown-list">';
+
+            previewMatches.forEach(item => {
+                let thumbContent = '';
+                if (item.image) {
+                    thumbContent = `<img src="${item.image}" alt="${item.name}" onerror="this.onerror=null; this.parentNode.innerHTML='<span style=\\'font-size:1.3rem;\\'>📦</span>';">`;
+                } else if (item.svg) {
+                    thumbContent = item.svg;
+                } else {
+                    thumbContent = '<span style="font-size: 1.3rem;">⚡</span>';
+                }
+
+                let deptName = 'مکمل ورزشی';
+                if (item.department === 'apparel_men') deptName = 'پوشاک آقایان';
+                if (item.department === 'apparel_women') deptName = 'پوشاک بانوان';
+                if (item.department === 'gym_gear') deptName = 'تجهیزات باشگاه';
+
+                const priceStr = typeof formatPrice === 'function' ? formatPrice(item.price) : (item.price || 0) + ' تومان';
+
+                itemsHtml += `
+                    <div class="search-dropdown-item" onclick="focusProductInStore('${item.id}', '${item.department}')">
+                        <div class="search-dropdown-thumb">
+                            ${thumbContent}
+                        </div>
+                        <div class="search-dropdown-info">
+                            <div class="search-dropdown-title" title="${item.name}">${item.name}</div>
+                            <div class="search-dropdown-meta">
+                                <span>${item.brand || ''}</span>
+                                <span>•</span>
+                                <span>${deptName}</span>
+                            </div>
+                        </div>
+                        <div class="search-dropdown-price">${priceStr}</div>
+                    </div>
+                `;
+            });
+            itemsHtml += '</div>';
+
+            // دکمه موارد بیشتر (More)
+            itemsHtml += `
+                <div class="search-dropdown-more-btn" onclick="applyFullSearch()" title="مشاهده تمام نتایج در صفحه">
+                    <span>مشاهده همه نتایج (${matches.length.toLocaleString('fa-IR')} محصول)</span>
+                    <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                </div>
+            `;
+
+            dropdown.innerHTML = itemsHtml;
+            dropdown.style.display = "block";
+        }
+
+        // اعمال کامل جستجو روی کل فروشگاه با کلیک روی More یا زدن Enter
+        function applyFullSearch() {
+            const input = document.getElementById("searchInput");
+            const dropdown = document.getElementById("headerSearchDropdown");
+            if (dropdown) dropdown.style.display = "none";
+
+            const val = input ? input.value.trim() : "";
+            if (!val) return;
+
+            searchQuery = val;
+
+            // اگر در صفحه خوش‌آمدگویی است، وارد اولین دپارتمان شود
+            if (!currentDepartment && typeof selectDepartment === 'function') {
                 selectDepartment('supplements');
             }
 
             if (typeof renderAll === 'function' && currentDepartment) {
                 renderAll();
             }
+
+            // اسکرول نرم به بخش محصولات
+            const grid = document.getElementById("productGrid") || document.getElementById("storeMainLayout");
+            if (grid) {
+                grid.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
         }
 
-        // پاک کردن متن جستجو و بازگرداندن همه محصولات
+        // پاک کردن متن جستجو و بازگرداندن همه محصولات در صورت فیلتر بودن صفحه
         function clearSearch() {
+            const hadSearch = !!searchQuery;
             searchQuery = "";
             const input = document.getElementById("searchInput");
             if (input) {
                 input.value = "";
                 input.focus();
             }
-            if (typeof renderAll === 'function' && currentDepartment) {
+            const dropdown = document.getElementById("headerSearchDropdown");
+            if (dropdown) {
+                dropdown.style.display = "none";
+                dropdown.innerHTML = "";
+            }
+            if (hadSearch && typeof renderAll === 'function' && currentDepartment) {
                 renderAll();
             }
         }
 
-        // بستن نوار جستجو با کلیک در بیرون از آن
+        // هدایت مستقیم به محصول از آیتم‌های لیست کشویی
+        function focusProductInStore(productId, department) {
+            const dropdown = document.getElementById("headerSearchDropdown");
+            if (dropdown) dropdown.style.display = "none";
+            toggleSearchBox(false);
+
+            const item = (typeof fullStoreDB !== 'undefined' ? fullStoreDB : []).find(p => p.id === productId);
+
+            if (typeof selectDepartment === 'function' && department && department !== currentDepartment) {
+                selectDepartment(department);
+            }
+
+            if (item) {
+                currentCategory = item.category || "all";
+                currentSubType = "all";
+                currentBrand = "all";
+                currentOrigin = "all";
+                if (typeof initCategoriesBar === 'function') initCategoriesBar();
+                if (typeof initBrandSidebar === 'function') initBrandSidebar();
+                if (typeof renderAll === 'function' && currentDepartment) {
+                    renderAll();
+                }
+            }
+
+            setTimeout(() => {
+                const card = document.getElementById("prodCard_" + productId);
+                if (card) {
+                    card.scrollIntoView({ behavior: "smooth", block: "center" });
+                    card.classList.add("just-added");
+                    setTimeout(() => card.classList.remove("just-added"), 2000);
+                }
+            }, 300);
+        }
+
+        // بستن نوار جستجو و کشو با کلیک در بیرون از آن‌ها
         function handleOutsideSearch(e) {
             const bar = document.getElementById("headerSearchBox") || document.getElementById("inlineSearchBox");
+            const dropdown = document.getElementById("headerSearchDropdown");
             if (!bar) return;
             if (!document.body.contains(e.target)) return;
 
-            if (bar.classList.contains("active") && !bar.contains(e.target)) {
-                toggleSearchBox(false);
+            const isInside = bar.contains(e.target) || (dropdown && dropdown.contains(e.target));
+            if (!isInside) {
+                if (dropdown) dropdown.style.display = "none";
+                if (bar.classList.contains("active")) {
+                    toggleSearchBox(false);
+                }
             }
         }
 
@@ -13894,6 +15427,8 @@ function selectDepartment(deptKey) {
 
         document.addEventListener("keydown", (e) => {
             if (e.key === "Escape") {
+                const dropdown = document.getElementById("headerSearchDropdown");
+                if (dropdown) dropdown.style.display = "none";
                 toggleSearchBox(false);
                 if (typeof closeModal === 'function') closeModal();
             }
@@ -14516,10 +16051,12 @@ function selectDepartment(deptKey) {
         window.updateShippingChoice = updateShippingChoice;
         window.updatePaymentChoice = updatePaymentChoice;
         window.onSearchInput = onSearchInput;
+        window.applyFullSearch = applyFullSearch;
         window.renderLiveSearchResults = renderLiveSearchResults;
         window.selectSearchTag = selectSearchTag;
         window.focusProductInStore = focusProductInStore;
         window.clearSearch = clearSearch;
+        window.handleSearchCloseOrClear = handleSearchCloseOrClear;
         window.handleCartOverlayClick = handleCartOverlayClick;
         window.handleCheckoutOverlayClick = handleCheckoutOverlayClick;
 
@@ -14832,5 +16369,6 @@ function selectDepartment(deptKey) {
         </button>
     </nav>
 
+    <script src="js/innovations.js"></script>
 </body>
 </html>

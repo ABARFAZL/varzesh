@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>نقشه ذهنی تصمیم‌گیری فروشگاه ورزشی (یکپارچه و بدون اسکرول)</title>
+  <title>میز فرمان استراتژیک پلتفرم ورزشی | Gamified Business Mindmap</title>
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
   <style>
     * { box-sizing: border-box; }
@@ -12,333 +12,555 @@
       margin: 0;
       padding: 0;
       overflow: hidden;
-      background-color: #070a13;
-      color: #f1f5f9;
+      background: radial-gradient(circle at 10% 15%, #0f172a 0%, #060913 55%, #020408 100%);
+      color: #f8fafc;
       font-family: Vazirmatn, Tahoma, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
-    /* رنگ‌های سطوح سه‌گانه */
-    .node-gray {
-      border-color: rgba(148, 163, 184, 0.45);
-      background: linear-gradient(135deg, rgba(148, 163, 184, 0.12), rgba(30, 41, 59, 0.7));
-    }
-    .node-purple {
-      border-color: rgba(168, 85, 247, 0.55);
-      background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(59, 7, 100, 0.65));
-    }
-    .node-gold {
-      border-color: rgba(245, 158, 11, 0.65);
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.18), rgba(120, 53, 15, 0.65));
+    /* جلوه‌های شیشه مایع (Liquid Glass) */
+    .liquid-glass {
+      background: rgba(15, 23, 42, 0.78);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 10px 35px 0 rgba(0, 0, 0, 0.55), inset 0 1px 1px 0 rgba(255, 255, 255, 0.2);
     }
 
-    .badge-gray { background-color: #475569; color: #f8fafc; }
-    .badge-purple { background-color: #9333ea; color: #ffffff; }
-    .badge-gold { background: linear-gradient(90deg, #d97706, #f59e0b); color: #0f172a; font-weight: 800; }
+    .liquid-card {
+      background: rgba(30, 41, 59, 0.5);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.3);
+    }
 
-    /* دکمه‌های کپسولی فشرده نقشه */
-    .map-capsule {
-      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    /* نوار اسکرول افقی باریک و ارگونومیک */
+    .custom-scroll::-webkit-scrollbar {
+      height: 7px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.5);
+      border-radius: 9999px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: linear-gradient(90deg, #0284c7, #38bdf8);
+      border-radius: 9999px;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+    }
+
+    /* گره‌های استراتژیک مایند مپ چند سطحی */
+    .node-base {
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
       user-select: none;
     }
-    .map-capsule:hover {
-      transform: translateY(-1px) scale(1.02);
+    .node-base:hover {
+      transform: translateY(-1.5px) scale(1.015);
       border-color: #38bdf8 !important;
-      z-index: 20;
+      z-index: 40;
     }
 
-    /* نشانگر گام پیشنهادی */
-    .step-indicator {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 18px;
-      height: 18px;
+    /* سطوح رنگی */
+    .tier-gray {
+      background: linear-gradient(135deg, rgba(100, 116, 139, 0.18), rgba(15, 23, 42, 0.88));
+      border: 1px solid rgba(148, 163, 184, 0.28);
+    }
+    .tier-purple {
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(46, 16, 101, 0.85));
+      border: 1px solid rgba(192, 132, 252, 0.35);
+    }
+    .tier-gold {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.24), rgba(120, 53, 15, 0.85));
+      border: 1px solid rgba(251, 191, 36, 0.4);
+    }
+
+    /* هاله درخشان شیشه مایع هنگام انتخاب شدن گره */
+    .node-selected-gray {
+      background: linear-gradient(135deg, rgba(148, 163, 184, 0.45), rgba(30, 41, 59, 0.95)) !important;
+      border-color: #38bdf8 !important;
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.45), inset 0 0 10px rgba(255, 255, 255, 0.35) !important;
+    }
+    .node-selected-purple {
+      background: linear-gradient(135deg, rgba(192, 132, 252, 0.5), rgba(88, 28, 135, 0.95)) !important;
+      border-color: #c084fc !important;
+      box-shadow: 0 0 20px rgba(192, 132, 252, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.35) !important;
+    }
+    .node-selected-gold {
+      background: linear-gradient(135deg, rgba(251, 191, 36, 0.55), rgba(146, 64, 14, 0.95)) !important;
+      border-color: #fbbf24 !important;
+      box-shadow: 0 0 22px rgba(251, 191, 36, 0.55), inset 0 0 12px rgba(255, 255, 255, 0.4) !important;
+    }
+
+    /* هایلایت جستجو */
+    .search-matched {
+      border-color: #facc15 !important;
+      box-shadow: 0 0 18px rgba(250, 204, 21, 0.7) !important;
+      transform: scale(1.02);
+      z-index: 50;
+    }
+    .search-dimmed {
+      opacity: 0.25 !important;
+      filter: grayscale(0.8);
+    }
+
+    /* خطوط اتصال منحنی SVG */
+    .mindmap-line {
+      fill: none;
+      stroke: rgba(56, 189, 248, 0.24);
+      stroke-width: 2;
+      stroke-linecap: round;
+      transition: stroke 0.2s, stroke-width 0.2s;
+    }
+    .mindmap-line.line-active {
+      stroke: #38bdf8;
+      stroke-width: 2.8;
+      filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.9));
+    }
+    .mindmap-subline {
+      fill: none;
+      stroke: rgba(148, 163, 184, 0.2);
+      stroke-width: 1.5;
+      stroke-dasharray: 4 3;
+    }
+    .mindmap-subline.subline-active {
+      stroke: #fbbf24;
+      stroke-dasharray: none;
+      stroke-width: 2;
+      filter: drop-shadow(0 0 5px rgba(251, 191, 36, 0.8));
+    }
+
+    /* کارت‌های فاز در بالای وسط */
+    .phase-badge {
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .phase-unlocked {
+      border-color: #10b981 !important;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(6, 78, 59, 0.6)) !important;
+      box-shadow: 0 0 16px rgba(16, 185, 129, 0.45) !important;
+    }
+    .phase-locked {
+      opacity: 0.65;
+      filter: grayscale(0.3);
+    }
+
+    /* نوار پیشرفت KPI پرشونده از چپ به راست */
+    .kpi-track {
+      direction: ltr !important;
+      background: #090d16;
       border-radius: 9999px;
-      font-size: 0.65rem;
-      font-weight: 900;
-      background: #0284c7;
-      color: #ffffff;
-      box-shadow: 0 0 8px rgba(2, 132, 199, 0.9);
-      animation: stepGlow 1.4s infinite alternate;
-      flex-shrink: 0;
+      overflow: hidden;
     }
-    @keyframes stepGlow {
-      0% { transform: scale(0.92); opacity: 0.9; }
-      100% { transform: scale(1.12); opacity: 1; }
+    .kpi-fill {
+      height: 100%;
+      transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .highlighted-suggested {
-      box-shadow: 0 0 0 1.5px #38bdf8, 0 0 12px rgba(56, 189, 248, 0.45) !important;
-      border-color: #38bdf8 !important;
-    }
-
-    .mode-tab-active {
-      background: linear-gradient(135deg, rgba(56, 189, 248, 0.28), rgba(37, 99, 235, 0.4)) !important;
-      border-color: #38bdf8 !important;
-      color: #ffffff !important;
-      box-shadow: 0 0 14px rgba(56, 189, 248, 0.35) !important;
-    }
-
-    /* تول‌تیپ شناور سریع */
-    #quickTooltip {
+    /* بالن هاور شیشه مایع */
+    #gameTooltip {
+      position: fixed;
       pointer-events: none;
+      z-index: 999;
+      width: 320px;
       transition: opacity 0.12s ease, transform 0.12s ease;
-      z-index: 60;
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    #gameTooltip.active {
+      opacity: 1;
+      transform: translateY(0);
     }
   </style>
 </head>
-<body class="h-screen w-screen flex flex-col p-2.5 sm:p-3 overflow-hidden">
+<body class="h-screen w-screen flex flex-col p-2 overflow-hidden select-none">
 
   <!-- ========================================================= -->
-  <!-- ۱. نوار فشرده و زنده بالای صفحه (جمع درصد، هزینه‌ها و ۳ مدل) -->
+  <!-- ۱. هدر اصلی: کنترل‌ها سمت راست + فازها وسط + قدرت سمت چپ -->
   <!-- ========================================================= -->
-  <header class="bg-[#0f172a] border border-slate-800 rounded-xl px-3 py-2 shrink-0 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-2 shadow-md">
+  <header class="liquid-glass rounded-2xl px-3.5 py-1.5 shrink-0 flex items-center justify-between gap-3 shadow-2xl">
     
-    <!-- سمت راست هدر: ۳ مدل استراتژی انتخاب -->
-    <div class="flex items-center gap-1.5 flex-wrap">
-      <span class="text-xs font-bold text-slate-400 ml-1">۳ مسیر پیشنهادی:</span>
-      
-      <!-- مدل ۱ -->
-      <button
-        type="button"
-        id="modeBtn_full"
-        onclick="setStrategy('full')"
-        onmouseenter="previewStrategy('full')"
-        onmouseleave="endPreviewStrategy()"
-        class="mode-tab-active px-2.5 py-1.5 rounded-lg border border-slate-700 text-xs font-bold transition cursor-pointer flex items-center gap-1.5"
-      >
-        <span class="w-2 h-2 rounded-full bg-sky-400"></span>
-        <span>۱. پرداخت نقدی کامل</span>
-        <span class="text-[10px] bg-sky-500/25 px-1.5 py-0.2 rounded text-sky-200">۲۰٪ تخفیف</span>
-      </button>
+    <!-- بالا سمت راست: دکمه‌های جفتی انتخاب همه و پاکسازی + کادر جستجو -->
+    <div class="flex items-center gap-2 shrink-0">
+      <div class="flex items-center gap-1 bg-slate-900/90 p-0.5 rounded-xl border border-slate-700">
+        <button
+          type="button"
+          onclick="selectAllGameItems()"
+          class="px-2.5 py-1 rounded-lg text-xs font-black bg-sky-500 hover:bg-sky-400 text-slate-950 cursor-pointer transition flex items-center gap-1"
+          title="تیک زدن تمام گزینه‌ها"
+        >
+          <span>✓ انتخاب همه</span>
+        </button>
+        <button
+          type="button"
+          onclick="clearAllGameItems()"
+          class="px-2.5 py-1 rounded-lg text-xs font-bold text-rose-300 hover:text-rose-100 hover:bg-rose-500/20 cursor-pointer transition flex items-center gap-1"
+          title="صفر کردن تیک‌ها"
+        >
+          <span>✕ پاکسازی</span>
+        </button>
+      </div>
 
-      <!-- مدل ۲ -->
-      <button
-        type="button"
-        id="modeBtn_phased"
-        onclick="setStrategy('phased')"
-        onmouseenter="previewStrategy('phased')"
-        onmouseleave="endPreviewStrategy()"
-        class="px-2.5 py-1.5 rounded-lg border border-slate-700 bg-slate-800/80 text-xs font-bold text-slate-300 transition cursor-pointer flex items-center gap-1.5 hover:border-purple-400"
-      >
+      <!-- کادر جستجوی امکانات بین تمام زیرشاخه‌ها -->
+      <div class="relative flex items-center">
+        <input
+          type="text"
+          id="searchInput"
+          oninput="handleSearch(this.value)"
+          placeholder="جستجو در امکانات و زیرشاخه‌ها..."
+          class="bg-slate-900/90 border border-slate-700/80 rounded-xl px-2.5 py-1 pr-7 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-sky-400 w-52 sm:w-60 transition"
+        >
+        <span class="absolute right-2 text-slate-400 text-xs pointer-events-none">🔍</span>
+      </div>
+    </div>
+
+    <!-- بالا وسط: چیدمان کارت‌های ۳ فاز کاری -->
+    <div class="hidden lg:flex items-center gap-2">
+      <!-- فاز ۱: پرتاب فوری -->
+      <div id="badgePhase1" class="phase-badge phase-locked liquid-card px-2.5 py-1 rounded-xl border border-slate-700 flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        <div>
+          <div class="text-[11px] font-black text-white flex items-center gap-1">
+            <span>فاز ۱: پرتاب فوری</span>
+            <span id="p1StatusText" class="text-[9px] px-1 rounded bg-slate-800 text-slate-300">نیاز به ۳۵٪</span>
+          </div>
+          <div class="text-[9px] text-slate-400">فروش حضوری + آنلاین (همین حالا)</div>
+        </div>
+      </div>
+
+      <!-- فاز ۲: ارتقا و رشد -->
+      <div id="badgePhase2" class="phase-badge phase-locked liquid-card px-2.5 py-1 rounded-xl border border-slate-700 flex items-center gap-1.5">
         <span class="w-2 h-2 rounded-full bg-purple-400"></span>
-        <span>۲. اجرای ۳ رانده</span>
-        <span class="text-[10px] bg-purple-500/25 px-1.5 py-0.2 rounded text-purple-200">پله‌به‌پله</span>
-      </button>
+        <div>
+          <div class="text-[11px] font-black text-white flex items-center gap-1">
+            <span>فاز ۲: ارتقا و رشد</span>
+            <span id="p2StatusText" class="text-[9px] px-1 rounded bg-slate-800 text-slate-300">نیاز به ۶۵٪</span>
+          </div>
+          <div class="text-[9px] text-slate-400">سه‌بعدی، پیامک و اینستاگرام (۱ تا ۳ ماه)</div>
+        </div>
+      </div>
 
-      <!-- مدل ۳ -->
-      <button
-        type="button"
-        id="modeBtn_revshare"
-        onclick="setStrategy('revshare')"
-        onmouseenter="previewStrategy('revshare')"
-        onmouseleave="endPreviewStrategy()"
-        class="px-2.5 py-1.5 rounded-lg border border-slate-700 bg-slate-800/80 text-xs font-bold text-slate-300 transition cursor-pointer flex items-center gap-1.5 hover:border-amber-400"
-      >
+      <!-- فاز ۳: امپراتوری لوکس -->
+      <div id="badgePhase3" class="phase-badge phase-locked liquid-card px-2.5 py-1 rounded-xl border border-slate-700 flex items-center gap-1.5">
         <span class="w-2 h-2 rounded-full bg-amber-400"></span>
-        <span>۳. پایه + ۴٪ درگاه</span>
-        <span class="text-[10px] bg-amber-500/25 px-1.5 py-0.2 rounded text-amber-200">۵۰٪ تخفیف ساخت</span>
-      </button>
-
-      <button
-        type="button"
-        onclick="applyActiveRecommendation()"
-        class="mr-2 px-2.5 py-1.5 rounded-lg text-xs font-extrabold bg-sky-500 hover:bg-sky-400 text-slate-950 cursor-pointer shadow-sm transition"
-        title="انتخاب خودکار گزینه‌های همین مسیر"
-      >
-        تیک زدن مسیر
-      </button>
-      <button
-        type="button"
-        onclick="clearAllToBasics()"
-        class="px-2 py-1.5 rounded-lg text-xs font-semibold border border-slate-700 hover:border-slate-500 text-slate-400 hover:text-slate-200 cursor-pointer"
-        title="انتخاب دستی آزاد"
-      >
-        پاکسازی تیک‌ها
-      </button>
+        <div>
+          <div class="text-[11px] font-black text-white flex items-center gap-1">
+            <span>فاز ۳: امپراتوری لوکس</span>
+            <span id="p3StatusText" class="text-[9px] px-1 rounded bg-slate-800 text-slate-300">نیاز به ۹۰٪</span>
+          </div>
+          <div class="text-[9px] text-slate-400">هوش مصنوعی، قسطی و ربات دائم (آینده)</div>
+        </div>
+      </div>
     </div>
 
-    <!-- سمت چپ هدر: خلاصه هزینه و درصد زنده و دکمه فاکتور -->
-    <div class="flex items-center gap-2 flex-wrap justify-between lg:justify-end">
-      <!-- درصد کل -->
-      <div class="flex items-center gap-1.5 bg-slate-900/90 border border-slate-800 rounded-lg px-2 py-1 text-xs">
-        <span class="text-slate-400">قدرت:</span>
-        <span id="headerPct" class="font-black text-purple-400 text-sm">۰٪</span>
+    <!-- بالا سمت چپ: قدرت کل پلتفرم -->
+    <div class="flex items-center gap-2 shrink-0">
+      <div class="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-slate-900/90 border border-slate-700 text-xs">
+        <span class="text-slate-400">قدرت پلتفرم:</span>
+        <span id="totalPowerBadge" class="font-black text-emerald-400 text-sm">۰٪</span>
       </div>
-
-      <!-- مقایسه هزینه در مدل فعال -->
-      <div class="flex items-center gap-1.5 bg-slate-900/90 border border-slate-800 rounded-lg px-2.5 py-1 text-xs">
-        <span id="headerModeTag" class="text-sky-400 font-bold">نقدی کامل:</span>
-        <span id="headerCostValue" class="font-black text-emerald-400 text-sm">۰ تومان</span>
-      </div>
-
-      <!-- دکمه باز کردن فاکتور رسمی بدون اسکرول صفحه -->
-      <button
-        type="button"
-        onclick="openInvoiceModal()"
-        class="px-3 py-1.5 rounded-lg text-xs font-bold badge-gold hover:opacity-90 cursor-pointer shadow-md flex items-center gap-1"
-      >
-        <span>فاکتور و امضا</span>
-        <span class="text-[10px]">↗</span>
-      </button>
     </div>
+
   </header>
 
   <!-- ========================================================= -->
-  <!-- ۲. بدنه نقشه ذهنی یکپارچه از چپ به راست (بدون نیاز به اسکرول) -->
+  <!-- ۲. بدنه اصلی: سایدبار در سمت چپ + مایند مپ در سمت راست -->
   <!-- ========================================================= -->
-  <main class="flex-1 my-2 grid grid-cols-12 gap-2 min-h-0 overflow-hidden" dir="ltr">
+  <div class="flex-1 my-1.5 flex gap-2 min-h-0 overflow-hidden flex-row-reverse">
     
-    <!-- ستون ۱ سمت چپ (۲.۵ از ۱۲): ریشه و وضعیت استراتژی فعال -->
-    <div class="col-span-12 lg:col-span-3 flex flex-col gap-2 min-h-0" dir="rtl">
-      <!-- کارت ریشه پلتفرم -->
-      <div class="bg-[#0f172a] border border-slate-800 rounded-xl p-3 flex-1 flex flex-col justify-between shadow-sm">
-        <div class="space-y-2">
-          <div class="flex items-center justify-between">
-            <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-sky-500/20 text-sky-300 border border-sky-500/30">
-              هسته اصلی نقشه
-            </span>
-            <span id="rootCountBadge" class="text-xs font-extrabold text-slate-300">۰ از ۲۶ امکان</span>
-          </div>
-          <h2 class="text-sm font-bold text-white">سوپراستور ورزشی و بازاریابی</h2>
-          <p id="rootStrategyDesc" class="text-xs text-slate-400 leading-relaxed">
-            مدل فعال: تمام امکانات با مالکیت دائمی و تخفیف نقدی یک‌جا.
-          </p>
-        </div>
-
-        <!-- مقایسه فشرده ۳ مدل روی همین انتخاب‌ها -->
-        <div class="space-y-1.5 pt-2 border-t border-slate-800 text-xs">
-          <div class="text-[11px] font-bold text-slate-300">مقایسه هزینه انتخاب‌های شما:</div>
-          <div class="flex justify-between items-center p-1.5 rounded bg-slate-900/80 border border-slate-800">
-            <span class="text-slate-400">۱. نقدی کامل:</span>
-            <strong id="miniCost_full" class="text-sky-300">۰ م</strong>
-          </div>
-          <div class="flex justify-between items-center p-1.5 rounded bg-slate-900/80 border border-slate-800">
-            <span class="text-slate-400">۲. مرحله‌ای (راند ۱):</span>
-            <strong id="miniCost_phased" class="text-purple-300">۰ م</strong>
-          </div>
-          <div class="flex justify-between items-center p-1.5 rounded bg-slate-900/80 border border-slate-800">
-            <span class="text-slate-400">۳. شراکت درگاه:</span>
-            <strong id="miniCost_revshare" class="text-amber-300">۰ م + ۴٪</strong>
-          </div>
-        </div>
-
-        <!-- راهنمای رنگ‌های ۳ سطح -->
-        <div class="grid grid-cols-3 gap-1 pt-2 border-t border-slate-800 text-[10px] text-center font-bold">
-          <div class="py-1 rounded node-gray border text-slate-300">خاکستری: پایه</div>
-          <div class="py-1 rounded node-purple border text-purple-300">بنفش: رشد</div>
-          <div class="py-1 rounded node-gold border text-amber-300">طلایی: لوکس</div>
-        </div>
+    <!-- ========================================================= -->
+    <!-- بوم مایند مپ افقی چند سطحی (فقط اسکرول به چپ و راست) -->
+    <!-- ========================================================= -->
+    <main
+      id="gameScrollArea"
+      class="flex-1 liquid-glass rounded-2xl relative overflow-x-auto overflow-y-hidden custom-scroll shadow-2xl"
+    >
+      <div id="gameCanvas" class="relative h-full" style="width: 2750px; min-height: 100%;">
+        <!-- لایه خطوط منحنی اتوماتیک SVG -->
+        <svg id="gameSvg" class="absolute inset-0 w-full h-full pointer-events-none" style="z-index: 1;"></svg>
+        <!-- لایه گره‌ها و زیرشاخه‌های درختی -->
+        <div id="gameNodesLayer" class="absolute inset-0 w-full h-full" style="z-index: 2;"></div>
       </div>
-    </div>
+    </main>
 
-    <!-- ستون ۲ سمت راست (۹.۵ از ۱۲): ۶ شاخه تخصصی با دکمه‌های کپسولی مختصر -->
-    <div class="col-span-12 lg:col-span-9 flex flex-col justify-between gap-1.5 min-h-0" id="branchesGrid" dir="rtl">
-      <!-- ۶ ردیف شاخه توسط جاوااسکریپت ساخته می‌شوند و کل ارتفاع صفحه را پر می‌کنند -->
-    </div>
-
-  </main>
-
-  <!-- ========================================================= -->
-  <!-- ۳. نوار پایین صفحه: بازرس متنی برای نمایش آنی توضیحات هاور -->
-  <!-- ========================================================= -->
-  <footer class="bg-[#0f172a] border border-slate-800 rounded-xl px-3 py-1.5 shrink-0 flex items-center justify-between text-xs gap-3">
-    <div class="flex items-center gap-2 overflow-hidden flex-1">
-      <span id="inspPillTag" class="px-2 py-0.5 rounded text-[10px] font-bold badge-gold shrink-0">راهنما</span>
-      <span id="inspTitleText" class="font-bold text-white shrink-0">ماوس را روی هر کپسول ببرید:</span>
-      <span id="inspDetailText" class="text-slate-400 truncate text-[11px]">
-        توضیحات بیزنسی، تاثیر در فروش، درصد پیشرفت و پیش‌نیازها فوراً در این نوار نمایش داده می‌شود.
-      </span>
-    </div>
-    <div class="flex items-center gap-2 shrink-0 text-[11px] text-slate-400">
-      <span>تعداد گام‌های مسیر: <strong id="recStepsTotal" class="text-sky-300">۲۶ گام</strong></span>
-    </div>
-  </footer>
-
-  <!-- ========================================================= -->
-  <!-- ۴. مودال تمام‌صفحه فاکتور رسمی و امضا (بدون ایجاد اسکرول صفحه) -->
-  <!-- ========================================================= -->
-  <div id="invoiceModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-3">
-    <div class="bg-[#0f172a] border border-slate-800 rounded-2xl w-full max-w-3xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden">
+    <!-- ========================================================= -->
+    <!-- ستون سمت چپ: داشبورد KPIها + ۳ رقم هزینه تسویه -->
+    <!-- ========================================================= -->
+    <aside class="w-80 shrink-0 liquid-glass rounded-2xl p-3 flex flex-col justify-between shadow-2xl overflow-y-auto">
       
-      <!-- هدر مودال -->
-      <div class="p-3.5 border-b border-slate-800 flex items-center justify-between">
-        <div>
-          <h3 class="text-sm font-bold text-white">پیش‌فاکتور رسمی و برگه تایید ۳ مدل</h3>
-          <p class="text-[11px] text-slate-400">اقلام انتخابی، شرایط توافق و محل امضای دیجیتال</p>
+      <!-- بخش بالای سایدبار: ۷ شاخص KPI (پروگرس چپ به راست، درصد سمت راست) -->
+      <div class="space-y-2">
+        
+        <div class="pb-1.5 border-b border-slate-700/80 flex items-center justify-between">
+          <div class="flex items-center gap-1.5">
+            <span class="text-xs">📊</span>
+            <span class="text-xs font-black text-white">شاخص‌های تجاری (KPIs)</span>
+          </div>
+          <span class="text-[10px] text-slate-400 font-semibold">تأثیر آنی انتخاب‌ها</span>
         </div>
-        <button type="button" onclick="closeInvoiceModal()" class="w-7 h-7 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center font-bold text-xs cursor-pointer">✕</button>
+
+        <!-- فهرست ۷ نوار پیشرفت شاخص‌ها -->
+        <div class="space-y-1.5 text-[11px]">
+          
+          <!-- ۱. UI -->
+          <div class="space-y-0.5">
+            <div class="text-slate-300 text-[10px] font-bold flex items-center gap-1">
+              <span>🎨</span><span>جذابیت بصری (UI)</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="flex-1 h-1.5 kpi-track">
+                <div id="kpiBar_ui" class="kpi-fill bg-gradient-to-r from-sky-500 to-blue-400" style="width: 0%;"></div>
+              </div>
+              <strong id="kpiVal_ui" class="text-sky-300 text-[11px] font-black w-8 text-right">۰٪</strong>
+            </div>
+          </div>
+
+          <!-- ۲. UX -->
+          <div class="space-y-0.5">
+            <div class="text-slate-300 text-[10px] font-bold flex items-center gap-1">
+              <span>⚡</span><span>سهولت و سرعت خرید (UX)</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="flex-1 h-1.5 kpi-track">
+                <div id="kpiBar_ux" class="kpi-fill bg-gradient-to-r from-cyan-500 to-teal-400" style="width: 0%;"></div>
+              </div>
+              <strong id="kpiVal_ux" class="text-cyan-300 text-[11px] font-black w-8 text-right">۰٪</strong>
+            </div>
+          </div>
+
+          <!-- ۳. Backend -->
+          <div class="space-y-0.5">
+            <div class="text-slate-300 text-[10px] font-bold flex items-center gap-1">
+              <span>🛡️</span><span>امنیت و زیرساخت (Backend)</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="flex-1 h-1.5 kpi-track">
+                <div id="kpiBar_backend" class="kpi-fill bg-gradient-to-r from-emerald-500 to-green-400" style="width: 0%;"></div>
+              </div>
+              <strong id="kpiVal_backend" class="text-emerald-300 text-[11px] font-black w-8 text-right">۰٪</strong>
+            </div>
+          </div>
+
+          <!-- ۴. OTP -->
+          <div class="space-y-0.5">
+            <div class="text-slate-300 text-[10px] font-bold flex items-center gap-1">
+              <span>📲</span><span>پیامک و ورود سریع (OTP)</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="flex-1 h-1.5 kpi-track">
+                <div id="kpiBar_otp" class="kpi-fill bg-gradient-to-r from-purple-500 to-indigo-400" style="width: 0%;"></div>
+              </div>
+              <strong id="kpiVal_otp" class="text-purple-300 text-[11px] font-black w-8 text-right">۰٪</strong>
+            </div>
+          </div>
+
+          <!-- ۵. Marketing -->
+          <div class="space-y-0.5">
+            <div class="text-slate-300 text-[10px] font-bold flex items-center gap-1">
+              <span>🚀</span><span>مارکتینگ و فروش مجدد (Marketing)</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="flex-1 h-1.5 kpi-track">
+                <div id="kpiBar_marketing" class="kpi-fill bg-gradient-to-r from-amber-500 to-orange-400" style="width: 0%;"></div>
+              </div>
+              <strong id="kpiVal_marketing" class="text-amber-300 text-[11px] font-black w-8 text-right">۰٪</strong>
+            </div>
+          </div>
+
+          <!-- ۶. Revenue -->
+          <div class="space-y-0.5">
+            <div class="text-slate-300 text-[10px] font-bold flex items-center gap-1">
+              <span>💰</span><span>قدرت درآمدزایی و نقدینگی (Revenue)</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="flex-1 h-1.5 kpi-track">
+                <div id="kpiBar_revenue" class="kpi-fill bg-gradient-to-r from-rose-500 to-pink-400" style="width: 0%;"></div>
+              </div>
+              <strong id="kpiVal_revenue" class="text-rose-300 text-[11px] font-black w-8 text-right">۰٪</strong>
+            </div>
+          </div>
+
+          <!-- ۷. Social Engagement -->
+          <div class="space-y-0.5">
+            <div class="text-slate-300 text-[10px] font-bold flex items-center gap-1">
+              <span>📸</span><span>تعامل و برند پیج اینستاگرام (Social)</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="flex-1 h-1.5 kpi-track">
+                <div id="kpiBar_social" class="kpi-fill bg-gradient-to-r from-fuchsia-500 to-pink-400" style="width: 0%;"></div>
+              </div>
+              <strong id="kpiVal_social" class="text-fuchsia-300 text-[11px] font-black w-8 text-right">۰٪</strong>
+            </div>
+          </div>
+
+        </div>
+
       </div>
 
-      <!-- بدنه قابل اسکرول فقط داخل خود پنجره مودال -->
-      <div class="p-4 space-y-3.5 overflow-y-auto flex-1 text-xs">
-        <!-- مشخصات سربرگ -->
-        <div class="flex justify-between items-center text-slate-400 text-[11px] pb-2 border-b border-slate-800">
+      <!-- بخش پایین سایدبار: شیوه‌های تسویه مالی -->
+      <div class="space-y-2 pt-2 border-t border-slate-700/80">
+        
+        <div class="text-[11px] font-black text-slate-200 flex items-center justify-between">
+          <span>شیوه‌های تسویه مالی:</span>
+          <span id="colorComboBadge" class="text-[9.5px] px-2 py-0.5 rounded-full font-black text-amber-300 bg-amber-500/15 border border-amber-500/30 transition-all duration-300 hidden"></span>
+        </div>
+
+        <!-- عدد ۱: نقدی با تخفیف -->
+        <div class="p-2 rounded-xl liquid-card border border-sky-500/40 space-y-0.5 relative overflow-hidden group" id="capsulePayment1">
+          <!-- نوار پروگرس‌بار داخلی بدون تغییر سایز -->
+          <div id="costProgressBar1" class="absolute inset-y-0 right-0 bg-gradient-to-l from-emerald-500/25 via-sky-500/15 to-transparent pointer-events-none transition-all duration-500 ease-out" style="width: 0%;"></div>
+          <div class="flex justify-between items-center text-[10.5px] relative z-10">
+            <span class="font-bold text-sky-300">۱. پرداخت نقدی با تخفیف:</span>
+            <span id="costBadge1" class="text-[9.5px] bg-sky-500/25 text-sky-200 px-1.5 py-0.2 rounded font-black">۲۰٪ تخفیف</span>
+          </div>
+          <div class="text-left font-black text-emerald-400 text-sm relative z-10" id="gameCost1">
+            ۰ تومان
+          </div>
+        </div>
+
+        <!-- عدد ۲: مرحله‌ای راند ۱ -->
+        <div class="p-2 rounded-xl liquid-card border border-purple-500/40 space-y-0.5 relative overflow-hidden group" id="capsulePayment2">
+          <!-- نوار پروگرس‌بار داخلی بدون تغییر سایز -->
+          <div id="costProgressBar2" class="absolute inset-y-0 right-0 bg-gradient-to-l from-purple-500/25 via-pink-500/15 to-transparent pointer-events-none transition-all duration-500 ease-out" style="width: 0%;"></div>
+          <div class="flex justify-between items-center text-[10.5px] relative z-10">
+            <span class="font-bold text-purple-300">۲. مرحله‌ای (راند ۱ فوری):</span>
+            <span id="costBadge2" class="text-[9.5px] bg-purple-500/25 text-purple-200 px-1.5 py-0.2 rounded font-black">پله‌به‌پله</span>
+          </div>
+          <div class="text-left font-black text-purple-300 text-sm relative z-10" id="gameCost2">
+            ۰ تومان
+          </div>
+        </div>
+
+        <!-- عدد ۳: شراکتی -->
+        <div class="p-2 rounded-xl liquid-card border border-amber-500/40 space-y-0.5 relative overflow-hidden group" id="capsulePayment3">
+          <!-- نوار پروگرس‌بار داخلی بدون تغییر سایز -->
+          <div id="costProgressBar3" class="absolute inset-y-0 right-0 bg-gradient-to-l from-amber-500/25 via-orange-500/15 to-transparent pointer-events-none transition-all duration-500 ease-out" style="width: 0%;"></div>
+          <div class="flex justify-between items-center text-[10.5px] relative z-10">
+            <span class="font-bold text-amber-300">۳. شراکتی (۵۰٪ تخفیف ساخت):</span>
+            <span id="costBadge3" class="text-[9.5px] bg-amber-500/25 text-amber-200 px-1.5 py-0.2 rounded font-black">+ ۴٪ درگاه</span>
+          </div>
+          <div class="text-left font-black text-amber-400 text-sm relative z-10" id="gameCost3">
+            ۰ تومان + ۴٪
+          </div>
+        </div>
+
+        <!-- دکمه فاکتور و امضا -->
+        <button
+          type="button"
+          onclick="openGameInvoiceModal()"
+          class="w-full py-2 rounded-xl text-xs font-black bg-gradient-to-r from-amber-500 to-amber-400 text-slate-950 hover:brightness-110 cursor-pointer shadow-lg flex items-center justify-center gap-1.5 transition"
+        >
+          <span>صدور فاکتور و امضا</span>
+          <span class="text-xs">↗</span>
+        </button>
+
+      </div>
+
+    </aside>
+
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- ۳. بالن هاور شیشه مایع بازی‌وار -->
+  <!-- ========================================================= -->
+  <div id="gameTooltip" class="liquid-glass rounded-2xl p-3 shadow-2xl border border-sky-400/40">
+    <div class="flex items-center justify-between gap-2 pb-1 border-b border-slate-700/60">
+      <div class="flex items-center gap-1.5">
+        <span id="ttBadgeKpi" class="text-[10px] px-1.5 py-0.5 rounded font-black bg-sky-500/30 text-sky-200"></span>
+        <span id="ttTitle" class="font-black text-xs text-white"></span>
+      </div>
+      <span id="ttPrice" class="font-extrabold text-[11px] text-amber-300"></span>
+    </div>
+    <p id="ttDesc" class="text-[10.5px] text-slate-300 leading-relaxed mt-1"></p>
+    
+    <div id="ttKpiBoost" class="mt-2 pt-1.5 border-t border-slate-700/50 flex items-center gap-1.5 flex-wrap text-[10px]"></div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- ۴. مودال فاکتور رسمی و امضای دیجیتال -->
+  <!-- ========================================================= -->
+  <div id="invoiceModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3">
+    <div class="liquid-glass rounded-3xl w-full max-w-3xl max-h-[92vh] flex flex-col shadow-2xl border border-slate-700 overflow-hidden">
+      
+      <div class="p-3.5 border-b border-slate-700/70 flex items-center justify-between">
+        <div>
+          <h3 class="text-sm font-black text-white">پیش‌فاکتور رسمی و برگه قرارداد راه‌اندازی</h3>
+          <p class="text-[11px] text-slate-400">اقلام انتخابی از نقشه ذهنی، شاخص‌های تجاری و ۳ گزینه تسویه</p>
+        </div>
+        <button
+          type="button"
+          onclick="closeGameInvoiceModal()"
+          class="w-7 h-7 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 flex items-center justify-center font-bold text-xs cursor-pointer"
+        >✕</button>
+      </div>
+
+      <div class="p-3.5 space-y-3 overflow-y-auto flex-1 text-xs">
+        <div class="flex justify-between items-center text-slate-300 text-[11px] pb-2 border-b border-slate-800">
           <div>شماره فاکتور: <strong id="invModalCode" class="text-white">—</strong></div>
           <div>تاریخ: <strong id="invModalDate" class="text-white">—</strong></div>
-          <div>مدل انتخابی: <strong id="invModalModeLabel" class="text-sky-400 font-bold">—</strong></div>
+          <div>وضعیت فازها: <strong id="invModalPhaseStatus" class="text-emerald-400 font-bold">—</strong></div>
         </div>
 
-        <!-- جدول اقلام -->
         <div class="overflow-x-auto">
           <table class="w-full text-right border-collapse text-[11px]">
             <thead>
               <tr class="border-b border-slate-800 text-slate-400">
                 <th class="py-1 px-1.5">ردیف</th>
                 <th class="py-1 px-1.5">عنوان امکان</th>
-                <th class="py-1 px-1.5 text-center">سطح</th>
-                <th class="py-1 px-1.5 text-center">گام</th>
-                <th class="py-1 px-1.5 text-left">مبلغ تکی</th>
+                <th class="py-1 px-1.5 text-center">دسته</th>
+                <th class="py-1 px-1.5 text-center">فاز</th>
+                <th class="py-1 px-1.5 text-left">مبلغ سرمایه‌گذاری</th>
               </tr>
             </thead>
             <tbody id="invModalTbody" class="divide-y divide-slate-800/60 text-slate-300"></tbody>
           </table>
         </div>
 
-        <!-- جمع‌بندی مالی متناسب با استراتژی -->
-        <div id="invModalSummary" class="p-3 rounded-xl bg-slate-900 border border-slate-800 space-y-1.5"></div>
+        <div id="invModalSummary" class="p-3 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-1.5"></div>
 
-        <!-- قوانین -->
-        <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800 space-y-1.5 text-[11px] text-slate-400">
+        <div class="p-2.5 rounded-2xl bg-slate-900/60 border border-slate-800 text-[10.5px] text-slate-400 space-y-1">
           <div class="font-bold text-slate-200">شرایط و قوانین:</div>
           <ul class="list-disc pr-4 space-y-0.5">
-            <li>مالکیت کامل آدرس سایت و پنل پس از تسویه متعلق به کارفرما خواهد بود.</li>
-            <li>در مدل ۳ رانده، کل ۳ مرحله در بازه ۹۰ روزه تکمیل می‌گردد.</li>
-            <li>در مدل شراکتی، کارمزد ۴٪ از طریق درگاه مستقیم اعمال خواهد شد.</li>
+            <li>مالکیت ۱۰۰٪ دامنه، پیج و فایل‌ها متعلق به کارفرماست.</li>
+            <li>اجرای فاز ۲ و ۳ پس از آغاز به کار و راه‌اندازی فاز ۱ انجام می‌شود.</li>
+            <li>در شیوه شراکتی، کارمزد ۴٪ از طریق درگاه پرداخت منظور خواهد شد.</li>
           </ul>
           <label class="flex items-center gap-2 pt-1 text-slate-200 cursor-pointer">
             <input type="checkbox" id="chkModalRules" onchange="toggleSignButton()" class="w-4 h-4 cursor-pointer">
-            <span class="font-semibold text-xs">قوانین را قبول دارم و تایید می‌کنم.</span>
+            <span class="font-semibold text-xs">قوانین و شرایط فوق مورد تایید است.</span>
           </label>
         </div>
 
-        <!-- کادر امضای دیجیتال -->
-        <div class="space-y-1.5">
+        <div class="space-y-1">
           <div class="flex justify-between items-center text-[11px]">
-            <span class="font-bold text-slate-300">امضای دیجیتال (با ماوس یا انگشت):</span>
-            <button type="button" onclick="clearModalSignature()" class="text-slate-400 hover:text-white underline cursor-pointer">پاک کردن</button>
+            <span class="font-bold text-slate-200">امضای دیجیتال کارفرما:</span>
+            <button type="button" onclick="clearModalSignature()" class="text-slate-400 hover:text-white underline cursor-pointer">پاک کردن امضا</button>
           </div>
-          <div class="relative rounded-xl border-2 border-dashed border-slate-700 bg-white overflow-hidden">
-            <canvas id="modalSignPad" class="w-full block touch-none cursor-crosshair" style="height: 110px;"></canvas>
+          <div class="relative rounded-2xl border-2 border-dashed border-slate-700 bg-white overflow-hidden">
+            <canvas id="modalSignPad" class="w-full block touch-none cursor-crosshair" style="height: 100px;"></canvas>
             <div id="modalSignTip" class="absolute inset-0 flex items-center justify-center text-xs text-slate-400 pointer-events-none">
-              اینجا امضا فرمایید...
+              امضای خود را اینجا ثبت فرمایید...
             </div>
-            <div id="modalStamp" class="hidden absolute top-2 left-2 px-2.5 py-1 rounded border-2 border-emerald-600 bg-emerald-50 text-emerald-700 font-extrabold text-xs rotate-[-6deg]">
+            <div id="modalStamp" class="hidden absolute top-2 left-2 px-2.5 py-0.5 rounded-xl border-2 border-emerald-600 bg-emerald-50 text-emerald-700 font-black text-xs rotate-[-6deg]">
               تایید و امضا شد ✓
             </div>
           </div>
         </div>
       </div>
 
-      <!-- فوتر مودال -->
-      <div class="p-3 border-t border-slate-800 flex items-center justify-between">
+      <div class="p-3 border-t border-slate-700/80 flex items-center justify-between">
         <span id="modalSignStatus" class="text-xs text-slate-400">تیک تایید قوانین را بزنید و امضا فرمایید.</span>
         <div class="flex items-center gap-2">
-          <button type="button" onclick="finalizeModalSign()" id="btnFinalSign" class="px-3.5 py-1.5 rounded-lg text-xs font-bold badge-gold hover:opacity-90 cursor-pointer">
-            ثبت نهایی امضا
+          <button
+            type="button"
+            onclick="finalizeModalSign()"
+            id="btnFinalSign"
+            class="px-4 py-1.5 rounded-xl text-xs font-black bg-gradient-to-r from-amber-500 to-amber-400 text-slate-950 hover:brightness-110 cursor-pointer shadow-md"
+          >
+            ثبت نهایی توافق‌نامه
           </button>
-          <button type="button" onclick="window.print()" class="px-3 py-1.5 rounded-lg text-xs font-semibold border border-slate-700 text-slate-300 hover:border-slate-500 cursor-pointer">
-            چاپ / ذخیره
+          <button
+            type="button"
+            onclick="window.print()"
+            class="px-3 py-1.5 rounded-xl text-xs font-bold border border-slate-700 text-slate-300 hover:border-slate-500 cursor-pointer"
+          >
+            چاپ فاکتور
           </button>
         </div>
       </div>
@@ -348,408 +570,1104 @@
 
   <script>
     // =========================================================
-    // دیتابیس ۲۶ گزینه در ۶ شاخه چپ‌به‌راست و ۳ سطح رنگی
+    // ساختار مایند مپ چند سطحی واقعی: ریشه -> شاخه -> سرشاخه -> امکان اصلی -> ریزامکانات
     // =========================================================
-    const branchesData = [
+    const hierarchicalTree = [
       {
         id: "b_store",
         name: "۱. ویترین و کاتالوگ",
-        items: [
-          { id: "g1", tier: "gray", short: "ویترین مکمل", title: "ویترین تخصصی مکمل‌ها", price: 6, pct: 4, desc: "کاتالوگ با برندهای ایرانی/خارجی، جدول ارزش غذایی و ترکیبات" },
-          { id: "p1", tier: "purple", short: "پوشاک ورزشی", title: "بخش پوشاک زنانه/مردانه", price: 5, pct: 4, desc: "انتخاب سایز، رنگ و جدول راهنمای اندازه برای لباس ورزشی" },
-          { id: "p2", tier: "purple", short: "لوازم باشگاه", title: "تجهیزات و شیکرها", price: 4, pct: 4, desc: "شیکر، کمربند، مچ‌بند، کش و لوازم جانبی تمرین" },
-          { id: "y1", tier: "gold", short: "۵۰+ محصول آماده", title: "تکمیل کاتالوگ آماده فروش", price: 4, pct: 3, desc: "تحویل با توضیحات علمی و ۵۰+ کالای آماده بدون نیاز به تایپ شما" }
+        subBranches: [
+          {
+            id: "sb_store_physic",
+            name: "ویترین کالای فیزیکی",
+            items: [
+              {
+                id: "g1",
+                category: "UI",
+                phase: 1,
+                tier: "gray",
+                title: "مکمل‌های تخصصی ورزشی",
+                priceNum: 6000000,
+                priceLabel: "۶ میلیون تومان",
+                desc: "دسته‌بندی کراتین، پروتئین وی، گینر و آمینو با جدول ترکیبات، طعم‌ها، وزن و اصالت کالا.",
+                kpiBoost: { ui: 25, ux: 20, backend: 10, otp: 0, marketing: 10, revenue: 20, social: 5 },
+                subItems: ["جدول ارزش غذایی هر محصول", "فیلتر وزن و طعم‌های مختلف", "بارکد و اصالت کالا"]
+              },
+              {
+                id: "p1",
+                category: "UI",
+                phase: 2,
+                tier: "purple",
+                title: "پوشاک زنانه و مردانه",
+                priceNum: 5000000,
+                priceLabel: "۵ میلیون تومان",
+                desc: "ویترین انواع لگ، تیشرت و هودی با جدول راهنمای سایز دقیق برای جلوگیری از مرجوعی.",
+                kpiBoost: { ui: 20, ux: 20, backend: 10, otp: 0, marketing: 15, revenue: 18, social: 15 },
+                subItems: ["انتخاب رنگ و سایز", "راهنمای دقیق اندازه دور سینه", "گالری چند عکس برای هر لباس"]
+              },
+              {
+                id: "p2",
+                category: "UX",
+                phase: 2,
+                tier: "purple",
+                title: "لوازم تمرین و شیکرها",
+                priceNum: 4000000,
+                priceLabel: "۴ میلیون تومان",
+                desc: "بخش اختصاصی شیکر دو تکه، کمربند چرم، مچ‌بند و کش تمرین با مشخصات فنی.",
+                kpiBoost: { ui: 15, ux: 20, backend: 10, otp: 0, marketing: 15, revenue: 15, social: 10 },
+                subItems: ["دسته‌بندی تجهیزات ورزشی", "مشخصات فنی جنس شیکر", "پیشنهاد خرید کنار مکمل‌ها"]
+              }
+            ]
+          },
+          {
+            id: "sb_store_ready",
+            name: "دیتابیس محصولات آماده",
+            items: [
+              {
+                id: "y1",
+                category: "Marketing",
+                phase: 3,
+                tier: "gold",
+                title: "کاتالوگ ۵۰+ کالای پرفروش",
+                priceNum: 4000000,
+                priceLabel: "۴ میلیون تومان",
+                desc: "ورود کامل ۵۰ مکمل پرطرفدار بازار با عکس باکیفیت و توضیحات؛ مغازه آماده فروش تحویل می‌شود.",
+                kpiBoost: { ui: 15, ux: 15, backend: 10, otp: 0, marketing: 25, revenue: 25, social: 10 },
+                subItems: ["ورود ۵۰ مکمل پرطرفدار روز", "عکس‌های بدون پس‌زمینه", "توضیحات کامل آماده فروش"]
+              }
+            ]
+          }
         ]
       },
       {
         id: "b_visual",
-        name: "۲. سه‌بعدی و بصری",
-        items: [
-          { id: "g5", tier: "gray", short: "نسخه موبایل", title: "نسخه اختصاصی مرورگر گوشی", price: 2.5, pct: 3, desc: "چیدمان ریسپانسیو و دسترسی سریع پایین صفحه در موبایل" },
-          { id: "p3", tier: "purple", short: "نورپردازی زنده", title: "تغییر تم زنده هر دسته", price: 3, pct: 3, desc: "تغییر نور و رنگ‌بندی فضا متناسب با دسته‌بندی انتخابی خریدار" },
-          { id: "p4", tier: "purple", short: "سه‌بعدی مکمل", title: "نمای ۳۶۰ درجه قوطی مکمل", price: 6, pct: 5, desc: "چرخش ۳۶۰ درجه و زوم قوطی و جدول ترکیبات برای اثبات اصالت" },
-          { id: "y2", tier: "gold", short: "سه‌بعدی لباس/لوازم", title: "سه‌بعدی لباس روی مانکن", price: 12, pct: 5, desc: "چرخش ۳۶۰ درجه تیشرت روی مانکن و شیکر با نهایت شکوه" }
+        name: "۲. بصری و سه‌بعدی",
+        subBranches: [
+          {
+            id: "sb_vis_layout",
+            name: "ریسپانسیو و اتمسفر",
+            items: [
+              {
+                id: "g5",
+                category: "UX",
+                phase: 1,
+                tier: "gray",
+                title: "نسخه سریع و روان موبایل",
+                priceNum: 2500000,
+                priceLabel: "۲.۵ میلیون تومان",
+                desc: "چیدمان هوشمند متناسب با گوشی با دکمه‌های خرید در دسترس انگشت شست.",
+                kpiBoost: { ui: 20, ux: 35, backend: 10, otp: 0, marketing: 10, revenue: 20, social: 5 },
+                subItems: ["سرعت بالا در گوشی", "نوار ثابت دسترسی آسان", "فونت خوانا بدون نیاز به زوم"]
+              },
+              {
+                id: "p3",
+                category: "UI",
+                phase: 2,
+                tier: "purple",
+                title: "نورپردازی و تم زنده",
+                priceNum: 3000000,
+                priceLabel: "۳ میلیون تومان",
+                desc: "تغییر نور و رنگ‌بندی فضا متناسب با حس ورزش و انرژی هر دسته‌بندی کالا.",
+                kpiBoost: { ui: 30, ux: 15, backend: 0, otp: 0, marketing: 15, revenue: 10, social: 10 },
+                subItems: ["تم شب چشم‌نواز باشگاهی", "انیمیشن ورود نرم دسته‌ها", "جلوه تصویری انرژی‌بخش"]
+              }
+            ]
+          },
+          {
+            id: "sb_vis_3d",
+            name: "مدل‌سازی ۳۶۰ درجه",
+            items: [
+              {
+                id: "p4",
+                category: "UI",
+                phase: 2,
+                tier: "purple",
+                title: "چرخش ۳۶۰ درجه مکمل",
+                priceNum: 6000000,
+                priceLabel: "۶ میلیون تومان",
+                desc: "خریدار قوطی مکمل را با لمس انگشت می‌چرخاند و جدول ترکیبات و اصالت را می‌بیند.",
+                kpiBoost: { ui: 35, ux: 25, backend: 10, otp: 0, marketing: 20, revenue: 22, social: 25 },
+                subItems: ["چرخش با لمس ماوس و انگشت", "زوم روی جدول ترکیبات", "اعتمادسازی کامل برای کالای اصل"]
+              },
+              {
+                id: "y2",
+                category: "UI",
+                phase: 3,
+                tier: "gold",
+                title: "سه‌بعدی لباس روی مانکن",
+                priceNum: 12000000,
+                priceLabel: "۱۲ میلیون تومان",
+                desc: "مشاهده فرم تنخور تیشرت روی مدل سه‌بعدی متحرک جهت افزایش خیره‌کننده خرید پوشاک.",
+                kpiBoost: { ui: 40, ux: 20, backend: 10, otp: 0, marketing: 25, revenue: 30, social: 30 },
+                subItems: ["نمایش ۳ بعدی تنخور لباس", "تغییر رنگ پارچه روی مانکن", "تمایز صددرصدی با تمام رقبا"]
+              }
+            ]
+          }
         ]
       },
       {
         id: "b_checkout",
-        name: "۳. سفارش و درگاه",
-        items: [
-          { id: "g2", tier: "gray", short: "سبد خرید", title: "سبد خرید و ثبت آدرس", price: 3, pct: 3, desc: "ثبت ۳ مرحله‌ای، محاسبه خودکار کرایه و آدرس خریدار" },
-          { id: "g3", tier: "gray", short: "درگاه بانکی", title: "درگاه بانکی + کارت‌به‌کارت", price: 3.5, pct: 4, desc: "پرداخت مستقیم آنلاین به حساب شما + فرم ثبت فیش واریزی" },
-          { id: "p7", tier: "purple", short: "ورود پیامکی", title: "ورود با رمز یکبارمصرف SMS", price: 4, pct: 4, desc: "ورود بدون رمز و پیامک خودکار ثبت سفارش و کد پیگیری" },
-          { id: "y4", tier: "gold", short: "فروش اقساطی", title: "درگاه خرید ۴ قسطه مشتریان", price: 6, pct: 4, desc: "امکان خرید قسطی مکمل‌های گران‌قیمت و افزایش انفجاری سفارش" }
+        name: "۳. سفارش و پرداخت",
+        subBranches: [
+          {
+            id: "sb_pay_flow",
+            name: "فرایند ثبت و اقساط",
+            items: [
+              {
+                id: "g2",
+                category: "UX",
+                phase: 1,
+                tier: "gray",
+                title: "سبد خرید و کرایه پست",
+                priceNum: 3000000,
+                priceLabel: "۳ میلیون تومان",
+                desc: "ثبت سفارش در ۳ مرحله کوتاه و بدون فرم‌های طولانی همراه با ثبت آدرس خریدار.",
+                kpiBoost: { ui: 10, ux: 35, backend: 25, otp: 0, marketing: 10, revenue: 25, social: 0 },
+                subItems: ["ثبت سفارش در ۳ مرحله", "محاسبه خودکار کرایه بر اساس شهر", "امکان یادداشت توضیحات"]
+              },
+              {
+                id: "y4",
+                category: "Backend",
+                phase: 3,
+                tier: "gold",
+                title: "درگاه خرید ۴ قسطه اسنپ‌پی",
+                priceNum: 6000000,
+                priceLabel: "۶ میلیون تومان",
+                desc: "مشتری مکمل گران را در ۴ قسط می‌خرد، ولی کل پول نقد در همان لحظه به حساب شما واریز می‌شود.",
+                kpiBoost: { ui: 5, ux: 25, backend: 35, otp: 0, marketing: 30, revenue: 40, social: 15 },
+                subItems: ["خرید در ۴ قسط بدون چک و ضامن", "تسویه کامل نقدی کل مبلغ با شما", "افزایش حداقل ۵۰ درصدی حجم خرید"]
+              }
+            ]
+          },
+          {
+            id: "sb_pay_gateway",
+            name: "روش‌های تسویه مالی",
+            items: [
+              {
+                id: "g3",
+                category: "Backend",
+                phase: 1,
+                tier: "gray",
+                title: "درگاه بانکی و کارت‌به‌کارت",
+                priceNum: 3500000,
+                priceLabel: "۳.۵ میلیون تومان",
+                desc: "واریز مستقیم پول به حساب بانکی شما همراه با فرم آپلود عکس فیش کارت‌به‌کارت.",
+                kpiBoost: { ui: 5, ux: 25, backend: 40, otp: 0, marketing: 5, revenue: 35, social: 0 },
+                subItems: ["واریز آنلاین مستقیم به حساب شما", "فرم ارسال عکس فیش واریزی", "پیامک تایید سفارش به خریدار"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        id: "b_otp",
+        name: "۴. سیستم پیامکی و OTP",
+        subBranches: [
+          {
+            id: "sb_otp_login",
+            name: "ورود بدون رمز و پیامک",
+            items: [
+              {
+                id: "p7",
+                category: "OTP",
+                phase: 2,
+                tier: "purple",
+                title: "ورود با رمز پیامکی یکبارمصرف",
+                priceNum: 4000000,
+                priceLabel: "۴ میلیون تومان",
+                desc: "خریدار بدون رمز عبور سخت، فقط با شماره همراه و کد پیامکی سریعاً وارد حساب می‌شود.",
+                kpiBoost: { ui: 10, ux: 30, backend: 20, otp: 45, marketing: 20, revenue: 20, social: 0 },
+                subItems: ["ورود آنی بدون نیاز به پسورد", "ارسال پیامک کد پیگیری مرسوله", "ذخیره بانک شماره همراه"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        id: "b_insta",
+        name: "۵. مارکتینگ اینستاگرام",
+        subBranches: [
+          {
+            id: "sb_ig_existing",
+            name: "اصلاحات پیج موجود",
+            items: [
+              {
+                id: "m_ig1",
+                category: "Marketing",
+                phase: 1,
+                tier: "gray",
+                title: "اصلاح کاور و هایلایت‌ها",
+                priceNum: 2500000,
+                priceLabel: "۲.۵ میلیون تومان",
+                desc: "طراحی کاورهای مینیمال ورزشی، دسته‌بندی موضوعی اصالت کالا، رضایت خریداران و نحوه سفارش.",
+                kpiBoost: { ui: 25, ux: 15, backend: 0, otp: 0, marketing: 30, revenue: 20, social: 40 },
+                subItems: ["طراحی کاورهای مینیمال ورزشی", "دسته‌بندی موضوعی اصالت/مکمل/رضایت", "سناریونویسی استوری‌های هایلایت پولساز"]
+              },
+              {
+                id: "m_ig2",
+                category: "Marketing",
+                phase: 2,
+                tier: "purple",
+                title: "استراتژی پست و ریلزها",
+                priceNum: 3500000,
+                priceLabel: "۳.۵ میلیون تومان",
+                desc: "تدوین تقویم محتوایی پست‌ها: ویدیوهای آموزشی دوره مصرف مکمل، ویدیوهای چرخشی و قلاب‌های جذب.",
+                kpiBoost: { ui: 20, ux: 15, backend: 0, otp: 0, marketing: 40, revenue: 30, social: 45 },
+                subItems: ["تعیین قالب پست‌های آموزشی مصرف", "ایده‌پردازی ریلزهای ترند و قلاب جذب", "تقویم انتشار هفتگی منظم"]
+              },
+              {
+                id: "m_ig3",
+                category: "Backend",
+                phase: 2,
+                tier: "purple",
+                title: "اتوماسیون دایرکت و کامنت",
+                priceNum: 4000000,
+                priceLabel: "۴ میلیون تومان",
+                desc: "پاسخ آنی در دایرکت با نوشتن کلمه کلیدی (مثلاً 'وی') و ارسال لینک مستقیم خرید به همراه قیمت روز.",
+                kpiBoost: { ui: 10, ux: 35, backend: 30, otp: 10, marketing: 45, revenue: 40, social: 50 },
+                subItems: ["ارسال خودکار لینک خرید در دایرکت", "پاسخگویی سریع به کامنت‌های قیمت", "اتصال مستقیم دایرکت اینستاگرام به سایت"]
+              }
+            ]
+          },
+          {
+            id: "sb_ig_brand",
+            name: "راه‌اندازی پیج جدید",
+            items: [
+              {
+                id: "m_ig4",
+                category: "Marketing",
+                phase: 3,
+                tier: "gold",
+                title: "برندینگ پیج جدید صفر تا صد",
+                priceNum: 6000000,
+                priceLabel: "۶ میلیون تومان",
+                desc: "طراحی هویت بصری، بایو اختصاصی ورزشی، لینک‌ساز هوشمند و چیدمان پیج نوپا با استانداردهای فروش.",
+                kpiBoost: { ui: 35, ux: 20, backend: 10, otp: 0, marketing: 45, revenue: 35, social: 50 },
+                subItems: ["طراحی لوگو و پالت رنگی ورزشی پیج", "بایونویسی حرفه‌ای به همراه لینک‌ساز سایت", "طراحی ۹ پست اولیه ویترینی"]
+              }
+            ]
+          }
         ]
       },
       {
         id: "b_bot",
-        name: "۴. ربات تلگرام",
-        items: [
-          { id: "g7", tier: "gray", short: "ربات اطلاع‌رسانی", title: "خبررسان تلگرام فروشنده", price: 2.5, pct: 3, desc: "ارسال آنی فاکتور خرید خریداران داخل تلگرام شما" },
-          { id: "p6", tier: "purple", short: "ربات تایید رسید", title: "دریافت فیش و تایید با ۱ لمس", price: 4.5, pct: 4, desc: "دریافت عکس رسید مشتری و ارسال کد پیگیری با یک دکمه" },
-          { id: "y3", tier: "gold", short: "ربات فروش و تمدید", title: "ربات فروش + یادآوری ۳۰ روزه", price: 9, pct: 4, desc: "خرید داخل تلگرام + پیامک یادآوری خرید مجدد بعد از اتمام مکمل" },
-          { id: "p8", tier: "purple", short: "کد تخفیف", title: "تخفیف مناسبتی + ارسال رایگان", price: 2.5, pct: 3, desc: "کوپن تخفیف و نوار ترغیب به اضافه کردن کالا برای ارسال رایگان" }
+        name: "۶. ربات تلگرام و فروش",
+        subBranches: [
+          {
+            id: "sb_bot_admin",
+            name: "مدیریت سفارشات تلگرام",
+            items: [
+              {
+                id: "g7",
+                category: "Marketing",
+                phase: 1,
+                tier: "gray",
+                title: "خبررسان تلگرامی سفارش",
+                priceNum: 2500000,
+                priceLabel: "۲.۵ میلیون تومان",
+                desc: "به محض خرید، فاکتور، شماره تماس و آدرس خریدار در تلگرام شخصی شما ارسال می‌شود.",
+                kpiBoost: { ui: 5, ux: 15, backend: 20, otp: 15, marketing: 35, revenue: 20, social: 15 },
+                subItems: ["اعلام آنی هر خرید در تلگرام شما", "مشاهده مشخصات و آدرس خریدار", "دکمه مستقیم تماس با خریدار"]
+              },
+              {
+                id: "p6",
+                category: "Marketing",
+                phase: 2,
+                tier: "purple",
+                title: "تایید عکس فیش با ۱ لمس",
+                priceNum: 4500000,
+                priceLabel: "۴.۵ میلیون تومان",
+                desc: "عکس فیش خریدار در تلگرام شما می‌آید؛ با زدن دکمه تایید، پیامک آماده‌سازی به او می‌رود.",
+                kpiBoost: { ui: 10, ux: 25, backend: 25, otp: 25, marketing: 35, revenue: 25, social: 15 },
+                subItems: ["ارسال تصویر فیش خریدار به تلگرام", "دکمه تایید فیش با یک لمس", "ارسال خودکار پیامک بسته"]
+              }
+            ]
+          },
+          {
+            id: "sb_bot_growth",
+            name: "فروش خودکار و تکرار خرید",
+            items: [
+              {
+                id: "y3",
+                category: "Marketing",
+                phase: 3,
+                tier: "gold",
+                title: "یادآوری ۳۰ روزه مکمل",
+                priceNum: 9000000,
+                priceLabel: "۹ میلیون تومان",
+                desc: "۳۰ روز پس از خرید مکمل، ربات پیام می‌دهد: «مکمل شما رو به اتمام است؛ برای تمدید کلیک کنید».",
+                kpiBoost: { ui: 10, ux: 20, backend: 20, otp: 20, marketing: 45, revenue: 45, social: 25 },
+                subItems: ["امکان سفارش مستقیم داخل تلگرام", "پیام خودکار یادآوری مصرف دوره", "وفادارسازی مادام‌العمر خریداران"]
+              },
+              {
+                id: "p8",
+                category: "Marketing",
+                phase: 2,
+                tier: "purple",
+                title: "کد تخفیف و ارسال رایگان",
+                priceNum: 2500000,
+                priceLabel: "۲.۵ میلیون تومان",
+                desc: "تعریف کوپن‌های تخفیف مناسبتی و نوار تشویق خریدار به خرید بیشتر جهت ارسال رایگان.",
+                kpiBoost: { ui: 15, ux: 20, backend: 15, otp: 0, marketing: 35, revenue: 30, social: 20 },
+                subItems: ["ساخت کوپن‌های درصدی یا مقداری", "نوار ترغیب خرید برای ارسال رایگان", "امکان محدودسازی به اولین خرید"]
+              }
+            ]
+          }
         ]
       },
       {
         id: "b_admin",
-        name: "۵. انبارداری و ارسال",
-        items: [
-          { id: "g6", tier: "gray", short: "پنل مدیریت", title: "پنل افزودن و ویرایش کالا", price: 3, pct: 4, desc: "تغییر قیمت، کنترل موجودی و مدیریت وضعیت سفارش‌ها" },
-          { id: "p9", tier: "purple", short: "اتصال پست/تیپاکس", title: "محاسبه کرایه و پرینت برچسب", price: 3.5, pct: 3, desc: "محاسبه خودکار هزینه پست هر شهر و تولید برچسب آماده کارتن" },
-          { id: "p10", tier: "purple", short: "تغییر قیمت درصدی", title: "انبار زنده + تغییر کل یک برند", price: 4, pct: 4, desc: "به‌روزرسانی قیمت کل برند با نوسان ارز فقط با یک دکمه" },
-          { id: "y5", tier: "gold", short: "گزارش سود و زیان", title: "گزارش مالی چی خریدم چی فروختم", price: 8, pct: 5, desc: "محاسبه اتوماتیک سود خالص، سرمایه انبار و پرفروش‌ها" }
-        ]
-      },
-      {
-        id: "b_ai",
-        name: "۶. هوش مصنوعی و رشد",
-        items: [
-          { id: "g8", tier: "gray", short: "دامنه و آموزش", title: "آدرس سایت، فضا و آموزش", price: 2, pct: 3, desc: "ثبت آدرس اختصاصی به نام شما، میزبانی امن و آموزش کامل" },
-          { id: "p5", tier: "purple", short: "مقایسه و استعلام", title: "مقایسه دو کالا + اصالت‌سنج", price: 3.5, pct: 3, desc: "مقایسه جدول ترکیبات دو برند و تایید اصالت کالا" },
-          { id: "y6", tier: "gold", short: "رادار کلیک‌ها", title: "رادار محبوب‌ترین دکمه‌ها و برندها", price: 7, pct: 4, desc: "بفهمید کدام برند بیشتر کلیک شده و مشتری دنبال چه جنسی است" },
-          { id: "y7", tier: "gold", short: "مشاور هوشمند AI", title: "مشاور هوش مصنوعی قد/وزن", price: 9, pct: 4, desc: "پیشنهاد خودکار مکمل و سایز متناسب با قد، وزن و هدف" },
-          { id: "y8", tier: "gold", short: "سامانه تمرین/خواب", title: "اتصال سامانه تمرین و ریکاوری", price: 11, pct: 4, desc: "خریدار پنل برنامه تمرین هدیه می‌گیرد و همیشه مشتری می‌ماند" }
+        name: "۷. انبار، سئو و هوش مصنوعی",
+        subBranches: [
+          {
+            id: "sb_adm_inv",
+            name: "انبارداری و ارسال سریع",
+            items: [
+              {
+                id: "g6",
+                category: "Backend",
+                phase: 1,
+                tier: "gray",
+                title: "پنل ساده قیمت و موجودی",
+                priceNum: 3000000,
+                priceLabel: "۳ میلیون تومان",
+                desc: "پنل بسیار آسان در گوشی برای ویرایش موجودی انبار، تغییر قیمت‌ها و وضعیت سفارش‌ها.",
+                kpiBoost: { ui: 15, ux: 25, backend: 35, otp: 0, marketing: 10, revenue: 20, social: 0 },
+                subItems: ["تغییر سریع قیمت از روی گوشی", "علامت ناموجود شدن کالای تمام‌شده", "فهرست سفارش‌های جدید و ارسالی"]
+              },
+              {
+                id: "p9",
+                category: "Backend",
+                phase: 2,
+                tier: "purple",
+                title: "اتصال پست و چاپ برچسب",
+                priceNum: 3500000,
+                priceLabel: "۳.۵ میلیون تومان",
+                desc: "تولید برچسب استاندارد پستی شامل فرستنده، گیرنده و بارکد با یک کلیک جهت چسباندن روی کارتن.",
+                kpiBoost: { ui: 10, ux: 25, backend: 30, otp: 15, marketing: 15, revenue: 15, social: 0 },
+                subItems: ["محاسبه کرایه پست و تیپاکس شهرها", "تولید برگه نشانی استاندارد روی کارتن", "صرفه‌جویی در زمان بسته‌بندی"]
+              },
+              {
+                id: "p10",
+                category: "Backend",
+                phase: 2,
+                tier: "purple",
+                title: "تغییر درصدی قیمت برند",
+                priceNum: 4000000,
+                priceLabel: "۴ میلیون تومان",
+                desc: "با نوسان قیمت ارز، با یک کلیک مثلاً تمام محصولات یک برند را ۱۰ درصد افزایش دهید.",
+                kpiBoost: { ui: 5, ux: 20, backend: 35, otp: 0, marketing: 10, revenue: 25, social: 0 },
+                subItems: ["افزایش یا کاهش درصدی کل دسته", "به‌روزرسانی قیمت ۵۰ کالا در ۳ ثانیه", "جلوگیری از زیان نوسانات قیمتی"]
+              },
+              {
+                id: "y5",
+                category: "Backend",
+                phase: 3,
+                tier: "gold",
+                title: "گزارش مالی سود و زیان",
+                priceNum: 8000000,
+                priceLabel: "۸ میلیون تومان",
+                desc: "نمودار سود خالص ماهانه، مانده سرمایه انبار و معرفی پرسودترین مکمل‌های مغازه.",
+                kpiBoost: { ui: 20, ux: 20, backend: 35, otp: 0, marketing: 20, revenue: 35, social: 0 },
+                subItems: ["محاسبه سود خالص هر فاکتور", "نمایش پرفروش‌ترین برندهای ماه", "برآورد ارزش ریالی موجودی انبار"]
+              }
+            ]
+          },
+          {
+            id: "sb_adm_ai",
+            name: "سئو و هوش مصنوعی",
+            items: [
+              {
+                id: "g8",
+                category: "Backend",
+                phase: 1,
+                tier: "gray",
+                title: "ثبت دامنه، هاست و آموزش",
+                priceNum: 2000000,
+                priceLabel: "۲ میلیون تومان",
+                desc: "خرید دامنه اختصاصی به نام کارفرما، سرور ابری پرسرعت و ویدیوی آموزشی ساده کار با سایت.",
+                kpiBoost: { ui: 10, ux: 20, backend: 35, otp: 10, marketing: 15, revenue: 15, social: 5 },
+                subItems: ["مالکیت ۱۰۰ درصدی آدرس و فایل‌ها", "سرور پرسرعت داخلی بدون قطعی", "آموزش ویدیویی فارسی"]
+              },
+              {
+                id: "p5",
+                category: "UX",
+                phase: 2,
+                tier: "purple",
+                title: "مقایسه همزمان ترکیبات",
+                priceNum: 3500000,
+                priceLabel: "۳.۵ میلیون تومان",
+                desc: "خریدار می‌تواند دو محصول مشابه را کنار هم بگذارد و ترکیبات و درصد پروتئین را مقایسه کند.",
+                kpiBoost: { ui: 25, ux: 30, backend: 15, otp: 0, marketing: 20, revenue: 20, social: 15 },
+                subItems: ["جدول مقایسه رودرروی مواد اولیه", "کمک به خریدار مردد برای انتخاب سریع", "افزایش اطمینان به مشاوره تخصصی"]
+              },
+              {
+                id: "y6",
+                category: "Marketing",
+                phase: 3,
+                tier: "gold",
+                title: "آمار علایق و کلیک‌ها",
+                priceNum: 7000000,
+                priceLabel: "۷ میلیون تومان",
+                desc: "گزارش کاملی از اینکه مردم کدام برند را بیشتر جستجو کرده‌اند و دنبال چه جنسی بوده‌اند.",
+                kpiBoost: { ui: 15, ux: 15, backend: 25, otp: 0, marketing: 40, revenue: 30, social: 25 },
+                subItems: ["کشف کالاهای پرتقاضا قبل از خرید عمده", "اطلاع از مکمل‌هایی که ناموجود بودند", "افزایش بهره‌وری خرید انبار"]
+              },
+              {
+                id: "y7",
+                category: "Marketing",
+                phase: 3,
+                tier: "gold",
+                title: "مشاور هوش مصنوعی مکمل",
+                priceNum: 9000000,
+                priceLabel: "۹ میلیون تومان",
+                desc: "مشتری قد، وزن و هدف خود را وارد می‌کند و سیستم بهترین پکیج مکمل را اتوماتیک پیشنهاد می‌دهد.",
+                kpiBoost: { ui: 25, ux: 30, backend: 25, otp: 0, marketing: 40, revenue: 40, social: 30 },
+                subItems: ["پیشنهاد خودکار دوره مکمل مناسب", "محاسبه دوز مصرف روزانه", "فروش خودکار سبدهای چندتایی"]
+              }
+            ]
+          }
         ]
       }
     ];
 
-    // دیکشنری دسترسی سریع به کالاها
-    const allOptionsMap = new Map();
-    branchesData.forEach(b => b.items.forEach(i => allOptionsMap.set(i.id, { ...i, branchName: b.name })));
-
-    // ۳ استراتژی با ترتیب پیشنهادی گام‌به‌گام
-    const strategies = {
-      full: {
-        key: "full",
-        name: "مدل ۱: پرداخت نقدی کامل (بیشترین تخفیف)",
-        desc: "تمام ۲۶ امکان پلتفرم با ۲۰٪ تخفیف کل فاکتور، تسویه یک‌جا و مالکیت دائمی بدون وابستگی.",
-        sequence: [
-          "g1", "g2", "g3", "g5", "g6", "g7", "g8",
-          "p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8", "p9", "p10",
-          "y1", "y2", "y3", "y4", "y5", "y6", "y7", "y8"
-        ]
-      },
-      phased: {
-        key: "phased",
-        name: "مدل ۲: اجرای ۳ رانده مرحله‌ای",
-        desc: "راند ۱ (پایه با ۲۴ م) ➔ فروش جنس ➔ راند ۲ (پوشاک، سه‌بعدی و ربات با ۳۰ م) ➔ راند ۳ (امپراتوری طلایی با سود مغازه).",
-        sequence: [
-          // راند ۱
-          "g1", "g2", "g3", "g5", "g6", "g7", "g8",
-          // راند ۲
-          "p1", "p2", "p4", "p6", "p7", "p9", "p10", "p3",
-          // راند ۳
-          "y1", "y3", "y4", "y5", "y7", "y8"
-        ]
-      },
-      revshare: {
-        key: "revshare",
-        name: "مدل ۳: پایه اقتصادی + شراکت ۴٪ درگاه",
-        desc: "۵۰٪ تخفیف روی هزینه اولیه ساخت + کسر ۴٪ کارمزد خودکار از هر خرید موفق درگاه آنلاین.",
-        sequence: [
-          "g1", "g2", "g3", "g5", "g6", "g7",
-          "p6", "p7", "p9", "p10", "p4",
-          "y3", "y4", "y7"
-        ]
-      }
+    const categoryIcons = {
+      UI: "🎨 UI",
+      UX: "⚡ UX",
+      Backend: "🛡️ Backend",
+      OTP: "📲 OTP",
+      Marketing: "🚀 Marketing"
     };
 
-    let activeStrategy = "full";
-    let previewStrategyKey = null;
-    let checkedItems = new Set(strategies.full.sequence); // پیش‌فرض همه انتخاب هستند
-
-    function formatMillion(num) {
-      return Number(num).toLocaleString('fa-IR') + " م ت";
-    }
-
-    function setStrategy(key) {
-      activeStrategy = key;
-      previewStrategyKey = null;
-      updateHeaderButtons();
-      renderMindMap();
-    }
-
-    function previewStrategy(key) {
-      previewStrategyKey = key;
-      renderMindMap();
-    }
-
-    function endPreviewStrategy() {
-      previewStrategyKey = null;
-      renderMindMap();
-    }
-
-    function applyActiveRecommendation() {
-      const targetKey = previewStrategyKey || activeStrategy;
-      checkedItems = new Set(strategies[targetKey].sequence);
-      activeStrategy = targetKey;
-      previewStrategyKey = null;
-      updateHeaderButtons();
-      renderMindMap();
-    }
-
-    function clearAllToBasics() {
-      checkedItems.clear();
-      checkedItems.add("g1");
-      checkedItems.add("g2");
-      checkedItems.add("g3");
-      checkedItems.add("g5");
-      renderMindMap();
-    }
-
-    function toggleItem(id) {
-      if (checkedItems.has(id)) {
-        checkedItems.delete(id);
-      } else {
-        checkedItems.add(id);
-      }
-      renderMindMap();
-    }
-
-    function updateHeaderButtons() {
-      ["full", "phased", "revshare"].forEach(k => {
-        const btn = document.getElementById("modeBtn_" + k);
-        btn.classList.toggle("mode-tab-active", k === activeStrategy);
+    // مپ سریع تمام آیتم‌ها
+    const allGameItemsMap = new Map();
+    hierarchicalTree.forEach(branch => {
+      branch.subBranches.forEach(sb => {
+        sb.items.forEach(item => {
+          allGameItemsMap.set(item.id, {
+            ...item,
+            branchName: branch.name,
+            subBranchName: sb.name
+          });
+        });
       });
-      document.getElementById("rootStrategyDesc").textContent = strategies[activeStrategy].desc;
+    });
+
+    let gameSelectedIds = new Set();
+    let collapsedNodes = new Set(); // به صورت پیش‌فرض هیچ گره‌ای بسته نیست (همه بازند)
+    let currentSearchTerm = "";
+
+    function formatToman(num) {
+      if (!num || num === 0) return "۰ تومان";
+      return Number(num).toLocaleString('fa-IR') + " تومان";
     }
 
-    function calculateLive() {
-      let rawSum = 0;
-      let totalPct = 0;
-      checkedItems.forEach(id => {
-        const item = allOptionsMap.get(id);
+    function selectAllGameItems() {
+      allGameItemsMap.forEach(item => gameSelectedIds.add(item.id));
+      renderGameMindmap();
+      updateDashboardState();
+    }
+
+    function clearAllGameItems() {
+      gameSelectedIds.clear();
+      renderGameMindmap();
+      updateDashboardState();
+    }
+
+    function toggleGameItem(id) {
+      if (gameSelectedIds.has(id)) {
+        gameSelectedIds.delete(id);
+      } else {
+        gameSelectedIds.add(id);
+      }
+      renderGameMindmap();
+      updateDashboardState();
+    }
+
+    // باز و بسته کردن زیرشاخه‌ها
+    function toggleNodeCollapse(nodeId, event) {
+      if (event) event.stopPropagation();
+      if (collapsedNodes.has(nodeId)) {
+        collapsedNodes.delete(nodeId);
+      } else {
+        collapsedNodes.add(nodeId);
+      }
+      renderGameMindmap();
+    }
+
+    // جستجوی زنده
+    function handleSearch(term) {
+      currentSearchTerm = (term || "").trim().toLowerCase();
+      renderGameMindmap();
+    }
+
+    // محاسبه امتیازات KPIها و فازها
+    function updateDashboardState() {
+      let rawTotal = 0;
+      let phase1Sum = 0;
+
+      let kpis = { ui: 0, ux: 0, backend: 0, otp: 0, marketing: 0, revenue: 0, social: 0 };
+      let maxPossibleKpi = { ui: 0, ux: 0, backend: 0, otp: 0, marketing: 0, revenue: 0, social: 0 };
+
+      allGameItemsMap.forEach(item => {
+        Object.keys(kpis).forEach(k => {
+          maxPossibleKpi[k] += item.kpiBoost[k] || 0;
+        });
+      });
+
+      gameSelectedIds.forEach(id => {
+        const item = allGameItemsMap.get(id);
         if (item) {
-          rawSum += item.price;
-          totalPct += item.pct;
+          rawTotal += item.priceNum;
+          if (item.phase === 1) phase1Sum += item.priceNum;
+          Object.keys(kpis).forEach(k => {
+            kpis[k] += item.kpiBoost[k] || 0;
+          });
         }
       });
-      totalPct = Math.min(100, totalPct);
 
-      // مدل ۱: نقدی با تخفیف
-      const fullDiscount = rawSum >= 50 ? 0.20 : 0.12;
-      const costFull = Math.round((rawSum * (1 - fullDiscount)) * 10) / 10;
-      const savedFull = Math.round((rawSum - costFull) * 10) / 10;
+      let totalPowerSum = 0;
+      Object.keys(kpis).forEach(k => {
+        const pct = maxPossibleKpi[k] > 0 ? Math.min(100, Math.round((kpis[k] / maxPossibleKpi[k]) * 100)) : 0;
+        totalPowerSum += pct;
 
-      // مدل ۲: مرحله‌ای (راند ۱ پایه خاکستری است)
-      let r1Cost = 0, r2Cost = 0, r3Cost = 0;
-      checkedItems.forEach(id => {
-        const item = allOptionsMap.get(id);
-        if (!item) return;
-        if (item.tier === "gray") r1Cost += item.price;
-        else if (item.tier === "purple") r2Cost += item.price;
-        else r3Cost += item.price;
+        const valEl = document.getElementById(`kpiVal_${k}`);
+        const barEl = document.getElementById(`kpiBar_${k}`);
+        if (valEl) valEl.textContent = `${pct.toLocaleString('fa-IR')}٪`;
+        if (barEl) barEl.style.width = `${pct}%`;
       });
 
-      // مدل ۳: شراکتی (۵۰٪ تخفیف پیش‌پرداخت)
-      const costRevshare = Math.round((rawSum * 0.5) * 10) / 10;
+      const avgPower = Math.round(totalPowerSum / Object.keys(kpis).length);
+      document.getElementById("totalPowerBadge").textContent = `${avgPower.toLocaleString('fa-IR')}٪`;
 
-      return {
-        rawSum,
-        totalPct,
-        costFull,
-        savedFull,
-        r1Cost,
-        r2Cost,
-        r3Cost,
-        costRevshare
-      };
-    }
+      // شرایط فازها
+      const p1Unlocked = avgPower >= 35 || gameSelectedIds.size >= 4;
+      const b1 = document.getElementById("badgePhase1");
+      b1.className = `phase-badge liquid-card px-2.5 py-1 rounded-xl border flex items-center gap-1.5 ${p1Unlocked ? 'phase-unlocked' : 'phase-locked border-slate-700'}`;
+      document.getElementById("p1StatusText").textContent = p1Unlocked ? "فعال و آماده پرتاب ✓" : "نیاز به ۳۵٪";
+      document.getElementById("p1StatusText").className = p1Unlocked ? "text-[9px] px-1 rounded bg-emerald-500/30 text-emerald-200 font-bold" : "text-[9px] px-1 rounded bg-slate-800 text-slate-300";
 
-    function renderMindMap() {
-      const calc = calculateLive();
-      const currentModeKey = previewStrategyKey || activeStrategy;
-      const seq = strategies[currentModeKey].sequence;
-      const seqMap = new Map(seq.map((id, idx) => [id, idx + 1]));
+      const p2Unlocked = avgPower >= 65;
+      const b2 = document.getElementById("badgePhase2");
+      b2.className = `phase-badge liquid-card px-2.5 py-1 rounded-xl border flex items-center gap-1.5 ${p2Unlocked ? 'phase-unlocked' : 'phase-locked border-slate-700'}`;
+      document.getElementById("p2StatusText").textContent = p2Unlocked ? "آماده جهش و ارتقا ✓" : "نیاز به ۶۵٪";
+      document.getElementById("p2StatusText").className = p2Unlocked ? "text-[9px] px-1 rounded bg-purple-500/30 text-purple-200 font-bold" : "text-[9px] px-1 rounded bg-slate-800 text-slate-300";
 
-      // به‌روزرسانی نوار بالا
-      document.getElementById("headerPct").textContent = calc.totalPct.toLocaleString('fa-IR') + "٪";
-      document.getElementById("recStepsTotal").textContent = `${seq.length.toLocaleString('fa-IR')} گام در ${strategies[currentModeKey].name.split(':')[0]}`;
-      document.getElementById("rootCountBadge").textContent = `${checkedItems.size.toLocaleString('fa-IR')} از ۲۶ امکان`;
+      const p3Unlocked = avgPower >= 90;
+      const b3 = document.getElementById("badgePhase3");
+      b3.className = `phase-badge liquid-card px-2.5 py-1 rounded-xl border flex items-center gap-1.5 ${p3Unlocked ? 'phase-unlocked' : 'phase-locked border-slate-700'}`;
+      document.getElementById("p3StatusText").textContent = p3Unlocked ? "امپراتوری کامل ✓" : "نیاز به ۹۰٪";
+      document.getElementById("p3StatusText").className = p3Unlocked ? "text-[9px] px-1 rounded bg-amber-500/30 text-amber-200 font-bold" : "text-[9px] px-1 rounded bg-slate-800 text-slate-300";
 
-      const modeLabels = {
-        full: "نقدی کامل:",
-        phased: "مرحله‌ای (راند ۱):",
-        revshare: "پیش‌پرداخت شراکت:"
-      };
-      document.getElementById("headerModeTag").textContent = modeLabels[activeStrategy];
+      // آنالیز هوشمند رنگ‌های انتخابی (Color Synergy & Combo System)
+      let countGray = 0;
+      let countPurple = 0;
+      let countGold = 0;
 
-      let activeCostText = "";
-      if (activeStrategy === "full") {
-        activeCostText = formatMillion(calc.costFull) + ` (با ${calc.savedFull.toLocaleString('fa-IR')} م تخفیف)`;
-      } else if (activeStrategy === "phased") {
-        activeCostText = formatMillion(calc.r1Cost) + ` (کل ۳ راند: ${calc.rawSum.toLocaleString('fa-IR')} م)`;
-      } else {
-        activeCostText = formatMillion(calc.costRevshare) + " + ۴٪ سهم درگاه";
+      gameSelectedIds.forEach(id => {
+        const item = allGameItemsMap.get(id);
+        if (item) {
+          if (item.tier === "gray") countGray++;
+          else if (item.tier === "purple") countPurple++;
+          else if (item.tier === "gold") countGold++;
+        }
+      });
+
+      // محاسبه تخفیف هوشمند مبتنی بر رنگ‌ها:
+      // ۱. تخفیف پلکانی به ازای هر آیتم بر اساس ارزش رنگ
+      let dynamicDiscountRate = 0;
+      if (gameSelectedIds.size > 0) {
+        dynamicDiscountRate = 0.08; // تخفیف پایه ۸٪ با اولین انتخاب
+        dynamicDiscountRate += (countGray * 0.0075);   // تا ۶٪ از رنگ خاکستری/پایه
+        dynamicDiscountRate += (countPurple * 0.0075); // تا ۹٪ از رنگ بنفش
+        dynamicDiscountRate += (countGold * 0.01);     // تا ۸٪ از رنگ طلایی
       }
-      document.getElementById("headerCostValue").textContent = activeCostText;
 
-      // مقایسه‌های فشرده ستون چپ
-      document.getElementById("miniCost_full").textContent = formatMillion(calc.costFull);
-      document.getElementById("miniCost_phased").textContent = `راند ۱: ${calc.r1Cost.toLocaleString('fa-IR')} م (کل ${calc.rawSum.toLocaleString('fa-IR')} م)`;
-      document.getElementById("miniCost_revshare").textContent = `${calc.costRevshare.toLocaleString('fa-IR')} م + ۴٪`;
+      // ۲. پاداش ویژه فول کردن هر رنگ (Full Color Combo Bonus)
+      let comboBadges = [];
+      const isGrayFull = (countGray === 8);
+      const isPurpleFull = (countPurple === 12);
+      const isGoldFull = (countGold === 8);
+      const isAllFull = (gameSelectedIds.size === 28);
 
-      // رندر ۶ شاخه در ستون راست (توزیع متوازن بدون اسکرول)
-      const container = document.getElementById("branchesGrid");
-      container.innerHTML = branchesData.map(branch => {
-        const capsulesHtml = branch.items.map(item => {
-          const isChecked = checkedItems.has(item.id);
-          const stepNum = seqMap.get(item.id);
-          const isSuggested = Boolean(stepNum);
+      if (isGrayFull) {
+        dynamicDiscountRate += 0.035; // ۳.۵٪ بونوس فول رنگ پایه
+        comboBadges.push("فول آبی");
+      }
+      if (isPurpleFull) {
+        dynamicDiscountRate += 0.045; // ۴.۵٪ بونوس فول رنگ بنفش
+        comboBadges.push("فول بنفش");
+      }
+      if (isGoldFull) {
+        dynamicDiscountRate += 0.055; // ۵.۵٪ بونوس فول رنگ طلایی
+        comboBadges.push("فول طلایی");
+      }
+      if (isAllFull) {
+        dynamicDiscountRate = 0.35; // ماکزیمم تخفیف ۳۵٪ مگا کامبو
+        comboBadges = ["مگا کامبو ۱۰۰٪"];
+      }
 
-          const tierClass = item.tier === "gray" ? "node-gray" : (item.tier === "purple" ? "node-purple" : "node-gold");
-          const badgeClass = item.tier === "gray" ? "badge-gray" : (item.tier === "purple" ? "badge-purple" : "badge-gold");
+      // سقف منطقی تخفیف نقدی
+      dynamicDiscountRate = Math.min(0.35, dynamicDiscountRate);
+      const discountPercentRounded = Math.round(dynamicDiscountRate * 100);
 
-          return `
-            <div
-              onclick="toggleItem('${item.id}')"
-              onmouseenter="inspectItem('${item.id}', ${stepNum || 'null'})"
-              class="map-capsule flex-1 min-w-0 rounded-lg border px-2 py-1 flex items-center justify-between gap-1.5 cursor-pointer text-xs ${isChecked ? tierClass : 'border-slate-800 bg-slate-900/60 opacity-60'} ${isSuggested ? 'highlighted-suggested' : ''}"
-            >
-              <div class="flex items-center gap-1.5 min-w-0 overflow-hidden">
-                <input
-                  type="checkbox"
-                  ${isChecked ? 'checked' : ''}
-                  onclick="event.stopPropagation(); toggleItem('${item.id}')"
-                  class="w-3.5 h-3.5 cursor-pointer shrink-0"
-                >
-                <span class="font-bold text-white truncate text-[11px] sm:text-xs">${item.short}</span>
-              </div>
+      const costFull = Math.round(rawTotal * (1 - dynamicDiscountRate));
+      const costPhasedR1 = phase1Sum;
+      const costRevshare = Math.round(rawTotal * 0.5);
 
-              <div class="flex items-center gap-1 shrink-0">
-                ${stepNum ? `
-                  <span class="step-indicator" title="گام شماره ${stepNum} در این مسیر">${stepNum.toLocaleString('fa-IR')}</span>
-                ` : ""}
-                <span class="text-[10px] font-semibold text-slate-300">${item.price.toLocaleString('fa-IR')}م</span>
-              </div>
-            </div>
-          `;
-        }).join("");
+      // به‌روزرسانی بج کامبوی رنگی
+      const comboBadgeEl = document.getElementById("colorComboBadge");
+      if (comboBadgeEl) {
+        if (comboBadges.length > 0) {
+          comboBadgeEl.classList.remove("hidden");
+          comboBadgeEl.textContent = `⚡ ${comboBadges.join(" + ")} (+آفر ویژه)`;
+        } else if (gameSelectedIds.size > 0) {
+          comboBadgeEl.classList.remove("hidden");
+          comboBadgeEl.textContent = `🎨 ${countGray}/۸ 🔵 ${countPurple}/۱۲ 🟣 ${countGold}/۸ 🟡`;
+        } else {
+          comboBadgeEl.classList.add("hidden");
+        }
+      }
 
-        return `
-          <div class="flex items-center gap-2 bg-[#0b101e] border border-slate-800/80 rounded-xl px-2.5 py-1.5 flex-1 min-h-0">
-            <div class="w-28 sm:w-32 shrink-0 border-l border-slate-800 pl-2">
-              <div class="text-[11px] sm:text-xs font-extrabold text-sky-300 truncate">${branch.name}</div>
-            </div>
-            <div class="flex items-center gap-1.5 flex-1 min-w-0">
-              ${capsulesHtml}
-            </div>
-          </div>
-        `;
-      }).join("");
+      // به‌روزرسانی بج تخفیف کپسول ۱
+      const costBadge1 = document.getElementById("costBadge1");
+      if (costBadge1) {
+        costBadge1.textContent = `${discountPercentRounded.toLocaleString('fa-IR')}٪ تخفیف رنگی`;
+      }
+
+      // محاسبه و اعمال درصد پروگرس‌بار داخلی کپسول‌ها بدون تغییر سایز
+      const totalItemsCount = 28;
+      const pctTotal = totalItemsCount > 0 ? Math.min(100, Math.round((gameSelectedIds.size / totalItemsCount) * 100)) : 0;
+      const pctGray = 8 > 0 ? Math.min(100, Math.round((countGray / 8) * 100)) : 0;
+      const pctHigher = 20 > 0 ? Math.min(100, Math.round(((countPurple + countGold) / 20) * 100)) : 0;
+
+      const pBar1 = document.getElementById("costProgressBar1");
+      const pBar2 = document.getElementById("costProgressBar2");
+      const pBar3 = document.getElementById("costProgressBar3");
+
+      if (pBar1) pBar1.style.width = gameSelectedIds.size === 0 ? "0%" : `${Math.max(8, pctTotal)}%`;
+      if (pBar2) pBar2.style.width = countGray === 0 ? "0%" : `${Math.max(8, pctGray)}%`;
+      if (pBar3) pBar3.style.width = (countPurple + countGold) === 0 ? "0%" : `${Math.max(8, pctHigher)}%`;
+
+      if (gameSelectedIds.size === 0) {
+        document.getElementById("gameCost1").textContent = "۰ تومان";
+        document.getElementById("gameCost2").textContent = "۰ تومان";
+        document.getElementById("gameCost3").textContent = "۰ تومان + ۴٪";
+        if (costBadge1) costBadge1.textContent = "تخفیف هوشمند";
+      } else {
+        document.getElementById("gameCost1").textContent = formatToman(costFull);
+        document.getElementById("gameCost2").textContent = formatToman(costPhasedR1);
+        document.getElementById("gameCost3").textContent = formatToman(costRevshare) + " + ۴٪";
+      }
     }
 
-    function inspectItem(id, stepNum) {
-      const item = allOptionsMap.get(id);
+    // رندر مایند مپ چند سطحی واقعی (چپ به راست در بوم افقی)
+    function renderGameMindmap() {
+      const container = document.getElementById("gameNodesLayer");
+      const svg = document.getElementById("gameSvg");
+      
+      container.innerHTML = "";
+      svg.innerHTML = "";
+
+      // ستون‌ها
+      const colRootX = 40;
+      const colBranchesX = 330;
+      const colSubBranchesX = 620;
+      const colItemsX = 970;
+      const colSubsX = 1600;
+
+      // ۱. ریشه پلتفرم
+      const rootY = 380;
+      const rootEl = document.createElement("div");
+      rootEl.id = "game_root";
+      rootEl.className = "absolute liquid-glass rounded-2xl p-3.5 border border-sky-400/50 shadow-2xl flex flex-col justify-center text-right";
+      rootEl.style.left = colRootX + "px";
+      rootEl.style.top = rootY + "px";
+      rootEl.style.width = "230px";
+      rootEl.innerHTML = `
+        <div class="flex items-center gap-2 mb-1">
+          <span class="w-2.5 h-2.5 rounded-full bg-sky-400 animate-ping"></span>
+          <span class="text-xs font-black text-sky-300">هسته استراتژیک</span>
+        </div>
+        <div class="text-sm font-black text-white">سوپراستور ورزشی ۳۶۰°</div>
+        <div class="text-[10px] text-slate-400 mt-0.5">سایت + اینستاگرام + ربات‌ها</div>
+      `;
+      container.appendChild(rootEl);
+
+      let currentItemGlobalY = 25;
+      const branchPositions = [];
+
+      hierarchicalTree.forEach(branch => {
+        const branchStartY = currentItemGlobalY;
+        const subBranchPositions = [];
+        const isBranchCollapsed = collapsedNodes.has(branch.id);
+
+        branch.subBranches.forEach(sb => {
+          const sbStartY = currentItemGlobalY;
+          const isSbCollapsed = isBranchCollapsed || collapsedNodes.has(sb.id);
+          const itemPositions = [];
+
+          sb.items.forEach(item => {
+            const itemY = currentItemGlobalY;
+            const isSelected = gameSelectedIds.has(item.id);
+
+            // بررسی فیلتر جستجو
+            let isSearchMatch = false;
+            let isSearchDim = false;
+            if (currentSearchTerm) {
+              const fullText = (item.title + " " + item.desc + " " + item.subItems.join(" ") + " " + branch.name + " " + sb.name).toLowerCase();
+              if (fullText.includes(currentSearchTerm)) {
+                isSearchMatch = true;
+              } else {
+                isSearchDim = true;
+              }
+            }
+
+            let tierClass = "tier-gray";
+            let glowClass = "node-selected-gray";
+            if (item.tier === "purple") {
+              tierClass = "tier-purple";
+              glowClass = "node-selected-purple";
+            } else if (item.tier === "gold") {
+              tierClass = "tier-gold";
+              glowClass = "node-selected-gold";
+            }
+
+            const catTag = categoryIcons[item.category] || item.category;
+
+            // فقط در صورت باز بودن نمایش داده می‌شود
+            if (!isSbCollapsed) {
+              // گره امکان اصلی (سطح ۳)
+              const itemEl = document.createElement("div");
+              itemEl.id = "game_item_" + item.id;
+              itemEl.className = `node-base absolute rounded-xl px-3 py-1.5 flex items-center justify-between gap-2 cursor-pointer text-xs select-none ${tierClass} ${isSelected ? glowClass : ''} ${isSearchMatch ? 'search-matched' : ''} ${isSearchDim ? 'search-dimmed' : ''}`;
+              itemEl.style.left = colItemsX + "px";
+              itemEl.style.top = itemY + "px";
+              itemEl.style.width = "560px";
+              itemEl.style.height = "42px";
+              itemEl.onclick = () => toggleGameItem(item.id);
+              itemEl.onmouseenter = (e) => showGameHoverTooltip(e, item.id);
+              itemEl.onmouseleave = hideGameHoverTooltip;
+
+              itemEl.innerHTML = `
+                <div class="flex items-center gap-2 min-w-0 overflow-hidden">
+                  <input
+                    type="checkbox"
+                    ${isSelected ? 'checked' : ''}
+                    onclick="event.stopPropagation(); toggleGameItem('${item.id}')"
+                    class="w-4 h-4 rounded cursor-pointer accent-sky-400 shrink-0"
+                  >
+                  <span class="text-[10px] px-1.5 py-0.5 rounded font-black bg-slate-900/80 text-sky-300 border border-slate-700 shrink-0">
+                    ${catTag}
+                  </span>
+                  <span class="font-black text-white truncate text-xs">${item.title}</span>
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                  <span class="text-[9px] px-1.5 py-0.5 rounded bg-slate-900 font-bold text-slate-300">فاز ${item.phase.toLocaleString('fa-IR')}</span>
+                  <span class="text-xs font-black text-amber-300">${item.priceLabel}</span>
+                </div>
+              `;
+              container.appendChild(itemEl);
+
+              // ریزامکانات تفصیلی (سطح ۴ - زیرشاخه زیرشاخه)
+              const subEl = document.createElement("div");
+              subEl.id = "game_sub_" + item.id;
+              subEl.className = `absolute liquid-card rounded-xl px-3 py-1.5 flex items-center gap-2 text-[10px] text-slate-300 border border-slate-700/60 ${isSearchDim ? 'search-dimmed' : ''}`;
+              subEl.style.left = colSubsX + "px";
+              subEl.style.top = itemY + "px";
+              subEl.style.width = "1050px";
+              subEl.style.height = "42px";
+              subEl.innerHTML = item.subItems.map(s => `
+                <div class="flex items-center gap-1.5 bg-slate-900/80 px-2 py-1 rounded-lg flex-1 min-w-0">
+                  <span class="w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-amber-400' : 'bg-slate-500'} shrink-0"></span>
+                  <span class="truncate leading-tight">${s}</span>
+                </div>
+              `).join("");
+              container.appendChild(subEl);
+            }
+
+            itemPositions.push({
+              id: item.id,
+              x: colItemsX,
+              y: itemY + 21,
+              subX: colSubsX,
+              isSelected: isSelected,
+              isVisible: !isSbCollapsed
+            });
+
+            if (!isSbCollapsed) {
+              currentItemGlobalY += 50;
+            }
+          });
+
+          // اگر بسته بود حداقل یک ارتفاع برای اتصال سرشاخه باقی بماند
+          if (isSbCollapsed && sb.items.length > 0) {
+            currentItemGlobalY += 46;
+          }
+
+          const sbMidY = isSbCollapsed
+            ? (sbStartY + 20)
+            : (sbStartY + currentItemGlobalY - 50) / 2;
+
+          if (!isBranchCollapsed) {
+            // گره سرشاخه (سطح ۲)
+            const sbEl = document.createElement("div");
+            sbEl.id = "game_sb_" + sb.id;
+            const isThisSbCollapsed = collapsedNodes.has(sb.id);
+            sbEl.className = `node-base absolute liquid-card rounded-xl px-2.5 py-1.5 flex items-center justify-between border border-slate-700/90 text-xs font-bold text-slate-200 cursor-pointer shadow-md ${isThisSbCollapsed ? 'opacity-70 border-dashed' : ''}`;
+            sbEl.style.left = colSubBranchesX + "px";
+            sbEl.style.top = (sbMidY - 17) + "px";
+            sbEl.style.width = "270px";
+            sbEl.style.height = "36px";
+            sbEl.onclick = (e) => toggleNodeCollapse(sb.id, e);
+
+            sbEl.innerHTML = `
+              <div class="flex items-center gap-1.5 truncate">
+                <span class="text-amber-400 text-xs font-black">${isThisSbCollapsed ? '[+]' : '[-]'}</span>
+                <span class="truncate text-[11px]">${sb.name}</span>
+              </div>
+              <span class="text-[9px] px-1.5 py-0.2 rounded bg-slate-800 text-slate-400 font-mono">${sb.items.length} امکان</span>
+            `;
+            container.appendChild(sbEl);
+          }
+
+          subBranchPositions.push({
+            id: sb.id,
+            x: colSubBranchesX,
+            y: sbMidY,
+            items: itemPositions,
+            isVisible: !isBranchCollapsed,
+            isCollapsed: collapsedNodes.has(sb.id)
+          });
+
+          if (!isBranchCollapsed) {
+            currentItemGlobalY += 10;
+          }
+        });
+
+        if (isBranchCollapsed) {
+          currentItemGlobalY += 50;
+        }
+
+        const branchMidY = isBranchCollapsed
+          ? (branchStartY + 20)
+          : (branchStartY + currentItemGlobalY - 60) / 2;
+
+        // گره شاخه اصلی (سطح ۱)
+        const branchEl = document.createElement("div");
+        branchEl.id = "game_branch_" + branch.id;
+        const isThisBranchCollapsed = collapsedNodes.has(branch.id);
+        branchEl.className = `node-base absolute liquid-glass rounded-xl px-3 py-1.5 flex items-center justify-between shadow-lg border border-sky-400/40 text-xs font-black text-sky-200 cursor-pointer ${isThisBranchCollapsed ? 'opacity-70 border-dashed' : ''}`;
+        branchEl.style.left = colBranchesX + "px";
+        branchEl.style.top = (branchMidY - 18) + "px";
+        branchEl.style.width = "230px";
+        branchEl.style.height = "38px";
+        branchEl.onclick = (e) => toggleNodeCollapse(branch.id, e);
+
+        branchEl.innerHTML = `
+          <div class="flex items-center gap-1.5 truncate">
+            <span class="text-sky-400 text-xs">${isThisBranchCollapsed ? '[+]' : '[-]'}</span>
+            <span class="truncate">${branch.name}</span>
+          </div>
+          <span class="w-2 h-2 rounded-full bg-sky-400 shrink-0"></span>
+        `;
+        container.appendChild(branchEl);
+
+        branchPositions.push({
+          id: branch.id,
+          x: colBranchesX,
+          y: branchMidY,
+          subBranches: subBranchPositions,
+          isCollapsed: isThisBranchCollapsed
+        });
+
+        currentItemGlobalY += 16;
+      });
+
+      document.getElementById("gameCanvas").style.height = (currentItemGlobalY + 60) + "px";
+
+      // =========================================================
+      // رسم خطوط منحنی اتوماتیک SVG
+      // =========================================================
+      const rootCenterX = colRootX + 230;
+      const rootCenterY = rootY + 40;
+
+      branchPositions.forEach(b => {
+        // ۱. ریشه به شاخه اصلی
+        const p1x = rootCenterX;
+        const p1y = rootCenterY;
+        const p2x = b.x;
+        const p2y = b.y;
+        const midX1 = (p1x + p2x) / 2;
+
+        const hasActiveInBranch = b.subBranches.some(sb => sb.items.some(i => i.isSelected));
+        const branchPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        branchPath.setAttribute("d", `M ${p1x} ${p1y} C ${midX1} ${p1y}, ${midX1} ${p2y}, ${p2x} ${p2y}`);
+        branchPath.setAttribute("class", `mindmap-line ${hasActiveInBranch ? 'line-active' : ''}`);
+        svg.appendChild(branchPath);
+
+        if (!b.isCollapsed) {
+          const branchRightX = b.x + 230;
+
+          // ۲. شاخه اصلی به سرشاخه‌ها
+          b.subBranches.forEach(sb => {
+            const midX2 = (branchRightX + sb.x) / 2;
+            const hasActiveInSb = sb.items.some(i => i.isSelected);
+
+            const sbPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            sbPath.setAttribute("d", `M ${branchRightX} ${b.y} C ${midX2} ${b.y}, ${midX2} ${sb.y}, ${sb.x} ${sb.y}`);
+            sbPath.setAttribute("class", `mindmap-line ${hasActiveInSb ? 'line-active' : ''}`);
+            svg.appendChild(sbPath);
+
+            if (!sb.isCollapsed) {
+              const sbRightX = sb.x + 270;
+
+              // ۳. سرشاخه به امکانات و امکانات به زیرشاخه‌ها
+              sb.items.forEach(item => {
+                if (item.isVisible) {
+                  const midX3 = (sbRightX + item.x) / 2;
+                  const itemPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                  itemPath.setAttribute("d", `M ${sbRightX} ${sb.y} C ${midX3} ${sb.y}, ${midX3} ${item.y}, ${item.x} ${item.y}`);
+                  itemPath.setAttribute("class", `mindmap-line ${item.isSelected ? 'line-active' : ''}`);
+                  svg.appendChild(itemPath);
+
+                  // ۴. امکان به برگ‌های ریزامکانات
+                  const itemRightX = item.x + 560;
+                  const midX4 = (itemRightX + item.subX) / 2;
+                  const subline = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                  subline.setAttribute("d", `M ${itemRightX} ${item.y} C ${midX4} ${item.y}, ${midX4} ${item.y}, ${item.subX} ${item.y}`);
+                  subline.setAttribute("class", `mindmap-subline ${item.isSelected ? 'subline-active' : ''}`);
+                  svg.appendChild(subline);
+                }
+              });
+            }
+          });
+        }
+      });
+    }
+
+    // بالن هاور
+    const gameTooltipEl = document.getElementById("gameTooltip");
+    function showGameHoverTooltip(e, id) {
+      const item = allGameItemsMap.get(id);
       if (!item) return;
 
-      const tagEl = document.getElementById("inspPillTag");
-      tagEl.className = "px-2 py-0.5 rounded text-[10px] font-bold shrink-0 " +
-        (item.tier === "gray" ? "badge-gray" : (item.tier === "purple" ? "badge-purple" : "badge-gold"));
-      tagEl.textContent = (item.tier === "gray" ? "پایه" : (item.tier === "purple" ? "رشد" : "طلایی")) +
-        (stepNum ? ` • گام ${stepNum.toLocaleString('fa-IR')}` : "");
+      document.getElementById("ttBadgeKpi").textContent = categoryIcons[item.category] || item.category;
+      document.getElementById("ttTitle").textContent = item.title;
+      document.getElementById("ttPrice").textContent = item.priceLabel;
+      document.getElementById("ttDesc").textContent = item.desc;
 
-      document.getElementById("inspTitleText").textContent = item.title + ` (${item.price.toLocaleString('fa-IR')} میلیون تومان / +${item.pct}٪ قدرت):`;
-      document.getElementById("inspDetailText").textContent = item.desc;
+      const boostContainer = document.getElementById("ttKpiBoost");
+      const kpiLabels = {
+        ui: "🎨 جذابیت",
+        ux: "⚡ سهولت",
+        backend: "🛡️ امنیت",
+        otp: "📲 پیامک",
+        marketing: "🚀 مارکتینگ",
+        revenue: "💰 درآمد",
+        social: "📸 تعامل پیج"
+      };
+
+      boostContainer.innerHTML = Object.entries(item.kpiBoost)
+        .filter(([_, val]) => val > 0)
+        .map(([k, val]) => `
+          <div class="px-2 py-0.5 rounded bg-slate-900 border border-slate-700 text-sky-200">
+            ${kpiLabels[k] || k}: <strong class="text-emerald-400 font-black">+${val}٪</strong>
+          </div>
+        `).join("");
+
+      const x = Math.min(window.innerWidth - 340, Math.max(10, e.clientX - 160));
+      const y = Math.min(window.innerHeight - 210, e.clientY + 18);
+
+      gameTooltipEl.style.left = x + "px";
+      gameTooltipEl.style.top = y + "px";
+      gameTooltipEl.classList.add("active");
     }
 
-    // =========================================================
-    // مودال پاپ‌آپ فاکتور و امضا (بدون نیاز به اسکرول صفحه اصلی)
-    // =========================================================
-    function openInvoiceModal() {
-      const calc = calculateLive();
-      const currentModeKey = activeStrategy;
-      const seq = strategies[currentModeKey].sequence;
-      const seqMap = new Map(seq.map((id, idx) => [id, idx + 1]));
+    function hideGameHoverTooltip() {
+      gameTooltipEl.classList.remove("active");
+    }
 
-      document.getElementById("invModalCode").textContent = "ORD-" + Math.floor(100000 + Math.random() * 900000);
+    // مودال فاکتور رسمی
+    function openGameInvoiceModal() {
+      let rawTotal = 0;
+      let phase1Sum = 0;
+      let countGray = 0;
+      let countPurple = 0;
+      let countGold = 0;
+
+      gameSelectedIds.forEach(id => {
+        const item = allGameItemsMap.get(id);
+        if (item) {
+          rawTotal += item.priceNum;
+          if (item.phase === 1) phase1Sum += item.priceNum;
+          if (item.tier === "gray") countGray++;
+          else if (item.tier === "purple") countPurple++;
+          else if (item.tier === "gold") countGold++;
+        }
+      });
+
+      let dynamicDiscountRate = 0;
+      if (gameSelectedIds.size > 0) {
+        dynamicDiscountRate = 0.08 + (countGray * 0.0075) + (countPurple * 0.0075) + (countGold * 0.01);
+      }
+      if (countGray === 8) dynamicDiscountRate += 0.035;
+      if (countPurple === 12) dynamicDiscountRate += 0.045;
+      if (countGold === 8) dynamicDiscountRate += 0.055;
+      if (gameSelectedIds.size === 28) dynamicDiscountRate = 0.35;
+      dynamicDiscountRate = Math.min(0.35, dynamicDiscountRate);
+
+      const discountPercentRounded = Math.round(dynamicDiscountRate * 100);
+      const costFull = Math.round(rawTotal * (1 - dynamicDiscountRate));
+      const costPhasedR1 = phase1Sum;
+      const costRevshare = Math.round(rawTotal * 0.5);
+
+      document.getElementById("invModalCode").textContent = "VRZ-" + Math.floor(100000 + Math.random() * 900000);
       document.getElementById("invModalDate").textContent = new Date().toLocaleDateString('fa-IR');
-      document.getElementById("invModalModeLabel").textContent = strategies[activeStrategy].name;
+      document.getElementById("invModalPhaseStatus").textContent = "فاز ۱ فوری فعال";
 
       const tbody = document.getElementById("invModalTbody");
-      const list = [...checkedItems].map(id => allOptionsMap.get(id)).filter(Boolean);
+      const list = [...gameSelectedIds].map(id => allGameItemsMap.get(id)).filter(Boolean);
 
       if (list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="py-3 text-center text-slate-500">هیچ امکانی انتخاب نشده است.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" class="py-4 text-center text-slate-500">هیچ امکانی در نقشه ذهنی انتخاب نشده است.</td></tr>`;
       } else {
-        tbody.innerHTML = list.map((item, idx) => {
-          const step = seqMap.get(item.id) || "—";
-          const tierTxt = item.tier === "gray" ? "خاکستری" : (item.tier === "purple" ? "بنفش" : "طلایی");
-          return `
-            <tr>
-              <td class="py-1 px-1.5">${(idx + 1).toLocaleString('fa-IR')}</td>
-              <td class="py-1 px-1.5 font-semibold text-slate-200">${item.title}</td>
-              <td class="py-1 px-1.5 text-center text-slate-400">${tierTxt}</td>
-              <td class="py-1 px-1.5 text-center text-sky-400 font-bold">${step !== "—" ? step.toLocaleString('fa-IR') : "—"}</td>
-              <td class="py-1 px-1.5 text-left font-bold text-slate-200">${item.price.toLocaleString('fa-IR')} م</td>
-            </tr>
-          `;
-        }).join("");
+        tbody.innerHTML = list.map((item, idx) => `
+          <tr>
+            <td class="py-1 px-1.5 text-slate-400">${(idx + 1).toLocaleString('fa-IR')}</td>
+            <td class="py-1 px-1.5 font-bold text-slate-200">${item.title}</td>
+            <td class="py-1 px-1.5 text-center text-sky-400 font-semibold">${item.category}</td>
+            <td class="py-1 px-1.5 text-center text-purple-300 font-semibold">فاز ${item.phase.toLocaleString('fa-IR')}</td>
+            <td class="py-1 px-1.5 text-left font-black text-amber-300">${formatToman(item.priceNum)}</td>
+          </tr>
+        `).join("");
       }
 
-      // خلاصه مالی متناسب با مدل
       const summaryBox = document.getElementById("invModalSummary");
-      if (activeStrategy === "full") {
-        summaryBox.innerHTML = `
-          <div class="flex justify-between text-slate-400 text-[11px]">
-            <span>جمع ارزش کاتالوگ:</span>
-            <span>${calc.rawSum.toLocaleString('fa-IR')} میلیون تومان</span>
-          </div>
-          <div class="flex justify-between text-emerald-400 text-[11px]">
-            <span>تخفیف تسویه نقدی کامل:</span>
-            <span>- ${calc.savedFull.toLocaleString('fa-IR')} میلیون تومان</span>
-          </div>
-          <div class="flex justify-between text-white font-bold text-xs pt-1 border-t border-slate-800">
-            <span>مبلغ نهایی پرداخت نقدی:</span>
-            <span class="text-emerald-400">${calc.costFull.toLocaleString('fa-IR')} میلیون تومان</span>
-          </div>
-        `;
-      } else if (activeStrategy === "phased") {
-        summaryBox.innerHTML = `
-          <div class="flex justify-between text-slate-300 text-[11px]">
-            <span>پیش‌پرداخت راند ۱ (پایه راه‌اندازی):</span>
-            <strong class="text-purple-400 font-bold">${calc.r1Cost.toLocaleString('fa-IR')} میلیون تومان</strong>
-          </div>
-          <div class="flex justify-between text-slate-400 text-[11px]">
-            <span>هزینه راند ۲ (پس از اولین فروش‌های مغازه):</span>
-            <span>${calc.r2Cost.toLocaleString('fa-IR')} میلیون تومان</span>
-          </div>
-          <div class="flex justify-between text-slate-400 text-[11px]">
-            <span>هزینه راند ۳ (امپراتوری طلایی):</span>
-            <span>${calc.r3Cost.toLocaleString('fa-IR')} میلیون تومان</span>
-          </div>
-          <div class="flex justify-between text-white font-bold text-xs pt-1 border-t border-slate-800">
-            <span>جمع کل تعهد ۳ مرحله:</span>
-            <span>${calc.rawSum.toLocaleString('fa-IR')} میلیون تومان</span>
-          </div>
-        `;
-      } else {
-        summaryBox.innerHTML = `
-          <div class="flex justify-between text-slate-400 text-[11px]">
-            <span>ارزش کامل خدمات:</span>
-            <span>${calc.rawSum.toLocaleString('fa-IR')} میلیون تومان</span>
-          </div>
-          <div class="flex justify-between text-amber-400 font-bold text-[11px]">
-            <span>پیش‌پرداخت اولیه (۵۰٪ تخفیف ساخت):</span>
-            <span>${calc.costRevshare.toLocaleString('fa-IR')} میلیون تومان</span>
-          </div>
-          <div class="flex justify-between text-slate-300 text-[11px] pt-1 border-t border-slate-800">
-            <span>سهم مشارکت روی درگاه پرداخت:</span>
-            <strong class="text-emerald-400">۴٪ از هر تراکنش موفق آنلاین</strong>
-          </div>
-        `;
-      }
+      summaryBox.innerHTML = `
+        <div class="text-xs font-black text-slate-200 pb-1 border-b border-slate-800">۳ شیوه تسویه مالی:</div>
+        <div class="flex justify-between items-center text-slate-300 text-[11px]">
+          <span>۱. تسویه نقدی با تخفیف کامل:</span>
+          <strong class="text-emerald-400 text-xs">${formatToman(costFull)}</strong>
+        </div>
+        <div class="flex justify-between items-center text-slate-300 text-[11px]">
+          <span>۲. پرداخت مرحله‌ای (پیش‌پرداخت فاز ۱ فوری):</span>
+          <strong class="text-purple-300 text-xs">${formatToman(costPhasedR1)}</strong>
+        </div>
+        <div class="flex justify-between items-center text-slate-300 text-[11px]">
+          <span>۳. شراکتی (۵۰٪ تخفیف ساخت اولیه):</span>
+          <strong class="text-amber-300 text-xs">${formatToman(costRevshare)} + ۴٪ درگاه</strong>
+        </div>
+      `;
 
       document.getElementById("invoiceModal").classList.remove("hidden");
       setTimeout(initModalSignPad, 50);
     }
 
-    function closeInvoiceModal() {
+    function closeGameInvoiceModal() {
       document.getElementById("invoiceModal").classList.add("hidden");
     }
 
-    // امضای دیجیتال داخل مودال
     const modalCanvas = document.getElementById("modalSignPad");
     const mCtx = modalCanvas.getContext("2d");
     let mDrawing = false;
@@ -810,8 +1728,8 @@
       const ok = document.getElementById("chkModalRules").checked;
       const status = document.getElementById("modalSignStatus");
       if (ok) {
-        status.textContent = "قوانین تایید شد. لطفاً امضا کنید و دکمه ثبت نهایی را بزنید.";
-        status.className = "text-xs text-sky-400 font-semibold";
+        status.textContent = "قوانین تایید شد؛ لطفاً امضا کرده و ثبت نهایی را بزنید.";
+        status.className = "text-xs text-sky-400 font-bold";
       } else {
         status.textContent = "تیک تایید قوانین را بزنید و امضا فرمایید.";
         status.className = "text-xs text-slate-400";
@@ -822,23 +1740,31 @@
       const ok = document.getElementById("chkModalRules").checked;
       const status = document.getElementById("modalSignStatus");
       if (!ok) {
-        status.textContent = "ابتدا تیک تایید شرایط و قوانین را بزنید!";
+        status.textContent = "ابتدا تیک تایید قوانین را بزنید!";
         status.className = "text-xs text-rose-400 font-bold";
         return;
       }
       if (!mHasDrawn) {
-        status.textContent = "لطفاً امضای خود را در کادر سفید بکشید!";
+        status.textContent = "لطفاً امضای خود را در کادر سفید ثبت فرمایید!";
         status.className = "text-xs text-rose-400 font-bold";
         return;
       }
       document.getElementById("modalStamp").classList.remove("hidden");
-      status.textContent = "فاکتور رسمی با موفقیت امضا و ثبت نهایی شد ✓";
+      status.textContent = "فاکتور رسمی با موفقیت امضا و نهایی شد ✓";
       status.className = "text-xs text-emerald-400 font-bold";
     }
 
-    // راه‌اندازی اولیه
-    updateHeaderButtons();
-    renderMindMap();
+    // هدایت چرخ ماوس به اسکرول افقی روی بوم مایند مپ
+    const scrollArea = document.getElementById("gameScrollArea");
+    scrollArea.addEventListener("wheel", (e) => {
+      if (e.deltaY !== 0) {
+        e.preventDefault();
+        scrollArea.scrollLeft += e.deltaY;
+      }
+    }, { passive: false });
+
+    renderGameMindmap();
+    updateDashboardState();
   </script>
 </body>
 </html>

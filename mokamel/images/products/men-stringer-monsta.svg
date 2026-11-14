@@ -1,0 +1,30 @@
+<svg viewBox="0 0 300 360" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="shadow_men-stringer-monsta" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#000000" flood-opacity="0.8"/>
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#ef4444" flood-opacity="0.3"/>
+    </filter>
+    <linearGradient id="clothGrad_men-stringer-monsta" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7f1d1d"/>
+      <stop offset="50%" stop-color="#450a0a"/>
+      <stop offset="100%" stop-color="#7f1d1d"/>
+    </linearGradient>
+  </defs>
+
+  <ellipse cx="150" cy="335" rx="80" ry="14" fill="#000000" opacity="0.6" filter="url(#shadow_men-stringer-monsta)"/>
+  <g filter="url(#shadow_men-stringer-monsta)">
+    <!-- یقه و آستین / رکابی -->
+    
+    <path d="M110,55 Q150,90 190,55 L215,85 L200,140 L195,310 L105,310 L100,140 L85,85 Z" fill="url(#clothGrad_{pid})" stroke="#ef4444" stroke-width="1.5"/>
+    
+    <!-- بافت دوخت و خطوط تنفسی -->
+    <path d="M120,60 Q150,85 180,60" fill="none" stroke="#ef4444" stroke-width="2"/>
+    <line x1="90" y1="300" x2="210" y2="300" stroke="#ef4444" stroke-width="3"/>
+    <!-- لوگو و طرح گرافیکی رو سینه -->
+    <circle cx="150" cy="150" r="36" fill="rgba(0,0,0,0.5)" stroke="#ef4444" stroke-width="2"/>
+    <text x="150" y="148" font-size="13" font-weight="900" fill="#ffffff" text-anchor="middle" font-family="'Segoe UI', Roboto, sans-serif">Monsta Clothing</text>
+    <text x="150" y="165" font-size="10" font-weight="800" fill="#ef4444" text-anchor="middle" font-family="sans-serif">DEEP Y-BACK CUT</text>
+    <rect x="105" y="215" width="90" height="22" rx="4" fill="rgba(0,0,0,0.6)" stroke="#ef4444" stroke-width="1"/>
+    <text x="150" y="230" font-size="10" font-weight="800" fill="#ffffff" text-anchor="middle" font-family="sans-serif">BODYBUILDING RAW</text>
+  </g>
+</svg>
